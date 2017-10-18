@@ -1,0 +1,158 @@
+/**
+ *
+ * Font Style
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-10-05
+ *
+ */
+
+
+@charset 'utf-8';
+
+
+$sans-serif-laten: 'Libre Franklin';
+// <link href='https://fonts.googleapis.com/css?family=Libre+Franklin:300,600' rel='stylesheet'>
+
+$sans-serif:
+	-apple-system, BlinkMacSystemFont,
+	'Helvetica Neue',
+	'Yu Gothic', YuGothic,
+	Verdana, Meiryo,
+	'M+ 1p',
+	sans-serif;
+
+$sans-serif-ie:
+	Verdana, Meiryo,
+	sans-serif;
+
+$sans-serif-ios:
+	'Helvetica Neue',
+	'Hiragino Sans',
+	'Hiragino Kaku Gothic ProN',
+	sans-serif;
+
+$serif:
+	'Yu Mincho', YuMincho,
+	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
+	Verdana, Meiryo,
+	'M+ 1p',
+	sans-serif;
+
+$monospace:
+	'Noto Sans Mono CJK JP', 'Source Han Code JP N', 'IPA Gothic',
+	Monaco, Consolas, Courier, 'Courier New',
+	'Osaka−等幅', 'Osaka-Mono',
+	monospace;
+
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Medium');
+	font-weight: 100;
+}
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Medium');
+	font-weight: 200;
+}
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Medium');
+	font-weight: 300;
+}
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Medium');
+	font-weight: 400;
+}
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Bold');
+	font-weight: bold;
+}
+@font-face {
+	font-family: 'Yu Gothic';
+	src: local('Yu Gothic Bold');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Helvetica Neue';
+	src: local('Helvetica Neue Regular');
+	font-weight: 100;
+}
+@font-face {
+	font-family: 'Helvetica Neue';
+	src: local('Helvetica Neue Regular');
+	font-weight: 200;
+}
+
+@font-face {  // for Italic of Meiryo on IE11
+	font-family: Meiryo;
+	src: local('Meiryo'), local('メイリオ');
+}
+@font-face {  // for Bold of Meiryo on IE11
+	font-family: Meiryo;
+	src: local('Meiryo Bold'), local('メイリオ ボールド');
+	font-weight: bold;
+}
+
+@mixin font-family {
+	font-family: $sans-serif-laten, $sans-serif;
+	@media all and (-ms-high-contrast: none) {  // for IE11
+		font-family: $sans-serif-laten, $sans-serif-ie;
+	}
+	&.ios {  // need to use os.js
+		font-family: $sans-serif-ios;
+	}
+}
+
+@mixin font-proportional {
+	font-feature-settings: 'pkna' 1;
+}
+
+@mixin font-smoothing {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+@mixin font-visible-font-chrome {
+	// for Chrome
+	@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+		-webkit-text-stroke-width: 0.25px;
+	}
+}
+
+@mixin font-visible-font-chrome-cancel {
+	// for Chrome
+	@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+		-webkit-text-stroke-width: initial;
+	}
+}
+
+@mixin font-bold {
+	@include font-visible-font-chrome-cancel;
+	font-weight: bold;
+}
+
+@mixin font-responsive-size($min-vw, $max-vw, $min-value, $max-value) {
+	font-size: $min-value;
+	@media screen and (min-width: $min-vw) {
+		font-size: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+	}
+	@media screen and (min-width: $max-vw) {
+		font-size: $max-value;
+	}
+}
+
+@function strip-unit($value) {
+	@return $value / ($value * 0 + 1);
+}
+
+@mixin font-icon($font, $code) {
+	content: $code;
+	font-family: $font;
+	@include font-visible-font-chrome-cancel;
+	line-height: 1;
+}

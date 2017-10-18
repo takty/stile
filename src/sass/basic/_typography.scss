@@ -1,0 +1,60 @@
+/**
+ *
+ * Typography Styles (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-09-13
+ *
+ */
+
+
+@charset 'utf-8';
+
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin typography-hyphens {
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+}
+
+@mixin typography-break-word {
+	-ms-word-break: break-all;
+	word-break: break-word;
+	word-wrap: break-word;
+}
+
+@mixin typography-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+@mixin typography-clear-focus {
+	&:target:focus { outline: none; }
+}
+
+@mixin typography-size($size, $set_line_height: true) {
+	@if $size == 1 {
+		font-size: 1rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $size == 2 {
+		font-size: 1.125rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $size == 3 {
+		font-size: 1.25rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $size == 4 {
+		font-size: 1.5rem;
+		@if $set_line_height { line-height: vr(3); }
+	} @elseif $size == 5 {
+		font-size: 2rem;
+		@if $set_line_height { line-height: vr(3); }
+	} @elseif $size == 6 {
+		font-size: 2.5rem;
+		@if $set_line_height { line-height: vr(4); }
+	}
+}

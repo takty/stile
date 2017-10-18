@@ -1,0 +1,87 @@
+/**
+ *
+ * Inline Style (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-10-04
+ *
+ */
+
+@charset 'utf-8';
+
+
+$inline-color-broken-image: $inline-color-link-text              !default;
+$inline-color-underline:    #ed0                                 !default;
+$inline-color-del:          #f44                                 !default;
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin stile-inline {
+
+	img {
+		max-width: 100%;
+		height: auto;
+
+		transition: opacity 0.2s;
+
+		// for Broken Image (does not work on IE11 and Edge)
+
+		&::after {
+			content: attr(src);
+			@include layout-centering;
+
+			padding: 0.25rem 0.5rem;
+			border: 1px dashed $inline-color-broken-image;
+			min-height: vr(2);
+			line-height: vr(2);
+
+			color: $inline-color-broken-image;
+			font-size: 0.8rem;
+			word-break: break-all;
+			text-decoration: line-through;
+		}
+	}
+
+	img:not([class]) {
+		display: inline-block;  // for Firefox
+	}
+
+	strong, b {
+		@include font-bold;
+	}
+
+	em, u {
+		font-style: italic;
+	}
+
+	small, sub, sup {
+		font-size: 0.75em;
+	}
+
+	sub, sup {
+		position: relative;
+		display: inline-block;  // for neat line height
+	}
+
+	sub {
+		bottom: -0.25em;
+		margin-bottom: -0.25em;
+	}
+
+	sup {
+		top: -0.5em;
+		margin-top: -0.5em;
+	}
+
+	del {
+		background: linear-gradient(transparent 40%, $inline-color-del 40%, $inline-color-del 60%, transparent 60%);
+		text-decoration: none;
+	}
+
+	span[data-text-decoration-line~='underline'] {
+		background: linear-gradient(transparent 80%, $inline-color-underline 80%);
+	}
+
+}

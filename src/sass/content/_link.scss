@@ -1,0 +1,72 @@
+/**
+ *
+ * Inline Style (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-09-25
+ *
+ */
+
+@charset 'utf-8';
+
+
+$inline-color-link-text:         #1a0dab                             !default;  // Same as Google's
+$inline-color-link-text-visited: #609                                !default;  // Same as Google's
+$inline-color-link-bg:           rgba($inline-color-link-text, 0.05) !default;
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin stile-link-external {
+	@include font-icon('Material Icons', '\E0B2');
+
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	overflow: hidden;  // for removing underline on IE11
+
+	transform: translateY(0.15rem);
+}
+
+@mixin stile-link {
+
+	a:not([class]) {
+		&[data-style ~= 'simple-link'] {
+			text-decoration: none;
+			color: $inline-color-link-text;
+
+			margin-left: 0.15rem;
+			margin-right: 0.15rem;
+			padding: 0.2rem 0.5rem;
+			background-color: $inline-color-link-bg;
+			border-radius: 0.25rem;
+
+			&:hover {
+				color: $inline-color-link-text;
+				text-decoration: underline;
+				&::after {
+					text-decoration: none;
+				}
+			}
+			&:visited {
+				color: $inline-color-link-text-visited;
+			}
+		}
+
+		// Add External Link Icon
+
+		&[data-style ~= 'external-link']::after {
+			@include stile-link-external;
+		}
+
+		// Show Url Instead of Empty Text
+
+		&[href ^= 'http']:empty::before {
+			content: attr(href);
+			word-break: break-all;
+			display: inline;
+		}
+	}
+
+}

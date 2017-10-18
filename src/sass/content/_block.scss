@@ -1,0 +1,100 @@
+/**
+ *
+ * Block Style (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-10-12
+ *
+ */
+
+@charset 'utf-8';
+
+
+$block-color-line:  #369 !default;
+$block-color-shade: rgba(lighten($block-color-line, 55%), 0.85) !default;
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin stile-block {
+
+	p {
+		text-align: justify;
+		@media all and (-ms-high-contrast: none) {  // for IE11
+			text-align: left;
+		}
+		line-height: vr(2);
+
+		-ms-hyphens: auto;
+		-webkit-hyphens: auto;
+		hyphens: auto;
+	}
+
+	figure:not([class]), embed, iframe, object {
+		max-width: 100%;
+	}
+
+	figure img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+
+//		width: auto;  // 2017-08-28
+		max-height: 100vh;
+	}
+
+	figure {
+		text-align: center;  // for centering short caption
+	}
+
+	figcaption {
+		display: inline-block;
+		text-align: left;  // for left align of long caption
+	}
+
+	hr {
+		height: 2px;
+		border: none;
+		background-color: $block-color-line;
+	}
+
+	blockquote {
+		font-style: italic;
+		padding-left: vr(4);
+
+		position: relative;
+		&::before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: vr(2);
+			width: 2px;
+			height: 100%;
+			background-color: $block-color-line;
+		}
+	}
+
+	pre {
+		font-family: $monospace;
+		background-color: $block-color-shade;
+		display: block;
+		padding: vr(2);
+		overflow-x: auto;
+		line-height: vr(2);
+	}
+
+	code, var, samp, kbd {
+		font-family: $monospace;
+		padding: 0 vr(1);
+		background-color: $block-color-shade;
+		white-space: pre-wrap;
+	}
+
+	pre > code {
+		padding: 0;
+		background-color: transparent;
+		white-space: pre;
+	}
+
+}

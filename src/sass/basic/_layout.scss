@@ -1,0 +1,255 @@
+/**
+ *
+ * Mixins for Layout
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-09-13
+ *
+ */
+
+
+@mixin layout-fill($position: absolute, $by_height: false) {
+	position: $position;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	@if $by_height == false {
+		bottom: 0;
+	} @else {
+		min-height: 100%;
+	}
+}
+
+@mixin layout-centering($inline: false) {
+	@if $inline == false {
+		display: flex;
+	} @else {
+		display: inline-flex;
+	}
+	align-items: center;
+	justify-content: center;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
+	min-width: $min_width;
+	width: calc(($breakpoint - 100%) * 1000);
+	max-width: $max_width;
+}
+
+@mixin layout-side-margin($max_width, $side_margin: false) {
+	margin-left: auto;
+	margin-right: auto;
+
+	max-width: $max_width;  // must be max-width for Android Chrome
+
+	@if $side_margin == false {
+		width: 100%;  // must be width for Android Chrome
+	} @else {
+		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-gap($x, $y) {
+	margin-right: -$x;
+	margin-bottom: -$y;
+
+	> * {
+		margin-right: $x;
+		margin-bottom: $y;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-aspect($width, $height) {
+	position: relative;
+
+	&:before {
+		content: '';
+		display: block;
+		padding-top: ($height / $width * 100%);
+	}
+
+	> *:first-child {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		min-height: 100%;
+	}
+}
+
+@mixin layout-aspect-gold {
+	@include layout-aspect(1.618, 1);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-minimum-aspect($width, $height) {
+	position: relative;
+
+	&::before {
+		content: '';
+		display: block;
+		padding-top: ($height / $width * 100%);
+		float: right;
+	}
+	> * { clear: none; }
+	&::after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
+@mixin layout-minimum-aspect-gold {
+	@include layout-minimum-aspect(1.618, 1);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-column($n, $gap: false) {
+	display: flex;
+	flex-direction: row;
+
+	@if $gap != false {
+		margin-right: -$gap;
+	}
+
+	> * {
+		flex-grow: 1;
+		flex-shrink: 1;
+
+		@if $gap != false {
+			margin-right: $gap;
+			flex-basis: calc(#{100% / $n} - #{$gap});
+		} @else {
+			flex-basis: calc(#{100% / $n});
+		}
+	}
+}
+
+@mixin layout-column-cancel($gap: false) {
+	display: flex;
+	flex-direction: column;
+
+	@if $gap != false {
+		margin-bottom: -$gap;
+	}
+	> * {
+		flex-basis: auto;
+
+		@if $gap != false {
+			margin-bottom: $gap;
+		}
+	}
+
+	> *:empty {  // for Spacer
+		visibility: hidden;
+		height: 0px;
+		padding: 0;
+		margin-bottom: 0;
+		border: none;
+		&::before {
+			content: none;
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-card($n, $gap: false) {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	@if $gap != false {
+		@if length($gap) == 2 {
+			margin-right: -#{nth($gap, 1)};
+			margin-bottom: -#{nth($gap, 2)};
+		} @else {
+			margin-right: -$gap;
+			margin-bottom: -$gap;
+		}
+	}
+
+	> * {
+		flex-grow: 1;
+		flex-shrink: 1;
+
+		@if $gap != false {
+			@if length($gap) == 2 {
+				margin-right: nth($gap, 1);
+				flex-basis: calc(#{100% / $n} - #{nth($gap, 1)});
+			} @else {
+				margin-right: $gap;
+				flex-basis: calc(#{100% / $n} - #{$gap});
+				width: calc(#{100% / $n} - #{$gap});  // for Safari
+			}
+		} @else {
+			flex-basis: calc(#{100% / $n});
+			width: calc(#{100% / $n});  // for Safari
+		}
+	}
+	> *:not(:empty) {
+		@if length($gap) == 2 {
+			margin-bottom: nth($gap, 2);
+		} @else {
+			@if $gap != false {
+				margin-bottom: $gap;
+			}
+		}
+	}
+
+	> *:empty {  // for Spacer
+		visibility: hidden;
+		height: 0px;
+		padding: 0;
+		margin-bottom: 0;
+		border: none;
+		&::before {
+			content: none;
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-masonry($n, $gap: false) {
+	column-count: $n;
+	column-gap: $gap;
+	line-height: 0;
+
+	@if $gap != false {
+		margin-bottom: -$gap;
+	}
+
+	> * {
+		display: inline-block;
+		line-height: 1;
+		width: 100%;
+
+		@if $gap != false {
+			margin-bottom: $gap;
+		}
+	}
+}

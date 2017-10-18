@@ -1,0 +1,50 @@
+/**
+ *
+ * Heading Styles (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-09-13
+ *
+ */
+
+
+$heading-color-text: #777 !default;
+
+
+@mixin stile-heading {
+
+	h1, h2, h3, h4, h5, h6 {
+		@include font-proportional;
+		@include font-bold;
+
+		@include typography-hyphens;
+		@include typography-break-word;
+		@include typography-clear-focus;
+
+		color: $heading-color-text;
+
+		> small { display: block; }
+	}
+
+	h1 { @include typography-size(6); }
+	h1[data-style~='small'], h1 > small { @include typography-size(5); }
+	h1[data-style~='small'] > small { @include typography-size(4); }
+
+	h2 { @include typography-size(5); }
+	h2[data-style~='small'], h2 > small { @include typography-size(4); }
+	h2[data-style~='small'] > small { @include typography-size(3); }
+
+	h3 { @include typography-size(4); }
+	h3[data-style~='small'], h3 > small { @include typography-size(3); }
+	h3[data-style~='small'] > small { @include typography-size(2); }
+
+	h4 { @include typography-size(3); }
+	h4[data-style~='small'], h4 > small { @include typography-size(2); }
+	h4[data-style~='small'] > small { @include typography-size(1); }
+
+	h5 { @include typography-size(2); }
+	h5[data-style~='small'], h5 > small { @include typography-size(1); }
+
+	h6 { @include typography-size(1); }
+
+}

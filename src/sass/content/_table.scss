@@ -1,0 +1,180 @@
+/**
+ *
+ * Table Style (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2017-09-20
+ *
+ */
+
+@charset 'utf-8';
+
+
+$table-color-rule-horizontal:       #369                                                   !default;
+$table-color-rule-vertical:         rgba($table-color-rule-horizontal, 0.1)                !default;
+$table-color-header-text:           #666                                                   !default;
+$table-color-header-background:     rgba(lighten($table-color-rule-horizontal, 55%), 0.85) !default;  // Must have transparency for scroll shadow.
+$table-color-scrollbar-thumb:       $table-color-rule-horizontal                           !default;
+$table-color-scrollbar-background:  $table-color-header-background                         !default;
+$table-color-enlarge-button:        rgba($table-color-rule-horizontal, 0.5)                !default;
+$table-color-enlarge-button-opened: rgba($table-color-rule-horizontal, 0.25)               !default;
+$table-color-background-enlarged:   #fff                                                   !default;
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin stile-table {
+
+	table {
+		position: relative;
+		display: inline-block;
+		margin-left: auto;
+		margin-right: auto;
+
+		max-width: 100%;
+		vertical-align: top;
+
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		-webkit-overflow-scrolling: touch;
+	}
+
+	// Design ------------------------------------------------------------------
+
+	thead tr:first-of-type td,
+	thead tr:first-of-type th {
+		border-top: 2px solid $table-color-rule-horizontal;
+	}
+
+	th, td {
+		padding: vr(0.5) vr(1);  // This half vr is irregular but needed.
+		border-top: 1px solid $table-color-rule-horizontal;
+		border-bottom: 1px solid $table-color-rule-horizontal;
+		line-height: vr(2);
+		@include font-proportional;
+	}
+
+	th:not(:first-child),
+	td:not(:first-child) {
+		border-left: 1px solid $table-color-rule-vertical;
+	}
+
+	th:not(:last-child),
+	td:not(:last-child) {
+		border-right: 1px solid $table-color-rule-vertical;
+	}
+
+	thead td,
+	th {
+		color: $table-color-header-text;
+		background-color: $table-color-header-background;
+		font-size: 1rem;
+		@include font-bold;
+		text-align: center;
+	}
+
+	td {
+		white-space: nowrap;
+	}
+
+	// Fixed Header ------------------------------------------------------------
+
+	.fixed-table-header-container {
+		position: fixed;
+		top: 0px;
+		z-index: 99;
+		margin: 0;
+		overflow-x: hidden;
+
+		@media print { display: none !important; }
+	}
+
+	.fixed-table-header-table {
+		display: table;
+		margin: 0;
+
+		overflow-x: hidden;
+		pointer-events: none;
+		-webkit-backdrop-filter: blur(0.1rem);  // for iOS
+
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+
+	.fixed-table-header-table thead td,
+	.fixed-table-header-table th {
+		color: $table-color-header-text;
+		background-color: $table-color-header-background;
+	}
+
+	// Pseudo Scroll Bars ------------------------------------------------------
+
+	.fixed-table-scroll-bar {
+		position: fixed;
+		bottom: 0;
+		z-index: 99;
+		margin: 0;
+		overflow-x: auto;
+		overflow-y: hidden;  // for IE11 & Edge
+
+		height: calc(#{vr(1)} + 2px);  // for Safari
+		border: 1px solid rgba($table-color-scrollbar-background, 0.1);  // for Safari
+
+		@media print { display: none !important; }
+	}
+
+	// Scroll Bars Design ------------------------------------------------------
+
+	table::-webkit-scrollbar,
+	.fixed-table-scroll-bar::-webkit-scrollbar {
+		height: vr(1);
+	}
+
+	table::-webkit-scrollbar {
+		background-color: $table-color-scrollbar-background;
+	}
+
+	.fixed-table-scroll-bar::-webkit-scrollbar {
+		border-radius: vr(1) / 2;
+		background-color: $table-color-scrollbar-background;
+	}
+
+	table::-webkit-scrollbar-thumb,
+	.fixed-table-scroll-bar::-webkit-scrollbar-thumb {
+		border-radius: vr(1) / 2;
+		background-color: $table-color-scrollbar-thumb;
+	}
+
+	table, .fixed-table-scroll-bar {  // for IE11
+		scrollbar-face-color: $table-color-scrollbar-thumb;
+		scrollbar-shadow-color: $table-color-scrollbar-thumb;
+		scrollbar-track-color: $table-color-scrollbar-background;
+	}
+
+	// Enlarger ----------------------------------------------------------------
+
+	table.enlarged-table > * {
+		background-color: $table-color-background-enlarged;
+	}
+
+	table .enlarger-button,
+	.fixed-table-header-container .enlarger-button {
+		position: absolute;
+		z-index: 999;
+		width: vr(2);
+		height: vr(2);
+		left: 0;
+		top: 0;
+		background:
+		linear-gradient(to top left, transparent 50%, $table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
+	}
+
+	table.enlarged-table .enlarger-button,
+	.fixed-table-header-container.enlarged-table .enlarger-button {
+		background:
+		linear-gradient(to bottom right, transparent 50%, $table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
+	}
+
+}
