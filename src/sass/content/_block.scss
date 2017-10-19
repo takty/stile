@@ -3,7 +3,7 @@
  * Block Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-10-12
+ * @version 2017-10-20
  *
  */
 
@@ -76,7 +76,7 @@ $stile-size-unit: 0.9rem !default;
 	}
 
 	pre {
-		font-family: $monospace;
+		@include font-family-monospace;
 		background-color: $block-color-shade;
 		display: block;
 		padding: vr(2);
@@ -85,7 +85,7 @@ $stile-size-unit: 0.9rem !default;
 	}
 
 	code, var, samp, kbd {
-		font-family: $monospace;
+		@include font-family-monospace;
 		padding: 0 vr(1);
 		background-color: $block-color-shade;
 		white-space: pre-wrap;
