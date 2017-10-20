@@ -157,6 +157,10 @@ $font-monospace:
 	font-weight: bold;
 }
 
+
+// -----------------------------------------------------------------------------
+
+
 @mixin font-responsive-size($min-vw, $max-vw, $min-value, $max-value) {
 	@function strip-unit($value) { @return $value / ($value * 0 + 1); }
 
@@ -172,6 +176,9 @@ $font-monospace:
 @mixin font-icon($font, $code) {
 	content: $code;
 	font-family: $font;
-	@include font-visible-font-chrome-cancel;
+	display: inline-block;
+	font-style: normal;
+	font-weight: normal;
 	line-height: 1;
+	@include font-visible-font-chrome-cancel;
 }
