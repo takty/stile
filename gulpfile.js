@@ -41,15 +41,6 @@ gulp.task('sample', function () {
 	.pipe(gulp.dest('sample'));
 });
 
-<<<<<<< HEAD
-gulp.task('watch', function () {
-	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/sass/**/*.scss', ['sass']);
-	gulp.watch('sample/**/*.scss', ['sample']);
-});
-
-gulp.task('default', ['js', 'sass', 'sample', 'watch']);
-=======
 gulp.task('sass', function() {
 	gulp.src(['src/sass/**'], {base: 'src/sass'})
 	.pipe(gulp.dest('dest/sass'));
@@ -61,4 +52,3 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['js', 'sass', 'watch']);
->>>>>>> 700aeb8afdf70af70944f5d7318b890c6b7298fd
