@@ -35,7 +35,12 @@ gulp.task('js', function() {
 // 	.pipe(gulp.dest('sample'));
 // });
 
+gulp.task('sass', function() {
+    gulp.src(['src/sass/**'], {base: 'src/sass'})
+	.pipe(gulp.dest('dest/sass'));
+});
+
 gulp.task('default', function() {
 	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('./**/*.scss', ['sass']);
+	gulp.watch('src/sass/**/*.scss', ['sass']);
 });
