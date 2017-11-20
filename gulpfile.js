@@ -7,7 +7,7 @@ var sass     = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var flatten  = require('gulp-flatten');
 
-gulp.task('js', function() {
+gulp.task('js', function () {
 	gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 	.pipe(plumber())
 	.pipe(concat('stile.min.js'))
@@ -27,15 +27,24 @@ gulp.task('js', function() {
 	.pipe(gulp.dest('dest/js'));
 });
 
-// gulp.task('sass', function() {
-// 	gulp.src('sample/style.scss')
-// 	.pipe(plumber())
-// 	.pipe(sass())
-// 	.pipe(cleanCSS())
-// 	.pipe(gulp.dest('sample'));
-// });
-
-gulp.task('default', function() {
-	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('./**/*.scss', ['sass']);
+gulp.task('sass', function () {
+	gulp.src('src/sass/**/*.scss')
+	.pipe(plumber())
+	.pipe(gulp.dest('dest/sass'));
 });
+
+gulp.task('sample', function () {
+	gulp.src('sample/style.scss')
+	.pipe(plumber())
+	.pipe(sass())
+	.pipe(cleanCSS())
+	.pipe(gulp.dest('sample'));
+});
+
+gulp.task('watch', function () {
+	gulp.watch('src/js/**/*.js', ['js']);
+	gulp.watch('src/sass/**/*.scss', ['sass']);
+	gulp.watch('sample/**/*.scss', ['sample']);
+});
+
+gulp.task('default', ['js', 'sass', 'sample', 'watch']);
