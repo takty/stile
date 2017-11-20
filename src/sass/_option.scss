@@ -3,7 +3,7 @@
  * Optional Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-03
+ * @version 2017-11-20
  *
  */
 
@@ -19,7 +19,7 @@ $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
 
 
-@mixin option {
+@mixin stile-option {
 
 	* + .alignleft,
 	* + .alignright,
@@ -57,6 +57,23 @@ $stile-size-unit: 0.9rem !default;
 	.size-large {
 		max-width: 40rem;
 		width: 100%;
+	}
+
+
+	td, th {
+
+		.size-thumbnail {
+			min-width: 5rem;
+		}
+
+		.size-medium {
+			min-width: 10rem;
+		}
+
+		.size-large {
+			min-width: 20rem;
+		}
+
 	}
 
 }
