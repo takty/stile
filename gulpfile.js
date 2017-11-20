@@ -39,10 +39,10 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['js', 'sass', 'watch']);
 
-gulp.task('sample', function () {
-	gulp.src('sample/style.scss')
-	.pipe(plumber())
-	.pipe(sass())
-	.pipe(cleanCSS())
-	.pipe(gulp.dest('sample'));
-});
+// gulp.task('sample', function () {
+// 	gulp.src('sample/style.scss')
+// 	.pipe(plumber())
+// 	.pipe(sass())
+// 	.pipe(cleanCSS())
+// 	.pipe(gulp.dest('sample'));
+// });
