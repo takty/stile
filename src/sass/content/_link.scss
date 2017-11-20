@@ -3,7 +3,7 @@
  * Inline Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-25
+ * @version 2017-11-20
  *
  */
 
@@ -19,9 +19,15 @@ $stile-size-unit: 0.9rem !default;
 
 
 @mixin stile-link-external {
-	@include font-icon('Material Icons', '\E0B2');
+	content: '\E0B2';
+	font-family: 'Material Icons';
 
 	display: inline-block;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	@include font-visible-font-chrome-cancel;
+
 	width: 1rem;
 	height: 1rem;
 	overflow: hidden;  // for removing underline on IE11
