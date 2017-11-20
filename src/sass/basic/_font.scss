@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-10-20
+ * @version 2017-11-20
  *
  */
 
@@ -171,14 +171,4 @@ $font-monospace:
 	@media screen and (min-width: $max-vw) {
 		font-size: $max-value;
 	}
-}
-
-@mixin font-icon($font, $code) {
-	content: $code;
-	font-family: $font;
-	display: inline-block;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
-	@include font-visible-font-chrome-cancel;
 }
