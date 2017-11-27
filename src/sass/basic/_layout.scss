@@ -31,6 +31,21 @@
 	justify-content: center;
 }
 
+@mixin layout-centering-self($horizontal: false, $vertical: false, $position: absolute) {
+	position: $position;
+	@if $horizontal == true and $vertical == true {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	} @else if $horizontal == true {
+		left: 50%;
+		transform: translateX(-50%);
+	} @else if $vertical == true {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
 
 // -----------------------------------------------------------------------------
 
