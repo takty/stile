@@ -3,7 +3,7 @@
  * Mixins for Layout
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-13
+ * @version 2017-11-27
  *
  */
 
@@ -62,7 +62,7 @@
 	margin-right: -$x;
 	margin-bottom: -$y;
 
-	> * {
+	> *:not(:empty) {
 		margin-right: $x;
 		margin-bottom: $y;
 	}
