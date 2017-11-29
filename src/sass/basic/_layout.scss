@@ -3,7 +3,7 @@
  * Mixins for Layout
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-11-27
+ * @version 2017-11-29
  *
  */
 
@@ -31,7 +31,7 @@
 	justify-content: center;
 }
 
-@mixin layout-centering-self($horizontal: false, $vertical: false, $position: absolute) {
+@mixin layout-centering-self($horizontal: true, $vertical: true, $position: absolute) {
 	position: $position;
 	@if $horizontal == true and $vertical == true {
 		top: 50%;
