@@ -3,7 +3,7 @@
  * Reset
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-10-20
+ * @version 2017-12-15
  *
  * Original:
  *  minireset.css v0.0.3
@@ -57,4 +57,9 @@ table {
 td, th {
 	padding: 0;
 	text-align: left;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
 }
