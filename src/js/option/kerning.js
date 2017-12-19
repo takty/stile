@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function checkBlock(elm) {
+		if (!(elm instanceof HTMLElement)) return false;
 		var d = getComputedStyle(elm).display;
 		return (d.indexOf('inline') === -1);
 	}
