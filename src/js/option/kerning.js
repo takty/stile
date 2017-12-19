@@ -3,7 +3,7 @@
  * Kerning (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-10-12
+ * @version 2017-12-19
  *
  */
 
