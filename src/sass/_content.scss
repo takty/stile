@@ -14,7 +14,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-22
+ * @version 2017-12-25
  *
  */
 
@@ -56,16 +56,22 @@ $stile-size-unit: 0.9rem !default;
 	* + hr { margin-top: vr(4); }
 	hr + * { margin-top: vr(4); }
 
-	*:not(.alignright):not(.alignleft) + h1 { margin-top: vr(6); }
-	h1 + *:not(.alignright):not(.alignleft) { margin-top: vr(6); }
-	*:not(.alignright):not(.alignleft) + h2 { margin-top: vr(4); }
-	h2 + *:not(.alignright):not(.alignleft) { margin-top: vr(4); }
-	*:not(.alignright):not(.alignleft) + h3 { margin-top: vr(4); }
-	h3 + *:not(.alignright):not(.alignleft) { margin-top: vr(2); }
-	*:not(.alignright):not(.alignleft) + h4 { margin-top: vr(4); }
-	h4 + *:not(.alignright):not(.alignleft) { margin-top: vr(2); }
-	*:not(.alignright):not(.alignleft) + h5 { margin-top: vr(4); }
-	h5 + *:not(.alignright):not(.alignleft) { margin-top: vr(2); }
+	@mixin define-heading-margin($tag, $top, $bottom) {
+		*:not(.alignright):not(.alignleft) + #{$tag} { margin-top: vr($top); }
+		#{$tag} + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
+		#{$tag} {
+			& + figure.alignright,
+			& + figure.alignleft {
+				margin-top: vr($bottom);
+				& + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
+			}
+		}
+	}
+	@include define-heading-margin(h1, 6, 6);
+	@include define-heading-margin(h2, 4, 4);
+	@include define-heading-margin(h3, 4, 4);
+	@include define-heading-margin(h4, 4, 2);
+	@include define-heading-margin(h5, 4, 2);
 
 	p + p { margin-top: vr(1); }
 	ul:not([class]) > li + li { margin-top: vr(1); }
