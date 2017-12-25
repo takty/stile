@@ -60,9 +60,7 @@ $stile-size-unit: 0.9rem !default;
 		*:not(.alignright):not(.alignleft) + #{$tag} { margin-top: vr($top); }
 		#{$tag} + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
 		#{$tag} {
-			& + figure.alignright,
-			& + figure.alignleft {
-				margin-top: vr($bottom);
+			& + figure.alignright, & + figure.alignleft {
 				& + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
 			}
 		}

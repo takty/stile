@@ -3,7 +3,7 @@
  * Optional Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-11-20
+ * @version 2017-12-25
  *
  */
 
@@ -32,7 +32,7 @@ $stile-size-unit: 0.9rem !default;
 	* + figure.alignright,
 	figure.alignleft + *,
 	figure.alignright + * {
-		margin-top: vr(4);
+		margin-top: vr(4);  // for Centering View
 	}
 
 	@include for-tablet-up {
@@ -40,9 +40,18 @@ $stile-size-unit: 0.9rem !default;
 		* + figure.alignright,
 		figure.alignleft + *,
 		figure.alignright + * {
-			margin-top: vr(1);
+			margin-top: vr(1);  // for Actual Floating View
 		}
 	}
+
+	@mixin define-figure-margin($tag, $top) {
+		#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
+	}
+	@include define-figure-margin(h1, 6);
+	@include define-figure-margin(h2, 4);
+	@include define-figure-margin(h3, 4);
+	@include define-figure-margin(h4, 2);
+	@include define-figure-margin(h5, 2);
 
 	.size-thumbnail {
 		max-width: 10rem;
