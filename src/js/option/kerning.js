@@ -3,7 +3,7 @@
  * Kerning (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-19
+ * @version 2017-12-26
  *
  */
 
@@ -13,16 +13,29 @@ document.addEventListener('DOMContentLoaded', function () {
 	var TARGET_SELECTOR = '.stile';
 	var TARGET_SELECTOR_KERNING = '.stile-kerning';
 
-	var kerningInfo = {};
-	makeKerningParams(kerningInfo,
-		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔'],
-		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕', '、', '，', '。', '．']
-	);
-	makeKerningParams(kerningInfo,
-		['、', '，', '。', '．'],
-		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕']
-	);
+	var OFFSET_KERNING_PAIR = -0.4;
+	var OFFSET_KERNING_SOLO = -0.4;
 
+	var kerningInfo = {};
+	makeKerningPairs(kerningInfo,
+		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕', '、', '，', '。', '．'],
+		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
+	);
+	makeKerningPairs(kerningInfo,
+		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕'],
+		['、', '，', '。', '．']
+	);
+	makeKerningPairs(kerningInfo,
+		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔'],
+		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
+	);
+	makeKerningPairs(kerningInfo,
+		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕'],
+		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕', '：']
+	);
+	makeKerningSolos(kerningInfo,
+		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
+	);
 	var ts = document.querySelectorAll(TARGET_SELECTOR);
 	for (var i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
 	ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
@@ -31,12 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// -------------------------------------------------------------------------
 
-	function makeKerningParams(ki, start, end) {
-		for (var i = 0; i < start.length; i += 1) {
-			for (var j = 0; j < end.length; j += 1) {
-				ki[end[j] + start[i]] = -0.4;
+	function makeKerningPairs(ki, tail, head) {
+		for (var i = 0; i < head.length; i += 1) {
+			for (var j = 0; j < tail.length; j += 1) {
+				ki[tail[j] + head[i]] = OFFSET_KERNING_PAIR;
 			}
-			ki[start[i]] = -0.4;
+		}
+	}
+
+	function makeKerningSolos(ki, head) {
+		for (var i = 0; i < head.length; i += 1) {
+			ki[head[i]] = OFFSET_KERNING_SOLO;
 		}
 	}
 
@@ -48,13 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (c.nodeType === 1 /*ELEMENT_NODE*/) applyKerningToElement(c, ki);
 			else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				var text = c.textContent;
-				if (checkBlock(c.parentNode)) {
+				var isParentBlock = isBlockElement(c.parentNode);
+				if (isParentBlock) {
 					var prev = c.previousSibling;
 					var next = c.nextSibling;
-					if (!prev || checkBlock(prev)) text = text.replace(/^\s+/g,'');  // trim left
-					if (!next || checkBlock(next)) text = text.replace(/\s+$/g,'');  // trim right
+					if (!prev || isBlockElement(prev)) text = text.replace(/^\s+/g,'');  // trim left
+					if (!next || isBlockElement(next)) text = text.replace(/\s+$/g,'');  // trim right
 				}
-				var es = applyKerning(text, ki);
+				var es = applyKerning(text, ki, isParentBlock && c.previousSibling === null);
 				if (es.length <= 0) continue;
 				c.parentNode.replaceChild(es[0], c);
 				var ns = es[0].nextSibling;
@@ -71,13 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function checkBlock(elm) {
+	function isBlockElement(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
 		var d = getComputedStyle(elm).display;
 		return (d.indexOf('inline') === -1);
 	}
 
-	function applyKerning(text, ki) {
+	function applyKerning(text, ki, isFirstElementOfParent) {
 		var res = [];
 		var temp = '';
 
@@ -100,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (space !== 0) {
 				style = 'letter-spacing:' + space + 'em;';
 			}
-			if (i === 0 && ki[ch1]) {
+			if (i === 0 && ki[ch1] && isFirstElementOfParent) {
 				style += 'margin-left:' + ki[ch1] + 'em;';
 			}
 			if (style.length > 0) {
