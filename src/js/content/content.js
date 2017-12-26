@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-10-11
+ * @version 2017-12-26
  *
  */
 
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	var TARGET_SELECTOR = '.stile';
 	var TARGET_SELECTOR_ANCHOR = '.stile-anchor';
+	var TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
 
 	modifySpanStyle();
 
@@ -19,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	modifyAnchorStyle(as);
 	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');
 	modifyAnchorStyle(as);
+	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
+	modifyAnchorStyleExternal(as);
 
 
 	// -------------------------------------------------------------------------
@@ -53,8 +56,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			var a = as[i];
 			if (!isSimple(a)) continue;
 			a.dataset.style = a.dataset.style ? (a.dataset.style + ' simple-link') : 'simple-link';
-			var url = a.getAttribute('href');
-			if (isExternal(url)) {
+			if (isExternal(a.getAttribute('href'))) {
+				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
+			}
+		}
+	}
+
+	function modifyAnchorStyleExternal(as) {
+		for (var i = 0; i < as.length; i += 1) {
+			var a = as[i];
+			if (isExternal(a.getAttribute('href'))) {
 				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
 			}
 		}
@@ -72,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function isSimple(a) {
-		if (a.className) return false; 
+		if (a.className) return false;
 		var cs = a.childNodes;
 		for (var i = 0; i < cs.length; i += 1) {
 			if (cs[i].className) return false;
