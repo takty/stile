@@ -10,12 +10,11 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+	var CLS_STICKY_ELM     = 'st-sticky-header';
+	var CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+
 	var TARGET_SELECTOR = '.stile';
-
-	var FIXED_ELEMENT_CLASS = 'st-fixed-element';
-	var FIXED_HEIGHT_CLASS = 'st-fixed-height';
-
-	var ENLARGED_CLASS = 'enlarged-table';
+	var CLS_STATE_ENLARGED = 'enlarged-table';
 
 	var CELL_MIN_WIDTH = 120;
 	var CELL_MIN_RATIO = 2 / 3;  // width : height
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	var HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
 	var ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	var getTableHeaderOffset = makeOffsetFunction(FIXED_ELEMENT_CLASS, FIXED_HEIGHT_CLASS);
+	var getTableHeaderOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	var scrollBarWidth;
 	setTimeout(initFixedHeaderTable, 100);  // Delay for Chrome and Edge
 
@@ -129,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
 			}
 		}
-		if (table.classList.contains(ENLARGED_CLASS)) cont.classList.add(ENLARGED_CLASS);
+		if (table.classList.contains(CLS_STATE_ENLARGED)) cont.classList.add(CLS_STATE_ENLARGED);
 		return cont;
 	}
 
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		var tab = cont.table, head = cont.header, bar = cont.bar;
-		if (tab.classList.contains(ENLARGED_CLASS)) windowResize_enlarger(tab);
+		if (tab.classList.contains(CLS_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -278,18 +277,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function enlarge(cont) {
 		var tab = cont.table;
-		if (tab.classList.contains(ENLARGED_CLASS)) {
+		if (tab.classList.contains(CLS_STATE_ENLARGED)) {
 			tab.style.marginLeft = '';
 			tab.style.zIndex = '';
 			tab.style.width = '';
 			tab.style.maxWidth = '';
-			tab.classList.remove(ENLARGED_CLASS);
+			tab.classList.remove(CLS_STATE_ENLARGED);
 		} else {
 			if (tab.scrollWidth - tab.clientWidth <= 2) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
-			tab.classList.add(ENLARGED_CLASS);
+			tab.classList.add(CLS_STATE_ENLARGED);
 		}
 		windowResize(cont);
 	}
@@ -310,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			etb.style.display = 'block';
 		} else {
 			etb.style.left = '0';
-			if (tab.classList.contains(ENLARGED_CLASS)) {
+			if (tab.classList.contains(CLS_STATE_ENLARGED)) {
 				etb.style.display = 'block';
 			} else {
 				etb.style.display = 'none';

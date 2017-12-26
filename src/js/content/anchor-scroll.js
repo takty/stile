@@ -3,24 +3,25 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-19
+ * @version 2017-12-26
  *
  */
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	var LINK_TARGET_CLASS = 'stile-link-target';
+	var CLS_STICKY_ELM     = 'st-sticky-header';
+	var CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 
-	var FIXED_ELEMENT_CLASS = 'st-fixed-element';
-	var FIXED_HEIGHT_CLASS = 'st-fixed-height';
+	var CLS_LINK_TARGET = 'stile-link-target';
+
 	var ADDITIONAL_OFFSET = 16;
 	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
 
 
 	// Anchor Offset -----------------------------------------------------------
 
-	var getAnchorOffset = makeOffsetFunction(FIXED_ELEMENT_CLASS, FIXED_HEIGHT_CLASS);
+	var getAnchorOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	if (getAnchorOffset() !== false) {
 		initTargetToStyle();
 		window.addEventListener('resize', setAnchorOffset);
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function initTargetToStyle() {
-		var ats = document.getElementsByClassName(LINK_TARGET_CLASS);
+		var ats = document.getElementsByClassName(CLS_LINK_TARGET);
 		for (var i = 0; i < ats.length; i += 1) {
 			var at = ats[i];
 			var pat = document.createElement('span');
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var offset = getAnchorOffset();
 		var wpabH = getWpAdminBarHeight();
 		var off = offset + wpabH + ADDITIONAL_OFFSET;
-		var ats = document.getElementsByClassName(LINK_TARGET_CLASS);
+		var ats = document.getElementsByClassName(CLS_LINK_TARGET);
 		var diff = false;
 
 		for (var i = 0; i < ats.length; i += 1) {
