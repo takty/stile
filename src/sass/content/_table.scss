@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-20
+ * @version 2017-12-26
  *
  */
 
@@ -107,6 +107,9 @@ $stile-size-unit: 0.9rem !default;
 	.fixed-table-header-table th {
 		color: $table-color-header-text;
 		background-color: $table-color-header-background;
+
+		@include for-ie   { border-bottom-width: 2px; }
+		@include for-edge { border-bottom-width: 2px; }
 	}
 
 	// Pseudo Scroll Bars ------------------------------------------------------
