@@ -3,7 +3,7 @@
  * Content Style - Table (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-20
+ * @version 2017-12-26
  *
  */
 
@@ -96,17 +96,19 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function cloneTableHeader(table) {
-		var thead = table.getElementsByTagName('thead')[0];
-		if (!thead) return null;
-
-		var cont = document.createElement('DIV');
+		var thead = table.tHead;
+		if (!thead) {
+			thead = createPseudoTableHeader(table);
+			if (!thead) return null;
+		}
+		var cont = document.createElement('div');
 		cont.classList.add('fixed-table-header-container');
 		cont.style.maxWidth = table.clientWidth + 'px';
 		cont.style.display = 'none';
 		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
-		var ptab = document.createElement('DIV');
+		var ptab = document.createElement('div');
 		ptab.classList.add('fixed-table-header-table');
 		ptab.style.width = thead.clientWidth + 'px';
 		cont.appendChild(ptab);
@@ -114,8 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		var clone = thead.cloneNode(true);
 		ptab.appendChild(clone);
 
-		var oTrs = thead.getElementsByTagName('tr');
-		var cTrs = clone.getElementsByTagName('tr');
+		var oTrs = thead.rows;
+		var cTrs = clone.rows;
 		for (var i = 0; i < oTrs.length; i += 1) {
 			copyWidth(oTrs[i], cTrs[i], 'td');
 			copyWidth(oTrs[i], cTrs[i], 'th');
@@ -131,11 +133,37 @@ document.addEventListener('DOMContentLoaded', function () {
 		return cont;
 	}
 
-	function cloneTableScrollBar(table) {
-		var tbody = table.getElementsByTagName('tbody')[0];
-		if (!tbody) return null;
+	function createPseudoTableHeader(table) {
+		var tbody = table.tBodies[0];
+		var trs = tbody.rows;
+		if (trs.length === 0) return null;
 
-		var bar = document.createElement('DIV');
+		function containsOnlyTh(tr) {
+			var tds = tr.getElementsByTagName('td');
+			var ths = tr.getElementsByTagName('th');
+			if (tds.length === 0 && ths.length > 0) return true;
+			return false;
+		}
+
+		var trsH = [];
+		for (var i = 0, I = trs.length; i < I; i += 1) {
+			var tr = trs[i];
+			if (!containsOnlyTh(tr)) break;
+			trsH.push(tr);
+		}
+		if (trsH.length === 0) return null;
+
+		var thead = table.createTHead();
+		for (var i = 0; i < trsH.length; i += 1) {
+			thead.appendChild(trsH[i]);
+		}
+		return thead;
+	}
+
+	function cloneTableScrollBar(table) {
+		var tbody = table.tBodies[0];
+
+		var bar = document.createElement('div');
 		bar.classList.add('fixed-table-scroll-bar');
 		bar.style.maxWidth = table.clientWidth + 'px';
 		bar.style.display = 'none';
@@ -143,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (0 < h) bar.style.height = (h + 2) + 'px';
 		table.parentNode.appendChild(bar);
 
-		var spacer = document.createElement('DIV');
+		var spacer = document.createElement('div');
 		spacer.style.width = tbody.clientWidth + 'px';
 		spacer.style.height = '1px';
 		bar.appendChild(spacer);
@@ -228,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Enlarger ----------------------------------------------------------------
 
 	function createEnlarger(table) {
-		var etb = document.createElement('DIV');
+		var etb = document.createElement('div');
 		etb.classList.add('enlarger-button');
 		table.appendChild(etb);
 		return etb;
@@ -268,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize_enlarger(tab) {
 		var left = elementLeftOnWindow(tab.parentNode);
-		var tbody = tab.getElementsByTagName('tbody')[0];
+		var tbody = tab.tBodies[0];
 		var width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 
 		if (width < pwidth) left -= (pwidth - width) / 2;
@@ -296,13 +324,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (table.getAttribute('width') != null) table.setAttribute('width', '');
 		table.style.maxWidth = '';
 
-		var tbody = table.getElementsByTagName('TBODY')[0];
+		var tbody = table.tBodies[0];
 		if (tbody.clientWidth <= table.clientWidth) return;
 
 		var tab = makeCellGrid(table);
 		if (tab.length === 0) return;
 
-		var repTd = table.getElementsByTagName('TD')[0];
+		var repTd = table.getElementsByTagName('td')[0];
 		var style = getComputedStyle(repTd);
 		var padH = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
 		var padV = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
@@ -311,10 +339,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		var newWs = [];
 		for (var x = 0; x < tab[0].length; x += 1) newWs.push(false);
 
-		if (isIE11orEdge()) {
-			calcNewWidthes_simply(table, tab, newWs, padH, padV, lineHeight);
+		if (isIE11orOldEdge()) {
+			calcNewWidthes_simply(table, tab, newWs, padH, padV, lineHeight, table.clientWidth);
 		} else {
-			calcNewWidthes(table, tab, newWs, padH, padV, lineHeight);
+			calcNewWidthes(table, tab, newWs, padH, padV, lineHeight, table.clientWidth);
 		}
 
 		for (var y = 0; y < tab.length; y += 1) {
@@ -328,14 +356,25 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function isIE11orEdge() {
+	function isIE11orOldEdge() {
 		var ua = window.navigator.userAgent.toLowerCase();
 		if (ua.indexOf('msie') !== -1 || ua.indexOf('trident') !== -1) return true;
-		if (ua.indexOf('edge') !== -1) return true;
+		if (getEdgeRev(ua) < 16) return true;  // Before Fall Creators Update
 		return false;
+
+		function getEdgeRev(ua) {
+			var ss = ua.split(' ');
+			for (var i = 0; i < ss.length; i += 1) {
+				if (ss[i].indexOf('edge') === 0) {
+					return parseFloat(ss[i].split('/')[1]);
+				}
+			}
+			return Number.MAX_VALUE;
+		}
 	}
 
-	function calcNewWidthes_simply(table, tab, newWs, padH, padV, lineHeight) {
+	function calcNewWidthes_simply(table, tab, newWs, padH, padV, lineHeight, origTableWidth) {
+		var origWs = [].concat(newWs);
 		for (var y = 0; y < tab.length; y += 1) {
 			var tabRow = tab[y];
 
@@ -348,6 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 				var aw = td.clientWidth - padH;
 				var l = td.getElementsByTagName('br').length + 1;
+				origWs[x] = aw;
 
 				var minW = 0;
 				for (var i = 2;; i += 1) {
@@ -359,9 +399,37 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (minW) newWs[x] = Math.max(newWs[x], minW);
 			}
 		}
+		widenTableWidth_simply(newWs, origTableWidth, origWs);
 	}
 
-	function calcNewWidthes(table, tab, newWs, padH, padV, lineHeight) {
+	function widenTableWidth_simply(newWs, widthOrig, origWs) {
+		var widthNew = 0;
+		for (var i = 0; i < newWs.length; i += 1) {
+			widthNew += newWs[i];
+		}
+		if (widthNew >= widthOrig) return;
+
+		var keepAws = [];
+		for (var i = 0; i < newWs.length; i += 1) {
+			var rw = newWs[i] / widthNew * widthOrig;
+			keepAws.push(origWs[i] < rw);
+		}
+		for (var i = 0; i < newWs.length; i += 1) {
+			if (keepAws[i]) {
+				widthNew  -= newWs[i];
+				widthOrig -= origWs[i];
+
+				newWs[i] = origWs[i];
+			}
+		}
+		for (var i = 0; i < newWs.length; i += 1) {
+			if (!keepAws[i]) {
+				newWs[i] = newWs[i] / widthNew * widthOrig;
+			}
+		}
+	}
+
+	function calcNewWidthes(table, tab, newWs, padH, padV, lineHeight, origTableWidth) {
 		var dummy = document.createElement('td');
 		dummy.style.display = 'inline-block';
 		dummy.style.position = 'fixed';
@@ -391,17 +459,30 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		}
 		table.removeChild(dummy);
+		widenTableWidth(newWs, origTableWidth);
+	}
+
+	function widenTableWidth(newWs, widthOrig) {
+		var widthNew = 0;
+		for (var i = 0; i < newWs.length; i += 1) {
+			widthNew += newWs[i];
+		}
+		if (widthNew < widthOrig) {
+			for (var i = 0; i < newWs.length; i += 1) {
+				newWs[i] = newWs[i] / widthNew * widthOrig;
+			}
+		}
 	}
 
 	function makeCellGrid(table) {
-		var thead = table.querySelector('thead');
-		var tbody = table.querySelector('tbody');
-		var tfoot = table.querySelector('tfoot');
+		var thead = table.tHead;
+		var tbody = table.tBodies[0];
+		var tfoot = table.tFoot;
 
 		var cells = [];
-		if (thead) addCells(thead.getElementsByTagName('TR'), cells);
-		if (tbody) addCells(tbody.getElementsByTagName('TR'), cells);
-		if (tfoot) addCells(tfoot.getElementsByTagName('TR'), cells);
+		if (thead) addCells(thead.rows, cells);
+		if (tbody) addCells(tbody.rows, cells);
+		if (tfoot) addCells(tfoot.rows, cells);
 
 		var maxWidth = 0, tab = [];
 		for (var i = 0; i < cells.length; i += 1) {
@@ -501,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function getScrollBarWidth() {
-		var dummy = document.createElement('DIV');
+		var dummy = document.createElement('div');
 		dummy.style.bottom   = '100%';
 		dummy.style.height   = '1px';
 		dummy.style.position = 'absolute';
