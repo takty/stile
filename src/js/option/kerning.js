@@ -3,7 +3,7 @@
  * Kerning (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-26
+ * @version 2017-12-27
  *
  */
 
@@ -66,14 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (c.nodeType === 1 /*ELEMENT_NODE*/) applyKerningToElement(c, ki);
 			else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				var text = c.textContent;
-				var isParentBlock = isBlockElement(c.parentNode);
+				var prev = c.previousSibling;
+				var isParentBlock = isBlockParent(c.parentNode);
 				if (isParentBlock) {
-					var prev = c.previousSibling;
 					var next = c.nextSibling;
-					if (!prev || isBlockElement(prev)) text = text.replace(/^\s+/g,'');  // trim left
-					if (!next || isBlockElement(next)) text = text.replace(/\s+$/g,'');  // trim right
+					if (!prev || isBlockSibling(prev)) text = text.replace(/^\s+/g,'');  // trim left
+					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
 				}
-				var es = applyKerning(text, ki, isParentBlock && c.previousSibling === null);
+				var es = applyKerning(text, ki, isParentBlock && (prev === null || isBlockSibling(prev)));
 				if (es.length <= 0) continue;
 				c.parentNode.replaceChild(es[0], c);
 				var ns = es[0].nextSibling;
@@ -90,13 +90,19 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function isBlockElement(elm) {
+	function isBlockParent(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
 		var d = getComputedStyle(elm).display;
-		return (d.indexOf('inline') === -1);
+		return (d.indexOf('inline') === -1 || d.indexOf('inline-block') !== -1);
 	}
 
-	function applyKerning(text, ki, isFirstElementOfParent) {
+	function isBlockSibling(elm) {
+		if (!(elm instanceof HTMLElement)) return false;
+		var d = getComputedStyle(elm).display;
+		return (d.indexOf('inline') === -1) || elm.tagName === 'BR';
+	}
+
+	function applyKerning(text, ki, isHead) {
 		var res = [];
 		var temp = '';
 
@@ -119,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (space !== 0) {
 				style = 'letter-spacing:' + space + 'em;';
 			}
-			if (i === 0 && ki[ch1] && isFirstElementOfParent) {
+			if (i === 0 && ki[ch1] && isHead) {
 				style += 'margin-left:' + ki[ch1] + 'em;';
 			}
 			if (style.length > 0) {
