@@ -3,7 +3,7 @@
  * Content Style - Table (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-26
+ * @version 2017-12-27
  *
  */
 
@@ -404,6 +404,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function widenTableWidth_simply(newWs, widthOrig, origWs) {
 		var widthNew = 0;
 		for (var i = 0; i < newWs.length; i += 1) {
+			if (newWs[i] === false) return;
 			widthNew += newWs[i];
 		}
 		if (widthNew >= widthOrig) return;
@@ -464,6 +465,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function widenTableWidth(newWs, widthOrig) {
 		var widthNew = 0;
 		for (var i = 0; i < newWs.length; i += 1) {
+			if (newWs[i] === false) return;
 			widthNew += newWs[i];
 		}
 		if (widthNew < widthOrig) {
