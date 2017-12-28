@@ -3,7 +3,7 @@
  * Heading Styles (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-13
+ * @version 2017-12-28
  *
  */
 
@@ -11,17 +11,19 @@
 $heading-color-text: #777 !default;
 
 
-@mixin stile-heading {
+@mixin stile-heading($set-design: true) {
 
 	h1, h2, h3, h4, h5, h6 {
 		@include font-proportional;
-		@include font-bold;
 
 		@include typography-hyphens;
 		@include typography-break-word;
 		@include typography-clear-focus;
 
-		color: $heading-color-text;
+		@if $set-design {
+			@include font-bold;
+			color: $heading-color-text;
+		}
 
 		> small { display: block; }
 	}
