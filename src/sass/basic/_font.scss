@@ -193,12 +193,12 @@ $font-monospace:
 }
 
 @mixin font-bold {
-	@include font-visible-font-chrome-cancel;
+	@include font-visible-chrome-cancel;
 	font-weight: bold;
 }
 
 @mixin font-bold-cancel {
-	@include font-visible-font-chrome;
+	@include font-visible-chrome;
 	font-weight: normal;
 }
 
