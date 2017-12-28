@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-11-20
+ * @version 2017-12-28
  *
  */
 
@@ -180,13 +180,13 @@ $font-monospace:
 	text-rendering: optimizeLegibility;
 }
 
-@mixin font-visible-font-chrome {
+@mixin font-visible-chrome {
 	@include for-chrome {
 		-webkit-text-stroke-width: 0.25px;
 	}
 }
 
-@mixin font-visible-font-chrome-cancel {
+@mixin font-visible-chrome-cancel {
 	@include for-chrome {
 		-webkit-text-stroke-width: initial;
 	}
@@ -195,6 +195,11 @@ $font-monospace:
 @mixin font-bold {
 	@include font-visible-font-chrome-cancel;
 	font-weight: bold;
+}
+
+@mixin font-bold-cancel {
+	@include font-visible-font-chrome;
+	font-weight: normal;
 }
 
 
