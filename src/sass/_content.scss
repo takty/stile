@@ -14,7 +14,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-25
+ * @version 2017-12-28
  *
  */
 
@@ -30,14 +30,25 @@ $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
 
 
-@mixin stile-content($set_heading: true) {
+@mixin stile-content($set-heading-design: true) {
 
 	text-align: center;  // for table on IE11
 	> * { text-align: left; }  // for table on IE11
 
+	@include stile-margin;
 
-	// -------------------------------------------------------------------------
-	// Margins
+	@include stile-block;
+	@include stile-heading($set-heading-design);
+	@include stile-inline;
+	@include stile-link;
+	@include stile-list;
+	@include stile-table;
+
+	@media print { @include stile-print; }
+
+}
+
+@mixin stile-margin() {
 
 	> * + * { margin-top: vr(2); }
 	> *:first-child.alignleft + *:not([class]) { margin-top: 0; }
@@ -79,20 +90,5 @@ $stile-size-unit: 0.9rem !default;
 	li > ul, li > ol, li > dl, dd > ul, dd > ol, dd > dl { margin-top: vr(1); }  // for nesting Lists
 	* + dt { margin-top: vr(1); }
 	* + figcaption { margin-top: vr(1); }
-
-
-	// -------------------------------------------------------------------------
-	// Parts
-
-	@include stile-block;
-	@if $set_heading {
-		@include stile-heading;
-	}
-	@include stile-inline;
-	@include stile-link;
-	@include stile-list;
-	@include stile-table;
-
-	@media print { @include stile-print; }
 
 }
