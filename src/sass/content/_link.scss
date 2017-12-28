@@ -3,7 +3,7 @@
  * Inline Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-11-20
+ * @version 2017-12-28
  *
  */
 
@@ -24,9 +24,8 @@ $stile-size-unit: 0.9rem !default;
 
 	display: inline-block;
 	font-style: normal;
-	font-weight: normal;
 	line-height: 1;
-	@include font-visible-font-chrome-cancel;
+	@include font-bold-cancel;
 
 	width: 1rem;
 	height: 1rem;
