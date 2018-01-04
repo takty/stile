@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-26
+ * @version 2018-01-04
  *
  */
 
@@ -77,6 +77,10 @@ $stile-size-unit: 0.9rem !default;
 
 	td {
 		white-space: nowrap;
+	}
+
+	td p:not([class]) {
+		text-align: initial;
 	}
 
 	// Fixed Header ------------------------------------------------------------
