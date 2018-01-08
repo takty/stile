@@ -12,24 +12,24 @@ gulp.task('js', function () {
 	.pipe(plumber())
 	.pipe(concat('stile.min.js'))
 	.pipe(uglify())
-	.pipe(gulp.dest('dest/js'));
+	.pipe(gulp.dest('dist/js'));
 
 	gulp.src('src/js/**/*.js')
 	.pipe(plumber())
 	.pipe(concat('stile-full.min.js'))
 	.pipe(uglify())
-	.pipe(gulp.dest('dest/js'));
+	.pipe(gulp.dest('dist/js'));
 
 	gulp.src('src/js/*/*.js')
 	.pipe(plumber())
 	.pipe(uglify())
 	.pipe(rename({extname: '.min.js'}))
-	.pipe(gulp.dest('dest/js'));
+	.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('sass', function () {
 	gulp.src(['src/sass/**'], {base: 'src/sass'})
-	.pipe(gulp.dest('dest/sass'));
+	.pipe(gulp.dest('dist/sass'));
 });
 
 gulp.task('watch', function() {
