@@ -37,6 +37,7 @@ gulp.task('watch', function() {
 	gulp.watch('src/sass/**/*.scss', ['sass']);
 });
 
+gulp.task('build', ['js', 'sass']);
 gulp.task('default', ['js', 'sass', 'watch']);
 
 // gulp.task('sample', function () {

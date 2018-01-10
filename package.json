@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
-    "postinstall": "postinstall-build dist --script start"
+    "build": "gulp build",
+    "postinstall": "postinstall-build dist"
   },
   "repository": {
     "type": "git",
