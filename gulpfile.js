@@ -3,9 +3,6 @@ var plumber  = require('gulp-plumber');
 var concat   = require('gulp-concat');
 var uglify   = require('gulp-uglify');
 var rename   = require('gulp-rename');
-var sass     = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var flatten  = require('gulp-flatten');
 
 gulp.task('js', function () {
 	gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
@@ -39,11 +36,3 @@ gulp.task('watch', function() {
 
 gulp.task('build', ['js', 'sass']);
 gulp.task('default', ['js', 'sass', 'watch']);
-
-// gulp.task('sample', function () {
-// 	gulp.src('sample/style.scss')
-// 	.pipe(plumber())
-// 	.pipe(sass())
-// 	.pipe(cleanCSS())
-// 	.pipe(gulp.dest('sample'));
-// });
