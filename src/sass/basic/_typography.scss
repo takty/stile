@@ -36,25 +36,3 @@ $stile-size-unit: 0.9rem !default;
 @mixin typography-clear-focus {
 	&:target:focus { outline: none; }
 }
-
-@mixin typography-size($size, $set_line_height: true) {
-	@if $size == 1 {
-		font-size: 1rem;
-		@if $set_line_height { line-height: vr(2); }
-	} @elseif $size == 2 {
-		font-size: 1.125rem;
-		@if $set_line_height { line-height: vr(2); }
-	} @elseif $size == 3 {
-		font-size: 1.25rem;
-		@if $set_line_height { line-height: vr(2); }
-	} @elseif $size == 4 {
-		font-size: 1.5rem;
-		@if $set_line_height { line-height: vr(3); }
-	} @elseif $size == 5 {
-		font-size: 2rem;
-		@if $set_line_height { line-height: vr(3); }
-	} @elseif $size == 6 {
-		font-size: 2.5rem;
-		@if $set_line_height { line-height: vr(4); }
-	}
-}

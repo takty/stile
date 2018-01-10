@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-28
+ * @version 2018-01-11
  *
  */
 
@@ -215,5 +215,27 @@ $font-monospace:
 	}
 	@media screen and (min-width: $max-vw) {
 		font-size: $max-value;
+	}
+}
+
+@mixin font-size-level($level, $set_line_height: true) {
+	@if $level == 1 {
+		font-size: 1rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $level == 2 {
+		font-size: 1.125rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $level == 3 {
+		font-size: 1.25rem;
+		@if $set_line_height { line-height: vr(2); }
+	} @elseif $level == 4 {
+		font-size: 1.5rem;
+		@if $set_line_height { line-height: vr(3); }
+	} @elseif $level == 5 {
+		font-size: 2rem;
+		@if $set_line_height { line-height: vr(3); }
+	} @elseif $level == 6 {
+		font-size: 2.5rem;
+		@if $set_line_height { line-height: vr(4); }
 	}
 }
