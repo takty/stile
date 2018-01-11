@@ -10,13 +10,13 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	var TARGET_SELECTOR = '.stile';
-	var TARGET_SELECTOR_KERNING = '.stile-kerning';
+	const TARGET_SELECTOR = '.stile';
+	const TARGET_SELECTOR_KERNING = '.stile-kerning';
 
-	var OFFSET_KERNING_PAIR = -0.4;
-	var OFFSET_KERNING_SOLO = -0.4;
+	const OFFSET_KERNING_PAIR = -0.4;
+	const OFFSET_KERNING_SOLO = -0.4;
 
-	var kerningInfo = {};
+	const kerningInfo = {};
 	makeKerningPairs(kerningInfo,
 		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕', '、', '，', '。', '．'],
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
@@ -36,53 +36,53 @@ document.addEventListener('DOMContentLoaded', function () {
 	makeKerningSolos(kerningInfo,
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
-	var ts = document.querySelectorAll(TARGET_SELECTOR);
-	for (var i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
+	let ts = document.querySelectorAll(TARGET_SELECTOR);
+	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
 	ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
-	for (var i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
+	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
 
 
 	// -------------------------------------------------------------------------
 
 	function makeKerningPairs(ki, tail, head) {
-		for (var i = 0; i < head.length; i += 1) {
-			for (var j = 0; j < tail.length; j += 1) {
+		for (let i = 0; i < head.length; i += 1) {
+			for (let j = 0; j < tail.length; j += 1) {
 				ki[tail[j] + head[i]] = OFFSET_KERNING_PAIR;
 			}
 		}
 	}
 
 	function makeKerningSolos(ki, head) {
-		for (var i = 0; i < head.length; i += 1) {
+		for (let i = 0; i < head.length; i += 1) {
 			ki[head[i]] = OFFSET_KERNING_SOLO;
 		}
 	}
 
 	function applyKerningToElement(elm, ki) {
-		var cs = Array.prototype.slice.call(elm.childNodes, 0);
+		const cs = Array.prototype.slice.call(elm.childNodes, 0);
 
-		for (var i = 0; i < cs.length; i += 1) {
-			var c = cs[i];
+		for (let i = 0; i < cs.length; i += 1) {
+			const c = cs[i];
 			if (c.nodeType === 1 /*ELEMENT_NODE*/) applyKerningToElement(c, ki);
 			else if (c.nodeType === 3 /*TEXT_NODE*/) {
-				var text = c.textContent;
-				var prev = c.previousSibling;
-				var isParentBlock = isBlockParent(c.parentNode);
+				let text = c.textContent;
+				const prev = c.previousSibling;
+				const isParentBlock = isBlockParent(c.parentNode);
 				if (isParentBlock) {
-					var next = c.nextSibling;
+					const next = c.nextSibling;
 					if (!prev || isBlockSibling(prev)) text = text.replace(/^\s+/g,'');  // trim left
 					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
 				}
-				var es = applyKerning(text, ki, isParentBlock && (prev === null || isBlockSibling(prev)));
+				const es = applyKerning(text, ki, isParentBlock && (prev === null || isBlockSibling(prev)));
 				if (es.length <= 0) continue;
 				c.parentNode.replaceChild(es[0], c);
-				var ns = es[0].nextSibling;
+				const ns = es[0].nextSibling;
 				if (ns) {
-					for (var j = 1; j < es.length; j += 1) {
+					for (let j = 1; j < es.length; j += 1) {
 						ns.parentNode.insertBefore(es[j], ns);
 					}
 				} else {
-					for (var j = 1; j < es.length; j += 1) {
+					for (let j = 1; j < es.length; j += 1) {
 						es[0].parentNode.appendChild(es[j]);
 					}
 				}
@@ -92,29 +92,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function isBlockParent(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
-		var d = getComputedStyle(elm).display;
+		const d = getComputedStyle(elm).display;
 		return (d.indexOf('inline') === -1 || d.indexOf('inline-block') !== -1);
 	}
 
 	function isBlockSibling(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
-		var d = getComputedStyle(elm).display;
+		const d = getComputedStyle(elm).display;
 		return (d.indexOf('inline') === -1) || elm.tagName === 'BR';
 	}
 
 	function applyKerning(text, ki, isHead) {
-		var res = [];
-		var temp = '';
+		const res = [];
+		let temp = '';
 
 		// White Space Character Class Excluding \u3000
 		// [ \f\n\r\t\v​\u00a0\u1680​\u180e\u2000​-\u200a​\u2028\u2029\u202f\u205f​\ufeff]
 		text = text.replace(/([^\x01-\x7E\xA1-\xDF]+)([\t\n]+|[ \f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\ufeff]{2})([^\x01-\x7E\xA1-\xDF]+)/g, function (match, g1, d, g2) {return g1 + g2;});
 
-		for (var i = 0, I = text.length; i < I; i += 1) {
-			var ch1 = text.substr(i, 1);
-			var ch2 = text.substr(i + 1, 1);
-			var space = 0;
-			var style = '';
+		for (let i = 0, I = text.length; i < I; i += 1) {
+			const ch1 = text.substr(i, 1);
+			const ch2 = text.substr(i + 1, 1);
+			let space = 0;
+			let style = '';
 
 			if (ki[ch1 + ch2]) {
 				space = ki[ch1 + ch2];
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					res.push(document.createTextNode(temp));
 					temp = '';
 				}
-				var span = document.createElement('span');
+				const span = document.createElement('span');
 				span.innerText = ch1;
 				span.setAttribute('style', style);
 				res.push(span);

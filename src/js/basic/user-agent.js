@@ -3,14 +3,14 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-09-14
+ * @version 2018-01-11
  *
  */
 
 
 document.addEventListener('DOMContentLoaded', function () {
-	var ua = window.navigator.userAgent.toLowerCase();
-	var cl = document.body.classList;
+	const ua = window.navigator.userAgent.toLowerCase();
+	const cl = document.body.classList;
 
 	if (ua.indexOf('edge') !== -1) {
 		cl.add('edge');

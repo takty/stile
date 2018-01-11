@@ -3,20 +3,20 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-26
+ * @version 2018-01-11
  *
  */
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	var TARGET_SELECTOR = '.stile';
-	var TARGET_SELECTOR_ANCHOR = '.stile-anchor';
-	var TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
+	const TARGET_SELECTOR = '.stile';
+	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
+	const TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
 
 	modifySpanStyle();
 
-	var as = document.querySelectorAll(TARGET_SELECTOR + ' a');
+	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
 	modifyAnchorStyle(as);
 	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');
 	modifyAnchorStyle(as);
@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Span Styles
 
 	function modifySpanStyle() {
-		var spans = document.querySelectorAll(TARGET_SELECTOR + ' span');
-		for (var i = 0; i < spans.length; i += 1) {
-			var target = spans[i];
-			var type = target.style.textDecorationLine;
+		const spans = document.querySelectorAll(TARGET_SELECTOR + ' span');
+		for (let i = 0; i < spans.length; i += 1) {
+			const target = spans[i];
+			let type = target.style.textDecorationLine;
 			if (type === undefined) {  // for IE11, Edge
 				type = target.style.textDecoration;
 				if (type === 'underline') {
@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Anchor Styles
 
 	function modifyAnchorStyle(as) {
-		for (var i = 0; i < as.length; i += 1) {
-			var a = as[i];
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
 			if (!isSimple(a)) continue;
 			a.dataset.style = a.dataset.style ? (a.dataset.style + ' simple-link') : 'simple-link';
 			if (isExternal(a.getAttribute('href'))) {
@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function modifyAnchorStyleExternal(as) {
-		for (var i = 0; i < as.length; i += 1) {
-			var a = as[i];
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
 			if (isExternal(a.getAttribute('href'))) {
 				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
 			}
@@ -84,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function isSimple(a) {
 		if (a.className) return false;
-		var cs = a.childNodes;
-		for (var i = 0; i < cs.length; i += 1) {
+		const cs = a.childNodes;
+		for (let i = 0; i < cs.length; i += 1) {
 			if (cs[i].className) return false;
 		}
-		for (var i = 0; i < cs.length; i += 1) {
-			var tn = cs[i].tagName;
+		for (let i = 0; i < cs.length; i += 1) {
+			const tn = cs[i].tagName;
 			if (tn === 'BR') continue;
 			if (tn) return false;
 		}
