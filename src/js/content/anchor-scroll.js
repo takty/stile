@@ -1,9 +1,9 @@
 /**
  *
- * Anchor Scroll (JS)
+ * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-26
+ * @version 2018-01-11
  *
  */
 

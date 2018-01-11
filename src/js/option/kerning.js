@@ -1,9 +1,9 @@
 /**
  *
- * Kerning (JS)
+ * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-27
+ * @version 2018-01-11
  *
  */
 
