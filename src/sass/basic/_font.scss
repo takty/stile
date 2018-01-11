@@ -8,6 +8,10 @@
  */
 
 
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
 @font-face {
 	font-family: 'Yu Gothic';
 	src: local('Yu Gothic Medium');
@@ -218,24 +222,24 @@ $font-monospace:
 	}
 }
 
-@mixin font-size-level($level, $set_line_height: true) {
+@mixin font-size-level($level, $set-line-height: true) {
 	@if $level == 1 {
 		font-size: 1rem;
-		@if $set_line_height { line-height: vr(2); }
+		@if $set-line-height { line-height: vr(2); }
 	} @elseif $level == 2 {
 		font-size: 1.125rem;
-		@if $set_line_height { line-height: vr(2); }
+		@if $set-line-height { line-height: vr(2); }
 	} @elseif $level == 3 {
 		font-size: 1.25rem;
-		@if $set_line_height { line-height: vr(2); }
+		@if $set-line-height { line-height: vr(2); }
 	} @elseif $level == 4 {
 		font-size: 1.5rem;
-		@if $set_line_height { line-height: vr(3); }
+		@if $set-line-height { line-height: vr(3); }
 	} @elseif $level == 5 {
 		font-size: 2rem;
-		@if $set_line_height { line-height: vr(3); }
+		@if $set-line-height { line-height: vr(3); }
 	} @elseif $level == 6 {
 		font-size: 2.5rem;
-		@if $set_line_height { line-height: vr(4); }
+		@if $set-line-height { line-height: vr(4); }
 	}
 }
