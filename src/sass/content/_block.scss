@@ -13,7 +13,7 @@ $block-color-shade    : rgba(lighten($block-color-line, 55%), 0.85) !default;
 $block-size-line-width: 2px !default;
 
 $stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
+@function vr($val) { @return $val * $stile-size-unit; }
 
 
 @mixin stile-block {
