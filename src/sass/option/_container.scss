@@ -3,7 +3,7 @@
  * Classes for Layout Container
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-12
  *
  */
 
@@ -47,27 +47,4 @@
 	@include for-desktop-up {
 		@include layout-card(4, vr(2));
 	}
-}
-
-@mixin container-for-editor($color-editor, $size-font-small) {
-	.column-2,
-	.column-3,
-	.column-4 {
-		position: relative;
-		&::before {
-			position: absolute;
-			top: -1rem;
-			color: $color-editor;
-			font-size: $size-font-small;
-		}
-		> * {
-			padding: 1rem;
-			border: dashed 1px $color-editor;
-			> * + * { margin-top: 1.5rem; }
-			> *:first-child { margin-top: 0; }
-		}
-	}
-	.column-2::before { content: 'Column 2'; }
-	.column-3::before { content: 'Column 3'; }
-	.column-4::before { content: 'Column 4'; }
 }
