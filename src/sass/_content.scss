@@ -14,7 +14,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-12
  *
  */
 
@@ -91,4 +91,8 @@ $stile-size-unit: 0.9rem !default;
 	* + dt { margin-top: vr(1); }
 	* + figcaption { margin-top: vr(1); }
 
+	blockquote {
+		> * + * { margin-top: vr(1); }
+		> *:first-child { margin-top: 0; }
+	}
 }
