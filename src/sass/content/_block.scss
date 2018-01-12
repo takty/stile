@@ -8,8 +8,9 @@
  */
 
 
-$block-color-line:  #369 !default;
-$block-color-shade: rgba(lighten($block-color-line, 55%), 0.85) !default;
+$block-color-line     : #369 !default;
+$block-color-shade    : rgba(lighten($block-color-line, 55%), 0.85) !default;
+$block-size-line-width: 2px !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
@@ -17,11 +18,16 @@ $stile-size-unit: 0.9rem !default;
 
 @mixin stile-block {
 
+	@include stile-block-main;
+	@include stile-block-figure;
+
+}
+
+@mixin stile-block-main {
+
 	p {
 		text-align: justify;
-		@media all and (-ms-high-contrast: none) {  // for IE11
-			text-align: left;
-		}
+		@include for-ie { text-align: left; }
 		line-height: vr(2);
 
 		-ms-hyphens: auto;
@@ -29,28 +35,10 @@ $stile-size-unit: 0.9rem !default;
 		hyphens: auto;
 	}
 
-	figure:not([class]), embed, iframe, object {
-		max-width: 100%;
-	}
-
-	figure img {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		max-height: 100vh;
-	}
-
-	figure {
-		text-align: center;  // for centering short caption
-	}
-
-	figcaption {
-		display: inline-block;
-		text-align: left;  // for left align of long caption
-	}
+	embed, iframe, object { max-width: 100%; }
 
 	hr {
-		height: 2px;
+		height: $block-size-line-width;
 		border: none;
 		background-color: $block-color-line;
 	}
@@ -65,7 +53,7 @@ $stile-size-unit: 0.9rem !default;
 			display: block;
 			position: absolute;
 			left: vr(2);
-			width: 2px;
+			width: $block-size-line-width;
 			height: 100%;
 			background-color: $block-color-line;
 		}
@@ -91,6 +79,28 @@ $stile-size-unit: 0.9rem !default;
 		padding: 0;
 		background-color: transparent;
 		white-space: pre;
+	}
+
+}
+
+@mixin stile-block-figure {
+
+	figure:not([class]) { max-width: 100%; }
+
+	figure img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		max-height: 100vh;
+	}
+
+	figure {
+		text-align: center;  // for centering short caption
+	}
+
+	figcaption {
+		display: inline-block;
+		text-align: left;  // for left align of long caption
 	}
 
 }
