@@ -3,12 +3,10 @@
  * Optional Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-25
+ * @version 2018-01-12
  *
  */
 
-
-@charset 'utf-8';
 
 @import 'basic/query';
 @import 'option/alignments';
@@ -68,21 +66,10 @@ $stile-size-unit: 0.9rem !default;
 		width: 100%;
 	}
 
-
 	td, th {
-
-		.size-thumbnail {
-			min-width: 5rem;
-		}
-
-		.size-medium {
-			min-width: 10rem;
-		}
-
-		.size-large {
-			min-width: 20rem;
-		}
-
+		.size-thumbnail { min-width: 5rem; }
+		.size-medium    { min-width: 10rem; }
+		.size-large     { min-width: 20rem; }
 	}
 
 }
