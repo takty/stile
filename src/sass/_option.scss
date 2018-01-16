@@ -56,6 +56,11 @@ $stile-size-unit: 0.9rem !default;
 		width: 100%;
 	}
 
+	.size-small {
+		max-width: 10rem;
+		width: 100%;
+	}
+
 	.size-medium {
 		max-width: 20rem;
 		width: 100%;
