@@ -3,84 +3,20 @@
  * Optional Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-16
+ * @version 2018-01-17
  *
  */
 
 
-@import 'basic/query';
-@import 'option/alignments';
+@import 'option/alignment';
 @import 'option/container';
-
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
+@import 'option/image-size';
 
 
 @mixin stile-option {
 
-	* + .alignleft,
-	* + .alignright,
-	.alignleft + *,
-	.alignright + * {
-		margin-top: vr(1);
-	}
-
-	* + figure.alignleft,
-	* + figure.alignright,
-	figure.alignleft + *,
-	figure.alignright + * {
-		margin-top: vr(4);  // for Centering View
-	}
-
-	@include for-tablet-up {
-		* + figure.alignleft,
-		* + figure.alignright,
-		figure.alignleft + *,
-		figure.alignright + * {
-			margin-top: vr(1);  // for Actual Floating View
-		}
-	}
-
-	@mixin define-figure-margin($tag, $top) {
-		#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
-	}
-	@include define-figure-margin(h1, 6);
-	@include define-figure-margin(h2, 4);
-	@include define-figure-margin(h3, 4);
-	@include define-figure-margin(h4, 2);
-	@include define-figure-margin(h5, 2);
-
-	.size-thumbnail {
-		max-width: 10rem;
-		width: 100%;
-	}
-
-	.size-small {
-		max-width: 10rem;
-		width: 100%;
-	}
-
-	.size-medium {
-		max-width: 20rem;
-		width: 100%;
-	}
-
-	.size-medium_large {
-		max-width: 30rem;
-		width: 100%;
-	}
-
-	.size-large {
-		max-width: 40rem;
-		width: 100%;
-	}
-
-	td, th {
-		.size-thumbnail    { min-width: 5rem; }
-		.size-medium       { min-width: 10rem; }
-		.size-medium_large { min-width: 15rem; }
-		.size-large        { min-width: 20rem; }
-	}
+	@include stile-alignment;
+	@include stile-container;
+	@include stile-image-size;
 
 }

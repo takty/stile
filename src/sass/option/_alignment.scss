@@ -1,0 +1,115 @@
+/**
+ *
+ * Classes for Alignments
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2018-01-17
+ *
+ */
+
+
+@import '../basic/query';
+
+$stile-size-unit: 0.9rem !default;
+@function vr($val) {@return $val * $stile-size-unit;}
+
+
+@mixin stile-alignment {
+
+	@include stile-alignment-main;
+	@include stile-alignment-margin;
+
+}
+
+@mixin stile-alignment-main {
+
+	.alignleft,
+	.alignright,
+	.aligncenter {
+		display: block;
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: vr(1);  // for these classes specific!
+		text-align: center;
+	}
+
+	@include for-tablet-portrait-up {
+		.alignleft:not(.size-full),
+		.alignright:not(.size-full) {
+			display: inline;
+			width: 50%;  // Actual size is assigned by size-* classes
+			transform: translateY(#{(vr(2) - 1rem) / 2});
+		}
+
+		.alignleft:not(.size-full) {
+			float: left;
+			margin-right: vr(2);
+		}
+
+		.alignright:not(.size-full) {
+			float: right;
+			margin-left: vr(2);
+		}
+	}
+
+	@include for-tablet-landscape-up {
+		.alignleft.size-full,
+		.alignright.size-full {
+			display: inline;
+			max-width: 50%;
+			transform: translateY(#{(vr(2) - 1rem) / 2});
+		}
+
+		.alignleft.size-full {
+			float: left;
+			margin-right: vr(2);
+		}
+
+		.alignright.size-full {
+			float: right;
+			margin-left: vr(2);
+		}
+	}
+
+	.aligncenter {
+		clear: both;
+	}
+
+}
+
+@mixin stile-alignment-margin {
+
+	* + .alignleft,
+	* + .alignright,
+	.alignleft + *,
+	.alignright + * {
+		margin-top: vr(1);
+	}
+
+	* + figure.alignleft,
+	* + figure.alignright,
+	figure.alignleft + *,
+	figure.alignright + * {
+		margin-top: vr(4);  // for Centering View
+	}
+
+	@include for-tablet-up {
+		* + figure.alignleft,
+		* + figure.alignright,
+		figure.alignleft + *,
+		figure.alignright + * {
+			margin-top: vr(1);  // for Actual Floating View
+		}
+	}
+
+	@mixin define-figure-margin($tag, $top) {
+		#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
+	}
+	@include define-figure-margin(h1, 6);
+	@include define-figure-margin(h2, 4);
+	@include define-figure-margin(h3, 4);
+	@include define-figure-margin(h4, 2);
+	@include define-figure-margin(h5, 2);
+
+}
