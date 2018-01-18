@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-18
  *
  */
 
@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function isSimple(a) {
 		if (a.className) return false;
 		const cs = a.childNodes;
+		if (cs.length === 0) return false;
 		for (let i = 0; i < cs.length; i += 1) {
 			if (cs[i].className) return false;
 		}
