@@ -3,7 +3,7 @@
  * Heading Styles
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-28
+ * @version 2018-01-18
  *
  */
 
@@ -16,9 +16,10 @@ $heading-color-text: #777 !default;
 	h1, h2, h3, h4, h5, h6 {
 		@include font-proportional;
 
-		@include typography-hyphens;
-		@include typography-break-word;
-		@include typography-clear-focus;
+		// Need to import stool/sass/text
+		@if mixin-exists(text-hyphens) { @include text-hyphens; }
+		@if mixin-exists(text-break-word) { @include text-break-word; }
+		@if mixin-exists(text-clear-focus) { @include text-clear-focus; }
 
 		@if $set-design {
 			@include font-bold;
@@ -28,25 +29,25 @@ $heading-color-text: #777 !default;
 		> small { display: block; }
 	}
 
-	h1 { @include typography-size(6); }
-	h1[data-style~='small'], h1 > small { @include typography-size(5); }
-	h1[data-style~='small'] > small { @include typography-size(4); }
+	h1 { @include font-size-level(6); }
+	h1[data-style~='small'], h1 > small { @include font-size-level(5); }
+	h1[data-style~='small'] > small { @include font-size-level(4); }
 
-	h2 { @include typography-size(5); }
-	h2[data-style~='small'], h2 > small { @include typography-size(4); }
-	h2[data-style~='small'] > small { @include typography-size(3); }
+	h2 { @include font-size-level(5); }
+	h2[data-style~='small'], h2 > small { @include font-size-level(4); }
+	h2[data-style~='small'] > small { @include font-size-level(3); }
 
-	h3 { @include typography-size(4); }
-	h3[data-style~='small'], h3 > small { @include typography-size(3); }
-	h3[data-style~='small'] > small { @include typography-size(2); }
+	h3 { @include font-size-level(4); }
+	h3[data-style~='small'], h3 > small { @include font-size-level(3); }
+	h3[data-style~='small'] > small { @include font-size-level(2); }
 
-	h4 { @include typography-size(3); }
-	h4[data-style~='small'], h4 > small { @include typography-size(2); }
-	h4[data-style~='small'] > small { @include typography-size(1); }
+	h4 { @include font-size-level(3); }
+	h4[data-style~='small'], h4 > small { @include font-size-level(2); }
+	h4[data-style~='small'] > small { @include font-size-level(1); }
 
-	h5 { @include typography-size(2); }
-	h5[data-style~='small'], h5 > small { @include typography-size(1); }
+	h5 { @include font-size-level(2); }
+	h5[data-style~='small'], h5 > small { @include font-size-level(1); }
 
-	h6 { @include typography-size(1); }
+	h6 { @include font-size-level(1); }
 
 }
