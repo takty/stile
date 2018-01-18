@@ -16,7 +16,7 @@ $heading-color-text: #777 !default;
 	h1, h2, h3, h4, h5, h6 {
 		@include font-proportional;
 
-		// Need to import stool/sass/text
+		// Need to import stool/sass/util/text
 		@if mixin-exists(text-hyphens) { @include text-hyphens; }
 		@if mixin-exists(text-break-word) { @include text-break-word; }
 		@if mixin-exists(text-clear-focus) { @include text-clear-focus; }
