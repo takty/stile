@@ -3,14 +3,14 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-22
  *
  */
 
 
-$inline-color-broken-image: $inline-color-link-text              !default;
-$inline-color-underline:    #ed0                                 !default;
-$inline-color-del:          #f44                                 !default;
+$inline-color-broken-image: $inline-color-link-text !default;
+$inline-color-underline:    #ed0                    !default;
+$inline-color-del:          #f44                    !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
