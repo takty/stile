@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-12
+ * @version 2018-01-23
  *
  */
 
@@ -19,6 +19,7 @@ $stile-size-unit: 0.9rem !default;
 @mixin stile-block {
 
 	@include stile-block-main;
+	@include stile-block-color($block-color-line, $block-color-shade)
 	@include stile-block-figure;
 
 }
@@ -40,7 +41,6 @@ $stile-size-unit: 0.9rem !default;
 	hr {
 		height: $block-size-line-width;
 		border: none;
-		background-color: $block-color-line;
 	}
 
 	blockquote {
@@ -55,13 +55,11 @@ $stile-size-unit: 0.9rem !default;
 			left: vr(2);
 			width: $block-size-line-width;
 			height: 100%;
-			background-color: $block-color-line;
 		}
 	}
 
 	pre {
 		@include font-family-monospace;
-		background-color: $block-color-shade;
 		display: block;
 		padding: vr(2);
 		overflow-x: auto;
@@ -71,7 +69,6 @@ $stile-size-unit: 0.9rem !default;
 	code, var, samp, kbd {
 		@include font-family-monospace;
 		padding: 0 vr(1);
-		background-color: $block-color-shade;
 		white-space: pre-wrap;
 	}
 
@@ -80,6 +77,18 @@ $stile-size-unit: 0.9rem !default;
 		background-color: transparent;
 		white-space: pre;
 	}
+
+}
+
+@mixin stile-block-color($color-line, $color-shade: $color-line) {
+
+	hr { background-color: $color-line; }
+
+	blockquote::before { background-color: $color-line; }
+
+	pre { background-color: $color-shade; }
+
+	code, var, samp, kbd { background-color: $color-shade; }
 
 }
 
