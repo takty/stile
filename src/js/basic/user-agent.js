@@ -3,7 +3,7 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-24
  *
  */
 
@@ -28,9 +28,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (ua.indexOf('iphone') !== -1) {
 		cl.add('iphone');
 		cl.add('ios');
-	};
+	}
 	if (ua.indexOf('ipad') !== -1) {
 		cl.add('ipad');
 		cl.add('ios');
-	};
+	}
+	if (ua.indexOf('android') !== -1) {
+		cl.add('android');
+	}
 });
