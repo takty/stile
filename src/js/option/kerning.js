@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-01-30
  *
  */
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	);
 	makeKerningPairs(kerningInfo,
 		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕'],
-		['、', '，', '。', '．']
+		['、', '，', '。', '．', ',', '.']
 	);
 	makeKerningPairs(kerningInfo,
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔'],
