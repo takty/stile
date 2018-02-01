@@ -151,16 +151,15 @@ $stile-size-unit: 0.9rem !default;
 
 // <link href='https://fonts.googleapis.com/css?family=Libre+Franklin:300,600' rel='stylesheet'>
 $font-sans-serif-laten: 'Libre Franklin';
+$font-serif-laten: 'Times New Roman';
 
 $font-sans-serif:
 	-apple-system, BlinkMacSystemFont, 'Helvetica Neue',
 	'Yu Gothic', 'YuGothic',
-	Verdana, Meiryo,
-	sans-serif;
+	Verdana, Meiryo, sans-serif;
 
 $font-sans-serif-ie:
-	Verdana, Meiryo,
-	sans-serif;
+	Verdana, Meiryo, sans-serif;
 
 $font-sans-serif-ios:
 	'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
@@ -170,19 +169,16 @@ $font-sans-serif-ios:
 $font-serif:
 	'Yu Mincho',
 	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
-	Georgia, Meiryo,
-	serif;
+	Georgia, Meiryo, serif;
 
 $font-serif-ie:
 	'HGS Mincho', 'Yu Mincho',
-	Georgia, Meiryo,
-	serif;
+	Georgia, Meiryo, serif;
 
 $font-serif-android:
 	'Noto Serif CJK JP',
 	'Sawarabi Mincho',
-	Georgia,
-	serif;
+	Georgia, serif;
 
 
 $font-monospace:
@@ -207,10 +203,10 @@ $font-monospace:
 }
 
 @mixin font-family-serif {
-	font-family: $font-serif;
+	font-family: $font-serif-laten, $font-serif;
 	&.android,  // need to use os.js
 	.android & {
-		font-family: $font-serif-android;
+		font-family: $font-serif-laten, $font-serif-android;
 	}
 }
 
