@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-24
+ * @version 2018-02-01
  *
  */
 
@@ -170,17 +170,18 @@ $font-sans-serif-ios:
 $font-serif:
 	'Yu Mincho',
 	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
-	Verdana, Meiryo,
+	Georgia, Meiryo,
 	serif;
 
 $font-serif-ie:
 	'HGS Mincho', 'Yu Mincho',
-	Verdana, Meiryo,
+	Georgia, Meiryo,
 	serif;
 
 $font-serif-android:
 	'Noto Serif CJK JP',
 	'Sawarabi Mincho',
+	Georgia,
 	serif;
 
 
