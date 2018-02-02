@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-22
+ * @version 2018-02-02
  *
  */
 
@@ -11,6 +11,7 @@
 $inline-color-broken-image: $inline-color-link-text !default;
 $inline-color-underline:    #ed0                    !default;
 $inline-color-del:          #f44                    !default;
+$inline-color-abbr:         $inline-color-link-text !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
@@ -74,6 +75,10 @@ $stile-size-unit: 0.9rem !default;
 	sup {
 		top: -0.75em;
 		margin-top: -0.75em;
+	}
+
+	abbr[title] {
+		text-decoration: underline dashed $inline-color-link-text;
 	}
 
 	del {
