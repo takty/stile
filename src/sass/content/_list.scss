@@ -3,7 +3,7 @@
  * Content Style - List (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-23
+ * @version 2018-02-09
  *
  */
 
@@ -71,7 +71,10 @@ $stile-size-unit: 0.9rem !default;
 
 	ul:not([class]),
 	ul.stile {
-		padding-left: vr(4);
+
+		&:not([data-style~='no-indent']) {
+			padding-left: vr(4);
+		}
 
 		> li {
 			position: relative;
@@ -142,7 +145,10 @@ $stile-size-unit: 0.9rem !default;
 
 	ol:not([class]),
 	ol.stile {
-		padding-left: vr(1);
+
+		&:not([data-style~='no-indent']) {
+			padding-left: vr(1);
+		}
 
 		> li {
 			counter-increment: li;
@@ -200,7 +206,11 @@ $stile-size-unit: 0.9rem !default;
 
 	dl:not([class]),
 	dl.stile {
-		padding-left: vr(2);
+
+		&:not([data-style~='no-indent']) {
+			padding-left: vr(2);
+		}
+
 		line-height: vr(2);
 
 		> dt { @include font-bold; }
