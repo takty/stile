@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-30
+ * @version 2018-02-14
  *
  */
 
@@ -116,16 +116,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			let space = 0;
 			let style = '';
 
-			if (ki[ch1 + ch2]) {
+			if (ch1 !== '' && ch2 !== '' && ki[ch1 + ch2]) {
 				space = ki[ch1 + ch2];
 			} else {
-				if (ki[ch1 + '*']) space += ki[ch1 + '*'];
-				if (ki['*' + ch2]) space += ki['*' + ch2];
+				if (ch1 !== '' && ki[ch1 + '*']) space += ki[ch1 + '*'];
+				if (ch2 !== '' && ki['*' + ch2]) space += ki['*' + ch2];
 			}
 			if (space !== 0) {
 				style = 'letter-spacing:' + space + 'em;';
 			}
-			if (i === 0 && ki[ch1] && isHead) {
+			if (i === 0 && ch1 !== '' && ki[ch1] && isHead) {
 				style += 'margin-left:' + ki[ch1] + 'em;';
 			}
 			if (style.length > 0) {
