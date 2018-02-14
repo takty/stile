@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-02-14
  *
  */
 
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 
 	const CLS_LINK_TARGET = 'stile-link-target';
+	const SELECTOR_TARGET = '.stile *[id]:not([class])';
 
 	let ADDITIONAL_OFFSET = 16;
 	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
@@ -23,9 +24,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const getAnchorOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	if (getAnchorOffset() !== false) {
-		initTargetToStyle();
-		window.addEventListener('resize', setAnchorOffset);
-		setTimeout(setAnchorOffset, 100);
+		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
+		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
+		const anchorTargets = as1.concat(as2);
+
+		initTargetToStyle(anchorTargets);
+		window.addEventListener('resize', function () {setAnchorOffset(anchorTargets);});
+		setTimeout(function () {setAnchorOffset(anchorTargets);}, 100);
 		if (window.location.hash) hashChanged();
 	}
 	window.addEventListener('hashchange', hashChanged);
@@ -40,8 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function initTargetToStyle() {
-		const ats = document.getElementsByClassName(CLS_LINK_TARGET);
+	function initTargetToStyle(ats) {
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
 			const pat = document.createElement('span');
@@ -60,11 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function setAnchorOffset() {
+	function setAnchorOffset(ats) {
 		const offset = getAnchorOffset();
 		const wpabH = getWpAdminBarHeight();
 		const off = offset + wpabH + ADDITIONAL_OFFSET;
-		const ats = document.getElementsByClassName(CLS_LINK_TARGET);
 
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
@@ -166,15 +169,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		return (wpab) ? wpab.clientHeight : 0;
 	}
 
-	function makeOffsetFunction(fixedElementClass, fixedHeightClass) {
+	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
 		let elmFixed = document.getElementsByClassName(fixedElementClass);
 		if (elmFixed && elmFixed.length > 0) {
 			elmFixed = elmFixed[0];
-			let elmHeight = document.getElementsByClassName(fixedHeightClass);
-			if (elmHeight) elmHeight = elmHeight[0];
-			else elmHeight = elmFixed;
-
-			return function () { return elmHeight.clientHeight; };
+			let elmTop = document.getElementsByClassName(fixedTopClass);
+			if (elmTop) {
+				elmTop = elmTop[0];
+				return function () { return elmFixed.clientHeight - elmTop.clientHeight; };
+			}
+			return function () { return elmFixed.clientHeight; };
 		}
 		return function () { return false; }
 	}
