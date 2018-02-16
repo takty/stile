@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			a.dataset.style = a.dataset.style ? (a.dataset.style + ' simple-link') : 'simple-link';
 			if (isExternal(a.getAttribute('href'))) {
 				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
-			} else {
+			} else if (isAnchor(a.getAttribute('href'))) {
 				a.dataset.style = a.dataset.style ? (a.dataset.style + ' anchor-link') : 'anchor-link';
 			}
 		}
