@@ -51,11 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		}
 
-		window.addEventListener('beforeprint', onPrint, false);
-		if (!('onbeforeprint' in window) && window.matchMedia && (printMedia = matchMedia('print')) && printMedia.addListener) {
-			printMedia.addListener(function () {if (printMedia.matches) onPrint();});
-		}
-
+		doBeforePrint(onPrint);
 		function onPrint() {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
@@ -95,6 +91,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			elm = elm.offsetParent;
 		}
 		return top;
+	}
+
+	function doBeforePrint(func, forceMediaCheck = true) {
+		window.addEventListener('beforeprint', func, false);
+		if (forceMediaCheck || !('onbeforeprint' in window)) {
+			if (window.matchMedia && (printMedia = matchMedia('print')) && printMedia.addListener) {
+				printMedia.addListener(function () {if (printMedia.matches) func();});
+			}
+		}
 	}
 
 });
