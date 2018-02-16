@@ -12,7 +12,7 @@
 
 	font-size: 10.5pt !important;
 
-	a[href][data-style ~= 'simple-link']:not([data-style ~= 'anchor-link'])::after {
+	a[href][data-style ~= 'simple-link']:not([data-style ~= 'url-link']):not([data-style ~= 'anchor-link'])::after {
 		content: attr(href) !important;
 
 		font-family: inherit !important;

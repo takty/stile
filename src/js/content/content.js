@@ -55,11 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (!isSimple(a)) continue;
-			a.dataset.style = a.dataset.style ? (a.dataset.style + ' simple-link') : 'simple-link';
-			if (isExternal(a.getAttribute('href'))) {
-				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
-			} else if (isAnchor(a.getAttribute('href'))) {
-				a.dataset.style = a.dataset.style ? (a.dataset.style + ' anchor-link') : 'anchor-link';
+			addDataStyle(a, 'simple-link');
+			const url = a.getAttribute('href');
+			if (isUrlLink(a, url)) {
+				addDataStyle(a, 'url-link');
+			}
+			if (isExternal(url)) {
+				addDataStyle(a, 'external-link');
+			} else if (isAnchor(url)) {
+				addDataStyle(a, 'anchor-link');
 			}
 		}
 	}
@@ -105,6 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (tn) return false;
 		}
 		return true;
+	}
+
+	function isUrlLink(a, url) {
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		return a.innerHTML.trim() === url;
+	}
+
+	function addDataStyle(elm, style) {
+		if (elm.dataset.style) {
+			elm.dataset.style = elm.dataset.style + ' ' + style;
+		} else {
+			elm.dataset.style = style;
+		}
 	}
 
 });
