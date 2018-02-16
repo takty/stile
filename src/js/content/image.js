@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		window.addEventListener('beforeprint', onPrint, false);
 		if (!('onbeforeprint' in window) && window.matchMedia && (printMedia = matchMedia('print')) && printMedia.addListener) {
-			printMedia.addListener(function () {if (printMedia.matches) onprint();});
+			printMedia.addListener(function () {if (printMedia.matches) onPrint();});
 		}
 
 		function onPrint() {
