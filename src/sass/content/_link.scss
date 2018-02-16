@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-18
+ * @version 2018-02-16
  *
  */
 
@@ -16,8 +16,7 @@ $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
 
 
-@mixin stile-link-external {
-	content: '\E0B2';
+@mixin stile-link-mark {
 	font-family: 'Material Icons';
 
 	display: inline-block;
@@ -30,6 +29,16 @@ $stile-size-unit: 0.9rem !default;
 	overflow: hidden;  // for removing underline on IE11
 
 	transform: translateY(0.15rem);
+}
+
+@mixin stile-link-anchor {
+	content: '\E5DB';
+	@include stile-link-mark;
+}
+
+@mixin stile-link-external {
+	content: '\E0B2';
+	@include stile-link-mark;
 }
 
 @mixin stile-link {
@@ -55,6 +64,12 @@ $stile-size-unit: 0.9rem !default;
 			&:visited {
 				color: $inline-color-link-text-visited;
 			}
+		}
+
+		// Add Anchor Link Icon
+
+		&[data-style ~= 'anchor-link']::after {
+			@include stile-link-anchor;
 		}
 
 		// Add External Link Icon
