@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function doBeforePrint(func, forceMediaCheck = true) {
 		window.addEventListener('beforeprint', func, false);
 		if (forceMediaCheck || !('onbeforeprint' in window)) {
+			let printMedia;
 			if (window.matchMedia && (printMedia = matchMedia('print')) && printMedia.addListener) {
 				printMedia.addListener(function () {if (printMedia.matches) func();});
 			}
