@@ -3,13 +3,27 @@
  * Reset
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-12-15
+ * @version 2018-02-19
  *
- * Original:
+ * Based on:
  *  minireset.css v0.0.3
  *  https://github.com/jgthms/minireset.css
+ *  modern-normalize v0.4
+ *  https://github.com/sindresorhus/modern-normalize
  *
  */
+
+
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+
+// -----------------------------------------------------------------------------
 
 
 html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset,
@@ -25,18 +39,6 @@ h1, h2, h3, h4, h5, h6 {
 
 ul {
 	list-style: none;
-}
-
-button, input, select, textarea {
-	margin: 0;
-}
-
-html {
-	box-sizing: border-box;
-}
-
-*, *:before, *:after {
-	box-sizing: inherit;
 }
 
 img, embed, object, audio, video {
@@ -62,4 +64,30 @@ td, th {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+button, input, optgroup, select, textarea {
+	margin: 0;
+	font-family: inherit;
+	font-size: 100%;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: button;
+}
+
+[type='search'] {
+	-webkit-appearance: textfield;
+	outline-offset: -2px;
+}
+
+[type='search']::-webkit-search-decoration {
+	-webkit-appearance: none;
 }
