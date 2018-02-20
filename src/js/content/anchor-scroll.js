@@ -98,9 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			as[i].addEventListener('click', function (e) {
 				let href= e.target.getAttribute('href');
-				const pos = href.lastIndexOf('#');
-				href = href.substr(pos);
-				jumpToHash(e, href);
+				if (href) {
+					const pos = href.lastIndexOf('#');
+					href = href.substr(pos);
+					jumpToHash(e, href);
+				}
 			});
 		} else {
 			as[i].addEventListener('click', function (e) {
