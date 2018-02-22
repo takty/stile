@@ -150,8 +150,11 @@ $stile-size-unit: 0.9rem !default;
 
 
 // <link href='https://fonts.googleapis.com/css?family=Libre+Franklin:300,600' rel='stylesheet'>
-$font-sans-serif-laten: 'Libre Franklin';
-$font-serif-laten: 'Times New Roman';
+// $font-sans-serif-laten: 'Libre Franklin';
+// <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,700">
+$font-sans-serif-laten: 'Nunito Sans';
+// <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Spectral:300,700">
+$font-serif-laten: 'Spectral';
 
 $font-sans-serif:
 	-apple-system, BlinkMacSystemFont, 'Helvetica Neue',
