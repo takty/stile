@@ -5,6 +5,10 @@ var uglify  = require('gulp-uglify');
 var rename  = require('gulp-rename');
 var babel   = require('gulp-babel');
 
+var sourcemaps = require('gulp-sourcemaps');
+var sass       = require('gulp-sass');
+var cleanCSS   = require('gulp-clean-css');
+
 gulp.task('js', function () {
 	gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 	.pipe(plumber())
@@ -40,3 +44,17 @@ gulp.task('watch', function() {
 
 gulp.task('build', ['js', 'sass']);
 gulp.task('default', ['js', 'sass', 'watch']);
+
+
+// -----------------------------------------------------------------------------
+
+gulp.task('sample', function () {
+	gulp.src('sample/style.scss')
+	.pipe(plumber())
+    .pipe(sourcemaps.init())
+	.pipe(sass())
+	.pipe(cleanCSS())
+	.pipe(rename({extname: '.min.css'}))
+	.pipe(sourcemaps.write('.'))
+	.pipe(gulp.dest('sample'));
+});
