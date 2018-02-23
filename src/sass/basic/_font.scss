@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-01
+ * @version 2018-02-23
  *
  */
 
@@ -149,12 +149,14 @@ $stile-size-unit: 0.9rem !default;
 // -----------------------------------------------------------------------------
 
 
-// <link href='https://fonts.googleapis.com/css?family=Libre+Franklin:300,600' rel='stylesheet'>
-// $font-sans-serif-laten: 'Libre Franklin';
-// <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,700">
-$font-sans-serif-laten: 'Nunito Sans';
-// <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Spectral:300,700">
-$font-serif-laten: 'Spectral';
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,700');  // Laten
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,700&text=0123456789');  // Number
+@import url('https://fonts.googleapis.com/css?family=Spectral:300,700');  // Laten Serif
+
+$font-sans-serif-laten : 'Nunito Sans';
+$font-sans-serif-number: 'Roboto';
+$font-serif-laten      : 'Spectral';
+
 
 $font-sans-serif:
 	-apple-system, BlinkMacSystemFont, 'Helvetica Neue',
@@ -195,9 +197,9 @@ $font-monospace:
 
 
 @mixin font-family {
-	font-family: $font-sans-serif-laten, $font-sans-serif;
+	font-family: $font-sans-serif-number, $font-sans-serif-laten, $font-sans-serif;
 	@include for-ie {
-		font-family: $font-sans-serif-laten, $font-sans-serif-ie;
+		font-family: $font-sans-serif-number, $font-sans-serif-laten, $font-sans-serif-ie;
 	}
 	&.ios,  // need to use os.js
 	.ios & {
