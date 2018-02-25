@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-23
+ * @version 2018-02-26
  *
  */
 
@@ -170,6 +170,10 @@ $font-sans-serif-ios:
 	'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
 	sans-serif;
 
+$font-sans-serif-android:
+	'Noto Sans CJK JP',
+	sans-serif;
+
 
 $font-serif:
 	'Yu Mincho',
@@ -201,16 +205,17 @@ $font-monospace:
 	@include for-ie {
 		font-family: $font-sans-serif-number, $font-sans-serif-laten, $font-sans-serif-ie;
 	}
-	&.ios,  // need to use os.js
-	.ios & {
+	&.ios, .ios & {  // need to use os.js
 		font-family: $font-sans-serif-ios;
+	}
+	&.android, .android & {  // need to use os.js
+		font-family: $font-sans-serif-android;
 	}
 }
 
 @mixin font-family-serif {
 	font-family: $font-serif-laten, $font-serif;
-	&.android,  // need to use os.js
-	.android & {
+	&.android, .android & {  // need to use os.js
 		font-family: $font-serif-laten, $font-serif-android;
 	}
 }
