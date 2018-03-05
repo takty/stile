@@ -3,7 +3,7 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-26
+ * @version 2018-03-05
  *
  */
 
@@ -151,7 +151,7 @@ $stile-size-unit: 0.9rem !default;
 
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,700');  // Laten
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,700&text=0123456789');  // Number
-@import url('https://fonts.googleapis.com/css?family=Spectral:300,600');  // Laten Serif
+@import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');  // Laten Serif
 
 $font-sans-serif-laten : 'Nunito Sans';
 $font-sans-serif-number: 'Roboto';
