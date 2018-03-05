@@ -3,7 +3,7 @@
  * Classes for Layout Container
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-17
+ * @version 2018-03-05
  *
  */
 
@@ -29,14 +29,14 @@
 
 	.column-2 {
 		@include layout-card(1, vr(2));
-		@include for-tablet-landscape-up {
+		@include for-tablet-up {
 			@include layout-card(2, vr(2));
 		}
 	}
 
 	.column-3 {
 		@include layout-card(1, vr(2));
-		@include for-desktop-up {
+		@include for-tablet-up {
 			@include layout-card(3, vr(2));
 		}
 	}
@@ -46,7 +46,7 @@
 		@include for-tablet-portrait-up {
 			@include layout-card(2, vr(2));
 		}
-		@include for-desktop-up {
+		@include for-tablet-landscape-up {
 			@include layout-card(4, vr(2));
 		}
 	}
