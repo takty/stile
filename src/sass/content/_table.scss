@@ -103,7 +103,7 @@ $stile-size-unit: 0.9rem !default;
 		text-align: center;
 	}
 
-	td {
+	table:not([class]):not([data-style~="no-neat-wrap"]) td {
 		white-space: nowrap;
 	}
 

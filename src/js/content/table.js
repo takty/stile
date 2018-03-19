@@ -13,8 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 
-	const TARGET_SELECTOR = '.stile';
+	const TARGET_SELECTOR    = '.stile';
 	const CLS_STATE_ENLARGED = 'enlarged-table';
+
+	const DS_NO_NEAT_WRAP = 'no-neat-wrap';
+	const DS_NO_ENLARGER  = 'no-enlarger';
 
 	const CELL_MIN_WIDTH = 120;
 	const CELL_MIN_RATIO = 2 / 3;  // width : height
@@ -29,17 +32,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function initFixedHeaderTable() {
 		scrollBarWidth = parseInt(getScrollBarWidth());
-		const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table');
+		const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 		const conts = [];
 
-		for (let i = 0; i < tabs.length; i += 1) addWrapStyle(tabs[i]);
+		for (let i = 0; i < tabs.length; i += 1) {
+			const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
+			if (ss.indexOf(DS_NO_NEAT_WRAP) !== -1) continue;
+			addWrapStyle(tabs[i]);
+		}
 
 		setTimeout(function () {  // Delay for IE11
 			for (let i = 0; i < tabs.length; i += 1) {
+				const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
+
 				const tab  = tabs[i];
 				const head = cloneTableHeader(tab);
 				const bar  = cloneTableScrollBar(tab);
-				const etb  = createEnlarger(tab);
+				const etb  = (ss.indexOf(DS_NO_ENLARGER) === -1) ? createEnlarger(tab) : null;
 				const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
 				initEvents(cont);
 				conts.push(cont);
@@ -87,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		};
 		initBarEvent(cont);
-		initEnlargerEvent(cont);
+		if (cont.etb) initEnlargerEvent(cont);
 	}
 
 	function initBarEvent(cont) {
@@ -180,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
-		if (tab.classList.contains(CLS_STATE_ENLARGED)) windowResize_enlarger(tab);
+		if (cont.etb && tab.classList.contains(CLS_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -205,16 +214,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (head) {
 			if (isInWin) {
 				head.style.display = 'none';
-				switchEnlargerToTable(cont);
+				if (cont.etb) switchEnlargerToTable(cont);
 			} else if (winY + offset < tabTop || tabBottom - cont.headerHeight < winY + offset) {
 				head.style.display = 'none';
-				switchEnlargerToTable(cont);
+				if (cont.etb) switchEnlargerToTable(cont);
 			} else if (tabTop < winY + offset) {
 				head.style.display = 'block';
 				head.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
 				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 				cont.headerHeight = head.getBoundingClientRect().height;
-				switchEnlargerToFloatingHeader(cont);
+				if (cont.etb) switchEnlargerToFloatingHeader(cont);
 			}
 			head.style.left = (elementLeftOnWindow(tab) - winX) + 'px';
 			head.scrollLeft = tab.scrollLeft;
@@ -249,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.style.overflowX = '';
 			if (head) head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 		}
-		tableScroll_enlarger(cont);
+		if (cont.etb) tableScroll_enlarger(cont);
 	}
 
 	// Enlarger ----------------------------------------------------------------
