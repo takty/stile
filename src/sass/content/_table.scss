@@ -3,12 +3,13 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-23
+ * @version 2018-03-19
  *
  */
 
 
 $table-color-rule-horizontal      : #369 !default;
+$table-color-rule-horizontal-edge : $table-color-rule-horizontal !default;
 $table-color-rule-vertical        : rgba($table-color-rule-horizontal, 0.1) !default;
 $table-color-header-text          : #666 !default;
 $table-color-header-background    : rgba(lighten($table-color-rule-horizontal, 55%), 0.85) !default; // Must have transparency for scroll shadow.
@@ -17,6 +18,8 @@ $table-color-scrollbar-background : $table-color-header-background !default;
 $table-color-enlarge-button       : rgba($table-color-rule-horizontal, 0.5) !default;
 $table-color-enlarge-button-opened: rgba($table-color-rule-horizontal, 0.25) !default;
 $table-color-background-enlarged  : #fff !default;
+
+$table-size-rule-horizontal-edge : 2px !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
@@ -27,6 +30,7 @@ $stile-size-unit: 0.9rem !default;
 	@include stile-table-main;
 	@include stile-table-color(
 		$table-color-rule-horizontal,
+		$table-color-rule-horizontal-edge,
 		$table-color-rule-vertical,
 		$table-color-header-text,
 		$table-color-header-background,
@@ -58,9 +62,20 @@ $stile-size-unit: 0.9rem !default;
 
 	// Design ------------------------------------------------------------------
 
-	thead tr:first-of-type td,
-	thead tr:first-of-type th {
-		border-top: 2px solid;
+	thead, tbody:first-child {
+		tr:first-of-type {
+			td, th {
+				border-top: $table-size-rule-horizontal-edge solid;
+			}
+		}
+	}
+
+	tbody, tfoot {
+		tr:last-of-type {
+			td, th {
+				border-bottom: $table-size-rule-horizontal-edge solid;
+			}
+		}
 	}
 
 	th, td {
@@ -122,8 +137,8 @@ $stile-size-unit: 0.9rem !default;
 
 	.fixed-table-header-table thead td,
 	.fixed-table-header-table th {
-		@include for-ie   { border-bottom-width: 2px; }
-		@include for-edge { border-bottom-width: 2px; }
+		@include for-ie   { border-bottom-width: $table-size-rule-horizontal-edge; }
+		@include for-edge { border-bottom-width: $table-size-rule-horizontal-edge; }
 	}
 
 	// Pseudo Scroll Bars ------------------------------------------------------
@@ -187,6 +202,7 @@ $stile-size-unit: 0.9rem !default;
 
 @mixin stile-table-color(
 	$table-color-rule-horizontal: #369,
+	$table-color-rule-horizontal-edge: false,
 	$table-color-rule-vertical: false,
 	$table-color-header-text: #666,
 	$table-color-header-background: false,
@@ -197,6 +213,9 @@ $stile-size-unit: 0.9rem !default;
 	$table-color-background-enlarged: #fff
 ) {
 
+	@if $table-color-rule-horizontal-edge == false {
+		$table-color-rule-horizontal-edge: $table-color-rule-horizontal;
+	}
 	@if $table-color-rule-vertical == false {
 		$table-color-rule-vertical: rgba($table-color-rule-horizontal, 0.1);
 	}
@@ -217,9 +236,20 @@ $stile-size-unit: 0.9rem !default;
 		$table-color-enlarge-button-opened: rgba($table-color-rule-horizontal, 0.25);
 	}
 
-	thead tr:first-of-type td,
-	thead tr:first-of-type th {
-		border-top-color: $table-color-rule-horizontal;
+	thead, tbody:first-child {
+		tr:first-of-type {
+			td, th {
+				border-top-color: $table-color-rule-horizontal-edge;
+			}
+		}
+	}
+
+	tbody, tfoot {
+		tr:last-of-type {
+			td, th {
+				border-bottom-color: $table-color-rule-horizontal-edge;
+			}
+		}
 	}
 
 	th, td {
