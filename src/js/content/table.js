@@ -198,9 +198,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	function windowScroll(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
-		const tabTop = elementTopOnWindow(tab), tabBottom = tabTop + tab.clientHeight;
+		const tabTop = elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
 		const offset = getTableHeaderOffset();
-		const isInWin = tab.clientHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
+		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
 
 		if (head) {
 			if (isInWin) {
@@ -351,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (td === undefined || td === null || typeof td === 'number' || newW === false) continue;
 				td.style.whiteSpace = 'normal';
 				td.style.minWidth = newW + 'px';
+				td.style.width = '';
 			}
 		}
 	}
@@ -435,42 +436,52 @@ document.addEventListener('DOMContentLoaded', function () {
 		dummy.style.position = 'fixed';
 		dummy.style.visibility = 'hidden';
 		table.appendChild(dummy);
+		const wrapped = [];
 
 		for (let y = 0; y < tab.length; y += 1) {
 			const tabRow = tab[y];
 
 			for (let x = 0; x < tabRow.length; x += 1) {
+				wrapped[x] = false;
 				const td = tabRow[x];
 				if (td === undefined || td === null || typeof td === 'number') continue;
 				if (x < tabRow.length - 1 && typeof tabRow[x + 1] === 'number') continue;
 
+				td.innerHTML = td.innerHTML.trim();  // trim!!
 				dummy.innerHTML = td.innerHTML + 'm';  // for adding error factor
 				const aw = dummy.clientWidth - padH;
 				const l = Math.round((dummy.clientHeight - padV) / lineHeight);
 
 				let minW = 0;
-				for (let i = 2;; i += 1) {
+				for (let i = 1;; i += 1) {
 					const tempW = aw / i + padH;
 					const tempH = l * (i * lineHeight) + padV;
 					if (tempW < CELL_MIN_WIDTH || tempW / tempH < CELL_MIN_RATIO) break;
+					if (1 < i) wrapped[x] = true;
 					minW = tempW;
 				}
 				if (minW) newWs[x] = Math.max(newWs[x], minW);
 			}
 		}
 		table.removeChild(dummy);
-		widenTableWidth(newWs, origTableWidth);
+		widenTableWidth(newWs, wrapped, origTableWidth);
 	}
 
-	function widenTableWidth(newWs, widthOrig) {
-		let widthNew = 0;
+	function widenTableWidth(newWs, wrapped, widthOrig) {
+		let widthNew = 0, widthFix = 0;
 		for (let i = 0; i < newWs.length; i += 1) {
 			if (newWs[i] === false) return;
-			widthNew += newWs[i];
+			if (wrapped[i]) {
+				widthNew += newWs[i];
+			} else {
+				widthFix += newWs[i];
+			}
 		}
-		if (widthNew < widthOrig) {
+		if (widthNew + widthFix < widthOrig) {
 			for (let i = 0; i < newWs.length; i += 1) {
-				newWs[i] = newWs[i] / widthNew * widthOrig;
+				if (wrapped[i]) {
+					newWs[i] = newWs[i] / widthNew * (widthOrig - widthFix);
+				}
 			}
 		}
 	}
@@ -545,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function getWpAdminBarHeight() {
 		const wpab = document.getElementById('wpadminbar');
-		return (wpab) ? wpab.clientHeight : 0;
+		return (wpab) ? wpab.offsetHeight : 0;
 	}
 
 	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
