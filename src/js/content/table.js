@@ -3,7 +3,7 @@
  * Content Style - Table (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-03-19
  *
  */
 
@@ -543,25 +543,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Utilities ---------------------------------------------------------------
 
-	function makeOffsetFunction(fixedElementClass, fixedHeightClass) {
-		let elmFixed = document.getElementsByClassName(fixedElementClass);
-		if (elmFixed && elmFixed.length > 0) {
-			elmFixed = elmFixed[0];
-			let elmHeight = document.getElementsByClassName(fixedHeightClass);
-			if (elmHeight) elmHeight = elmHeight[0];
-			else elmHeight = elmFixed;
-
-			return function () {
-				const pos = getComputedStyle(elmFixed).position;
-				return pos === 'fixed' ? elmHeight.clientHeight : 0;
-			};
-		}
-		return function () { return 0; }
-	}
-
 	function getWpAdminBarHeight() {
 		const wpab = document.getElementById('wpadminbar');
 		return (wpab) ? wpab.clientHeight : 0;
+	}
+
+	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
+		let elmFixed = document.getElementsByClassName(fixedElementClass);
+		if (elmFixed && elmFixed.length > 0) {
+			elmFixed = elmFixed[0];
+			let elmTops = document.getElementsByClassName(fixedTopClass);
+			if (elmTops) {
+				return function () {
+					const pos = getComputedStyle(elmFixed).position;
+					if (pos === 'fixed') {
+						let height = 0;
+						for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
+						return height;
+					}
+					return 0;
+				};
+			}
+			return function () {
+				const pos = getComputedStyle(elmFixed).position;
+				return pos === 'fixed' ? elmFixed.offsetHeight : 0;
+			};
+		}
+		return function () { return 0; }
 	}
 
 	function elementLeftOnWindow(elm) {

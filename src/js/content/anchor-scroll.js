@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-20
+ * @version 2018-03-19
  *
  */
 
@@ -175,10 +175,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		let elmFixed = document.getElementsByClassName(fixedElementClass);
 		if (elmFixed && elmFixed.length > 0) {
 			elmFixed = elmFixed[0];
-			let elmTop = document.getElementsByClassName(fixedTopClass);
-			if (elmTop) {
-				elmTop = elmTop[0];
-				return function () { return elmFixed.clientHeight - elmTop.clientHeight; };
+			let elmTops = document.getElementsByClassName(fixedTopClass);
+			if (elmTops) {
+				return function () {
+					let height = 0;
+					for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
+					return elmFixed.offsetHeight - height;
+				};
 			}
 			return function () { return elmFixed.clientHeight; };
 		}
