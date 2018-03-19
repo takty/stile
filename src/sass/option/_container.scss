@@ -3,7 +3,7 @@
  * Classes for Layout Container
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-05
+ * @version 2018-03-19
  *
  */
 
@@ -18,7 +18,7 @@
 	.column-4 {
 		> * {  // One of Columns
 			text-align: center;
-			> * { text-align: left; }
+			> *:not([class]) { text-align: left; }
 
 			> * + * { margin-top: vr(2); }
 			> *:first-child.alignleft + *:not([class]) { margin-top: 0; }
