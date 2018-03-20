@@ -3,7 +3,7 @@
  * Content Style - Table (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-19
+ * @version 2018-03-20
  *
  */
 
@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function getWpAdminBarHeight() {
 		const wpab = document.getElementById('wpadminbar');
-		return (wpab) ? wpab.offsetHeight : 0;
+		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
 	}
 
 	function makeOffsetFunction(fixedElementClass, fixedTopClass) {

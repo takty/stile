@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-19
+ * @version 2018-03-20
  *
  */
 
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function getWpAdminBarHeight() {
 		if (document.body.classList.contains('chrome')) return 0;
 		const wpab = document.getElementById('wpadminbar');
-		return (wpab) ? wpab.clientHeight : 0;
+		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
 	}
 
 	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
