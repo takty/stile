@@ -14,15 +14,17 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CLS_TAB_LIST      = 'tab-page-tab-list';
 	const CLS_STATE_CURRENT = 'current';
 
-	const tabPages = document.querySelectorAll(SELECTOR_TARGET);
-	for (var i = 0; i < tabPages.length; i += 1) createTab(tabPages[i]);
-
+	const tabPages = [];
+	const tps = document.querySelectorAll(SELECTOR_TARGET);
+	for (var i = 0; i < tps.length; i += 1) {
+		if (createTab(tps[i])) tabPages.push(tps[i]);
+	}
 	window.addEventListener('resize', function () {onResize(tabPages);});
 	onResize(tabPages);
 
 	function createTab(tabPage) {
 		const fh = getFirstHeading(tabPage);
-		if (!fh) return;
+		if (!fh) return false;
 		const tabH = fh.tagName;
 
 		const pages = [], tabs = [];
@@ -61,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < pages.length; i += 1) tabPage.appendChild(pages[i]);
 
 		onTabClick(0, tabs, pages);
+		return true;
 	}
 
 	function getFirstHeading(page) {
