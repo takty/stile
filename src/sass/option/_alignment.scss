@@ -3,7 +3,7 @@
  * Classes for Alignments
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-19
+ * @version 2018-03-21
  *
  */
 
@@ -111,5 +111,6 @@ $stile-size-unit: 0.9rem !default;
 	@include define-figure-margin(h3, 4);
 	@include define-figure-margin(h4, 3);
 	@include define-figure-margin(h5, 2);
+	@include define-figure-margin(h6, 1);
 
 }

@@ -14,7 +14,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-19
+ * @version 2018-03-21
  *
  */
 
@@ -76,11 +76,13 @@ $stile-size-unit: 0.9rem !default;
 			}
 		}
 	}
-	@include define-heading-margin(h1, 6, 6);
-	@include define-heading-margin(h2, 6, 5);
-	@include define-heading-margin(h3, 6, 4);
-	@include define-heading-margin(h4, 5, 3);
+	// The order below has meaning!
+	@include define-heading-margin(h6, 3, 1);
 	@include define-heading-margin(h5, 4, 2);
+	@include define-heading-margin(h4, 5, 3);
+	@include define-heading-margin(h3, 6, 4);
+	@include define-heading-margin(h2, 6, 5);
+	@include define-heading-margin(h1, 6, 6);
 
 	p + p { margin-top: vr(1); }
 	ul:not([class]) > li + li { margin-top: vr(1); }
