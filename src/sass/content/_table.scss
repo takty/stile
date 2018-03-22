@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-19
+ * @version 2018-03-22
  *
  */
 
@@ -63,19 +63,20 @@ $stile-size-unit: 0.9rem !default;
 	// Design ------------------------------------------------------------------
 
 	thead, tbody:first-child {
-		tr:first-of-type {
+		border-top: $table-size-rule-horizontal-edge solid;
+		/* tr:first-of-type {
 			td, th {
-				border-top: $table-size-rule-horizontal-edge solid;
 			}
-		}
+		} */
 	}
 
 	tbody, tfoot {
-		tr:last-of-type {
+		border-bottom: $table-size-rule-horizontal-edge solid;
+		/* tr:last-of-type {
 			td, th {
 				border-bottom: $table-size-rule-horizontal-edge solid;
 			}
-		}
+		} */
 	}
 
 	th, td {
@@ -237,19 +238,19 @@ $stile-size-unit: 0.9rem !default;
 	}
 
 	thead, tbody:first-child {
-		tr:first-of-type {
+		border-top-color: $table-color-rule-horizontal-edge;
+		/* tr:first-of-type {
 			td, th {
-				border-top-color: $table-color-rule-horizontal-edge;
 			}
-		}
+		} */
 	}
 
 	tbody, tfoot {
-		tr:last-of-type {
+		border-bottom-color: $table-color-rule-horizontal-edge;
+		/* tr:last-of-type {
 			td, th {
-				border-bottom-color: $table-color-rule-horizontal-edge;
 			}
-		}
+		} */
 	}
 
 	th, td {
