@@ -3,7 +3,7 @@
  * Mixins for Layout
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2017-11-30
+ * @version 2018-03-26
  *
  */
 
@@ -213,16 +213,16 @@
 			@if length($gap) == 2 {
 				margin-right: nth($gap, 1);
 				flex-basis: calc(#{100% / $n} - #{nth($gap, 1)});
-				@include for-ie { flex-basis: calc(#{round(100% / $n)} - #{nth($gap, 1)}); }
+				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{nth($gap, 1)}); }
 			} @else {
 				margin-right: $gap;
 				flex-basis: calc(#{100% / $n} - #{$gap});
-				@include for-ie { flex-basis: calc(#{round(100% / $n)} - #{$gap}); }
+				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{$gap}); }
 				width: calc(#{100% / $n} - #{$gap});  // for Safari
 			}
 		} @else {
 			flex-basis: calc(#{100% / $n});
-			@include for-ie { flex-basis: calc(#{round(100% / $n)}); }
+			@include for-ie { flex-basis: calc(#{floor(100% / $n)}); }
 			width: calc(#{100% / $n});  // for Safari
 		}
 	}
