@@ -3,14 +3,15 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-23
+ * @version 2018-03-29
  *
  */
 
 
-$block-color-line     : #369 !default;
-$block-color-shade    : rgba(lighten($block-color-line, 55%), 0.85) !default;
-$block-size-line-width: 2px !default;
+$block-color-line          : #369 !default;
+$block-color-shade         : rgba(lighten($block-color-line, 55%), 0.85) !default;
+$block-size-line-width     : 2px !default;
+$block-size-font-figcaption: 0.85rem !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) { @return $val * $stile-size-unit; }
@@ -110,6 +111,7 @@ $stile-size-unit: 0.9rem !default;
 	figcaption {
 		display: inline-block;
 		text-align: left;  // for left align of long caption
+		font-size: $block-size-font-figcaption;
 	}
 
 }
