@@ -3,7 +3,7 @@
  * Content Style - Image (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-16
+ * @version 2018-04-03
  *
  */
 
@@ -33,10 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	function initializeLazyImageLoading() {
 		const OFFSET = 100;
 		const imgs = document.querySelectorAll(TARGET_SELECTOR + ' img');
+		const imgsInTbl = document.querySelectorAll(TARGET_SELECTOR + ' table img');
 
 		const winY = window.scrollY | window.pageYOffset;
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
+			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
 			if (elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
 		}
 		window.addEventListener('scroll', onScroll);
@@ -47,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				if (elementTopOnWindow(img) < winY + window.innerHeight + OFFSET) show(img);
+				const imgY = elementTopOnWindow(img);
+				if (imgY < winY + window.innerHeight + OFFSET) show(img);
 			}
 		}
 
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		img.src = img.dataset.src;
 		img.dataset.src = '';
 		img.style.minHeight = '';
-		setTimeout((function (img) {return function () {img.style.opacity = '';};})(img), 200);
+		setTimeout(function () {img.style.opacity = '';}, 200);
 	}
 
 	function elementTopOnWindow(elm) {
