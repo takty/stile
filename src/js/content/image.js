@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
 
-	initializeLazyImageLoading();
 	modifyFigureStyle();
+	initializeLazyImageLoading();
 
 
 	// -------------------------------------------------------------------------
@@ -59,8 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				show(img);
+				show(img, true);
 			}
+			setTimeout(onPrint, 200);
 		}
 	}
 
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (h) img.style.minHeight = h + 'px';
 	}
 
-	function show(img) {
+	function show(img, immediately = false) {
 		if (img.dataset.srcset) {
 			img.srcset = img.dataset.srcset;
 			img.dataset.srcset = '';
@@ -84,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		img.src = img.dataset.src;
 		img.dataset.src = '';
 		img.style.minHeight = '';
-		setTimeout(function () {img.style.opacity = '';}, 200);
+		if (immediately) {
+			img.style.opacity = '';
+		} else {
+			setTimeout(function () {img.style.opacity = '';}, 200);
+		}
 	}
 
 	function elementTopOnWindow(elm) {
@@ -99,9 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	function doBeforePrint(func, forceMediaCheck = true) {
 		window.addEventListener('beforeprint', func, false);
 		if (forceMediaCheck || !('onbeforeprint' in window)) {
-			let printMedia;
-			if (window.matchMedia && (printMedia = matchMedia('print')) && printMedia.addListener) {
-				printMedia.addListener(function () {if (printMedia.matches) func();});
+			if (window.matchMedia) {
+				let mediaQueryList = window.matchMedia('print');
+				mediaQueryList.addListener(function (mql) {
+					if (mql.matches) func();
+				});
 			}
 		}
 	}
