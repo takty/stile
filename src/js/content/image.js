@@ -3,7 +3,7 @@
  * Content Style - Image (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-03
+ * @version 2018-04-05
  *
  */
 
@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	const TARGET_SELECTOR = '.stile';
 
 	modifyFigureStyle();
-	initializeLazyImageLoading();
+	if (!document.body.classList.contains('firefox')) {
+		initializeLazyImageLoading();
+	}
 
 
 	// -------------------------------------------------------------------------
@@ -61,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (!img.dataset.src) continue;
 				show(img, true);
 			}
-			setTimeout(onPrint, 200);
 		}
 	}
 
