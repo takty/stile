@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-29
+ * @version 2018-04-05
  *
  */
 
@@ -112,6 +112,7 @@ $stile-size-unit: 0.9rem !default;
 		display: inline-block;
 		text-align: left;  // for left align of long caption
 		font-size: $block-size-font-figcaption;
+		line-height: 1.5;
 	}
 
 }
