@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-05
+ * @version 2018-04-26
  *
  */
 
@@ -20,7 +20,7 @@ $stile-size-unit: 0.9rem !default;
 @mixin stile-block {
 
 	@include stile-block-main;
-	@include stile-block-color($block-color-line, $block-color-shade)
+	@include stile-block-color($block-color-line, $block-color-shade);
 	@include stile-block-figure;
 
 }

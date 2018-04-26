@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-22
+ * @version 2018-04-26
  *
  */
 
@@ -165,8 +165,8 @@ $stile-size-unit: 0.9rem !default;
 		height: vr(1);
 	}
 
-	table::-webkit-scrollbar {
-	}
+	// table::-webkit-scrollbar {
+	// }
 
 	.fixed-table-scroll-bar::-webkit-scrollbar {
 		border-radius: vr(1) / 2;
@@ -177,13 +177,13 @@ $stile-size-unit: 0.9rem !default;
 		border-radius: vr(1) / 2;
 	}
 
-	table, .fixed-table-scroll-bar {  // for IE11
-	}
+	// table, .fixed-table-scroll-bar {  // for IE11
+	// }
 
 	// Enlarger ----------------------------------------------------------------
 
-	table.enlarged-table > * {
-	}
+	// table.enlarged-table > * {
+	// }
 
 	table .enlarger-button,
 	.fixed-table-header-container .enlarger-button {
@@ -195,9 +195,9 @@ $stile-size-unit: 0.9rem !default;
 		top: 0;
 	}
 
-	table.enlarged-table .enlarger-button,
-	.fixed-table-header-container.enlarged-table .enlarger-button {
-	}
+	// table.enlarged-table .enlarger-button,
+	// .fixed-table-header-container.enlarged-table .enlarger-button {
+	// }
 
 }
 
