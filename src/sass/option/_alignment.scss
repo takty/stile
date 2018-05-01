@@ -103,9 +103,6 @@ $stile-size-unit: 0.9rem !default;
 		}
 	}
 
-	@mixin define-figure-margin($tag, $top) {
-		#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
-	}
 	@include define-figure-margin(h1, 6);
 	@include define-figure-margin(h2, 5);
 	@include define-figure-margin(h3, 4);
@@ -113,4 +110,8 @@ $stile-size-unit: 0.9rem !default;
 	@include define-figure-margin(h5, 2);
 	@include define-figure-margin(h6, 1);
 
+}
+
+@mixin define-figure-margin($tag, $top) {
+	#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
 }
