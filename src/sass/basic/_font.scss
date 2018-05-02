@@ -276,19 +276,19 @@ $font-monospace:
 	@if $level == 1 {
 		font-size: 1rem;
 		@if $set-line-height { line-height: vr(2); }
-	} @elseif $level == 2 {
+	} @else if $level == 2 {
 		font-size: 1.125rem;
 		@if $set-line-height { line-height: vr(2); }
-	} @elseif $level == 3 {
+	} @else if $level == 3 {
 		font-size: 1.25rem;
 		@if $set-line-height { line-height: vr(2); }
-	} @elseif $level == 4 {
+	} @else if $level == 4 {
 		font-size: 1.5rem;
 		@if $set-line-height { line-height: vr(3); }
-	} @elseif $level == 5 {
+	} @else if $level == 5 {
 		font-size: 2rem;
 		@if $set-line-height { line-height: vr(3); }
-	} @elseif $level == 6 {
+	} @else if $level == 6 {
 		font-size: 2.5rem;
 		@if $set-line-height { line-height: vr(4); }
 	}
