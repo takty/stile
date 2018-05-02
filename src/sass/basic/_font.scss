@@ -236,7 +236,7 @@ $font-monospace:
 
 @mixin font-visible-chrome {
 	@include for-chrome {
-		-webkit-text-stroke-width: 0.25px;
+		-webkit-text-stroke-width: 0.15px;
 	}
 }
 
