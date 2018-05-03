@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-26
+ * @version 2018-05-03
  *
  */
 
@@ -67,12 +67,6 @@ $stile-size-unit: 0.9rem !default;
 		line-height: vr(2);
 	}
 
-	code, var, samp, kbd {
-		@include font-family-monospace;
-		padding: 0 vr(1);
-		white-space: pre-wrap;
-	}
-
 	pre > code {
 		padding: 0;
 		background-color: transparent;
@@ -88,8 +82,6 @@ $stile-size-unit: 0.9rem !default;
 	blockquote::before { background-color: $color-line; }
 
 	pre { background-color: $color-shade; }
-
-	code, var, samp, kbd { background-color: $color-shade; }
 
 }
 

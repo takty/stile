@@ -3,15 +3,16 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-28
+ * @version 2018-05-03
  *
  */
 
 
 $inline-color-broken-image: $inline-color-link-text !default;
-$inline-color-underline:    #ed0                    !default;
-$inline-color-del:          #f44                    !default;
-$inline-color-abbr:         $inline-color-link-text !default;
+$inline-color-underline   : #ed0                    !default;
+$inline-color-del         : #f44                    !default;
+$inline-color-abbr        : $inline-color-link-text !default;
+$inline-color-shade       : rgba(lighten($block-color-line, 55%), 0.85) !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
@@ -88,6 +89,14 @@ $stile-size-unit: 0.9rem !default;
 
 	span[data-text-decoration-line~='underline'] {
 		background: linear-gradient(transparent 80%, $inline-color-underline 80%);
+	}
+
+	code, var, samp, kbd {
+		@include font-family-monospace;
+		padding: 0 vr(1);
+		white-space: pre-wrap;
+		
+		background-color: $inline-color-shade;
 	}
 
 }
