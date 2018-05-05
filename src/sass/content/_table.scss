@@ -8,11 +8,11 @@
  */
 
 
-$table-color-rule-horizontal      : #369 !default;
+$table-color-rule-horizontal      : rgba(#777, 0.9) !default;
 $table-color-rule-horizontal-edge : $table-color-rule-horizontal !default;
 $table-color-rule-vertical        : rgba($table-color-rule-horizontal, 0.1) !default;
-$table-color-header-text          : #666 !default;
-$table-color-header-background    : rgba(lighten($table-color-rule-horizontal, 55%), 0.85) !default; // Must have transparency for scroll shadow.
+$table-color-header-text          : rgba(#000, 0.95) !default;
+$table-color-header-background    : rgba($table-color-rule-horizontal, 0.1) !default; // Must have transparency for scroll shadow.
 $table-color-scrollbar-thumb      : $table-color-rule-horizontal !default;
 $table-color-scrollbar-background : $table-color-header-background !default;
 $table-color-enlarge-button       : rgba($table-color-rule-horizontal, 0.5) !default;
