@@ -3,7 +3,7 @@
  * Queries for Responsive and Browsers
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-26
+ * @version 2018-05-05
  *
  * https://medium.freecodecamp.org/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
  *
@@ -85,7 +85,7 @@
 }
 
 @mixin for-firefox {
-	@-moz-document url-prefix() {
+	@media (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {
 		@content;
 	}
 }
