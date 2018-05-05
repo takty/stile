@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-16
+ * @version 2018-05-05
  *
  */
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (isExternal(a.getAttribute('href'))) {
-				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
+				a.dataset.stile = a.dataset.stile ? (a.dataset.stile + ' external-link') : 'external-link';
 			}
 		}
 	}
@@ -118,10 +118,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function addDataStyle(elm, style) {
-		if (elm.dataset.style) {
-			elm.dataset.style = elm.dataset.style + ' ' + style;
+		if (elm.dataset.stile) {
+			elm.dataset.stile = elm.dataset.stile + ' ' + style;
 		} else {
-			elm.dataset.style = style;
+			elm.dataset.stile = style;
 		}
 	}
 
