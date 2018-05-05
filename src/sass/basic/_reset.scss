@@ -3,7 +3,7 @@
  * Reset
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-06
+ * @version 2018-05-05
  *
  * Based on:
  *  modern-normalize v0.4
@@ -107,8 +107,8 @@ ul {
 }
 
 img, embed, object, audio, video {
-	height: auto;
 	max-width: 100%;
+	height: auto;
 }
 
 iframe {
