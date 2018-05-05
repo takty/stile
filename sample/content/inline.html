@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>Inline Style - Stile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="../style.min.css">
+<script src="../../dist/js/stile-full.min.js"></script>
+</head>
+<body>
+<div class="stile">
+
+	<h1>Inline Style</h1>
+	<nav>
+		<a href="../index.html">Go Back</a>
+	</nav>
+
+	<h2>A</h2>
+
+	<p>Lorem ipsum dolor sit amet,
+		<a href="inline.html">simple link</a> consectetur adipiscing elit, sed do
+		<a href="#id">anchor link</a> eiusmod tempor incididunt ut labore
+		<a href="https://google.com">external link</a> et dolore magna aliqua. Ut
+		<a href="https://google.com"></a> enim ad minim veniam, quis
+		nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+	<pre><code>&lt;p&gt;...
+	&lt;a href="inline.html"&gt;simple link&lt;/a&gt;...
+	&lt;a href="#id"&gt;anchor link&lt;/a&gt;...
+	&lt;a href="https://google.com"&gt;external link&lt;/a&gt;...
+	&lt;a href="https://google.com"&gt;&lt;/a&gt;...
+&lt;/p&gt;</code></pre>
+
+	<h2 id="id">Img</h2>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		<img src="http://via.placeholder.com/75x50" alt="" width="75" height="50">
+		Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		<img src="http://example.com/broken" alt="" width="75" height="50">
+		Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+	<pre><code>&lt;p&gt;
+	...&lt;img src="exists" alt="" width="75" height="50"&gt;...
+&lt;/p&gt;
+&lt;p&gt;
+	...&lt;img src="does not exist" alt="" width="75" height="50"&gt;...
+&lt;/p&gt;</code></pre>
+
+	<h2>Strong, B, Em, U, Underline (Span), Small</h2>
+
+	<p>Lorem ipsum dolor sit amet, 
+		<strong>The Strong Importance element</strong> consectetur adipiscing elit, sed do
+		<b>The Bring Attention To element</b> eiusmod tempor incididunt ut labore
+		<em>The Emphasis element</em> et dolore magna aliqua. Ut
+		<u>The Unarticulated Annotation (Underline) element</u> enim ad minim veniam, quis
+		<span data-text-decoration-line="underline">Underline (Span)</span> nostrud exercitation ullamco laboris nisi
+		<small>The small element represents side comments</small> ut aliquip ex ea commodo consequat.</p>
+
+	<pre><code>&lt;p&gt;...&lt;strong&gt;The Strong Importance element&lt;/strong&gt;...
+&lt;b&gt;The Bring Attention To element&lt;/b&gt;...
+&lt;em&gt;The Emphasis element&lt;/em&gt;...
+&lt;u&gt;The Unarticulated Annotation (Underline) element&lt;/u&gt;...
+&lt;span data-text-decoration-line=&quot;underline&quot;&gt;Underline (Span)&lt;/span&gt;...
+&lt;small&gt;The small element represents side comments&lt;/small&gt;...&lt;/p&gt;</code></pre>
+
+	<h2>Sub, Sup, Abbr, Del</h2>
+
+	<p>Lorem ipsum dolor sit amet, 
+		<sub>The sub element represents a subscript</sub> consectetur adipiscing elit, sed do
+		<sup>The sup element represents a superscript</sup> eiusmod tempor incididunt ut labore
+		<abbr title="Abbrebiation">The Abbreviation element</abbr> et dolore magna aliqua. Ut
+		<del>The Deleted Text element</del> enim ad minim veniam, quis
+		nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+	<pre><code>&lt;p&gt;...&lt;sub&gt;The sub element represents a subscript&lt;/sub&gt;...
+&lt;sup&gt;The sup element represents a superscript&lt;/sup&gt;...
+&lt;abbr title=&quot;Abbrebiation&quot;&gt;The Abbreviation element&lt;/abbr&gt;...
+&lt;del&gt;The Deleted Text element&lt;/del&gt;...&lt;/p&gt;</code></pre>
+
+	<h2>Code, Var, Samp, Kbd</h2>
+
+	<p>Lorem ipsum dolor sit amet,
+		<code>The Inline Code element</code> consectetur adipiscing elit, sed do
+		<var>The Variable element</var> eiusmod tempor incididunt ut labore
+		<samp>The Sample Output element</samp> et dolore magna aliqua. Ut
+		<kbd>The Keyboard Input element</kbd> enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat.</p>
+
+	<pre><code>&lt;p&gt;...&lt;code&gt;The Inline Code element&lt;/code&gt;...
+&lt;var&gt;The Variable element&lt;/var&gt;...
+&lt;samp&gt;The Sample Output element&lt;/samp&gt;...
+&lt;kbd&gt;The Keyboard Input element&lt;/kbd&gt;...&lt;/p&gt;</code></pre>
+
+	<p>Equation <var>E</var>=<var>m</var><var>c</var><sup>2</sup>.</p>
+
+	<pre><code>&lt;p&gt;Equation &lt;var&gt;E&lt;/var&gt;=&lt;var&gt;m&lt;/var&gt;&lt;var&gt;c&lt;/var&gt;&lt;sup&gt;2&lt;/sup&gt;.&lt;/p&gt;</code></pre>
+
+</div>
+</body>
+</html>
