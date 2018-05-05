@@ -6,9 +6,10 @@ var uglify  = require('gulp-uglify');
 var rename  = require('gulp-rename');
 var babel   = require('gulp-babel');
 
-var sass       = require('gulp-sass');
-var cleanCSS   = require('gulp-clean-css');
-var sourcemaps = require('gulp-sourcemaps');
+var sass         = require('gulp-sass');
+var cleanCSS     = require('gulp-clean-css');
+var sourcemaps   = require('gulp-sourcemaps');
+var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('js', function () {
 	gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
@@ -58,6 +59,7 @@ gulp.task('sample', function () {
 		.pipe(sass())
 		.pipe(cleanCSS())
 		.pipe(rename({extname: '.min.css'}))
+		.pipe(autoprefixer(['ie >= 11']))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('sample'));
 });
