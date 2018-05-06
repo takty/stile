@@ -1,80 +1,38 @@
 /**
  *
- * Content Style - List (SCSS)
+ * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-06
  *
  */
 
 
-$list-color-mark      : rgba(#777, 0.9) !default;
-$list-rate-mark       : 0.45 !default;
-$list-rate-square-mark: 0.44 !default;
+$stile-list-color-mark      : rgba(#777, 0.9) !default;
+$stile-list-rate-mark       : 0.45 !default;
+$stile-list-rate-square-mark: 0.44 !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-list {
-
-	@include stile-ul;
-	@include stile-ol;
-	@include stile-dl;
-
-}
-
-@mixin stile-list-main {
-
-	@include stile-ul-main;
-	@include stile-ol-main;
-	@include stile-dl-main;
-
-}
-
-@mixin stile-list-color($list-color-mark) {
-
-	@include stile-ul-color($list-color-mark);
-	@include stile-ol-color($list-color-mark);
-	@include stile-dl-color($list-color-mark);
-
+	@include stile-list-ul;
+	@include stile-list-ol;
+	@include stile-list-dl;
 }
 
 
 // -----------------------------------------------------------------------------
 
-@mixin stile-ul {
 
-	@include stile-ul-main;
-	@include stile-ul-color($list-color-mark);
-
-}
-
-@mixin stile-ol {
-
-	@include stile-ol-main;
-	@include stile-ol-color($list-color-mark);
-
-}
-
-@mixin stile-dl {
-
-	@include stile-dl-main;
-	@include stile-dl-color($list-color-mark);
-
-}
-
-
-// -----------------------------------------------------------------------------
-
-@mixin stile-ul-main {
+@mixin stile-list-ul {
 
 	ul:not([class]),
 	ul.stile {
 
-		&:not([data-style~='no-indent']) {
-			padding-left: vr(4);
-		}
+		&:not([data-stile ~= 'no-indent']) { padding-left: vr(4); }
+		list-style: none;
 
 		> li {
 			position: relative;
@@ -94,45 +52,27 @@ $stile-size-unit: 0.9rem !default;
 			height: 1em;
 		}
 
-		&:not([data-list-style-type]) > li::before,
-		&[data-list-style-type='disc'] > li::before {
-			transform: translateY(-0.5em) scale(#{$list-rate-mark});
+		&:not([style]):not([data-stile *= 'list-']) > li::before,
+		&[data-stile ~= 'list-disc'] > li::before {
+			transform: translateY(-0.5em) scale(#{$stile-list-rate-mark});
 			border-radius: 50%;
+
+			background-color: $stile-list-color-mark;
 		}
 
-		&[data-list-style-type='circle'] > li::before {
-			transform: translateY(-0.5em) scale(#{$list-rate-mark});
+		&[data-stile ~= 'list-circle'] > li::before {
+			transform: translateY(-0.5em) scale(#{$stile-list-rate-mark});
 			border: 0.2rem solid;
 			border-radius: 50%;
+
+			border-color: $stile-list-color-mark;
 		}
 
-		&[data-list-style-type='square'] > li::before {
-			transform: translateY(-0.5em) scale(#{$list-rate-square-mark});
+		&[data-stile ~= 'list-square'] > li::before {
+			transform: translateY(-0.5em) scale(#{$stile-list-rate-square-mark});
 			border-radius: 20%;
-		}
-	}
 
-	ul[style]:not([class]) {  // for suppressing that list marks are shown before JS executed.
-		list-style: none !important;
-	}
-
-}
-
-@mixin stile-ul-color($list-color-mark) {
-
-	ul:not([class]),
-	ul.stile {
-		&:not([data-list-style-type]) > li::before,
-		&[data-list-style-type='disc'] > li::before {
-			background-color: $list-color-mark;
-		}
-
-		&[data-list-style-type='circle'] > li::before {
-			border-color: $list-color-mark;
-		}
-
-		&[data-list-style-type='square'] > li::before {
-			background-color: $list-color-mark;
+			background-color: $stile-list-color-mark;
 		}
 	}
 
@@ -141,14 +81,13 @@ $stile-size-unit: 0.9rem !default;
 
 // -----------------------------------------------------------------------------
 
-@mixin stile-ol-main {
+
+@mixin stile-list-ol {
 
 	ol:not([class]),
 	ol.stile {
 
-		&:not([data-style~='no-indent']) {
-			padding-left: vr(1);
-		}
+		&:not([data-stile ~= 'no-indent']) { padding-left: vr(1); }
 
 		> li {
 			counter-increment: li;
@@ -165,66 +104,53 @@ $stile-size-unit: 0.9rem !default;
 			text-align: right;
 
 			@include font-bold;
+			
+			color: $stile-list-color-mark;
 		}
 
-		&[data-list-style-type='lower-alpha'] > li::before {
+		&[data-stile ~= 'list-lower-alpha'] > li::before {
 			content: counter(li, lower-alpha) '.';
 		}
 
-		&[data-list-style-type='lower-greek'] > li::before {
+		&[data-stile ~= 'list-lower-greek'] > li::before {
 			content: counter(li, lower-greek) '.';
 		}
 
-		&[data-list-style-type='lower-roman'] > li::before {
+		&[data-stile ~= 'list-lower-roman'] > li::before {
 			content: counter(li, lower-roman) '.';
 		}
 
-		&[data-list-style-type='upper-alpha'] > li::before {
+		&[data-stile ~= 'list-upper-alpha'] > li::before {
 			content: counter(li, upper-alpha) '.';
 		}
 
-		&[data-list-style-type='upper-roman'] > li::before {
+		&[data-stile ~= 'list-upper-roman'] > li::before {
 			content: counter(li, upper-roman) '.';
 		}
 	}
 
 }
 
-@mixin stile-ol-color($list-color-mark) {
-
-	ol:not([class]),
-	ol.stile {
-		> li::before { color: $list-color-mark; }
-	}
-}
-
-
 
 // -----------------------------------------------------------------------------
 
-@mixin stile-dl-main {
+
+@mixin stile-list-dl {
 
 	dl:not([class]),
 	dl.stile {
 
-		&:not([data-style~='no-indent']) {
-			padding-left: vr(2);
-		}
+		&:not([data-stile ~= 'no-indent']) { padding-left: vr(2); }
 
 		line-height: vr(2);
 
-		> dt { @include font-bold; }
+		> dt {
+			@include font-bold;
+		
+			color: $stile-list-color-mark; 
+		}
 
 		> dd { padding-left: vr(2); }
-	}
-
-}
-
-@mixin stile-dl-color($list-color-mark) {
-
-	dl:not([class]),
-	dl.stile {
-		> dt { color: $list-color-mark; }
 	}
 
 }
