@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-20
+ * @version 2018-05-06
  *
  */
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const SELECTOR_TARGET = '.stile *[id]:not([class])';
 
 	let ADDITIONAL_OFFSET = 16;
-	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
+	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = window.STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
 
 
 	// Anchor Offset -----------------------------------------------------------
@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
 			const pat = document.getElementById(at.dataset.id);
-			const prevTop = parseFloat(pat.style.top);
 			const newTop = -off;
 			pat.style.top = newTop + 'px';
 		}
@@ -207,8 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const args = vs[1];
 			switch (fun) {
 			case 'translate':
-				const xy = args.split(',');
-				return parseFloat(xy[1] || '0');
+				return parseFloat(args.split(',')[1] || '0');
 			case 'translateY':
 				return parseFloat(args);
 			}
