@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				type = target.style.textDecoration;
 				if (type === 'underline') {
 					target.style.textDecoration = '';
-					addDataStyle(target, 'inline-' + type);
+					addDataStile(target, 'inline-' + type);
 				}
 			} else {
 				if (type === 'underline') {
 					target.style.textDecorationLine = '';
-					addDataStyle(target, 'inline-' + type);
+					addDataStile(target, 'inline-' + type);
 				}
 			}
 		}
@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (!isSimple(a)) continue;
-			addDataStyle(a, 'link-simple');
+			addDataStile(a, 'link-simple');
 			const url = a.getAttribute('href');
 			if (isUrlLink(a, url)) {
-				addDataStyle(a, 'link-url');
+				addDataStile(a, 'link-url');
 			}
 			if (isExternal(url)) {
-				addDataStyle(a, 'link-external');
+				addDataStile(a, 'link-external');
 			} else if (isAnchor(url)) {
-				addDataStyle(a, 'link-anchor');
+				addDataStile(a, 'link-anchor');
 			}
 		}
 	}
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const a = as[i];
 			const url = a.getAttribute('href');
 			if (isExternal(url)) {
-				addDataStyle(a, 'link-external');
+				addDataStile(a, 'link-external');
 			}
 		}
 	}
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		return a.innerHTML.trim() === url;
 	}
 
-	function addDataStyle(elm, style) {
+	function addDataStile(elm, style) {
 		if (elm.dataset.stile) {
 			elm.dataset.stile = elm.dataset.stile + ' ' + style;
 		} else {
