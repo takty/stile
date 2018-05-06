@@ -3,7 +3,7 @@
  * Content Style - Table (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-20
+ * @version 2018-05-06
  *
  */
 
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function initEvents(cont) {
 		const tab = cont.table;
 		let tableScrollChanged = false, barScrollChanged = false;
-		tab.addEventListener('scroll', function (e) {
+		tab.addEventListener('scroll', function () {
 			tableScroll(cont);
 			if (tableScrollChanged) {
 				tableScrollChanged = false;
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				barScrollChanged = true;
 			}
 		});
-		cont.barScrollListener = function (e) {
+		cont.barScrollListener = function () {
 			if (barScrollChanged) {
 				barScrollChanged = false;
 			} else {
