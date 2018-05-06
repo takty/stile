@@ -1,9 +1,9 @@
 /**
  *
- * Content Style - Image (JS)
+ * Image Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-05
+ * @version 2018-05-06
  *
  */
 

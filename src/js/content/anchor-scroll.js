@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = window.STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
 
 
-	// Anchor Offset -----------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Anchor Offset
 
 	const getAnchorOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	if (getAnchorOffset() !== false) {
@@ -78,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	// Smooth Scroll -----------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Smooth Scroll
 
 	const as = document.getElementsByTagName('a');
 
@@ -162,7 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	// Utilities ---------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Utilities
 
 	function getWpAdminBarHeight() {
 		if (document.body.classList.contains('chrome')) return 0;

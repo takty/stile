@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	function hasListStile(elm) {
 		const stile = elm.dataset['stile'];
 		if (!stile) return false;
-		for (let at of stile.split(' ')) {
+		const ats = stile.split(' ');
+		for (let i = 0; i < ats.length; i += 1) {
+			const at = ats[i];
 			if(at.indexOf('list-') === 0) return true;
 		}
 		return false;
