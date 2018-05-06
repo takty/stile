@@ -62,6 +62,9 @@ gulp.task('sample', function () {
 		.pipe(autoprefixer(['ie >= 11']))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('sample'));
+	gulp.src(['dist/js/stile-full.min.js'])
+		.pipe(plumber())
+		.pipe(gulp.dest('sample'));
 });
 
 gulp.task('dev-sample', function () {
