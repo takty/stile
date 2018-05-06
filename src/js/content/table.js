@@ -1,6 +1,6 @@
 /**
  *
- * Content Style - Table (JS)
+ * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
  * @version 2018-05-06
@@ -36,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		const conts = [];
 
 		for (let i = 0; i < tabs.length; i += 1) {
-			const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
+			const ss = (tabs[i].dataset['stile'] === undefined) ? [] : tabs[i].dataset['stile'].split(' ');
 			if (ss.indexOf(DS_NO_NEAT_WRAP) !== -1) continue;
 			addWrapStyle(tabs[i]);
 		}
 
 		setTimeout(function () {  // Delay for IE11
 			for (let i = 0; i < tabs.length; i += 1) {
-				const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
+				const ss = (tabs[i].dataset['stile'] === undefined) ? [] : tabs[i].dataset['stile'].split(' ');
 
 				const tab  = tabs[i];
 				const head = cloneTableHeader(tab);
@@ -111,14 +111,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 		const cont = document.createElement('div');
 		cont.classList.add('fixed-table-header-container');
-		cont.style.maxWidth = table.clientWidth + 'px';
+		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
 		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
 		ptab.classList.add('fixed-table-header-table');
-		ptab.style.width = thead.clientWidth + 'px';
+		ptab.style.width = thead.getBoundingClientRect().width + 'px';
 		cont.appendChild(ptab);
 
 		const clone = thead.cloneNode(true);
