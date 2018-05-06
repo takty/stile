@@ -1,9 +1,9 @@
 /**
  *
- * Inline Style
+ * Link Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-06
  *
  */
 
@@ -45,7 +45,7 @@ $stile-size-unit: 0.9rem !default;
 @mixin stile-link {
 
 	a:not([class]) {
-		&[data-stile ~= 'simple-link'],
+		&[data-stile ~= 'link-simple'],
 		&[href ^= 'http']:empty::before {
 			text-decoration: none;
 			color: $stile-link-color-text;
@@ -58,7 +58,7 @@ $stile-size-unit: 0.9rem !default;
 			border-radius: 0.25rem;
 		}
 
-		&[data-stile ~= 'simple-link'] {
+		&[data-stile ~= 'link-simple'] {
 			&:hover {
 				color: $stile-link-color-text;
 				text-decoration: underline;
@@ -68,14 +68,10 @@ $stile-size-unit: 0.9rem !default;
 		}
 
 		// Add anchor link icon
-		&[data-stile ~= 'anchor-link']::after {
-			@include stile-link-anchor;
-		}
+		&[data-stile ~= 'link-anchor']::after { @include stile-link-anchor; }
 
 		// Add external link icon
-		&[data-stile ~= 'external-link']::after {
-			@include stile-link-external;
-		}
+		&[data-stile ~= 'link-external']::after { @include stile-link-external; }
 
 		// Show url instead of empty text
 		&[href ^= 'http']:empty {
@@ -88,9 +84,7 @@ $stile-size-unit: 0.9rem !default;
 				color: $stile-link-color-text;
 				text-decoration: underline;
 			}
-			&:visited::before {
-				color: $stile-link-color-text-visited;
-			}
+			&:visited::before { color: $stile-link-color-text-visited; }
 		}	
 	}
 

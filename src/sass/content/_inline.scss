@@ -57,7 +57,7 @@ $stile-size-unit: 0.9rem !default;
 		font-style: italic;
 	}
 
-	u, span[data-text-decoration-line ~= 'underline'] {
+	u, span[data-stile ~= 'inline-underline'] {
 		text-decoration: none;
 		background: linear-gradient(
 			transparent 75%,

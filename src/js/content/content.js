@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				type = target.style.textDecoration;
 				if (type === 'underline') {
 					target.style.textDecoration = '';
-					target.dataset.textDecorationLine = type;
+					addDataStyle(target, 'inline-' + type);
 				}
 			} else {
 				if (type === 'underline') {
 					target.style.textDecorationLine = '';
-					target.dataset.textDecorationLine = type;
+					addDataStyle(target, 'inline-' + type);
 				}
 			}
 		}
@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (!isSimple(a)) continue;
-			addDataStyle(a, 'simple-link');
+			addDataStyle(a, 'link-simple');
 			const url = a.getAttribute('href');
 			if (isUrlLink(a, url)) {
-				addDataStyle(a, 'url-link');
+				addDataStyle(a, 'link-url');
 			}
 			if (isExternal(url)) {
-				addDataStyle(a, 'external-link');
+				addDataStyle(a, 'link-external');
 			} else if (isAnchor(url)) {
-				addDataStyle(a, 'anchor-link');
+				addDataStyle(a, 'link-anchor');
 			}
 		}
 	}
@@ -71,8 +71,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	function modifyAnchorStyleExternal(as) {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
-			if (isExternal(a.getAttribute('href'))) {
-				a.dataset.stile = a.dataset.stile ? (a.dataset.stile + ' external-link') : 'external-link';
+			const url = a.getAttribute('href');
+			if (isExternal(url)) {
+				addDataStyle(a, 'link-external');
 			}
 		}
 	}
