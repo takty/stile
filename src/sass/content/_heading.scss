@@ -3,7 +3,7 @@
  * Heading Styles
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-06
  *
  */
 
@@ -17,13 +17,13 @@ $stile-heading-color-text: rgba(#000, 0.95) !default;
 		@include font-proportional;
 		hyphens: auto;  // Autoprefixer is needed. 
 
-		// Need to import stool/sass/util/text
-		@if mixin-exists(text-break-word)  { @include text-break-word; }
-		@if mixin-exists(text-clear-focus) { @include text-clear-focus; }
+		-ms-word-break: break-all;
+		word-break: break-word;
+		word-wrap: break-word;
+		&:target:focus { outline: none; }
 
-		@if $set-design {
-			color: $stile-heading-color-text;
-		}
+		@if $set-design { color: $stile-heading-color-text; }
+
 		> small { display: block; }
 	}
 
