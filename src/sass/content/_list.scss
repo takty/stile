@@ -30,9 +30,10 @@ $stile-size-unit: 0.9rem !default;
 
 	ul:not([class]),
 	ul.stile {
-
-		&:not([data-stile ~= 'no-indent']) { padding-left: vr(4); }
 		list-style: none;
+
+		padding-left: vr(4);
+		&[data-stile ~= 'no-indent'] { padding-left: vr(2); }
 
 		> li {
 			position: relative;
@@ -87,7 +88,8 @@ $stile-size-unit: 0.9rem !default;
 	ol:not([class]),
 	ol.stile {
 
-		&:not([data-stile ~= 'no-indent']) { padding-left: vr(1); }
+		padding-left: vr(1);
+		&[data-stile ~= 'no-indent'] { padding-left: 0; }
 
 		> li {
 			counter-increment: li;
@@ -107,6 +109,7 @@ $stile-size-unit: 0.9rem !default;
 			
 			color: $stile-list-color-mark;
 		}
+		&[data-stile ~= 'no-indent'] > li::before { min-width: vr(2); }
 
 		&[data-stile ~= 'list-lower-alpha'] > li::before {
 			content: counter(li, lower-alpha) '.';
