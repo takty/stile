@@ -52,8 +52,8 @@ gulp.task('default', ['js', 'sass', 'watch']);
 
 // -----------------------------------------------------------------------------
 
-gulp.task('sample', function () {
-	gulp.src('sample/style.scss')
+gulp.task('docs', function () {
+	gulp.src('docs/style.scss')
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(sass())
@@ -61,14 +61,14 @@ gulp.task('sample', function () {
 		.pipe(rename({extname: '.min.css'}))
 		.pipe(autoprefixer(['ie >= 11']))
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('sample'));
+		.pipe(gulp.dest('docs'));
 	gulp.src(['dist/js/stile-full.min.js'])
 		.pipe(plumber())
-		.pipe(gulp.dest('sample'));
+		.pipe(gulp.dest('docs'));
 });
 
-gulp.task('dev-sample', function () {
-	gulp.watch('sample/**/*.scss', ['sample']);
+gulp.task('dev-docs', function () {
+	gulp.watch('docs/**/*.scss', ['docs']);
 	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/sass/**/*.scss', ['sass', 'sample']);
+	gulp.watch('src/sass/**/*.scss', ['sass', 'docs']);
 });

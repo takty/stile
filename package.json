@@ -5,8 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
-    "postinstall": "gulp build",
-    "publish-sample": "push-dir --dir=sample --branch=gh-pages"
+    "postinstall": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,7 @@
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-changed": "^3.2.0",
-    "gulp-clean-css": "^3.9.3",
+    "gulp-clean-css": "^3.9.4",
     "gulp-concat": "^2.6.1",
     "gulp-plumber": "^1.2.0",
     "gulp-rename": "^1.2.2",
