@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
-    "postinstall": "gulp build"
+    "postinstall": "gulp build",
+    "publish-sample": "push-dir --dir=sample --branch=gh-pages"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.0"
+    "gulp-uglify": "^3.0.0",
+    "push-dir": "^0.4.1"
   }
 }
