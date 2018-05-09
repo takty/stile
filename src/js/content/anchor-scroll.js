@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-09
  *
  */
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (getAnchorOffset() !== false) {
 		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
-		const anchorTargets = as1.concat(as2);
+		const anchorTargets = as1.concat(filterTarget(as2));
 
 		initTargetToStyle(anchorTargets);
 		window.addEventListener('resize', function () {setAnchorOffset(anchorTargets);});
@@ -35,6 +35,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (window.location.hash) hashChanged();
 	}
 	window.addEventListener('hashchange', hashChanged);
+
+	function filterTarget(ts) {
+		const newTs = [];
+		for (let i = 0; i < ts.length; i += 1) {
+			const t = ts[i];
+			const tn = t.tagName;
+			if (tn === 'INPUT' || tn === 'BUTTON' || tn === 'SELECT' || tn === 'TEXTAREA') continue;
+			newTs.push(t);
+		}
+		return newTs;
+	}
 
 	function hashChanged() {
 		let hash = window.location.hash;
