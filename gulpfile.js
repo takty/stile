@@ -69,6 +69,6 @@ gulp.task('docs', function () {
 
 gulp.task('dev-docs', function () {
 	gulp.watch('docs/**/*.scss', ['docs']);
-	gulp.watch('src/js/**/*.js', ['js']);
+	gulp.watch('src/js/**/*.js', ['js', 'docs']);
 	gulp.watch('src/sass/**/*.scss', ['sass', 'docs']);
 });
