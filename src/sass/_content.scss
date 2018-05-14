@@ -21,7 +21,6 @@ $stile-size-unit: 0.9rem !default;
 
 
 @mixin stile-content($set-heading-design: true) {
-
 	@include stile-margin-basic;
 	@include stile-margin-advanced;
 
@@ -33,31 +32,31 @@ $stile-size-unit: 0.9rem !default;
 	@include stile-table;
 
 	@media print { @include stile-print; }
-
 }
 
 @mixin stile-margin-basic {
-
 	text-align: center;  // for table on IE11
 	> * { text-align: left; }  // for table on IE11
 
 	> * + * { margin-top: vr(2); }
 	> *:first-child.alignleft  + *:not([class]) { margin-top: 0; }
 	> *:first-child.alignright + *:not([class]) { margin-top: 0; }
-
 }
 
 @mixin stile-margin-advanced() {
-
 	* + pre { margin-top: vr(2); }
 	pre + * { margin-top: vr(2); }
+
 	* + blockquote { margin-top: vr(2); }
 	blockquote + * { margin-top: vr(2); }
 
 	*:not([class]) + table { margin-top: vr(4); }
 	table + *:not([class]) { margin-top: vr(4); }
+
 	*:not([class]) + figure:not(.alignright):not(.alignleft) { margin-top: vr(4); }
 	figure:not(.alignright):not(.alignleft) + *:not([class]) { margin-top: vr(4); }
+	*:not([class]) + figure[data-stile ~= 'aligncenter'] { margin-top: vr(4); }
+	figure[data-stile ~= 'aligncenter'] + *:not([class]) { margin-top: vr(4); }
 
 	* + hr { margin-top: vr(4); }
 	hr + * { margin-top: vr(4); }

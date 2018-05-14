@@ -3,83 +3,125 @@
  * Classes for Alignments
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-02
+ * @version 2018-05-14
  *
  */
 
 
 @import '../basic/query';
 
+$stile-alignment-size-min-text-width: 16rem !default;
+
 $stile-size-unit: 0.9rem !default;
 @function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-alignment {
-
 	@include stile-alignment-main;
 	@include stile-alignment-margin;
-
 }
 
 @mixin stile-alignment-main {
-
 	.alignleft,
 	.alignright,
 	.aligncenter {
-		display: block;
-		float: none;
+		@include stile-alignment-center;
+	}
+
+	// Without Size Classes ----------------------------------------------------
+
+	@include for-tablet-up {
+		* { @include stile-alignment-float }
+	}
+
+	// With Size Classes -------------------------------------------------------
+
+	.size-thumbnail { @include stile-alignment-float(10rem); }
+
+	.size-small,
+	.size-medium,
+	.size-medium_large,
+	.size-large,
+	.size-full {
+		&.alignleft,
+		&.alignright {
+			@include stile-alignment-center;
+		}
+	}
+	.size-small {
+		@include for-tablet-portrait-up { @include stile-alignment-float(10rem); }
+	}
+	.size-medium {
+		@include for-tablet-portrait-up { @include stile-alignment-float(20rem); }
+	}
+	.size-medium_large {
+		@include for-tablet-landscape-up { @include stile-alignment-float(30rem); }
+	}
+	.size-large,
+	.size-full {
+		@include for-tablet-landscape-up { @include stile-alignment-float; }
+	}
+
+	// By Content Query --------------------------------------------------------
+
+	*[data-stile ~= 'alignleft'] {
+		float: left;
 		margin-left: auto;
+		margin-right: vr(2);
+		transform: translateY(#{(vr(2) - 1rem) / 2});
+		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
+	}
+	*[data-stile ~= 'alignright'] {
+		float: right;
+		margin-left: vr(2);
 		margin-right: auto;
-		margin-bottom: vr(1);  // for these classes specific!
-		text-align: center;
+		transform: translateY(#{(vr(2) - 1rem) / 2});
+		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
-
-	@include for-tablet-portrait-up {
-		.alignleft:not(.size-full),
-		.alignright:not(.size-full) {
-			display: inline;
-			width: 50%;  // Actual size is assigned by size-* classes
-			transform: translateY(#{(vr(2) - 1rem) / 2});
-		}
-
-		.alignleft:not(.size-full) {
-			float: left;
-			margin-right: vr(2);
-		}
-
-		.alignright:not(.size-full) {
-			float: right;
-			margin-left: vr(2);
+	*[data-stile ~= 'aligncenter'] {
+		&.alignleft,
+		&.alignright {
+			@include stile-alignment-center;
+			&:not(.size-thumbnail):not(.size-small):not(.size-medium):not(.size-medium_large):not(.size-large):not(.size-full) {
+				max-width: initial;
+			}
 		}
 	}
+}
 
-	@include for-tablet-landscape-up {
-		.alignleft.size-full,
-		.alignright.size-full {
-			display: inline;
-			max-width: 50%;
-			transform: translateY(#{(vr(2) - 1rem) / 2});
-		}
+@mixin stile-alignment-center {
+	display: block;
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: vr(1);  // for these classes specific!
+	transform: initial;
+	text-align: center;
+	clear: both;
+}
 
-		.alignleft.size-full {
-			float: left;
-			margin-right: vr(2);
+@mixin stile-alignment-float($max-width: false) {
+	&.alignleft,
+	&.alignright {
+		@if $max-width == false {
+			max-width: calc(100% - #{$stile-alignment-size-min-text-width});
+		} @else {
+			max-width: $max-width;
 		}
-
-		.alignright.size-full {
-			float: right;
-			margin-left: vr(2);
-		}
+		transform: translateY(#{(vr(2) - 1rem) / 2});
+		clear: none;
 	}
-
-	.aligncenter {
-		clear: both;
+	&.alignleft {
+		float: left;
+		margin-right: vr(2);
 	}
-
+	&.alignright {
+		float: right;
+		margin-left: vr(2);
+	}
 }
 
 @mixin stile-alignment-margin {
-
 	* + .alignleft,
 	* + .alignright,
 	.alignleft + *,
@@ -109,7 +151,6 @@ $stile-size-unit: 0.9rem !default;
 	@include define-figure-margin(h4, 3);
 	@include define-figure-margin(h5, 2);
 	@include define-figure-margin(h6, 1);
-
 }
 
 @mixin define-figure-margin($tag, $top) {
