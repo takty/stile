@@ -3,7 +3,7 @@
  * Tab Page (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-21
+ * @version 2018-05-14
  *
  */
 
@@ -80,11 +80,7 @@ $stile-size-unit: 0.9rem !default;
 			padding: vr(2);
 
 			// Margins inside
-			text-align: center;
-			> *:not([class]) { text-align: left; }
-			> * + * { margin-top: vr(2); }
-			> *:first-child.alignleft + *:not([class]) { margin-top: 0; }
-			> *:first-child.alignright + *:not([class]) { margin-top: 0; }
+			@include stile-margin-basic;
 		}
 		> div.current {
 			position: static;

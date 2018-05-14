@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-14
  *
  */
 
@@ -22,10 +22,8 @@ $stile-size-unit: 0.9rem !default;
 
 @mixin stile-content($set-heading-design: true) {
 
-	text-align: center;  // for table on IE11
-	> * { text-align: left; }  // for table on IE11
-
-	@include stile-margin;
+	@include stile-margin-basic;
+	@include stile-margin-advanced;
 
 	@include stile-block;
 	@include stile-heading($set-heading-design);
@@ -38,11 +36,18 @@ $stile-size-unit: 0.9rem !default;
 
 }
 
-@mixin stile-margin() {
+@mixin stile-margin-basic {
+
+	text-align: center;  // for table on IE11
+	> * { text-align: left; }  // for table on IE11
 
 	> * + * { margin-top: vr(2); }
-	> *:first-child.alignleft + *:not([class]) { margin-top: 0; }
+	> *:first-child.alignleft  + *:not([class]) { margin-top: 0; }
 	> *:first-child.alignright + *:not([class]) { margin-top: 0; }
+
+}
+
+@mixin stile-margin-advanced() {
 
 	* + pre { margin-top: vr(2); }
 	pre + * { margin-top: vr(2); }
@@ -84,7 +89,8 @@ $stile-size-unit: 0.9rem !default;
 	*:not(.alignright):not(.alignleft) + #{$tag} { margin-top: vr($top); }
 	#{$tag} + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
 	#{$tag} {
-		& + figure.alignright, & + figure.alignleft {
+		& + figure.alignright,
+		& + figure.alignleft {
 			& + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
 		}
 	}
