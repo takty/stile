@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-16
  *
  */
 
@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
 	const TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
+
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium_large', 'size-large', 'size-full'];
 
 	modifySpanStyle();
 
@@ -54,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	function modifyAnchorStyle(as) {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
+			if (isImageLink(a)) {
+				addDataStile(a, 'link-image');
+				continue;
+			}
 			if (!isSimple(a)) continue;
 			addDataStile(a, 'link-simple');
 			const url = a.getAttribute('href');
@@ -116,6 +122,27 @@ document.addEventListener('DOMContentLoaded', function () {
 		const cs = a.childNodes;
 		if (cs.length === 0) return false;
 		return a.innerHTML.trim() === url;
+	}
+
+	function isImageLink(a) {
+		if (a.className) {
+			const cs = a.className.split(' ');
+			for (let i = 0; i < cs.length; i += 1) {
+				if (PERMITTED_CLASSES.indexOf(cs[i]) === -1) return false;
+			}
+		}
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		let success = false;
+		for (let i = 0; i < cs.length; i += 1) {
+			const tn = cs[i].tagName;
+			if (success === false && tn === 'IMG') {
+				success = true;
+				continue;
+			}
+			if (tn) return false;
+		}
+		return success;
 	}
 
 	function addDataStile(elm, style) {

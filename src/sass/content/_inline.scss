@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-14
+ * @version 2018-05-16
  *
  */
 
@@ -46,7 +46,6 @@ $stile-size-unit: 0.9rem !default;
 
 		transition: opacity 0.2s;  // for lazy loading
 	}
-	a > img { vertical-align: middle; }
 
 	strong, b {
 		@include font-bold;

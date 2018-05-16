@@ -3,7 +3,7 @@
  * Link Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-16
  *
  */
 
@@ -32,12 +32,12 @@ $stile-size-unit: 0.9rem !default;
 	@include for-firefox { transform: translateY(0.2rem); }
 }
 
-@mixin stile-link-anchor {
+@mixin stile-link-mark-anchor {
 	content: '\E5DB';
 	@include stile-link-mark;
 }
 
-@mixin stile-link-external {
+@mixin stile-link-mark-external {
 	content: '\E0B2';
 	@include stile-link-mark;
 }
@@ -68,10 +68,10 @@ $stile-size-unit: 0.9rem !default;
 		}
 
 		// Add anchor link icon
-		&[data-stile ~= 'link-anchor']::after { @include stile-link-anchor; }
+		&[data-stile ~= 'link-anchor']::after { @include stile-link-mark-anchor; }
 
 		// Add external link icon
-		&[data-stile ~= 'link-external']::after { @include stile-link-external; }
+		&[data-stile ~= 'link-external']::after { @include stile-link-mark-external; }
 
 		// Show url instead of empty text
 		&[href ^= 'http']:empty {
@@ -86,6 +86,10 @@ $stile-size-unit: 0.9rem !default;
 			}
 			&:visited::before { color: $stile-link-color-text-visited; }
 		}	
+	}
+
+	a[data-stile ~= 'link-image'] {
+		> img { vertical-align: middle; }
 	}
 
 }
