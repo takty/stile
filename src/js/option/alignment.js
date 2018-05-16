@@ -3,7 +3,7 @@
  * Classes for Alignments (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-14
+ * @version 2018-05-16
  *
  */
 
@@ -11,7 +11,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
-	const WIDTH_MIN = 256;
+	const WIDTH_MIN = 320;  // px
 
 	if (window.navigator.userAgent.toLowerCase().indexOf('trident/7') !== -1) return;
 
@@ -25,39 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Alignment
 
 	function modifyAlignmentStyle(as, stile) {
-		const asw = initTargets(as, stile);
+		const asw = initTargets(as);
+		assignWidths(asw, stile);
 		window.addEventListener('resize', function () {
 			updateApplicableWidths(asw);
-			for (let i = 0; i < as.length; i += 1) {
-				const a = asw[i][0], w = asw[i][1];
-				const pw = contentWidth(a.parentElement);
-				if (pw - w < WIDTH_MIN) {
-					removeDataStile(as[i], stile);
-					addDataStile(as[i], 'aligncenter');
-				} else {
-					removeDataStile(as[i], 'aligncenter');
-					addDataStile(as[i], stile);
-				}
-			}
+			switchFloat(asw, stile);
 		});
 		window.addEventListener('scroll', function () {
-			reinitTargets(asw, stile);
+			assignWidths(asw, stile);  // for Lazy Image Loading
 		});
 	}
 
-	function initTargets(as, stile) {
+	function initTargets(as) {
 		const asw = [];
-		for (let i = 0; i < as.length; i += 1) {
-			const a = as[i];
-			addDataStile(a, stile);
-			const w = a.getBoundingClientRect().width;
-			removeDataStile(a, stile);
-			asw.push([a, w]);
-		}
+		for (let i = 0; i < as.length; i += 1) asw.push([as[i], 0]);
 		return asw;
 	}
 
-	function reinitTargets(asw, stile) {
+	function assignWidths(asw, stile) {
 		for (let i = 0; i < asw.length; i += 1) {
 			const a = asw[i][0], w = asw[i][1];
 			if (10 < w) continue;
@@ -78,6 +63,20 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	function switchFloat(asw, stile) {
+		for (let i = 0; i < asw.length; i += 1) {
+			const a = asw[i][0], w = asw[i][1];
+			const pw = contentWidth(a.parentElement);
+			if (pw - w < WIDTH_MIN) {
+				removeDataStile(a, stile);
+				addDataStile(a, 'aligncenter');
+			} else {
+				removeDataStile(a, 'aligncenter');
+				addDataStile(a, stile);
+			}
+		}
+	}
+
 	function contentWidth(elm) {
 		const style = getComputedStyle(elm);
 		const padH = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
@@ -86,7 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function addDataStile(elm, style) {
 		if (elm.dataset.stile) {
-			if ((' ' + elm.dataset.stile + ' ').indexOf(' ' + style + ' ') !== -1) return;
+			const ssl = ' ' + elm.dataset.stile + ' ';
+			const sbb = ' ' + style + ' ';
+			if (ssl.indexOf(sbb) !== -1) return;
 			elm.dataset.stile = elm.dataset.stile + ' ' + style;
 		} else {
 			elm.dataset.stile = style;
@@ -95,7 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function removeDataStile(elm, style) {
 		if (!elm.dataset.stile) return;
-		elm.dataset.stile = ((' ' + elm.dataset.stile + ' ').replace(' ' + style + ' ', ' ')).trim();
+		const ssl = ' ' + elm.dataset.stile + ' ';
+		const sbb = ' ' + style + ' ';
+		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	}
 
 });
