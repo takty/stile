@@ -3,46 +3,56 @@
  * Classes for Layout Container
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-14
+ * @version 2018-05-18
  *
  */
 
 
 @import '../basic/layout';
+@import '../basic/query';
+
+$stile-container-column-margin-width: vr(2) !default;
+$stile-container-column-2-min-width : 16rem !default;
+$stile-container-column-3-min-width : 12rem !default;
+$stile-container-column-4-min-width : 10rem !default;
 
 
 @mixin stile-container {
-
 	.column-2,
 	.column-3,
 	.column-4 {
+		@include layout-gap($stile-container-column-margin-width, $stile-container-column-margin-width);
+		display: flex;
+		flex-wrap: wrap;
+
 		> * {  // One of Columns
 			@include stile-margin-basic;
+			flex-grow: 1;
 		}
 	}
-
 	.column-2 {
-		@include layout-card(1, vr(2));
-		@include for-tablet-up {
-			@include layout-card(2, vr(2));
+		> * {
+			width: calc(50% - #{$stile-container-column-margin-width});
+			min-width: $stile-container-column-2-min-width;
 		}
 	}
-
 	.column-3 {
-		@include layout-card(1, vr(2));
-		@include for-tablet-up {
-			@include layout-card(3, vr(2));
+		> * {
+			width: calc((#{$stile-container-column-3-min-width * 3 + $stile-container-column-margin-width * 2} - 100%) * 1000);
+			min-width: calc(33% - #{$stile-container-column-margin-width});
+			max-width: 100%;
 		}
 	}
-
 	.column-4 {
-		@include layout-card(1, vr(2));
-		@include for-tablet-portrait-up {
-			@include layout-card(2, vr(2));
-		}
-		@include for-tablet-landscape-up {
-			@include layout-card(4, vr(2));
+		> * {
+			width: calc(50% - #{$stile-container-column-margin-width});
+			min-width: $stile-container-column-2-min-width;
+			
+			@include for-tablet-up {
+				width: calc((#{$stile-container-column-4-min-width * 4 + $stile-container-column-margin-width * 3} - 100%) * 1000);
+				min-width: calc(25% - #{$stile-container-column-margin-width});
+				max-width: calc(50% - #{$stile-container-column-margin-width});
+			}
 		}
 	}
-
 }
