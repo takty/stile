@@ -3,7 +3,7 @@
  * Reset
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-18
  *
  * Based on:
  *  modern-normalize v0.4
@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 }
 
-ul {
+ul[class] {
 	list-style: none;
 }
 
