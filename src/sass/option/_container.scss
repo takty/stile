@@ -74,7 +74,6 @@ $stile-container-column-4-min-width: 10rem !default;
 		}
 		> *:empty {
 			margin-right: $stile-container-column-gap;
-			flex-grow: 1;
 		}
 	}
 	.card-2 {
@@ -98,36 +97,6 @@ $stile-container-column-4-min-width: 10rem !default;
 			flex-basis: calc(33% - #{$stile-container-column-gap});
 			min-width: $stile-container-column-3-min-width;
 		}
-		// > * {
-		// 	width: calc(50% - #{$stile-container-column-gap});
-		// 	min-width: $stile-container-column-2-min-width;
-		// }
-		// @include for-tablet-up {
-		// 	> * {
-		// 		width: calc((#{$stile-container-column-3-min-width * 3 + $stile-container-column-gap * 2} - 100%) * 1000);
-		// 		min-width: calc(33% - #{$stile-container-column-gap});
-		// 		max-width: calc(50% - #{$stile-container-column-gap});
-
-		// 		&:nth-child(3n+2):last-child {
-		// 			margin-right: calc(33% + #{$stile-container-column-gap});
-		// 		}
-		// 	}
-		// 	&::after {
-		// 		content: '';
-		// 		display: block;
-		// 		flex-grow: 1;
-		// 		margin-right: $stile-container-column-gap;
-		// 		width: calc(33% + #{$stile-container-column-gap});
-		// 		min-width: $stile-container-column-3-min-width;
-		// 	}
-		// }
-		// @include for-ie {
-		// 	@include for-tablet-up {
-		// 		> *:nth-child(3n+1):last-child {
-		// 			flex-grow: 0;
-		// 		}
-		// 	}
-		// }
 	}
 	.card-4 {
 		> * {
