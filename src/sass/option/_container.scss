@@ -3,7 +3,7 @@
  * Classes for Layout Container
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-18
+ * @version 2018-05-19
  *
  */
 
@@ -11,17 +11,17 @@
 @import '../basic/layout';
 @import '../basic/query';
 
-$stile-container-column-margin-width: vr(2) !default;
-$stile-container-column-2-min-width : 16rem !default;
-$stile-container-column-3-min-width : 12rem !default;
-$stile-container-column-4-min-width : 10rem !default;
+$stile-container-column-gap        : vr(2) !default;
+$stile-container-column-2-min-width: 16rem !default;
+$stile-container-column-3-min-width: 12rem !default;
+$stile-container-column-4-min-width: 10rem !default;
 
 
 @mixin stile-container {
 	.column-2,
 	.column-3,
 	.column-4 {
-		@include layout-gap($stile-container-column-margin-width, $stile-container-column-margin-width);
+		@include layout-gap($stile-container-column-gap, $stile-container-column-gap);
 		display: flex;
 		flex-wrap: wrap;
 
@@ -32,26 +32,26 @@ $stile-container-column-4-min-width : 10rem !default;
 	}
 	.column-2 {
 		> * {
-			width: calc(50% - #{$stile-container-column-margin-width});
+			width: calc(50% - #{$stile-container-column-gap});
 			min-width: $stile-container-column-2-min-width;
 		}
 	}
 	.column-3 {
 		> * {
-			width: calc((#{$stile-container-column-3-min-width * 3 + $stile-container-column-margin-width * 2} - 100%) * 1000);
-			min-width: calc(33% - #{$stile-container-column-margin-width});
+			width: calc((#{$stile-container-column-3-min-width * 3 + $stile-container-column-gap * 2} - 100%) * 1000);
+			min-width: calc(33% - #{$stile-container-column-gap});
 			max-width: 100%;
 		}
 	}
 	.column-4 {
 		> * {
-			width: calc(50% - #{$stile-container-column-margin-width});
+			width: calc(50% - #{$stile-container-column-gap});
 			min-width: $stile-container-column-2-min-width;
 			
 			@include for-tablet-up {
-				width: calc((#{$stile-container-column-4-min-width * 4 + $stile-container-column-margin-width * 3} - 100%) * 1000);
-				min-width: calc(25% - #{$stile-container-column-margin-width});
-				max-width: calc(50% - #{$stile-container-column-margin-width});
+				width: calc((#{$stile-container-column-4-min-width * 4 + $stile-container-column-gap * 3} - 100%) * 1000);
+				min-width: calc(25% - #{$stile-container-column-gap});
+				max-width: calc(50% - #{$stile-container-column-gap});
 			}
 		}
 	}
