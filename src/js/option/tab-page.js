@@ -3,7 +3,7 @@
  * Tab Page (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-21
+ * @version 2018-05-20
  *
  */
 
@@ -82,31 +82,32 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function onTabClick(idx, tabs, pages) {
-		for (var i = 0; i < tabs.length; i += 1) {
+		for (let i = 0; i < tabs.length; i += 1) {
 			if (i === idx) tabs[i].classList.add(CLS_STATE_CURRENT);
 			else tabs[i].classList.remove(CLS_STATE_CURRENT);
 		}
-		for (var i = 0; i < pages.length; i += 1) {
+		for (let i = 0; i < pages.length; i += 1) {
 			if (i === idx) pages[i].classList.add(CLS_STATE_CURRENT);
 			else pages[i].classList.remove(CLS_STATE_CURRENT);
 		}
 	}
 
 	function onResize(tabPages) {
-		for (var i = 0; i < tabPages.length; i += 1) {
+		for (let i = 0; i < tabPages.length; i += 1) {
 			const tabPage = tabPages[i];
-			var tabRow = tabPage.getElementsByTagName('ul')[0];
-			var pages = filterChild(tabPage, tabPage.querySelectorAll('div'));
+			const tabRow = tabPage.getElementsByTagName('ul')[0];
+			const pages = filterChild(tabPage, tabPage.querySelectorAll('div'));
 
-			var margin = parseInt(getComputedStyle(tabRow).marginBottom);
-			var height = 0;
+			let margin = parseInt(getComputedStyle(tabRow).marginBottom);
+			let height = 0;
 
-			for (var i = 0; i < pages.length; i += 1) {
-				var p = pages[i];
+			for (let j = 0; j < pages.length; j += 1) {
+				const p = pages[j];
 				margin = Math.max(margin, parseInt(getComputedStyle(p).marginTop));
 				height = Math.max(height, p.getBoundingClientRect().height);
 			}
-			tabPage.style.minHeight = tabRow.clientHeight + margin + height + 'px';
+			tabPage.style.minHeight = tabRow.offsetHeight + margin + height + 'px';
+			tabPage.style.height = tabPage.style.minHeight;
 		}
 	}
 
