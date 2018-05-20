@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const fs = document.querySelectorAll(TARGET_SELECTOR + ' iframe');
 	modifyIframeStyle(fs);
+	const figs = document.querySelectorAll(TARGET_SELECTOR + ' figure');
+	modifyFigureStyle(figs);
 
 
 	// -------------------------------------------------------------------------
@@ -173,6 +175,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			wrap.style.maxWidth = width + 'px';
 			f.parentElement.insertBefore(wrap, f);
 			wrap.appendChild(f);
+		}
+	}
+
+
+	// -------------------------------------------------------------------------
+	// Figure Styles
+
+	function modifyFigureStyle(figs) {
+		for (let i = 0; i < figs.length; i += 1) {
+			figs[i].style.width = '';
 		}
 	}
 

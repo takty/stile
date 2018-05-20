@@ -1,9 +1,9 @@
 /**
  *
- * Image Style (JS)
+ * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-20
  *
  */
 
@@ -12,20 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
 
-	modifyFigureStyle();
 	if (!document.body.classList.contains('firefox')) {
 		initializeLazyImageLoading();
-	}
-
-
-	// -------------------------------------------------------------------------
-	// Figure Styles
-
-	function modifyFigureStyle() {
-		const figs = document.querySelectorAll(TARGET_SELECTOR + ' figure');
-		for (let i = 0; i < figs.length; i += 1) {
-			figs[i].style.width = '';
-		}
 	}
 
 
