@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-16
+ * @version 2018-05-20
  *
  */
 
@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	modifyAnchorStyle(as);
 	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
 	modifyAnchorStyleExternal(as);
+
+	const fs = document.querySelectorAll(TARGET_SELECTOR + ' iframe');
+	modifyIframeStyle(fs);
 
 
 	// -------------------------------------------------------------------------
@@ -150,6 +153,26 @@ document.addEventListener('DOMContentLoaded', function () {
 			elm.dataset.stile = elm.dataset.stile + ' ' + style;
 		} else {
 			elm.dataset.stile = style;
+		}
+	}
+
+
+	// -------------------------------------------------------------------------
+	// Iframe Styles
+
+	function modifyIframeStyle(fs) {
+		for (let i = 0; i < fs.length; i += 1) {
+			const f = fs[i];
+			const width = f.width;
+			const height = f.height;
+			const wrap = document.createElement('SPAN');
+			addDataStile(wrap, 'iframe-wrapper');
+			const spacer = document.createElement('DIV');
+			spacer.style.paddingTop = (100 * height / width) + '%';
+			wrap.appendChild(spacer);
+			wrap.style.maxWidth = width + 'px';
+			f.parentElement.insertBefore(wrap, f);
+			wrap.appendChild(f);
 		}
 	}
 
