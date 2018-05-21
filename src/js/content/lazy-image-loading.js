@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-20
+ * @version 2018-05-21
  *
  */
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
 
-	if (!document.body.classList.contains('firefox')) {
+	if (window.navigator.userAgent.indexOf('Firefox') === -1) {
 		initializeLazyImageLoading();
 	}
 
