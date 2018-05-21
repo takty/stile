@@ -33,6 +33,8 @@ $stile-size-unit: 0.9rem !default;
 			position: absolute;
 			left: 100vw;
 			visibility: hidden;
+			opacity: 0;
+			transition: opacity 1s;
 
 			width: 100%;
 			border: 1px solid $stile-tab-page-color-line;
@@ -45,9 +47,11 @@ $stile-size-unit: 0.9rem !default;
 		}
 		> div[data-stile ~= 'current'] {
 			position: static;
+			flex-grow: 1;
 			left: 0;
 			visibility: visible;
-			flex-grow: 1;
+			opacity: 1;
+			transition: opacity 1s;
 		}
 	}
 	.tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
