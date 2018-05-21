@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.style.overflowX = '';
 			if (head) head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 		}
-		if (cont.etb) tableScroll_enlarger(cont);
+		if (cont.etb) tableScroll_enlarger_wrap(cont);
 	}
 
 	// Enlarger ----------------------------------------------------------------
@@ -301,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
+			tab.scrollLeft = 0;
 			addDataStile(tab, STILE_STATE_ENLARGED);
 		}
 		windowResize(cont);
@@ -315,13 +316,30 @@ document.addEventListener('DOMContentLoaded', function () {
 		tab.style.marginLeft = -left + 'px';
 	}
 
+	let tse = null;
+
+	function tableScroll_enlarger_wrap(cont) {
+		if (window.navigator.userAgent.indexOf('Chrome') !== -1) {  // Chrome and Edge
+			if (tse) clearTimeout(tse);
+			tse = setTimeout(function () {tableScroll_enlarger(cont);}, 0);  // for updating enlager button position
+		} else {
+			tableScroll_enlarger(cont);
+		}
+	}
+
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
 		if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
-			etb.style.left = (tab.scrollLeft) + 'px';
+			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
 		} else {
-			etb.style.left = '0';
+			const pw = etb.parentElement.offsetWidth;
+			const diff = pw - tab.tBodies[0].clientWidth;
+			if (0 < diff) {
+				etb.style.right = diff + 'px';
+			} else {
+				etb.style.right = (-tab.scrollLeft) + 'px';
+			}
 			if (containDataStile(tab, STILE_STATE_ENLARGED)) {
 				etb.style.display = 'block';
 			} else {
