@@ -11,7 +11,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 	const SELECTOR_TARGET     = '.tab-page';
-	const CLS_TAB_LIST        = 'tab-page-tab-list';
+	const CLS_TAB_LIST        = 'stile-tab-page-tab-list';
 	const STILE_STATE_CURRENT = 'current';
 
 	const tabPages = [];
