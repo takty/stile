@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-21
  *
  */
 
@@ -12,12 +12,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
-
 	const TARGET_SELECTOR    = '.stile';
-	const CLS_STATE_ENLARGED = 'enlarged-table';
 
-	const DS_NO_NEAT_WRAP = 'no-neat-wrap';
-	const DS_NO_ENLARGER  = 'no-enlarger';
+	const STILE_HEADER_CONTAINER = 'fixed-table-header-container';
+	const STILE_HEADER_TABLE     = 'fixed-table-header-table';
+	const STILE_SCROLL_BAR       = 'fixed-table-scroll-bar';
+	const STILE_ENLARGER_BUTTON  = 'enlarger-button';
+	const STILE_STATE_ENLARGED   = 'table-enlarged';
+
+	const STILE_OPT_NO_NEAT_WRAP = 'no-neat-wrap';
+	const STILE_OPT_NO_ENLARGER  = 'no-enlarger';
 
 	const CELL_MIN_WIDTH = 120;
 	const CELL_MIN_RATIO = 2 / 3;  // width : height
@@ -37,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		for (let i = 0; i < tabs.length; i += 1) {
 			const ss = (tabs[i].dataset['stile'] === undefined) ? [] : tabs[i].dataset['stile'].split(' ');
-			if (ss.indexOf(DS_NO_NEAT_WRAP) !== -1) continue;
+			if (ss.indexOf(STILE_OPT_NO_NEAT_WRAP) !== -1) continue;
 			addWrapStyle(tabs[i]);
 		}
 
@@ -48,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				const tab  = tabs[i];
 				const head = cloneTableHeader(tab);
 				const bar  = cloneTableScrollBar(tab);
-				const etb  = (ss.indexOf(DS_NO_ENLARGER) === -1) ? createEnlarger(tab) : null;
+				const etb  = (ss.indexOf(STILE_OPT_NO_ENLARGER) === -1) ? createEnlarger(tab) : null;
 				const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
 				initEvents(cont);
 				conts.push(cont);
@@ -110,14 +114,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (!thead) return null;
 		}
 		const cont = document.createElement('div');
-		cont.classList.add('fixed-table-header-container');
+		cont.dataset['stile'] = STILE_HEADER_CONTAINER;
 		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
 		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
-		ptab.classList.add('fixed-table-header-table');
+		ptab.dataset['stile'] = STILE_HEADER_TABLE;
 		ptab.style.width = thead.getBoundingClientRect().width + 'px';
 		cont.appendChild(ptab);
 
@@ -137,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
 			}
 		}
-		if (table.classList.contains(CLS_STATE_ENLARGED)) cont.classList.add(CLS_STATE_ENLARGED);
+		if (containDataStile(table, STILE_STATE_ENLARGED)) addDataStile(cont, STILE_STATE_ENLARGED);
 		return cont;
 	}
 
@@ -172,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tbody = table.tBodies[0];
 
 		const bar = document.createElement('div');
-		bar.classList.add('fixed-table-scroll-bar');
+		bar.dataset['stile'] = STILE_SCROLL_BAR;
 		bar.style.maxWidth = table.clientWidth + 'px';
 		bar.style.display = 'none';
 		const h = parseInt(getScrollBarWidth());
@@ -189,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
-		if (cont.etb && tab.classList.contains(CLS_STATE_ENLARGED)) windowResize_enlarger(tab);
+		if (cont.etb && containDataStile(tab, STILE_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -265,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function createEnlarger(table) {
 		const etb = document.createElement('div');
-		etb.classList.add('enlarger-button');
+		etb.dataset['stile'] = STILE_ENLARGER_BUTTON;
 		table.appendChild(etb);
 		return etb;
 	}
@@ -286,18 +290,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function enlarge(cont) {
 		const tab = cont.table;
-		if (tab.classList.contains(CLS_STATE_ENLARGED)) {
+		if (containDataStile(tab, STILE_STATE_ENLARGED)) {
 			tab.style.marginLeft = '';
 			tab.style.zIndex = '';
 			tab.style.width = '';
 			tab.style.maxWidth = '';
-			tab.classList.remove(CLS_STATE_ENLARGED);
+			removeDataStile(tab, STILE_STATE_ENLARGED);
 		} else {
 			if (tab.scrollWidth - tab.clientWidth <= 2) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
-			tab.classList.add(CLS_STATE_ENLARGED);
+			addDataStile(tab, STILE_STATE_ENLARGED);
 		}
 		windowResize(cont);
 	}
@@ -318,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			etb.style.display = 'block';
 		} else {
 			etb.style.left = '0';
-			if (tab.classList.contains(CLS_STATE_ENLARGED)) {
+			if (containDataStile(tab, STILE_STATE_ENLARGED)) {
 				etb.style.display = 'block';
 			} else {
 				etb.style.display = 'none';
@@ -620,6 +624,31 @@ document.addEventListener('DOMContentLoaded', function () {
 		const width = window.getComputedStyle(dummy, null).getPropertyValue('width');
 		document.body.removeChild(dummy);
 		return width;
+	}
+
+	function addDataStile(elm, style) {
+		if (elm.dataset.stile) {
+			const ssl = ' ' + elm.dataset.stile + ' ';
+			const sbb = ' ' + style + ' ';
+			if (ssl.indexOf(sbb) !== -1) return;
+			elm.dataset.stile = elm.dataset.stile + ' ' + style;
+		} else {
+			elm.dataset.stile = style;
+		}
+	}
+
+	function containDataStile(elm, style) {
+		if (!elm.dataset.stile) return false;
+		const ssl = ' ' + elm.dataset.stile + ' ';
+		const sbb = ' ' + style + ' ';
+		return (ssl.indexOf(sbb) !== -1);
+	}
+
+	function removeDataStile(elm, style) {
+		if (!elm.dataset.stile) return;
+		const ssl = ' ' + elm.dataset.stile + ' ';
+		const sbb = ' ' + style + ' ';
+		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	}
 
 });

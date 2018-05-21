@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-21
  *
  */
 
@@ -100,7 +100,7 @@ $stile-size-unit: 0.9rem !default;
 
 	// Fixed Header ------------------------------------------------------------
 
-	.fixed-table-header-container {
+	div[data-stile ~= "fixed-table-header-container"] {
 		position: fixed;
 		top: 0px;
 		z-index: 99;
@@ -110,7 +110,7 @@ $stile-size-unit: 0.9rem !default;
 		@media print { display: none !important; }
 	}
 
-	.fixed-table-header-table {
+	div[data-stile ~= "fixed-table-header-table"] {
 		display: table;
 		margin: 0;
 
@@ -120,20 +120,21 @@ $stile-size-unit: 0.9rem !default;
 
 		border-collapse: collapse;
 		border-spacing: 0;
+
+		thead td,
+		th {
+			@include for-ie   { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
+			@include for-edge { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
+	
+			color: $stile-table-color-header-text;
+			background-color: $stile-table-color-header-background;
+		}
 	}
 
-	.fixed-table-header-table thead td,
-	.fixed-table-header-table th {
-		@include for-ie   { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
-		@include for-edge { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
-
-		color: $stile-table-color-header-text;
-		background-color: $stile-table-color-header-background;
-	}
 
 	// Pseudo Scroll Bars ------------------------------------------------------
 
-	.fixed-table-scroll-bar {
+	div[data-stile ~= "fixed-table-scroll-bar"] {
 		position: fixed;
 		bottom: 0;
 		z-index: 99;
@@ -152,22 +153,22 @@ $stile-size-unit: 0.9rem !default;
 	// Scroll Bars Design ------------------------------------------------------
 
 	table::-webkit-scrollbar,
-	.fixed-table-scroll-bar::-webkit-scrollbar {
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
 		height: vr(1);
 		background-color: $stile-table-color-scrollbar-background;
 	}
 
-	.fixed-table-scroll-bar::-webkit-scrollbar {
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
 		border-radius: vr(1) / 2;
 	}
 
 	table::-webkit-scrollbar-thumb,
-	.fixed-table-scroll-bar::-webkit-scrollbar-thumb {
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar-thumb {
 		border-radius: vr(1) / 2;
 		background-color: $stile-table-color-scrollbar-thumb;
 	}
 
-	table, .fixed-table-scroll-bar {  // for IE11
+	table, div[data-stile ~= "fixed-table-scroll-bar"] {  // for IE11
 		scrollbar-face-color: $stile-table-color-scrollbar-thumb;
 		scrollbar-shadow-color: $stile-table-color-scrollbar-thumb;
 		scrollbar-track-color: $stile-table-color-scrollbar-background;
@@ -175,26 +176,28 @@ $stile-size-unit: 0.9rem !default;
 
 	// Enlarger ----------------------------------------------------------------
 
-	table.enlarged-table > * {
+	table[data-stile ~= "table-enlarged"] > * {
 		background-color: $stile-table-color-background-enlarged;
 	}
 
-	table .enlarger-button,
-	.fixed-table-header-container .enlarger-button {
-		position: absolute;
-		z-index: 999;
-		width: vr(1.5);
-		height: vr(1.5);
-		left: 0;
-		top: 0;
-		cursor: ew-resize;
+	table,
+	div[data-stile ~= "fixed-table-header-container"] {
+		div[data-stile ~= "enlarger-button"] {
+			position: absolute;
+			z-index: 999;
+			width: vr(1.5);
+			height: vr(1.5);
+			left: 0;
+			top: 0;
+			cursor: ew-resize;
 
-		background: linear-gradient(to top left, transparent 50%, $stile-table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
-	}
-
-	table.enlarged-table .enlarger-button,
-	.fixed-table-header-container.enlarged-table .enlarger-button {
-		background: linear-gradient(to bottom right, transparent 50%, $stile-table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
+			background: linear-gradient(to top left, transparent 50%, $stile-table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
+		}
+		&[data-stile ~= "table-enlarged"] {
+			div[data-stile ~= "enlarger-button"] {
+				background: linear-gradient(to bottom right, transparent 50%, $stile-table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
+			}
+		}
 	}
 
 }
