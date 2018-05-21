@@ -3,16 +3,16 @@
  * Tab Page (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-20
+ * @version 2018-05-21
  *
  */
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	const SELECTOR_TARGET   = '.tab-page';
-	const CLS_TAB_LIST      = 'tab-page-tab-list';
-	const CLS_STATE_CURRENT = 'current';
+	const SELECTOR_TARGET     = '.tab-page';
+	const CLS_TAB_LIST        = 'tab-page-tab-list';
+	const STILE_STATE_CURRENT = 'current';
 
 	const tabPages = [];
 	const tps = document.querySelectorAll(SELECTOR_TARGET);
@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function onTabClick(idx, tabs, pages) {
 		for (let i = 0; i < tabs.length; i += 1) {
-			if (i === idx) tabs[i].classList.add(CLS_STATE_CURRENT);
-			else tabs[i].classList.remove(CLS_STATE_CURRENT);
+			if (i === idx) addDataStile(tabs[i], STILE_STATE_CURRENT);
+			else removeDataStile(tabs[i], STILE_STATE_CURRENT);
 		}
 		for (let i = 0; i < pages.length; i += 1) {
-			if (i === idx) pages[i].classList.add(CLS_STATE_CURRENT);
-			else pages[i].classList.remove(CLS_STATE_CURRENT);
+			if (i === idx) addDataStile(pages[i], STILE_STATE_CURRENT);
+			else removeDataStile(pages[i], STILE_STATE_CURRENT);
 		}
 	}
 
@@ -109,6 +109,24 @@ document.addEventListener('DOMContentLoaded', function () {
 			tabPage.style.minHeight = tabRow.offsetHeight + margin + height + 'px';
 			tabPage.style.height = tabPage.style.minHeight;
 		}
+	}
+
+	function addDataStile(elm, style) {
+		if (elm.dataset.stile) {
+			const ssl = ' ' + elm.dataset.stile + ' ';
+			const sbb = ' ' + style + ' ';
+			if (ssl.indexOf(sbb) !== -1) return;
+			elm.dataset.stile = elm.dataset.stile + ' ' + style;
+		} else {
+			elm.dataset.stile = style;
+		}
+	}
+
+	function removeDataStile(elm, style) {
+		if (!elm.dataset.stile) return;
+		const ssl = ' ' + elm.dataset.stile + ' ';
+		const sbb = ' ' + style + ' ';
+		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	}
 
 });
