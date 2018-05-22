@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-22
  *
  */
 
@@ -31,52 +31,53 @@ document.addEventListener('DOMContentLoaded', function () {
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
 	const getTableHeaderOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 	let scrollBarWidth;
-	setTimeout(initFixedHeaderTable, 100);  // Delay for Chrome and Edge
+	setTimeout(function () { init(tabs); }, 100);  // Delay for Chrome and Edge
 
-	function initFixedHeaderTable() {
+	function init(tabs) {
+		for (let i = 0; i < tabs.length; i += 1) {
+			if (!containStile(tabs[i], STILE_OPT_NO_NEAT_WRAP)) addWrapStyle(tabs[i]);
+		}
+		setTimeout(function () { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
+	}
+
+	function initFixedHeaderTable(tabs) {
 		scrollBarWidth = parseInt(getScrollBarWidth());
-		const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 		const conts = [];
 
 		for (let i = 0; i < tabs.length; i += 1) {
-			const ss = (tabs[i].dataset['stile'] === undefined) ? [] : tabs[i].dataset['stile'].split(' ');
-			if (ss.indexOf(STILE_OPT_NO_NEAT_WRAP) !== -1) continue;
-			addWrapStyle(tabs[i]);
+			const tab  = tabs[i];
+			const head = cloneTableHeader(tab);
+			const bar  = cloneTableScrollBar(tab);
+			const etb  = containStile(tab, STILE_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
+			const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
+			initEvents(cont);
+			conts.push(cont);
+
+			windowScroll(cont);
+			tableScroll(cont);
+
+			if (tab.scrollWidth - tab.offsetWidth <= 0 || tab.offsetWidth >= ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {
+				etb.style.display = 'none';
+			}
 		}
 
-		setTimeout(function () {  // Delay for IE11
-			for (let i = 0; i < tabs.length; i += 1) {
-				const ss = (tabs[i].dataset['stile'] === undefined) ? [] : tabs[i].dataset['stile'].split(' ');
-
-				const tab  = tabs[i];
-				const head = cloneTableHeader(tab);
-				const bar  = cloneTableScrollBar(tab);
-				const etb  = (ss.indexOf(STILE_OPT_NO_ENLARGER) === -1) ? createEnlarger(tab) : null;
-				const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
-				initEvents(cont);
-				conts.push(cont);
-
-				windowScroll(conts[i]);
-				tableScroll(conts[i]);
-			}
-
-			let scrollSt = null, resizeSt = null;
-			window.addEventListener('scroll', function () {
-				if (scrollSt) clearTimeout(scrollSt);
-				scrollSt = setTimeout(function() {
-					for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
-					scrollSt = null;
-				}, 10);
-			});
-			window.addEventListener('resize', function () {
-				if (resizeSt) clearTimeout(resizeSt);
-				resizeSt = setTimeout(function() {
-					for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
-					resizeSt = null;
-				}, 10);
-			});
-		}, 0);
+		let scrollSt = null, resizeSt = null;
+		window.addEventListener('scroll', function () {
+			if (scrollSt) clearTimeout(scrollSt);
+			scrollSt = setTimeout(function() {
+				for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
+				scrollSt = null;
+			}, 10);
+		});
+		window.addEventListener('resize', function () {
+			if (resizeSt) clearTimeout(resizeSt);
+			resizeSt = setTimeout(function() {
+				for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
+				resizeSt = null;
+			}, 10);
+		});
 	}
 
 	function initEvents(cont) {
@@ -114,14 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (!thead) return null;
 		}
 		const cont = document.createElement('div');
-		cont.dataset['stile'] = STILE_HEADER_CONTAINER;
+		addStile(cont, STILE_HEADER_CONTAINER);
 		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
 		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
-		ptab.dataset['stile'] = STILE_HEADER_TABLE;
+		addStile(ptab, STILE_HEADER_TABLE);
 		ptab.style.width = thead.getBoundingClientRect().width + 'px';
 		cont.appendChild(ptab);
 
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
 			}
 		}
-		if (containDataStile(table, STILE_STATE_ENLARGED)) addDataStile(cont, STILE_STATE_ENLARGED);
+		if (containStile(table, STILE_STATE_ENLARGED)) addStile(cont, STILE_STATE_ENLARGED);
 		return cont;
 	}
 
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tbody = table.tBodies[0];
 
 		const bar = document.createElement('div');
-		bar.dataset['stile'] = STILE_SCROLL_BAR;
+		addStile(bar, STILE_SCROLL_BAR);
 		bar.style.maxWidth = table.clientWidth + 'px';
 		bar.style.display = 'none';
 		const h = parseInt(getScrollBarWidth());
@@ -193,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
-		if (cont.etb && containDataStile(tab, STILE_STATE_ENLARGED)) windowResize_enlarger(tab);
+		if (cont.etb && containStile(tab, STILE_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -265,7 +266,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (cont.etb) tableScroll_enlarger_wrap(cont);
 	}
 
-	// Enlarger ----------------------------------------------------------------
+
+	// -------------------------------------------------------------------------
+	// Enlarger
 
 	function createEnlarger(table) {
 		const etb = document.createElement('div');
@@ -290,19 +293,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function enlarge(cont) {
 		const tab = cont.table;
-		if (containDataStile(tab, STILE_STATE_ENLARGED)) {
+		if (containStile(tab, STILE_STATE_ENLARGED)) {
 			tab.style.marginLeft = '';
 			tab.style.zIndex = '';
 			tab.style.width = '';
 			tab.style.maxWidth = '';
-			removeDataStile(tab, STILE_STATE_ENLARGED);
+			removeStile(tab, STILE_STATE_ENLARGED);
 		} else {
 			if (tab.scrollWidth - tab.clientWidth <= 2) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
 			tab.scrollLeft = 0;
-			addDataStile(tab, STILE_STATE_ENLARGED);
+			addStile(tab, STILE_STATE_ENLARGED);
 		}
 		windowResize(cont);
 	}
@@ -329,18 +332,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
-		if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
+		// if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
+		if (tab.scrollWidth - tab.offsetWidth > 0 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
 		} else {
-			const pw = etb.parentElement.offsetWidth;
-			const diff = pw - tab.tBodies[0].clientWidth;
-			if (0 < diff) {
-				etb.style.right = diff + 'px';
-			} else {
-				etb.style.right = (-tab.scrollLeft) + 'px';
-			}
-			if (containDataStile(tab, STILE_STATE_ENLARGED)) {
+			if (containStile(tab, STILE_STATE_ENLARGED)) {
+				const pw = etb.parentElement.offsetWidth;
+				const diff = pw - tab.tBodies[0].clientWidth;
+				if (0 < diff) {
+					etb.style.right = diff + 'px';
+				} else {
+					etb.style.right = (-tab.scrollLeft) + 'px';
+				}
 				etb.style.display = 'block';
 			} else {
 				etb.style.display = 'none';
@@ -348,7 +352,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	// Neat Wrap ---------------------------------------------------------------
+
+	// -------------------------------------------------------------------------
+	// Neat Wrap
 
 	function addWrapStyle(table) {
 		if (table.getAttribute('width') != null) table.setAttribute('width', '');
@@ -583,7 +589,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	// Utilities ---------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Utilities
 
 	function getWpAdminBarHeight() {
 		const wpab = document.getElementById('wpadminbar');
@@ -644,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		return width;
 	}
 
-	function addDataStile(elm, style) {
+	function addStile(elm, style) {
 		if (elm.dataset.stile) {
 			const ssl = ' ' + elm.dataset.stile + ' ';
 			const sbb = ' ' + style + ' ';
@@ -655,14 +662,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function containDataStile(elm, style) {
+	function containStile(elm, style) {
 		if (!elm.dataset.stile) return false;
 		const ssl = ' ' + elm.dataset.stile + ' ';
 		const sbb = ' ' + style + ' ';
 		return (ssl.indexOf(sbb) !== -1);
 	}
 
-	function removeDataStile(elm, style) {
+	function removeStile(elm, style) {
 		if (!elm.dataset.stile) return;
 		const ssl = ' ' + elm.dataset.stile + ' ';
 		const sbb = ' ' + style + ' ';

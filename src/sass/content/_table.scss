@@ -3,12 +3,12 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-22
  *
  */
 
 
-$stile-table-color-rule-horizontal      : rgba(#777, 0.9) !default;
+$stile-table-color-rule-horizontal      : rgba(#777, 0.35) !default;
 $stile-table-color-rule-horizontal-edge : $stile-table-color-rule-horizontal !default;
 $stile-table-color-rule-vertical        : rgba($stile-table-color-rule-horizontal, 0.1) !default;
 $stile-table-color-header-text          : rgba(#000, 0.95) !default;
