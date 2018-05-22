@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-14
+ * @version 2018-05-22
  *
  */
 
@@ -93,13 +93,19 @@ document.addEventListener('DOMContentLoaded', function () {
 	function isBlockParent(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
 		const d = getComputedStyle(elm).display;
-		return (d.indexOf('inline') === -1 || d.indexOf('inline-block') !== -1);
+		if (d.indexOf('inline') === -1) return true;
+		if (d.indexOf('inline-block') !== -1) {  // is inline block
+			const cs = elm.childNodes;
+			if (cs.length === 1 && cs[0].nodeType === 3 /*TEXT_NODE*/) return false;  // When it has only one text child
+			return true;
+		}
+		return false;
 	}
 
 	function isBlockSibling(elm) {
 		if (!(elm instanceof HTMLElement)) return false;
 		const d = getComputedStyle(elm).display;
-		return (d.indexOf('inline') === -1) || elm.tagName === 'BR';
+		return d.indexOf('inline') === -1 || elm.tagName === 'BR';
 	}
 
 	function applyKerning(text, ki, isHead) {
