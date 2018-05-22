@@ -3,7 +3,7 @@
  * Tab Page (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-21
+ * @version 2018-05-22
  *
  */
 
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			var margin = parseInt(getComputedStyle(tabRow).marginBottom);
 			var height = 0;
 
-			for (var i = 0; i < pages.length; i += 1) {
-				var p = pages[i];
+			for (var j = 0; j < pages.length; j += 1) {
+				var p = pages[j];
 				margin = Math.max(margin, parseInt(getComputedStyle(p).marginTop));
 				height = Math.max(height, p.getBoundingClientRect().height);
 			}
