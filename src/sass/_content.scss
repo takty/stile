@@ -14,7 +14,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-21
+ * @version 2018-05-22
  *
  */
 
@@ -67,15 +67,6 @@ $stile-size-unit: 0.9rem !default;
 	* + hr { margin-top: vr(4); }
 	hr + * { margin-top: vr(4); }
 
-	@mixin define-heading-margin($tag, $top, $bottom) {
-		*:not(.alignright):not(.alignleft) + #{$tag} { margin-top: vr($top); }
-		#{$tag} + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
-		#{$tag} {
-			& + figure.alignright, & + figure.alignleft {
-				& + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
-			}
-		}
-	}
 	// The order below has meaning!
 	@include define-heading-margin(h6, 3, 1);
 	@include define-heading-margin(h5, 4, 2);
@@ -96,5 +87,15 @@ $stile-size-unit: 0.9rem !default;
 	blockquote {
 		> * + * { margin-top: vr(1); }
 		> *:first-child { margin-top: 0; }
+	}
+}
+
+@mixin define-heading-margin($tag, $top, $bottom) {
+	*:not(.alignright):not(.alignleft) + #{$tag} { margin-top: vr($top); }
+	#{$tag} + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
+	#{$tag} {
+		& + figure.alignright, & + figure.alignleft {
+			& + *:not(.alignright):not(.alignleft) { margin-top: vr($bottom); }
+		}
 	}
 }
