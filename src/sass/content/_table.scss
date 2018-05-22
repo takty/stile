@@ -57,13 +57,17 @@ $stile-size-unit: 0.9rem !default;
 
 	th, td {
 		padding: vr(0.5) vr(1);  // This half vr is irregular but needed.
-		border-top: 1px solid;
-		border-bottom: 1px solid;
 		line-height: vr(2);
 		@include font-proportional;
+	}
 
-		border-top-color: $stile-table-color-rule-horizontal;
-		border-bottom-color: $stile-table-color-rule-horizontal;
+	tr:not(:last-child) {
+		th, td {
+			border-top: 1px solid;
+			border-bottom: 1px solid;
+			border-top-color: $stile-table-color-rule-horizontal;
+			border-bottom-color: $stile-table-color-rule-horizontal;
+		}
 	}
 
 	th:not(:first-child),
