@@ -3,15 +3,15 @@
  * Tab Page (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-22
  *
  */
 
 
 $stile-tab-page-color-bg              : #fff !default;
-$stile-tab-page-color-line            : rgba(#777, 0.9) !default;
-$stile-tab-page-color-tab             : rgba($stile-tab-page-color-line, 0.25) !default;
-$stile-tab-page-color-tab-current     : rgba($stile-tab-page-color-line, 0.5) !default;
+$stile-tab-page-color-line            : rgba(#777, 0.35) !default;
+$stile-tab-page-color-tab             : rgba(#eee, 0.75) !default;
+$stile-tab-page-color-tab-current     : rgba(#fff, 0.75) !default;
 $stile-tab-page-color-tab-text        : inherit !default;
 $stile-tab-page-color-tab-text-current: $stile-tab-page-color-tab-text !default;
 $stile-tab-page-color-tab-separator   : $stile-tab-page-color-line !default;
@@ -37,8 +37,9 @@ $stile-size-unit: 0.9rem !default;
 			transition: opacity 1s;
 
 			width: 100%;
-			border: 1px solid $stile-tab-page-color-line;
-			border-top: none;
+			border-left: 1px solid $stile-tab-page-color-line;
+			border-right: 1px solid $stile-tab-page-color-line;
+			border-bottom: 1px solid $stile-tab-page-color-line;
 			background-color: $stile-tab-page-color-bg;
 			padding: vr(2);
 
@@ -77,6 +78,7 @@ $stile-size-unit: 0.9rem !default;
 			background-color: $stile-tab-page-color-tab;
 			color: $stile-tab-page-color-tab-text;
 			font-size: $stile-tab-page-size-font;
+			@include font-bold;
 
 			position: relative;
 			top: 1px;
