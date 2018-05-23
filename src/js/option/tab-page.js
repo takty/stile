@@ -3,7 +3,7 @@
  * Tab Page (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-23
  *
  */
 
@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		} else {
 			elm.dataset.stile = style;
 		}
+		elm.className = elm.className;  // Hack for IE11
 	}
 
 	function removeDataStile(elm, style) {
@@ -127,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const ssl = ' ' + elm.dataset.stile + ' ';
 		const sbb = ' ' + style + ' ';
 		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
+		elm.className = elm.className;  // Hack for IE11
 	}
 
 });
