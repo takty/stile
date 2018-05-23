@@ -3,20 +3,22 @@
  * Tab Page (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-22
+ * @version 2018-05-23
  *
  */
 
 
 $stile-tab-page-color-bg              : #fff !default;
 $stile-tab-page-color-line            : rgba(#777, 0.35) !default;
-$stile-tab-page-color-tab             : rgba(#eee, 0.75) !default;
+$stile-tab-page-color-tab             : transparent !default;
 $stile-tab-page-color-tab-current     : rgba(#fff, 0.75) !default;
-$stile-tab-page-color-tab-text        : inherit !default;
-$stile-tab-page-color-tab-text-current: $stile-tab-page-color-tab-text !default;
+$stile-tab-page-color-tab-text        : rgba(#000, 0.5) !default;
+$stile-tab-page-color-tab-text-current: rgba(#000, 0.95) !default;
 $stile-tab-page-color-tab-separator   : $stile-tab-page-color-line !default;
-$stile-tab-page-size-font             : 0.85rem !default;
-$stile-tab-page-size-tab-margin       : 0.5rem !default;
+$stile-tab-page-color-tab-top-current : rgba(#777, 0.75) !default;
+$stile-tab-page-size-tab-top-current  : 2px !default;
+$stile-tab-page-size-font             : 1rem !default;
+$stile-tab-page-size-tab-margin       : 0.25rem !default;
 
 $stile-size-unit: 0.9rem !default;
 @function vr($val) { @return $val * $stile-size-unit; }
@@ -57,7 +59,7 @@ $stile-size-unit: 0.9rem !default;
 	}
 	.stile-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 
 		padding-left: 0;
 		border-bottom: 1px solid $stile-tab-page-color-line;
@@ -67,31 +69,34 @@ $stile-size-unit: 0.9rem !default;
 			justify-content: center;
 			align-items: center;
 
-			flex-grow: 1;
-			@include for-tablet-landscape-up { flex-basis: 100%; }
-
-			min-height: 3rem;
-			padding: 0.5rem 0.25rem;
-			@include for-tablet-up { padding: 1rem 0.5rem; }
-
-			border: 1px solid $stile-tab-page-color-line;
+			padding: vr(0.5) vr(1);
+			@include for-tablet-up { padding: vr(0.5) vr(2); }
+			
+			border: 1px solid $stile-tab-page-color-tab;
 			background-color: $stile-tab-page-color-tab;
 			color: $stile-tab-page-color-tab-text;
 			font-size: $stile-tab-page-size-font;
+			line-height: vr(2);
 			@include font-bold;
-
+			@include font-proportional;
+			
 			position: relative;
 			top: 1px;
 
 			&[data-stile ~= 'current'] {
+				border: 1px solid $stile-tab-page-color-line;
+				border-top: $stile-tab-page-size-tab-top-current solid $stile-tab-page-color-tab-top-current;
 				border-bottom-color: $stile-tab-page-color-bg;
 				background-color: $stile-tab-page-color-tab-current;
 				color: $stile-tab-page-color-tab-text-current;
 			}
+			&:not([data-stile ~= 'current']) {
+				cursor: pointer;
+			}
 		}
 		li + li {
 			margin-left: $stile-tab-page-size-tab-margin;
-			border-left-color: $stile-tab-page-color-tab-separator;
+			// border-left-color: $stile-tab-page-color-tab-separator;
 		}
 	}
 }
