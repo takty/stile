@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 320;  // px
 
-	if (window.navigator.userAgent.toLowerCase().indexOf('trident/7') !== -1) return;
+	if (ST.BROWSER === 'ie11') return;
 
 	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
 	modifyAlignmentStyle(als, 'alignleft');

@@ -10,6 +10,22 @@
 
 let ST = ST || {};
 
+(function () {
+	const ua = window.navigator.userAgent.toLowerCase();
+	if (ua.indexOf('edge') !== -1) {
+		ST.BROWSER = 'edge';
+	} else if (ua.indexOf('trident/7') !== -1) {
+		ST.BROWSER = 'ie11';
+	} else if (ua.indexOf('chrome') !== -1 && ua.indexOf('edge') === -1) {
+		ST.BROWSER = 'chrome';
+	} else if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
+		ST.BROWSER = 'safari';
+	} else if (ua.indexOf('opera') !== -1) {
+		ST.BROWSER = 'opera';
+	} else if (ua.indexOf('firefox') !== -1) {
+		ST.BROWSER = 'firefox';
+	}
+})();
 
 ST.addStile = function (elm, style) {
 	if (elm.dataset.stile) {
@@ -105,8 +121,7 @@ ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
 }
 
 ST.getWpAdminBarHeight = function () {
-	const ua = window.navigator.userAgent;
-	if (ua.indexOf('Chrome') !== -1 && ua.indexOf('Edge') === -1) return 0;  // Chrome
+	if (ST.BROWSER === 'chrome') return 0;
 	const wpab = document.getElementById('wpadminbar');
 	return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
 };

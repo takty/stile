@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	let tse = null;
 
 	function tableScroll_enlarger_wrap(cont) {
-		if (window.navigator.userAgent.indexOf('Chrome') !== -1) {  // Chrome and Edge
+		if (ST.BROWSER === 'chrome' || ST.BROWSER === 'edge') {
 			if (tse) clearTimeout(tse);
 			tse = setTimeout(function () {tableScroll_enlarger(cont);}, 0);  // for updating enlager button position
 		} else {
@@ -335,7 +335,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
-		// if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 		if (tab.scrollWidth - tab.offsetWidth > 0 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
@@ -397,12 +396,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function isIE11orOldEdge() {
-		const ua = window.navigator.userAgent.toLowerCase();
-		if (ua.indexOf('msie') !== -1 || ua.indexOf('trident') !== -1) return true;
-		if (getEdgeRev(ua) < 16) return true;  // Before Fall Creators Update
+		if (ST.BROWSER === 'ie11') return true;
+		if (getEdgeRev() < 16) return true;  // Before Fall Creators Update
 		return false;
 
-		function getEdgeRev(ua) {
+		function getEdgeRev() {
+			const ua = window.navigator.userAgent.toLowerCase();
 			const ss = ua.split(' ');
 			for (let i = 0; i < ss.length; i += 1) {
 				if (ss[i].indexOf('edge') === 0) {

@@ -15,9 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
 
-	if (window.navigator.userAgent.indexOf('Firefox') === -1) {
-		initializeLazyImageLoading();
-	}
+	if (ST.BROWSER !== 'firefox') initializeLazyImageLoading();
 
 
 	// -------------------------------------------------------------------------
