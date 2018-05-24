@@ -3,9 +3,12 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-20
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -43,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				type = target.style.textDecoration;
 				if (type === 'underline') {
 					target.style.textDecoration = '';
-					addDataStile(target, 'inline-' + type);
+					ST.addStile(target, 'inline-' + type);
 				}
 			} else {
 				if (type === 'underline') {
 					target.style.textDecorationLine = '';
-					addDataStile(target, 'inline-' + type);
+					ST.addStile(target, 'inline-' + type);
 				}
 			}
 		}
@@ -62,19 +65,19 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (isImageLink(a)) {
-				addDataStile(a, 'link-image');
+				ST.addStile(a, 'link-image');
 				continue;
 			}
 			if (!isSimple(a)) continue;
-			addDataStile(a, 'link-simple');
+			ST.addStile(a, 'link-simple');
 			const url = a.getAttribute('href');
 			if (isUrlLink(a, url)) {
-				addDataStile(a, 'link-url');
+				ST.addStile(a, 'link-url');
 			}
 			if (isExternal(url)) {
-				addDataStile(a, 'link-external');
+				ST.addStile(a, 'link-external');
 			} else if (isAnchor(url)) {
-				addDataStile(a, 'link-anchor');
+				ST.addStile(a, 'link-anchor');
 			}
 		}
 	}
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const a = as[i];
 			const url = a.getAttribute('href');
 			if (isExternal(url)) {
-				addDataStile(a, 'link-external');
+				ST.addStile(a, 'link-external');
 			}
 		}
 	}
@@ -150,14 +153,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		return success;
 	}
 
-	function addDataStile(elm, style) {
-		if (elm.dataset.stile) {
-			elm.dataset.stile = elm.dataset.stile + ' ' + style;
-		} else {
-			elm.dataset.stile = style;
-		}
-	}
-
 
 	// -------------------------------------------------------------------------
 	// Iframe Styles
@@ -168,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const width = f.width;
 			const height = f.height;
 			const wrap = document.createElement('SPAN');
-			addDataStile(wrap, 'iframe-wrapper');
+			ST.addStile(wrap, 'iframe-wrapper');
 			const spacer = document.createElement('DIV');
 			spacer.style.paddingTop = (100 * height / width) + '%';
 			wrap.appendChild(spacer);

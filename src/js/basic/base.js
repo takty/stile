@@ -3,14 +3,15 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-23
+ * @version 2018-05-24
  *
  */
 
 
-const STILE = STILE || {};
+let ST = ST || {};
 
-STILE.addDataStile = function (elm, style) {
+
+ST.addStile = function (elm, style) {
 	if (elm.dataset.stile) {
 		const ssl = ' ' + elm.dataset.stile + ' ';
 		const sbb = ' ' + style + ' ';
@@ -20,19 +21,93 @@ STILE.addDataStile = function (elm, style) {
 		elm.dataset.stile = style;
 	}
 	elm.className = elm.className;  // Hack for IE11
+	if (!elm.className) elm.removeAttribute('class');
 };
 
-STILE.containStile = function (elm, style) {
+ST.containStile = function (elm, style) {
 	if (!elm.dataset.stile) return false;
 	const ssl = ' ' + elm.dataset.stile + ' ';
 	const sbb = ' ' + style + ' ';
 	return (ssl.indexOf(sbb) !== -1);
 };
 
-STILE.removeDataStile = function (elm, style) {
+ST.removeStile = function (elm, style) {
 	if (!elm.dataset.stile) return;
 	const ssl = ' ' + elm.dataset.stile + ' ';
 	const sbb = ' ' + style + ' ';
 	elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	elm.className = elm.className;  // Hack for IE11
+	if (!elm.className) elm.removeAttribute('class');
 };
+
+
+// -----------------------------------------------------------------------------
+
+ST.elementTopOnWindow = function (elm, considerTranslate = false) {
+	let top = 0;
+	if (considerTranslate) {
+		while (elm) {
+			top += elm.offsetTop + ST.getTranslateY(elm);
+			elm = elm.offsetParent;
+		}
+	} else {
+		while (elm) {
+			top += elm.offsetTop;
+			elm = elm.offsetParent;
+		}
+	}
+	return top;
+};
+
+ST.getTranslateY = function (elm) {
+	if (!elm.style) return 0;
+	const ss = elm.style.transform.split(')');
+	ss.pop();
+	for (let i = 0; i < ss.length; i += 1) {
+		const vs = ss[i].split('(');
+		const fun = vs[0].trim();
+		const args = vs[1];
+		switch (fun) {
+			case 'translate':
+				return parseFloat(args.split(',')[1] || '0');
+			case 'translateY':
+				return parseFloat(args);
+		}
+	}
+	return 0;
+};
+
+
+// -----------------------------------------------------------------------------
+
+ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
+	let elmFixed = document.getElementsByClassName(fixedElementClass);
+	if (elmFixed && elmFixed.length > 0) {
+		elmFixed = elmFixed[0];
+		let elmTops = document.getElementsByClassName(fixedTopClass);
+		if (elmTops) {
+			return function () {
+				const pos = getComputedStyle(elmFixed).position;
+				if (pos === 'fixed') {
+					let height = 0;
+					for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
+					return height;
+				}
+				return 0;
+			};
+		}
+		return function () {
+			const pos = getComputedStyle(elmFixed).position;
+			return pos === 'fixed' ? elmFixed.offsetHeight : 0;
+		};
+	}
+	return function () { return 0; }
+}
+
+ST.getWpAdminBarHeight = function () {
+	const ua = window.navigator.userAgent;
+	if (ua.indexOf('Chrome') !== -1 && ua.indexOf('Edge') === -1) return 0;  // Chrome
+	const wpab = document.getElementById('wpadminbar');
+	return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
+};
+
