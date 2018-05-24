@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-22
+ * @version 2018-05-24
  *
  */
 
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
 	let ts = document.querySelectorAll(TARGET_SELECTOR);
-	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
+	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
 	ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
-	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo)
+	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
 
 
 	// -------------------------------------------------------------------------
