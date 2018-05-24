@@ -3,18 +3,21 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-05-25
  *
  */
 
 
-document.addEventListener('DOMContentLoaded', function () {
+let ST = ST || {};
+
+
+window.addEventListener('load', function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_KERNING = '.stile-kerning';
 
 	const OFFSET_KERNING_PAIR = -0.4;
-	const OFFSET_KERNING_SOLO = -0.4;
+	const OFFSET_KERNING_SOLO = -0.5;
 
 	const kerningInfo = {};
 	makeKerningPairs(kerningInfo,
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (c.nodeType === 1 /*ELEMENT_NODE*/) applyKerningToElement(c, ki);
 			else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				let text = c.textContent;
-				const prev = c.previousSibling;
+				let prev = c.previousSibling;
 				const isParentBlock = isBlockParent(c.parentNode);
 				if (isParentBlock) {
 					const next = c.nextSibling;
@@ -96,7 +99,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (d.indexOf('inline') === -1) return true;
 		if (d.indexOf('inline-block') !== -1) {  // is inline block
 			const cs = elm.childNodes;
-			if (cs.length === 1 && cs[0].nodeType === 3 /*TEXT_NODE*/) return false;  // When it has only one text child
+			if (cs.length === 1 && cs[0].nodeType === 3 /*TEXT_NODE*/) {
+				if (elm.parentNode) {
+					const pd = getComputedStyle(elm.parentNode).display;
+					if (pd.indexOf('inline') === -1 && elm.parentNode.firstChild === elm) return true;
+				}
+				return false;  // When it has only one text child
+			}
 			return true;
 		}
 		return false;
@@ -121,14 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			const ch2 = text.substr(i + 1, 1);
 			let space = 0;
 			let style = '';
-
 			if (ch1 !== '' && ch2 !== '' && ki[ch1 + ch2]) {
 				space = ki[ch1 + ch2];
-			} else {
-				if (ch1 !== '' && ki[ch1 + '*']) space += ki[ch1 + '*'];
-				if (ch2 !== '' && ki['*' + ch2]) space += ki['*' + ch2];
-			}
-			if (space !== 0) {
 				style = 'letter-spacing:' + space + 'em;';
 			}
 			if (i === 0 && ch1 !== '' && ki[ch1] && isHead) {
