@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CTYPES = ['S', 'E', 'I', 'K', 'H'];
 	const CPATS = {
 		S: /[「『（［｛〈《【〔〖〘〚]/u,
-		E: /[」』）］｝〉》】〕〗〙〛、，。．？！]/u,
+		E: /[」』）］｝〉》】〕〗〙〛、，。．？！を]/u,
 		I: /[ぁ-んゝ]/u,
 		K: /[ァ-ヴーｱ-ﾝﾞｰ]/u,
 		H: /[一-龠々〆ヵヶ]/u
