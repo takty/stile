@@ -23,7 +23,7 @@ gulp.task('js-without-option', function () {
 });
 
 gulp.task('js-each', function () {
-	return gulp.src('src/js/*/*.js')
+	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
 		.pipe($.babel({presets: ['es2015']}))
 		.pipe($.uglify())
