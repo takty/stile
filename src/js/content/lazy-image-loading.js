@@ -3,18 +3,19 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
 	const TARGET_SELECTOR = '.stile';
 
-	if (window.navigator.userAgent.indexOf('Firefox') === -1) {
-		initializeLazyImageLoading();
-	}
+	if (ST.BROWSER !== 'firefox') initializeLazyImageLoading();
 
 
 	// -------------------------------------------------------------------------
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
-			if (elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
+			if (ST.elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
 		}
 		window.addEventListener('scroll', onScroll);
 		onScroll();
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				const imgY = elementTopOnWindow(img);
+				const imgY = ST.elementTopOnWindow(img);
 				if (imgY < winY + window.innerHeight + OFFSET) show(img);
 			}
 		}
@@ -79,15 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		} else {
 			setTimeout(function () {img.style.opacity = '';}, 200);
 		}
-	}
-
-	function elementTopOnWindow(elm) {
-		let top = 0;
-		while (elm) {
-			top += elm.offsetTop;
-			elm = elm.offsetParent;
-		}
-		return top;
 	}
 
 	function doBeforePrint(func, forceMediaCheck = true) {

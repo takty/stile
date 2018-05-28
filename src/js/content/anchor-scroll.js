@@ -3,9 +3,12 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -17,14 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	const SELECTOR_TARGET = '.stile *[id]:not([class])';
 
 	let ADDITIONAL_OFFSET = 16;
-	if (typeof STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = window.STILE_ANCHOR_SCROLL_ADDITIONAL_OFFSET;
+	if (typeof ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET;
 
 
 	// -------------------------------------------------------------------------
 	// Anchor Offset
 
-	const getAnchorOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
-	if (getAnchorOffset() !== false) {
+	const getAnchorOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	if (getAnchorOffset() !== 0) {
 		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
 		const anchorTargets = as1.concat(filterTarget(as2));
@@ -52,8 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (hash[0] === '#') hash = hash.substr(1);
 		const tar = document.getElementById(hash);
 		if (tar) {
-			setTimeout(function () {window.scrollTo(0, elementTopOnWindow(tar))}, 200);
-			setTimeout(function () {window.scrollTo(0, elementTopOnWindow(tar))}, 300);
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true))}, 200);
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true))}, 300);
 		}
 	}
 
@@ -78,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function setAnchorOffset(ats) {
 		const offset = getAnchorOffset();
-		const wpabH = getWpAdminBarHeight();
+		const wpabH = ST.getWpAdminBarHeight();
 		const off = offset + wpabH + ADDITIONAL_OFFSET;
 
 		for (let i = 0; i < ats.length; i += 1) {
@@ -142,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function jump(tar, duration) {
 		const start = window.pageYOffset;
-		let posY = elementTopOnWindow(tar);
+		let posY = ST.elementTopOnWindow(tar, true);
 		let wh = document.documentElement.offsetHeight;
 		let timeStart, timeElapsed;
 
@@ -152,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		function loop(time) {
 			if (!isJumping) return;
 			if (wh !== document.documentElement.offsetHeight) {  // for lazy image loading
-				posY = elementTopOnWindow(tar);
+				posY = ST.elementTopOnWindow(tar, true);
 				wh = document.documentElement.offsetHeight;
 			}
 			timeElapsed = time - timeStart;
@@ -161,8 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			else end();
 		}
 		function end() {
-			window.scrollTo(0, elementTopOnWindow(tar));
-			setTimeout(function () {window.scrollTo(0, elementTopOnWindow(tar));}, 50);
+			window.scrollTo(0, ST.elementTopOnWindow(tar, true));
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true));}, 50);
 			if (tar !== document.documentElement) setFocus(tar);
 			isJumping = false;
 		}
@@ -177,57 +180,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// -------------------------------------------------------------------------
 	// Utilities
-
-	function getWpAdminBarHeight() {
-		const ua = window.navigator.userAgent;
-		if (ua.indexOf('Chrome') !== -1 && ua.indexOf('Edge') === -1) return 0;  // Chrome
-		const wpab = document.getElementById('wpadminbar');
-		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
-	}
-
-	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
-		let elmFixed = document.getElementsByClassName(fixedElementClass);
-		if (elmFixed && elmFixed.length > 0) {
-			elmFixed = elmFixed[0];
-			let elmTops = document.getElementsByClassName(fixedTopClass);
-			if (elmTops) {
-				return function () {
-					let height = 0;
-					for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
-					return elmFixed.offsetHeight - height;
-				};
-			}
-			return function () { return elmFixed.clientHeight; };
-		}
-		return function () { return false; }
-	}
-
-	function elementTopOnWindow(elm) {
-		let top = 0;
-		while (elm) {
-			top += elm.offsetTop + getTranslateY(elm);
-			elm = elm.offsetParent;
-		}
-		return top;
-	}
-
-	function getTranslateY(elm) {
-		if (!elm.style) return 0;
-		const ss = elm.style.transform.split(')');
-		ss.pop();
-		for (let i = 0; i < ss.length; i += 1) {
-			const vs = ss[i].split('(');
-			const fun = vs[0].trim();
-			const args = vs[1];
-			switch (fun) {
-			case 'translate':
-				return parseFloat(args.split(',')[1] || '0');
-			case 'translateY':
-				return parseFloat(args);
-			}
-		}
-		return 0;
-	}
 
 	function setFocus(tar) {
 		if (!tar) return;

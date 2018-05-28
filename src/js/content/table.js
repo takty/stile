@@ -3,9 +3,12 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-22
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,14 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 	const TARGET_SELECTOR    = '.stile';
 
-	const STILE_HEADER_CONTAINER = 'fixed-table-header-container';
-	const STILE_HEADER_TABLE     = 'fixed-table-header-table';
-	const STILE_SCROLL_BAR       = 'fixed-table-scroll-bar';
-	const STILE_ENLARGER_BUTTON  = 'enlarger-button';
-	const STILE_STATE_ENLARGED   = 'table-enlarged';
+	const ST_HEADER_CONTAINER = 'fixed-table-header-container';
+	const ST_HEADER_TABLE     = 'fixed-table-header-table';
+	const ST_SCROLL_BAR       = 'fixed-table-scroll-bar';
+	const ST_ENLARGER_BUTTON  = 'enlarger-button';
+	const ST_STATE_ENLARGED   = 'table-enlarged';
 
-	const STILE_OPT_NO_NEAT_WRAP = 'no-neat-wrap';
-	const STILE_OPT_NO_ENLARGER  = 'no-enlarger';
+	const ST_OPT_NO_NEAT_WRAP = 'no-neat-wrap';
+	const ST_OPT_NO_ENLARGER  = 'no-enlarger';
 
 	const CELL_MIN_WIDTH = 120;
 	const CELL_MIN_RATIO = 2 / 3;  // width : height
@@ -30,14 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	const HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	const getTableHeaderOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 	let scrollBarWidth;
 	setTimeout(function () { init(tabs); }, 100);  // Delay for Chrome and Edge
 
 	function init(tabs) {
 		for (let i = 0; i < tabs.length; i += 1) {
-			if (!containStile(tabs[i], STILE_OPT_NO_NEAT_WRAP)) addWrapStyle(tabs[i]);
+			if (!ST.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) addWrapStyle(tabs[i]);
 		}
 		setTimeout(function () { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
 	}
@@ -50,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const tab  = tabs[i];
 			const head = cloneTableHeader(tab);
 			const bar  = cloneTableScrollBar(tab);
-			const etb  = containStile(tab, STILE_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
+			const etb  = ST.containStile(tab, ST_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
 			const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
 			initEvents(cont);
 			conts.push(cont);
@@ -115,14 +118,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (!thead) return null;
 		}
 		const cont = document.createElement('div');
-		addStile(cont, STILE_HEADER_CONTAINER);
+		ST.addStile(cont, ST_HEADER_CONTAINER);
 		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
-		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
+		cont.style.top = (getTableHeaderOffset() + ST.getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
-		addStile(ptab, STILE_HEADER_TABLE);
+		ST.addStile(ptab, ST_HEADER_TABLE);
 		ptab.style.width = thead.getBoundingClientRect().width + 'px';
 		cont.appendChild(ptab);
 
@@ -142,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
 			}
 		}
-		if (containStile(table, STILE_STATE_ENLARGED)) addStile(cont, STILE_STATE_ENLARGED);
+		if (ST.containStile(table, ST_STATE_ENLARGED)) ST.addStile(cont, ST_STATE_ENLARGED);
 		return cont;
 	}
 
@@ -177,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tbody = table.tBodies[0];
 
 		const bar = document.createElement('div');
-		addStile(bar, STILE_SCROLL_BAR);
+		ST.addStile(bar, ST_SCROLL_BAR);
 		bar.style.maxWidth = table.clientWidth + 'px';
 		bar.style.display = 'none';
 		const h = parseInt(getScrollBarWidth());
@@ -194,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
-		if (cont.etb && containStile(tab, STILE_STATE_ENLARGED)) windowResize_enlarger(tab);
+		if (cont.etb && ST.containStile(tab, ST_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -212,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function windowScroll(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
-		const tabTop = elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
+		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
 		const offset = getTableHeaderOffset();
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
 
@@ -225,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (cont.etb) switchEnlargerToTable(cont);
 			} else if (tabTop < winY + offset) {
 				head.style.display = 'block';
-				head.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
+				head.style.top = (getTableHeaderOffset() + ST.getWpAdminBarHeight()) + 'px';
 				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 				cont.headerHeight = head.getBoundingClientRect().height;
 				if (cont.etb) switchEnlargerToFloatingHeader(cont);
@@ -272,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function createEnlarger(table) {
 		const etb = document.createElement('div');
-		etb.dataset['stile'] = STILE_ENLARGER_BUTTON;
+		etb.dataset['stile'] = ST_ENLARGER_BUTTON;
 		table.appendChild(etb);
 		return etb;
 	}
@@ -293,19 +296,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function enlarge(cont) {
 		const tab = cont.table;
-		if (containStile(tab, STILE_STATE_ENLARGED)) {
+		if (ST.containStile(tab, ST_STATE_ENLARGED)) {
 			tab.style.marginLeft = '';
 			tab.style.zIndex = '';
 			tab.style.width = '';
 			tab.style.maxWidth = '';
-			removeStile(tab, STILE_STATE_ENLARGED);
+			ST.removeStile(tab, ST_STATE_ENLARGED);
 		} else {
 			if (tab.scrollWidth - tab.clientWidth <= 2) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
 			tab.scrollLeft = 0;
-			addStile(tab, STILE_STATE_ENLARGED);
+			ST.addStile(tab, ST_STATE_ENLARGED);
 		}
 		windowResize(cont);
 	}
@@ -322,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	let tse = null;
 
 	function tableScroll_enlarger_wrap(cont) {
-		if (window.navigator.userAgent.indexOf('Chrome') !== -1) {  // Chrome and Edge
+		if (ST.BROWSER === 'chrome' || ST.BROWSER === 'edge') {
 			if (tse) clearTimeout(tse);
 			tse = setTimeout(function () {tableScroll_enlarger(cont);}, 0);  // for updating enlager button position
 		} else {
@@ -332,12 +335,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
-		// if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 		if (tab.scrollWidth - tab.offsetWidth > 0 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
 		} else {
-			if (containStile(tab, STILE_STATE_ENLARGED)) {
+			if (ST.containStile(tab, ST_STATE_ENLARGED)) {
 				const pw = etb.parentElement.offsetWidth;
 				const diff = pw - tab.tBodies[0].clientWidth;
 				if (0 < diff) {
@@ -394,12 +396,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function isIE11orOldEdge() {
-		const ua = window.navigator.userAgent.toLowerCase();
-		if (ua.indexOf('msie') !== -1 || ua.indexOf('trident') !== -1) return true;
-		if (getEdgeRev(ua) < 16) return true;  // Before Fall Creators Update
+		if (ST.BROWSER === 'ie11') return true;
+		if (getEdgeRev() < 16) return true;  // Before Fall Creators Update
 		return false;
 
-		function getEdgeRev(ua) {
+		function getEdgeRev() {
+			const ua = window.navigator.userAgent.toLowerCase();
 			const ss = ua.split(' ');
 			for (let i = 0; i < ss.length; i += 1) {
 				if (ss[i].indexOf('edge') === 0) {
@@ -592,35 +594,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	// -------------------------------------------------------------------------
 	// Utilities
 
-	function getWpAdminBarHeight() {
-		const wpab = document.getElementById('wpadminbar');
-		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
-	}
-
-	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
-		let elmFixed = document.getElementsByClassName(fixedElementClass);
-		if (elmFixed && elmFixed.length > 0) {
-			elmFixed = elmFixed[0];
-			let elmTops = document.getElementsByClassName(fixedTopClass);
-			if (elmTops) {
-				return function () {
-					const pos = getComputedStyle(elmFixed).position;
-					if (pos === 'fixed') {
-						let height = 0;
-						for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
-						return height;
-					}
-					return 0;
-				};
-			}
-			return function () {
-				const pos = getComputedStyle(elmFixed).position;
-				return pos === 'fixed' ? elmFixed.offsetHeight : 0;
-			};
-		}
-		return function () { return 0; }
-	}
-
 	function elementLeftOnWindow(elm) {
 		let left = 0;
 		while (elm) {
@@ -628,15 +601,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			elm = elm.offsetParent;
 		}
 		return left;
-	}
-
-	function elementTopOnWindow(elm) {
-		let top = 0;
-		while (elm) {
-			top += elm.offsetTop;
-			elm = elm.offsetParent;
-		}
-		return top;
 	}
 
 	function getScrollBarWidth() {
@@ -649,31 +613,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		const width = window.getComputedStyle(dummy, null).getPropertyValue('width');
 		document.body.removeChild(dummy);
 		return width;
-	}
-
-	function addStile(elm, style) {
-		if (elm.dataset.stile) {
-			const ssl = ' ' + elm.dataset.stile + ' ';
-			const sbb = ' ' + style + ' ';
-			if (ssl.indexOf(sbb) !== -1) return;
-			elm.dataset.stile = elm.dataset.stile + ' ' + style;
-		} else {
-			elm.dataset.stile = style;
-		}
-	}
-
-	function containStile(elm, style) {
-		if (!elm.dataset.stile) return false;
-		const ssl = ' ' + elm.dataset.stile + ' ';
-		const sbb = ' ' + style + ' ';
-		return (ssl.indexOf(sbb) !== -1);
-	}
-
-	function removeStile(elm, style) {
-		if (!elm.dataset.stile) return;
-		const ssl = ' ' + elm.dataset.stile + ' ';
-		const sbb = ' ' + style + ' ';
-		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	}
 
 });

@@ -3,9 +3,12 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -55,15 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const type = t.style.listStyleType;
 		if (type !== '' && type !== 'none') {
 			t.style.listStyleType = '';
-			addDataStile(t, 'list-' + type);
-		}
-	}
-
-	function addDataStile(elm, style) {
-		if (elm.dataset.stile) {
-			elm.dataset.stile = elm.dataset.stile + ' ' + style;
-		} else {
-			elm.dataset.stile = style;
+			ST.addStile(t, 'list-' + type);
 		}
 	}
 

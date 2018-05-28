@@ -3,7 +3,7 @@
  * Heading Styles
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-24
  *
  */
 
@@ -25,6 +25,7 @@ $stile-heading-color-text: rgba(#000, 0.95) !default;
 		@if $set-design { color: $stile-heading-color-text; }
 
 		> small { display: block; }
+		&:not([class]) span { display: inline-block; }
 	}
 
 	h1 { @include font-size-level(6); }

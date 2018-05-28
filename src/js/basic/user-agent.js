@@ -3,28 +3,19 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-24
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
 	const ua = window.navigator.userAgent.toLowerCase();
 	const cl = document.body.classList;
 
-	if (ua.indexOf('edge') !== -1) {
-		cl.add('edge');
-	} else if (ua.indexOf('trident/7') !== -1) {
-		cl.add('ie11');
-	} else if (ua.indexOf('chrome')  !== -1 && ua.indexOf('edge') === -1) {
-		cl.add('chrome');
-	} else if (ua.indexOf('safari')  !== -1 && ua.indexOf('chrome') === -1) {
-		cl.add('safari');
-	} else if (ua.indexOf('opera')   !== -1) {
-		cl.add('opera');
-	} else if (ua.indexOf('firefox') !== -1) {
-		cl.add('firefox');
-	}
+	cl.add(ST.BROWSER);
 	if (ua.indexOf('iphone') !== -1) {
 		cl.add('iphone');
 		cl.add('ios');
