@@ -3,16 +3,16 @@
  * Queries for Responsive and Browsers
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-29
  *
  * https://medium.freecodecamp.org/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
  *
  */
 
 
-@function mmToPx($v) {
-	@return round(($v - 80) / 25.4 * 72px);  // '80mm' is the sum of the side margins of papers.
-}
+$stile-query-print-margin: 80;  // '80mm' is the sum of the side margins of papers.
+@function mmToPx($v) { @return round(($v - $stile-query-print-margin) / 25.4 * 72px); }
+
 
 @mixin for-phone-only {
 	@media screen and (max-width: 599px), print and (max-width: #{mmToPx(148) - 1}) {
