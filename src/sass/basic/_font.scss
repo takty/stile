@@ -10,6 +10,56 @@
 
 @import 'base';
 
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,700');              // Laten
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,700&text=0123456789/');  // Number and Slash
+@import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');       // Laten Serif
+
+$stile-font-sans-serif-laten : 'Nunito Sans';
+$stile-font-sans-serif-number: 'Roboto';
+$stile-font-serif-laten      : 'Spectral';
+
+
+$stile-font-sans-serif:
+	-apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+	'Yu Gothic', 'YuGothic',
+	Verdana, Meiryo, sans-serif;
+
+$stile-font-sans-serif-ie:
+	Verdana, Meiryo, sans-serif;
+
+$stile-font-sans-serif-ios:
+	'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+	sans-serif;
+
+$stile-font-sans-serif-android:
+	'Noto Sans CJK JP',
+	sans-serif;
+
+
+$stile-font-serif:
+	'Yu Mincho',
+	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
+	Georgia, Meiryo, serif;
+
+$stile-font-serif-ie:
+	'HGS Mincho', 'Yu Mincho',
+	Georgia, Meiryo, serif;
+
+$stile-font-serif-android:
+	'Noto Serif CJK JP',
+	'Sawarabi Mincho',
+	Georgia, serif;
+
+
+$stile-font-monospace:
+	'Noto Sans Mono CJK JP', 'Source Han Code JP N', 'IPA Gothic',
+	Monaco, Consolas, Courier, 'Courier New',
+	'Osaka-Mono',
+	monospace;
+
+
+// -----------------------------------------------------------------------------
+
 
 @font-face {
 	font-family: 'Yu Gothic';
@@ -148,79 +198,28 @@
 // -----------------------------------------------------------------------------
 
 
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,700');  // Laten
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,700&text=0123456789/');  // Number and Slash
-@import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');  // Laten Serif
-
-$font-sans-serif-laten : 'Nunito Sans';
-$font-sans-serif-number: 'Roboto';
-$font-serif-laten      : 'Spectral';
-
-
-$font-sans-serif:
-	-apple-system, BlinkMacSystemFont, 'Helvetica Neue',
-	'Yu Gothic', 'YuGothic',
-	Verdana, Meiryo, sans-serif;
-
-$font-sans-serif-ie:
-	Verdana, Meiryo, sans-serif;
-
-$font-sans-serif-ios:
-	'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
-	sans-serif;
-
-$font-sans-serif-android:
-	'Noto Sans CJK JP',
-	sans-serif;
-
-
-$font-serif:
-	'Yu Mincho',
-	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
-	Georgia, Meiryo, serif;
-
-$font-serif-ie:
-	'HGS Mincho', 'Yu Mincho',
-	Georgia, Meiryo, serif;
-
-$font-serif-android:
-	'Noto Serif CJK JP',
-	'Sawarabi Mincho',
-	Georgia, serif;
-
-
-$font-monospace:
-	'Noto Sans Mono CJK JP', 'Source Han Code JP N', 'IPA Gothic',
-	Monaco, Consolas, Courier, 'Courier New',
-	'Osaka-Mono',
-	monospace;
-
-
-// -----------------------------------------------------------------------------
-
-
 @mixin font-family {
-	font-family: $font-sans-serif-number, $font-sans-serif-laten, $font-sans-serif;
+	font-family: $stile-font-sans-serif-number, $stile-font-sans-serif-laten, $stile-font-sans-serif;
 	@include for-ie {
-		font-family: $font-sans-serif-number, $font-sans-serif-laten, $font-sans-serif-ie;
+		font-family: $stile-font-sans-serif-number, $stile-font-sans-serif-laten, $stile-font-sans-serif-ie;
 	}
 	&.ios, .ios & {  // need to use os.js
-		font-family: $font-sans-serif-ios;
+		font-family: $stile-font-sans-serif-ios;
 	}
 	&.android, .android & {  // need to use os.js
-		font-family: $font-sans-serif-android;
+		font-family: $stile-font-sans-serif-android;
 	}
 }
 
 @mixin font-family-serif {
-	font-family: $font-serif-laten, $font-serif;
+	font-family: $stile-font-serif-laten, $stile-font-serif;
 	&.android, .android & {  // need to use os.js
-		font-family: $font-serif-laten, $font-serif-android;
+		font-family: $stile-font-serif-laten, $stile-font-serif-android;
 	}
 }
 
 @mixin font-family-monospace {
-	font-family: $font-monospace;
+	font-family: $stile-font-monospace;
 }
 
 @mixin font-proportional {
