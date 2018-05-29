@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-05-29
  *
  */
 
@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (hash[0] === '#') hash = hash.substr(1);
 		const tar = document.getElementById(hash);
 		if (tar) {
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true))}, 200);
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true))}, 300);
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 200);
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 300);
 		}
 	}
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function jump(tar, duration) {
 		const start = window.pageYOffset;
-		let posY = ST.elementTopOnWindow(tar, true);
+		let posY = ST.elementTopOnWindow(tar);
 		let wh = document.documentElement.offsetHeight;
 		let timeStart, timeElapsed;
 
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		function loop(time) {
 			if (!isJumping) return;
 			if (wh !== document.documentElement.offsetHeight) {  // for lazy image loading
-				posY = ST.elementTopOnWindow(tar, true);
+				posY = ST.elementTopOnWindow(tar);
 				wh = document.documentElement.offsetHeight;
 			}
 			timeElapsed = time - timeStart;
@@ -164,8 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			else end();
 		}
 		function end() {
-			window.scrollTo(0, ST.elementTopOnWindow(tar, true));
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar, true));}, 50);
+			window.scrollTo(0, ST.elementTopOnWindow(tar));
+			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar));}, 50);
 			if (tar !== document.documentElement) setFocus(tar);
 			isJumping = false;
 		}

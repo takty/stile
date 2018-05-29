@@ -3,7 +3,7 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-05-29
  *
  */
 
@@ -59,38 +59,16 @@ ST.removeStile = function (elm, style) {
 
 // -----------------------------------------------------------------------------
 
-ST.elementTopOnWindow = function (elm, considerTranslate = false) {
-	let top = 0;
-	if (considerTranslate) {
-		while (elm) {
-			top += elm.offsetTop + ST.getTranslateY(elm);
-			elm = elm.offsetParent;
-		}
-	} else {
-		while (elm) {
-			top += elm.offsetTop;
-			elm = elm.offsetParent;
-		}
-	}
-	return top;
+ST.elementTopOnWindow = function (elm) {
+	const br = elm.getBoundingClientRect();
+	return br.top + window.pageYOffset;
 };
 
 ST.getTranslateY = function (elm) {
-	if (!elm.style) return 0;
-	const ss = elm.style.transform.split(')');
-	ss.pop();
-	for (let i = 0; i < ss.length; i += 1) {
-		const vs = ss[i].split('(');
-		const fun = vs[0].trim();
-		const args = vs[1];
-		switch (fun) {
-			case 'translate':
-				return parseFloat(args.split(',')[1] || '0');
-			case 'translateY':
-				return parseFloat(args);
-		}
-	}
-	return 0;
+	const transform = getComputedStyle(elm).transform;
+	if (!transform) return 0;
+	const ss = transform.split(',');  // matrix(0, 0, 0, 0, 0, y)
+	return parseFloat(ss[ss.length - 1]);
 };
 
 
@@ -118,11 +96,10 @@ ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
 		};
 	}
 	return function () { return 0; }
-}
+};
 
 ST.getWpAdminBarHeight = function () {
 	if (ST.BROWSER === 'chrome') return 0;
 	const wpab = document.getElementById('wpadminbar');
 	return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
 };
-
