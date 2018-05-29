@@ -3,17 +3,16 @@
  * Link Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-16
+ * @version 2018-05-29
  *
  */
 
 
+@import '../basic/base';
+
 $stile-link-color-text:         rgba(#12f, 0.9) !default;
 $stile-link-color-text-visited: rgba(#609, 0.9) !default;
 $stile-link-color-bg:           rgba($stile-link-color-text, 0.05) !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-link-mark {

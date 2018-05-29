@@ -3,10 +3,12 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-22
+ * @version 2018-05-29
  *
  */
 
+
+@import '../basic/base';
 
 $stile-table-color-rule-horizontal      : rgba(#777, 0.35) !default;
 $stile-table-color-rule-horizontal-edge : $stile-table-color-rule-horizontal !default;
@@ -19,9 +21,6 @@ $stile-table-color-enlarge-button       : rgba($stile-table-color-rule-horizonta
 $stile-table-color-enlarge-button-opened: rgba($stile-table-color-rule-horizontal, 0.25) !default;
 $stile-table-color-background-enlarged  : #fff !default;
 $stile-table-size-rule-horizontal-edge  : 2px !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-table {

@@ -3,19 +3,18 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-05
+ * @version 2018-05-29
  *
  */
 
+
+@import '../basic/base';
 
 $stile-block-color-line          : rgba(#777, 0.9) !default;
 $stile-block-color-shade         : rgba($stile-block-color-line, 0.1) !default;
 $stile-block-size-line-width     : 1px !default;
 $stile-block-size-font-figcaption: 0.85rem !default;
 $stile-block-size-max-width      : 36rem !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) { @return $val * $stile-size-unit; }
 
 
 @mixin stile-block {

@@ -3,17 +3,15 @@
  * Classes for Alignments
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-16
+ * @version 2018-05-29
  *
  */
 
 
+@import '../basic/base';
 @import '../basic/query';
 
 $stile-alignment-size-min-text-width: 16rem !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-alignment {

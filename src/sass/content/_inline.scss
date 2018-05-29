@@ -3,10 +3,12 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-20
+ * @version 2018-05-29
  *
  */
 
+
+@import '../basic/base';
 
 $stile-inline-color-strong       : rgba(#000, 0.95) !default;
 $stile-inline-color-underline    : rgba(#fd0, 0.9) !default;
@@ -15,9 +17,6 @@ $stile-inline-color-abbr         : rgba(#12f, 0.9) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
 $stile-inline-size-font-small    : 0.85em !default;
 $stile-inline-size-font-subscript: 0.75em !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-inline {

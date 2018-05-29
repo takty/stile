@@ -3,13 +3,12 @@
  * Font Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-02
+ * @version 2018-05-29
  *
  */
 
 
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
+@import 'base';
 
 
 @font-face {

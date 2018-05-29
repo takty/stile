@@ -3,10 +3,12 @@
  * Tab Page (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-23
+ * @version 2018-05-29
  *
  */
 
+
+@import '../basic/base';
 
 $stile-tab-page-color-bg              : #fff !default;
 $stile-tab-page-color-line            : rgba(#777, 0.35) !default;
@@ -19,9 +21,6 @@ $stile-tab-page-color-tab-top-current : rgba(#777, 0.75) !default;
 $stile-tab-page-size-tab-top-current  : 2px !default;
 $stile-tab-page-size-font             : 1rem !default;
 $stile-tab-page-size-tab-margin       : 0.25rem !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) { @return $val * $stile-size-unit; }
 
 
 @mixin stile-tab-page {

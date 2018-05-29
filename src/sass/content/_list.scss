@@ -3,17 +3,16 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-06
+ * @version 2018-05-29
  *
  */
 
 
+@import '../basic/base';
+
 $stile-list-color-mark      : rgba(#777, 0.9) !default;
 $stile-list-rate-mark       : 0.45 !default;
 $stile-list-rate-square-mark: 0.44 !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-list {

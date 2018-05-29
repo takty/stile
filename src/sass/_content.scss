@@ -3,11 +3,12 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-21
+ * @version 2018-05-29
  *
  */
 
 
+@import 'basic/base';
 @import 'content/block';
 @import 'content/heading';
 @import 'content/link';
@@ -15,9 +16,6 @@
 @import 'content/list';
 @import 'content/table';
 @import 'content/print';
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
 
 
 @mixin stile-content($set-heading-design: true) {
