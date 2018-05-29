@@ -10,66 +10,77 @@
  */
 
 
-$stile-query-print-margin: 80;  // '80mm' is the sum of the side margins of papers.
-@function mmToPx($v) { @return round(($v - $stile-query-print-margin) / 25.4 * 72px); }
+@import 'base';
 
+
+@mixin for-size-only($low_px, $low_mm, $high_px, $high_mm) {
+	@if $low_px == false {
+		@media screen                          and (max-width: #{$high_px - 1}), print                                      and (max-width: #{base-to-px($high_mm) - 1}) {
+			@content;
+		}
+	} @else {
+		@media screen and (min-width: $low_px) and (max-width: #{$high_px - 1}), print and (min-width: base-to-px($low_mm)) and (max-width: #{base-to-px($high_mm) - 1}) {
+			@content;
+		}
+	}
+}
 
 @mixin for-phone-only {
-	@media screen and (max-width: 599px), print and (max-width: #{mmToPx(148) - 1}) {
+	@media screen and (max-width: 599px), print and (max-width: #{base-to-px(148) - 1}) {
 		@content;
 	}
 }
 
 @mixin for-tablet-up {
-	@media screen and (min-width: 600px), print and (min-width: mmToPx(148)) {
+	@media screen and (min-width: 600px), print and (min-width: base-to-px(148)) {
 		@content;
 	}
 }
 
 @mixin for-tablet-only {
-	@media screen and (min-width: 600px) and (max-width: 1199px), print and (min-width: mmToPx(148)) and (max-width: #{mmToPx(297) - 1}) {
+	@media screen and (min-width: 600px) and (max-width: 1199px), print and (min-width: base-to-px(148)) and (max-width: #{base-to-px(297) - 1}) {
 		@content;
 	}
 }
 
 @mixin for-tablet-portrait-up {
-	@media screen and (min-width: 600px), print and (min-width: mmToPx(148)) {
+	@media screen and (min-width: 600px), print and (min-width: base-to-px(148)) {
 		@content;
 	}
 }
 
 @mixin for-tablet-portrait-only {
-	@media screen and (min-width: 600px) and (max-width: 899px), print and (min-width: mmToPx(148)) and (max-width: #{mmToPx(210) - 1}) {
+	@media screen and (min-width: 600px) and (max-width: 899px), print and (min-width: base-to-px(148)) and (max-width: #{base-to-px(210) - 1}) {
 		@content;
 	}
 }
 
 @mixin for-tablet-landscape-up {
-	@media screen and (min-width: 900px), print and (min-width: mmToPx(210)) {
+	@media screen and (min-width: 900px), print and (min-width: base-to-px(210)) {
 		@content;
 	}
 }
 
 @mixin for-tablet-landscape-only {
-	@media screen and (min-width: 900px) and (max-width: 1199px), print and (min-width: mmToPx(210)) and (max-width: #{mmToPx(297) - 1}) {
+	@media screen and (min-width: 900px) and (max-width: 1199px), print and (min-width: base-to-px(210)) and (max-width: #{base-to-px(297) - 1}) {
 		@content;
 	}
 }
 
 @mixin for-desktop-up {
-	@media screen and (min-width: 1200px), print and (min-width: mmToPx(297)) {
+	@media screen and (min-width: 1200px), print and (min-width: base-to-px(297)) {
 		@content;
 	}
 }
 
 @mixin for-desktop-only {
-	@media screen and (min-width: 1200px) and (max-width: 1799px), print and (min-width: mmToPx(297)) and (max-width: #{mmToPx(420) - 1}) {
+	@media screen and (min-width: 1200px) and (max-width: 1799px), print and (min-width: base-to-px(297)) and (max-width: #{base-to-px(420) - 1}) {
 		@content;
 	}
 }
 
 @mixin for-big-desktop-up {
-	@media screen and (min-width: 1800px), print and (min-width: mmToPx(420)) {
+	@media screen and (min-width: 1800px), print and (min-width: base-to-px(420)) {
 		@content;
 	}
 }
