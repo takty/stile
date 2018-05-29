@@ -269,8 +269,6 @@ $font-monospace:
 	}
 }
 
-@function strip-unit($value) { @return $value / ($value * 0 + 1); }
-
 @mixin font-size-level($level, $set-line-height: true) {
 	@if $level == 1 {
 		font-size: 1rem;
