@@ -8,7 +8,8 @@
  */
 
 
-$stile-size-unit: 0.9rem !default;
+$stile-size-unit   : 0.9rem !default;
+$stile-print-margin: 80 !default;  // The sum of the side margins of papers (mm).
 
 
 @function base-vr($val) {
@@ -17,4 +18,8 @@ $stile-size-unit: 0.9rem !default;
 
 @function base-strip-unit($value) {
 	@return $value / ($value * 0 + 1);
+}
+
+@function base-to-px($v) {
+	@return round(($v - $stile-print-margin) / 25.4 * 72px);
 }
