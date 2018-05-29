@@ -3,7 +3,7 @@
  * Reset
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-18
+ * @version 2018-05-29
  *
  * Based on:
  *  modern-normalize v0.4
@@ -59,6 +59,7 @@ button, select {
 
 button, [type='button'], [type='reset'], [type='submit'] {
 	-webkit-appearance: button;
+	appearance: button;
 
 	&::-moz-focus-inner {
 		border-style: none;
@@ -75,15 +76,18 @@ button, [type='button'], [type='reset'], [type='submit'] {
 
 [type='search'] {
 	-webkit-appearance: textfield;
+	appearance: textfield;
 	outline-offset: -2px;
 }
 
 [type='search']::-webkit-search-decoration {
 	-webkit-appearance: none;
+	appearance: none;
 }
 
 ::-webkit-file-upload-button {
 	-webkit-appearance: button;
+	appearance: button;
 	font: inherit;
 }
 
