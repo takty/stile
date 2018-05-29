@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-05-29
  *
  */
 
@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
 		const offset = getTableHeaderOffset();
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
+		const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
 
 		if (head) {
 			if (isInWin) {
@@ -233,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cont.headerHeight = head.getBoundingClientRect().height;
 				if (cont.etb) switchEnlargerToFloatingHeader(cont);
 			}
-			head.style.left = (elementLeftOnWindow(tab) - winX) + 'px';
+			head.style.left = tabLeft;
 			head.scrollLeft = tab.scrollLeft;
 		}
 		if (bar) {
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			} else if (tab.scrollWidth - tab.clientWidth > 1) {  // for avoiding needless scrolling
 				bar.style.display = 'block';
 			}
-			bar.style.left = (elementLeftOnWindow(tab) - winX) + 'px';
+			bar.style.left = tabLeft;
 			bar.scrollLeft = tab.scrollLeft;
 		}
 	}
@@ -314,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function windowResize_enlarger(tab) {
-		let left = elementLeftOnWindow(tab.parentNode);
+		let left = ST.elementLeftOnWindow(tab.parentNode);
 		const tbody = tab.tBodies[0];
 		const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 
@@ -593,15 +594,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// -------------------------------------------------------------------------
 	// Utilities
-
-	function elementLeftOnWindow(elm) {
-		let left = 0;
-		while (elm) {
-			left += elm.offsetLeft;
-			elm = elm.offsetParent;
-		}
-		return left;
-	}
 
 	function getScrollBarWidth() {
 		const dummy = document.createElement('div');

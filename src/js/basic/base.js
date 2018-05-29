@@ -64,11 +64,9 @@ ST.elementTopOnWindow = function (elm) {
 	return br.top + window.pageYOffset;
 };
 
-ST.getTranslateY = function (elm) {
-	const transform = getComputedStyle(elm).transform;
-	if (!transform) return 0;
-	const ss = transform.split(',');  // matrix(0, 0, 0, 0, 0, y)
-	return parseFloat(ss[ss.length - 1]);
+ST.elementLeftOnWindow = function (elm) {
+	const br = elm.getBoundingClientRect();
+	return br.left + window.pageXOffset;
 };
 
 
