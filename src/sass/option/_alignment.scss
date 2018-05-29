@@ -70,15 +70,15 @@ $stile-alignment-size-min-text-width: 16rem !default;
 	*[data-stile ~= 'alignleft'] {
 		float: left;
 		margin-left: auto;
-		margin-right: vr(2);
-		transform: translateY(#{(vr(2) - 1rem) / 2});
+		margin-right: base-vr(2);
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'alignright'] {
 		float: right;
-		margin-left: vr(2);
+		margin-left: base-vr(2);
 		margin-right: auto;
-		transform: translateY(#{(vr(2) - 1rem) / 2});
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'aligncenter'] {
@@ -97,7 +97,7 @@ $stile-alignment-size-min-text-width: 16rem !default;
 	float: none;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: vr(1);  // for these classes specific!
+	margin-bottom: base-vr(1);  // for these classes specific!
 	transform: initial;
 	text-align: center;
 	clear: both;
@@ -111,16 +111,16 @@ $stile-alignment-size-min-text-width: 16rem !default;
 		} @else {
 			max-width: $max-width;
 		}
-		transform: translateY(#{(vr(2) - 1rem) / 2});
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		clear: none;
 	}
 	&.alignleft {
 		float: left;
-		margin-right: vr(2);
+		margin-right: base-vr(2);
 	}
 	&.alignright {
 		float: right;
-		margin-left: vr(2);
+		margin-left: base-vr(2);
 	}
 }
 
@@ -133,14 +133,14 @@ $stile-alignment-size-min-text-width: 16rem !default;
 	* + .alignright,
 	.alignleft + *,
 	.alignright + * {
-		margin-top: vr(1);
+		margin-top: base-vr(1);
 	}
 
 	* + figure.alignleft,
 	* + figure.alignright,
 	figure.alignleft + *,
 	figure.alignright + * {
-		margin-top: vr(4);  // for Centering View
+		margin-top: base-vr(4);  // for Centering View
 	}
 
 	@include for-tablet-up {
@@ -148,7 +148,7 @@ $stile-alignment-size-min-text-width: 16rem !default;
 		* + figure.alignright,
 		figure.alignleft + *,
 		figure.alignright + * {
-			margin-top: vr(1);  // for Actual Floating View
+			margin-top: base-vr(1);  // for Actual Floating View
 		}
 	}
 
@@ -161,7 +161,7 @@ $stile-alignment-size-min-text-width: 16rem !default;
 }
 
 @mixin stile-alignment-define-figure-margin($tag, $top) {
-	#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: vr($top); } }
+	#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: base-vr($top); } }
 }
 
 

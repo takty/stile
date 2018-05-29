@@ -42,7 +42,7 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 			border-right: 1px solid $stile-tab-page-color-line;
 			border-bottom: 1px solid $stile-tab-page-color-line;
 			background-color: $stile-tab-page-color-bg;
-			padding: vr(2);
+			padding: base-vr(2);
 
 			// Margins inside
 			@include stile-margin-basic;
@@ -68,14 +68,14 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 			justify-content: center;
 			align-items: center;
 
-			padding: vr(0.5) vr(1);
-			@include for-tablet-up { padding: vr(0.5) vr(2); }
+			padding: base-vr(0.5) base-vr(1);
+			@include for-tablet-up { padding: base-vr(0.5) base-vr(2); }
 			
 			border: 1px solid $stile-tab-page-color-tab;
 			background-color: $stile-tab-page-color-tab;
 			color: $stile-tab-page-color-tab-text;
 			font-size: $stile-tab-page-size-font;
-			line-height: vr(2);
+			line-height: base-vr(2);
 			@include font-bold;
 			@include font-proportional;
 			

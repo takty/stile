@@ -30,10 +30,10 @@ $stile-inline-size-font-subscript: 0.75em !default;
 			content: attr(src);
 			@include layout-centering(true);
 
-			padding: vr(0.5) vr(1);
+			padding: base-vr(0.5) base-vr(1);
 			border: 1px dashed $stile-inline-color-broken-image;
-			min-height: vr(2);
-			line-height: vr(1.5);
+			min-height: base-vr(2);
+			line-height: base-vr(1.5);
 
 			color: $stile-inline-color-broken-image;
 			font-size: 0.85rem;

@@ -11,10 +11,10 @@
 $stile-size-unit: 0.9rem !default;
 
 
-@function vr($val) {
+@function base-vr($val) {
 	@return $val * $stile-size-unit;
 }
 
-@function strip-unit($value) {
+@function base-strip-unit($value) {
 	@return $value / ($value * 0 + 1);
 }

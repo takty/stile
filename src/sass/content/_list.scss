@@ -31,12 +31,12 @@ $stile-list-rate-square-mark: 0.44 !default;
 	ul.stile {
 		list-style: none;
 
-		padding-left: vr(4);
-		&[data-stile ~= 'no-indent'] { padding-left: vr(2); }
+		padding-left: base-vr(4);
+		&[data-stile ~= 'no-indent'] { padding-left: base-vr(2); }
 
 		> li {
 			position: relative;
-			line-height: vr(2);
+			line-height: base-vr(2);
 		}
 
 		> li::before {
@@ -45,8 +45,8 @@ $stile-list-rate-square-mark: 0.44 !default;
 			display: block;
 			box-sizing: border-box;
 
-			top: calc(#{vr(1)} - 0.01rem);
-			left: - vr(2);
+			top: calc(#{base-vr(1)} - 0.01rem);
+			left: - base-vr(2);
 
 			width: 1em;
 			height: 1em;
@@ -87,28 +87,28 @@ $stile-list-rate-square-mark: 0.44 !default;
 	ol:not([class]),
 	ol.stile {
 
-		padding-left: vr(1);
+		padding-left: base-vr(1);
 		&[data-stile ~= 'no-indent'] { padding-left: 0; }
 
 		> li {
 			counter-increment: li;
 			display: table-row;
-			line-height: vr(2);
+			line-height: base-vr(2);
 		}
 
 		> li::before {
 			content: counter(li) '.';
 			display: table-cell;
 
-			min-width: vr(3);
-			padding-right: vr(1);
+			min-width: base-vr(3);
+			padding-right: base-vr(1);
 			text-align: right;
 
 			@include font-bold;
 			
 			color: $stile-list-color-mark;
 		}
-		&[data-stile ~= 'no-indent'] > li::before { min-width: vr(2); }
+		&[data-stile ~= 'no-indent'] > li::before { min-width: base-vr(2); }
 
 		&[data-stile ~= 'list-lower-alpha'] > li::before {
 			content: counter(li, lower-alpha) '.';
@@ -142,9 +142,9 @@ $stile-list-rate-square-mark: 0.44 !default;
 	dl:not([class]),
 	dl.stile {
 
-		&:not([data-stile ~= 'no-indent']) { padding-left: vr(2); }
+		&:not([data-stile ~= 'no-indent']) { padding-left: base-vr(2); }
 
-		line-height: vr(2);
+		line-height: base-vr(2);
 
 		> dt {
 			@include font-bold;
@@ -152,7 +152,7 @@ $stile-list-rate-square-mark: 0.44 !default;
 			color: $stile-list-color-mark; 
 		}
 
-		> dd { padding-left: vr(2); }
+		> dd { padding-left: base-vr(2); }
 	}
 
 }

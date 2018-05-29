@@ -55,8 +55,8 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 	}
 
 	th, td {
-		padding: vr(0.5) vr(1);  // This half vr is irregular but needed.
-		line-height: vr(2);
+		padding: base-vr(0.5) base-vr(1);  // This half vr is irregular but needed.
+		line-height: base-vr(2);
 		@include font-proportional;
 	}
 
@@ -145,7 +145,7 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 		overflow-x: auto;
 		overflow-y: hidden;  // for IE11 & Edge
 
-		height: calc(#{vr(1)} + 2px);  // for Safari
+		height: calc(#{base-vr(1)} + 2px);  // for Safari
 		border: 1px solid;  // for Safari
 
 		border: 1px solid rgba($stile-table-color-scrollbar-background, 0.1);  // for Safari
@@ -157,17 +157,17 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 
 	table::-webkit-scrollbar,
 	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
-		height: vr(1);
+		height: base-vr(1);
 		background-color: $stile-table-color-scrollbar-background;
 	}
 
 	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
-		border-radius: vr(1) / 2;
+		border-radius: base-vr(1) / 2;
 	}
 
 	table::-webkit-scrollbar-thumb,
 	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar-thumb {
-		border-radius: vr(1) / 2;
+		border-radius: base-vr(1) / 2;
 		background-color: $stile-table-color-scrollbar-thumb;
 	}
 
@@ -188,8 +188,8 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 		div[data-stile ~= "enlarger-button"] {
 			position: absolute;
 			z-index: 999;
-			width: vr(1.5);
-			height: vr(1.5);
+			width: base-vr(1.5);
+			height: base-vr(1.5);
 			top: 0;
 			right: 0;
 			cursor: ew-resize;

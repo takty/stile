@@ -262,7 +262,7 @@ $font-monospace:
 @mixin font-responsive-size($min-vw, $max-vw, $min-value, $max-value) {
 	font-size: $min-value;
 	@media screen and (min-width: $min-vw) {
-		font-size: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+		font-size: calc(#{$min-value} + #{base-strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{base-strip-unit($max-vw - $min-vw)});
 	}
 	@media screen and (min-width: $max-vw) {
 		font-size: $max-value;
@@ -272,21 +272,21 @@ $font-monospace:
 @mixin font-size-level($level, $set-line-height: true) {
 	@if $level == 1 {
 		font-size: 1rem;
-		@if $set-line-height { line-height: vr(2); }
+		@if $set-line-height { line-height: base-vr(2); }
 	} @else if $level == 2 {
 		font-size: 1.125rem;
-		@if $set-line-height { line-height: vr(2); }
+		@if $set-line-height { line-height: base-vr(2); }
 	} @else if $level == 3 {
 		font-size: 1.25rem;
-		@if $set-line-height { line-height: vr(2); }
+		@if $set-line-height { line-height: base-vr(2); }
 	} @else if $level == 4 {
 		font-size: 1.5rem;
-		@if $set-line-height { line-height: vr(3); }
+		@if $set-line-height { line-height: base-vr(3); }
 	} @else if $level == 5 {
 		font-size: 2rem;
-		@if $set-line-height { line-height: vr(3); }
+		@if $set-line-height { line-height: base-vr(3); }
 	} @else if $level == 6 {
 		font-size: 2.5rem;
-		@if $set-line-height { line-height: vr(4); }
+		@if $set-line-height { line-height: base-vr(4); }
 	}
 }

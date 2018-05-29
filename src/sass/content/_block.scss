@@ -29,7 +29,7 @@ $stile-block-size-max-width      : 36rem !default;
 	p {
 		text-align: justify;
 		@include for-ie { text-align: left; }
-		line-height: vr(2);
+		line-height: base-vr(2);
 		hyphens: auto;  // Autoprefixer is needed. 
 	}
 
@@ -40,7 +40,7 @@ $stile-block-size-max-width      : 36rem !default;
 	}
 
 	blockquote {
-		padding-left: vr(4);
+		padding-left: base-vr(4);
 		font-style: italic;
 
 		position: relative;
@@ -49,7 +49,7 @@ $stile-block-size-max-width      : 36rem !default;
 			display: block;
 
 			position: absolute;
-			left: vr(2);
+			left: base-vr(2);
 
 			width: calc(#{$stile-block-size-line-width} + 0.5px);
 			height: 100%;
@@ -57,7 +57,7 @@ $stile-block-size-max-width      : 36rem !default;
 		}
 
 		&[data-stile~='no-indent'] {
-			padding-left: vr(2);
+			padding-left: base-vr(2);
 			&::before { left: 0; }
 		}
 	}
@@ -65,9 +65,9 @@ $stile-block-size-max-width      : 36rem !default;
 	pre {
 		@include font-family-monospace;
 		display: block;
-		padding: vr(2);
+		padding: base-vr(2);
 		overflow-x: auto;
-		line-height: vr(2);
+		line-height: base-vr(2);
 
 		background-color: $stile-block-color-shade;
 	}
@@ -102,7 +102,7 @@ $stile-block-size-max-width      : 36rem !default;
 		display: inline-block;
 		max-width: $stile-block-size-max-width;
 		font-size: $stile-block-size-font-figcaption;
-		line-height: vr(1.5);
+		line-height: base-vr(1.5);
 		text-align: left;  // for left align of long caption
 	}
 
