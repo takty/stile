@@ -3,7 +3,7 @@
  * Queries for Responsive and Browsers
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-05-30
  *
  * https://medium.freecodecamp.org/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
  *
@@ -13,76 +13,62 @@
 @import 'base';
 
 
-@mixin for-size-only($low_px, $low_mm, $high_px, $high_mm) {
-	@if $low_px == false {
-		@media screen                          and (max-width: #{$high_px - 1}), print                                      and (max-width: #{base-to-px($high_mm) - 1}) {
-			@content;
-		}
-	} @else {
-		@media screen and (min-width: $low_px) and (max-width: #{$high_px - 1}), print and (min-width: base-to-px($low_mm)) and (max-width: #{base-to-px($high_mm) - 1}) {
-			@content;
-		}
+@mixin for-size-down($high_px, $high_mm) {
+	@media screen and (max-width: #{$high_px - 1}), print and (max-width: #{base-to-px($high_mm) - 1}) {
+		@content;
+	}
+}
+
+@mixin for-size-only($low_px, $high_px, $low_mm, $high_mm) {
+	@media screen and (min-width: $low_px) and (max-width: #{$high_px - 1}), print and (min-width: base-to-px($low_mm)) and (max-width: #{base-to-px($high_mm) - 1}) {
+		@content;
+	}
+}
+
+@mixin for-size-up($low_px, $low_mm) {
+	@media screen and (min-width: $low_px), print and (min-width: base-to-px($low_mm)) {
+		@content;
 	}
 }
 
 @mixin for-phone-only {
-	@media screen and (max-width: 599px), print and (max-width: #{base-to-px(148) - 1}) {
-		@content;
-	}
+	@include for-size-down(600px, 148) { @content; }
 }
 
 @mixin for-tablet-up {
-	@media screen and (min-width: 600px), print and (min-width: base-to-px(148)) {
-		@content;
-	}
+	@include for-size-up(600px, 148) { @content; }
 }
 
 @mixin for-tablet-only {
-	@media screen and (min-width: 600px) and (max-width: 1199px), print and (min-width: base-to-px(148)) and (max-width: #{base-to-px(297) - 1}) {
-		@content;
-	}
+	@include for-size-only(600px, 1200px, 148, 297) { @content; }
 }
 
 @mixin for-tablet-portrait-up {
-	@media screen and (min-width: 600px), print and (min-width: base-to-px(148)) {
-		@content;
-	}
+	@include for-size-up(600px, 148) { @content; }
 }
 
 @mixin for-tablet-portrait-only {
-	@media screen and (min-width: 600px) and (max-width: 899px), print and (min-width: base-to-px(148)) and (max-width: #{base-to-px(210) - 1}) {
-		@content;
-	}
+	@include for-size-only(600px, 900px, 148, 210) { @content; }
 }
 
 @mixin for-tablet-landscape-up {
-	@media screen and (min-width: 900px), print and (min-width: base-to-px(210)) {
-		@content;
-	}
+	@include for-size-up(900px, 210) { @content; }
 }
 
 @mixin for-tablet-landscape-only {
-	@media screen and (min-width: 900px) and (max-width: 1199px), print and (min-width: base-to-px(210)) and (max-width: #{base-to-px(297) - 1}) {
-		@content;
-	}
+	@include for-size-only(900px, 1200px, 210, 297) { @content; }
 }
 
 @mixin for-desktop-up {
-	@media screen and (min-width: 1200px), print and (min-width: base-to-px(297)) {
-		@content;
-	}
+	@include for-size-up(1200px, 297) { @content; }
 }
 
 @mixin for-desktop-only {
-	@media screen and (min-width: 1200px) and (max-width: 1799px), print and (min-width: base-to-px(297)) and (max-width: #{base-to-px(420) - 1}) {
-		@content;
-	}
+	@include for-size-only(1200px, 1800px, 297, 420) { @content; }
 }
 
 @mixin for-big-desktop-up {
-	@media screen and (min-width: 1800px), print and (min-width: base-to-px(420)) {
-		@content;
-	}
+	@include for-size-up(1800px, 420) { @content; }
 }
 
 
