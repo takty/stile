@@ -3,12 +3,14 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-05-30
  *
  */
 
 
 @import '../basic/base';
+@import '../basic/query';
+@import '../basic/font';
 
 $stile-block-color-line          : rgba(#777, 0.9) !default;
 $stile-block-color-shade         : rgba($stile-block-color-line, 0.1) !default;
@@ -18,14 +20,11 @@ $stile-block-size-max-width      : 36rem !default;
 
 
 @mixin stile-block {
-
 	@include stile-block-main;
 	@include stile-block-figure;
-
 }
 
 @mixin stile-block-main {
-
 	p {
 		text-align: justify;
 		@include for-ie { text-align: left; }
@@ -77,11 +76,9 @@ $stile-block-size-max-width      : 36rem !default;
 		background-color: transparent;
 		white-space: pre;
 	}
-
 }
 
 @mixin stile-block-figure {
-
 	figure:not([class]) { max-width: 100%; }
 
 	figure img {
@@ -105,5 +102,4 @@ $stile-block-size-max-width      : 36rem !default;
 		line-height: base-vr(1.5);
 		text-align: left;  // for left align of long caption
 	}
-
 }

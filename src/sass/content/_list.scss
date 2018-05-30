@@ -3,12 +3,13 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-05-30
  *
  */
 
 
 @import '../basic/base';
+@import '../basic/font';
 
 $stile-list-color-mark      : rgba(#777, 0.9) !default;
 $stile-list-rate-mark       : 0.45 !default;
@@ -26,7 +27,6 @@ $stile-list-rate-square-mark: 0.44 !default;
 
 
 @mixin stile-list-ul {
-
 	ul:not([class]),
 	ul.stile {
 		list-style: none;
@@ -75,7 +75,6 @@ $stile-list-rate-square-mark: 0.44 !default;
 			background-color: $stile-list-color-mark;
 		}
 	}
-
 }
 
 
@@ -83,10 +82,8 @@ $stile-list-rate-square-mark: 0.44 !default;
 
 
 @mixin stile-list-ol {
-
 	ol:not([class]),
 	ol.stile {
-
 		padding-left: base-vr(1);
 		&[data-stile ~= 'no-indent'] { padding-left: 0; }
 
@@ -130,7 +127,6 @@ $stile-list-rate-square-mark: 0.44 !default;
 			content: counter(li, upper-roman) '.';
 		}
 	}
-
 }
 
 
@@ -138,10 +134,8 @@ $stile-list-rate-square-mark: 0.44 !default;
 
 
 @mixin stile-list-dl {
-
 	dl:not([class]),
 	dl.stile {
-
 		&:not([data-stile ~= 'no-indent']) { padding-left: base-vr(2); }
 
 		line-height: base-vr(2);
@@ -154,5 +148,4 @@ $stile-list-rate-square-mark: 0.44 !default;
 
 		> dd { padding-left: base-vr(2); }
 	}
-
 }

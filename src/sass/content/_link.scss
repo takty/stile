@@ -1,14 +1,16 @@
 /**
  *
- * Link Style
+ * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-05-30
  *
  */
 
 
 @import '../basic/base';
+@import '../basic/query';
+@import '../basic/font';
 
 $stile-link-color-text:         rgba(#12f, 0.9) !default;
 $stile-link-color-text-visited: rgba(#609, 0.9) !default;
@@ -90,5 +92,4 @@ $stile-link-color-bg:           rgba($stile-link-color-text, 0.05) !default;
 	a[data-stile ~= 'link-image'] {
 		> img { vertical-align: middle; }
 	}
-
 }

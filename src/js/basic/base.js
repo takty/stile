@@ -1,9 +1,9 @@
 /**
  *
- * User Agent
+ * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-05-30
  *
  */
 

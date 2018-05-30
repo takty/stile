@@ -1,9 +1,9 @@
 /**
  *
- * Classes for Containers (JS)
+ * Container Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-19
+ * @version 2018-05-30
  *
  */
 

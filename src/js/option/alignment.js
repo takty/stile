@@ -1,9 +1,9 @@
 /**
  *
- * Classes for Alignments (JS)
+ * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-05-30
  *
  */
 
