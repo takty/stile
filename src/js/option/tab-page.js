@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-05-31
  *
  */
 
@@ -13,8 +13,8 @@ let ST = ST || {};
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	const SELECTOR_TARGET     = '.tab-page';
-	const CLS_TAB_LIST        = 'stile-tab-page-tab-list';
+	const SELECTOR_TARGET  = '.tab-page';
+	const CLS_TAB_LIST     = 'stile-tab-page-tab-list';
 	const ST_STATE_CURRENT = 'current';
 
 	const tabPages = [];
