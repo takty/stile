@@ -17,6 +17,7 @@ $stile-tab-page-color-bg              : #fff !default;
 $stile-tab-page-color-line            : rgba(#777, 0.35) !default;
 $stile-tab-page-color-tab             : transparent !default;
 $stile-tab-page-color-tab-current     : rgba(#fff, 0.75) !default;
+$stile-tab-page-color-tab-accordion   : rgba(#777, 0.35) !default;
 $stile-tab-page-color-tab-text        : rgba(#000, 0.5) !default;
 $stile-tab-page-color-tab-text-current: rgba(#000, 0.95) !default;
 $stile-tab-page-color-tab-separator   : $stile-tab-page-color-line !default;
@@ -67,8 +68,9 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 		li {
 			@include layout-centering();
 
-			padding: base-vr(0.5) base-vr(1);
-			@include for-tablet-up { padding: base-vr(0.5) base-vr(2); }
+			// padding: base-vr(0.5) base-vr(1);
+			// @include for-tablet-up { padding: base-vr(0.5) base-vr(2); }
+			padding: base-vr(0.5) base-vr(2);
 			
 			border: 1px solid $stile-tab-page-color-tab;
 			background-color: $stile-tab-page-color-tab;
@@ -78,9 +80,10 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 			@include font-bold;
 			@include font-proportional;
 			
-			position: relative;
-			top: 1px;
-
+			@include for-tablet-up {
+				position: relative;
+				top: 1px;
+			}
 			&[data-stile ~= 'current'] {
 				border: 1px solid $stile-tab-page-color-line;
 				border-top: $stile-tab-page-size-tab-top-current solid $stile-tab-page-color-tab-top-current;
@@ -92,9 +95,51 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 				cursor: pointer;
 				user-select: none;
 			}
+			@include for-phone-only {
+				&[data-stile ~= 'current'] {
+					cursor: pointer;
+					user-select: none;
+				}
+			}
+			@include for-phone-only {
+				border: 1px solid $stile-tab-page-color-tab-accordion;
+				border-bottom: none;
+				margin-bottom: $stile-tab-page-size-tab-margin;
+				&[data-stile ~= 'current'] {
+					border-bottom: 1px dotted $stile-tab-page-color-line;
+					margin-bottom: 0;
+				}
+				&:not([data-stile ~= 'current']):last-child {
+					border-bottom: 1px solid $stile-tab-page-color-line;
+					margin-bottom: 0;
+				}
+			}
 		}
 		li + li {
-			margin-left: $stile-tab-page-size-tab-margin;
+			@include for-tablet-up {
+				margin-left: $stile-tab-page-size-tab-margin;
+			}
+		}
+
+		@include for-phone-only {
+			flex-direction: column;
+			// border-bottom: 1px dotted $stile-tab-page-color-line;
+			border-bottom: none;
+		}
+	}
+	.stile-tab-page-tab-list.low {
+		display: none;
+		border-bottom: none;
+
+		@include for-phone-only {
+			display: flex;
+			flex-direction: column;
+
+			li {
+				border: 1px solid $stile-tab-page-color-tab-accordion;
+				border-top: none;
+				margin-top: $stile-tab-page-size-tab-margin;
+			}
 		}
 	}
 }
