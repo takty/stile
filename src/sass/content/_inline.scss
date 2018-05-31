@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-05-31
  *
  */
 
@@ -117,7 +117,7 @@ $stile-inline-size-font-subscript: 0.75em !default;
 		width: 100%;
 		position: relative;
 		> iframe {
-			@include layout-fill;
+			@include layout-fill-self;
 		}
 	}
 }

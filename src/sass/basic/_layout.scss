@@ -3,23 +3,33 @@
  * Layout Mixins 
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-05-31
  *
  */
 
 
-@mixin layout-fill($position: absolute, $by_height: false) {
-	position: $position;
-	top: 0;
-	left: 0;
-	right: 0;
+@mixin layout-side-margin($max_width, $side_margin: false) {
+	margin-left: auto;
+	margin-right: auto;
 
-	@if $by_height == false {
-		bottom: 0;
+	max-width: $max_width;  // must be max-width for Android Chrome
+
+	@if $side_margin == false {
+		width: 100%;  // must be width for Android Chrome
 	} @else {
-		min-height: 100%;
+		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
 	}
 }
+
+@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
+	min-width: $min_width;
+	width: calc(($breakpoint - 100%) * 1000);
+	max-width: $max_width;
+}
+
+
+// -----------------------------------------------------------------------------
+
 
 @mixin layout-centering($inline: false) {
 	@if $inline == false {
@@ -46,26 +56,16 @@
 	}
 }
 
+@mixin layout-fill-self($position: absolute, $by_height: false) {
+	position: $position;
+	top: 0;
+	left: 0;
+	right: 0;
 
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
-	min-width: $min_width;
-	width: calc(($breakpoint - 100%) * 1000);
-	max-width: $max_width;
-}
-
-@mixin layout-side-margin($max_width, $side_margin: false) {
-	margin-left: auto;
-	margin-right: auto;
-
-	max-width: $max_width;  // must be max-width for Android Chrome
-
-	@if $side_margin == false {
-		width: 100%;  // must be width for Android Chrome
+	@if $by_height == false {
+		bottom: 0;
 	} @else {
-		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
+		min-height: 100%;
 	}
 }
 
@@ -97,21 +97,13 @@
 	}
 
 	> *:first-child {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		min-height: 100%;
+		@include layout-fill-self(absolute, true);
 	}
 }
 
 @mixin layout-aspect-gold {
 	@include layout-aspect(1.618, 1);
 }
-
-
-// -----------------------------------------------------------------------------
-
 
 @mixin layout-minimum-aspect($width, $height) {
 	position: relative;

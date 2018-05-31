@@ -3,12 +3,15 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-05-31
  *
  */
 
 
 @import '../basic/base';
+@import '../basic/query';
+@import '../basic/font';
+@import '../basic/layout';
 
 $stile-tab-page-color-bg              : #fff !default;
 $stile-tab-page-color-line            : rgba(#777, 0.35) !default;
@@ -64,9 +67,7 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 		border-bottom: 1px solid $stile-tab-page-color-line;
 
 		li {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			@include layout-centering();
 
 			padding: base-vr(0.5) base-vr(1);
 			@include for-tablet-up { padding: base-vr(0.5) base-vr(2); }

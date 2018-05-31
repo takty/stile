@@ -3,13 +3,13 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-05-31
  *
  */
 
 
-@import '../basic/layout';
 @import '../basic/query';
+@import '../basic/layout';
 
 $stile-container-column-gap        : base-vr(2) !default;
 $stile-container-column-2-min-width: 16rem !default;
