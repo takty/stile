@@ -130,23 +130,35 @@
 // -----------------------------------------------------------------------------
 
 
+@mixin layout-spacer() {
+	> *:empty {  // for Spacer
+		visibility: hidden;
+		height: 0px;
+		padding: 0;
+		margin-bottom: 0;
+		border: none;
+		&::before { content: none; }
+	}
+}
+
 @mixin layout-column($n, $gap: false) {
+	$cw: 100% / $n;
+
 	display: flex;
 	flex-direction: row;
 
 	@if $gap != false {
 		margin-right: -$gap;
 	}
-
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
 			margin-right: $gap;
-			flex-basis: calc(#{100% / $n} - #{$gap});
+			flex-basis: calc(#{$cw} - #{$gap});
 		} @else {
-			flex-basis: calc(#{100% / $n});
+			flex-basis: #{$cw};
 		}
 	}
 }
@@ -165,17 +177,7 @@
 			margin-bottom: $gap;
 		}
 	}
-
-	> *:empty {  // for Spacer
-		visibility: hidden;
-		height: 0px;
-		padding: 0;
-		margin-bottom: 0;
-		border: none;
-		&::before {
-			content: none;
-		}
-	}
+	@include layout-spacer;
 }
 
 
@@ -183,59 +185,50 @@
 
 
 @mixin layout-card($n, $gap: false) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+	$cw: 100% / $n;
+
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 
 	@if $gap != false {
-		@if length($gap) == 2 {
-			margin-right: -#{nth($gap, 1)};
-			margin-bottom: -#{nth($gap, 2)};
-		} @else {
-			margin-right: -$gap;
-			margin-bottom: -$gap;
-		}
+		margin-right : -$gap_x;
+		margin-bottom: -$gap_y;
 	}
-
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
-			@if length($gap) == 2 {
-				margin-right: nth($gap, 1);
-				flex-basis: calc(#{100% / $n} - #{nth($gap, 1)});
-				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{nth($gap, 1)}); }
-			} @else {
-				margin-right: $gap;
-				flex-basis: calc(#{100% / $n} - #{$gap});
-				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{$gap}); }
-				width: calc(#{100% / $n} - #{$gap});  // for Safari
-			}
-		} @else {
-			flex-basis: calc(#{100% / $n});
-			@include for-ie { flex-basis: calc(#{floor(100% / $n)}); }
-			width: calc(#{100% / $n});  // for Safari
-		}
-	}
-	> *:not(:empty) {
-		@if length($gap) == 2 {
-			margin-bottom: nth($gap, 2);
-		} @else {
-			@if $gap != false {
-				margin-bottom: $gap;
-			}
-		}
-	}
+			margin-right: $gap_x;
+			flex-basis: calc(#{$cw} - #{$gap_x});
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x}); }
+			width: calc(#{$cw} - #{$gap_x});  // for Safari
 
-	> *:empty {  // for Spacer
-		visibility: hidden;
-		height: 0px;
-		padding: 0;
-		margin-bottom: 0;
-		border: none;
-		&::before {
-			content: none;
+			&:not(:empty) {
+				margin-bottom: $gap_y;
+			}
+		} @else {
+			flex-basis: calc(#{$cw});
+			@include for-ie { flex-basis: #{floor($cw)}; }
+			width: #{$cw};  // for Safari
+		}
+	}
+	@include layout-spacer;
+
+	@for $i from 1 through $n {
+		> *:nth-child(#{$n}n+#{$i}):last-child {
+			@if $gap_x == false {
+				margin-right: #{$cw * ($n - $i)};
+			} @else {
+				margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+			}
 		}
 	}
 }
@@ -252,7 +245,6 @@
 	@if $gap != false {
 		margin-bottom: -$gap;
 	}
-
 	> * {
 		display: inline-block;
 		line-height: 1;
