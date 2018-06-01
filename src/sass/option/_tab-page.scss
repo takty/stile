@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-31
+ * @version 2018-06-01
  *
  */
 
@@ -13,18 +13,23 @@
 @import '../basic/font';
 @import '../basic/layout';
 
-$stile-tab-page-color-bg              : #fff !default;
-$stile-tab-page-color-line            : rgba(#777, 0.35) !default;
-$stile-tab-page-color-tab             : transparent !default;
-$stile-tab-page-color-tab-current     : rgba(#fff, 0.75) !default;
-$stile-tab-page-color-tab-accordion   : rgba(#777, 0.35) !default;
-$stile-tab-page-color-tab-text        : rgba(#000, 0.5) !default;
-$stile-tab-page-color-tab-text-current: rgba(#000, 0.95) !default;
-$stile-tab-page-color-tab-separator   : $stile-tab-page-color-line !default;
-$stile-tab-page-color-tab-top-current : rgba(#777, 0.75) !default;
-$stile-tab-page-size-tab-top-current  : 2px !default;
-$stile-tab-page-size-font             : 1rem !default;
-$stile-tab-page-size-tab-margin       : 0.25rem !default;
+$stile-tab-page-color-bg                : #fff !default;
+$stile-tab-page-color-line              : rgba(#777, 0.35) !default;
+$stile-tab-page-color-tab-bg            : transparent !default;
+$stile-tab-page-color-tab-line          : transparent !default;
+
+$stile-tab-page-color-tab-current-bg    : rgba(#fff, 0.75) !default;
+$stile-tab-page-color-tab-current-line  : rgba(#777, 0.35) !default;
+$stile-tab-page-color-tab-current-top   : rgba(#777, 0.75) !default;
+
+$stile-tab-page-color-tab-accordion-line: rgba(#777, 0.35) !default;
+
+$stile-tab-page-color-tab-text          : rgba(#000, 0.5) !default;
+$stile-tab-page-color-tab-text-current  : rgba(#000, 0.95) !default;
+
+$stile-tab-page-size-tab-current-top    : 2px !default;
+$stile-tab-page-size-tab-margin         : 0.25rem !default;
+$stile-tab-page-size-font               : 1rem !default;
 
 
 @mixin stile-tab-page {
@@ -41,8 +46,8 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 			transition: opacity 1s;
 
 			width: 100%;
-			border-left: 1px solid $stile-tab-page-color-line;
-			border-right: 1px solid $stile-tab-page-color-line;
+			border-left  : 1px solid $stile-tab-page-color-line;
+			border-right : 1px solid $stile-tab-page-color-line;
 			border-bottom: 1px solid $stile-tab-page-color-line;
 			background-color: $stile-tab-page-color-bg;
 			padding: base-vr(2);
@@ -52,94 +57,88 @@ $stile-tab-page-size-tab-margin       : 0.25rem !default;
 		}
 		> div[data-stile ~= 'current'] {
 			position: static;
-			flex-grow: 1;
 			left: 0;
 			opacity: 1;
 			transition: opacity 1s;
+			flex-grow: 1;
 		}
 	}
+
+	.stile-tab-page-tab-list li,
+	.stile-tab-page-tab-list-below li {
+		position: relative;
+		@include layout-centering();
+		padding: base-vr(0.5) base-vr(1);
+		@include for-tablet-landscape-up { padding: base-vr(0.5) base-vr(2); }
+		
+		line-height: base-vr(2);
+		font-size: $stile-tab-page-size-font;
+		@include font-bold;
+		@include font-proportional;
+		
+		background-color: $stile-tab-page-color-tab-bg;
+		color: $stile-tab-page-color-tab-text;
+		cursor: pointer;
+		user-select: none;
+		border-radius: 1px;
+	}
+
 	.stile-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
 		display: flex;
 		justify-content: flex-start;
 
-		padding-left: 0;
-		border-bottom: 1px solid $stile-tab-page-color-line;
-
-		li {
-			@include layout-centering();
-
-			// padding: base-vr(0.5) base-vr(1);
-			// @include for-tablet-up { padding: base-vr(0.5) base-vr(2); }
-			padding: base-vr(0.5) base-vr(2);
-			
-			border: 1px solid $stile-tab-page-color-tab;
-			background-color: $stile-tab-page-color-tab;
-			color: $stile-tab-page-color-tab-text;
-			font-size: $stile-tab-page-size-font;
-			line-height: base-vr(2);
-			@include font-bold;
-			@include font-proportional;
-			
-			@include for-tablet-up {
-				position: relative;
-				top: 1px;
-			}
-			&[data-stile ~= 'current'] {
-				border: 1px solid $stile-tab-page-color-line;
-				border-top: $stile-tab-page-size-tab-top-current solid $stile-tab-page-color-tab-top-current;
-				border-bottom-color: $stile-tab-page-color-bg;
-				background-color: $stile-tab-page-color-tab-current;
-				color: $stile-tab-page-color-tab-text-current;
-			}
-			&:not([data-stile ~= 'current']) {
-				cursor: pointer;
-				user-select: none;
-			}
-			@include for-phone-only {
-				&[data-stile ~= 'current'] {
-					cursor: pointer;
-					user-select: none;
-				}
-			}
-			@include for-phone-only {
-				border: 1px solid $stile-tab-page-color-tab-accordion;
-				border-bottom: none;
-				margin-bottom: $stile-tab-page-size-tab-margin;
-				&[data-stile ~= 'current'] {
-					border-bottom: 1px dotted $stile-tab-page-color-line;
-					margin-bottom: 0;
-				}
-				&:not([data-stile ~= 'current']):last-child {
-					border-bottom: 1px solid $stile-tab-page-color-line;
-					margin-bottom: 0;
-				}
-			}
+		li[data-stile ~= 'current'] {
+			border: 1px solid $stile-tab-page-color-tab-current-line;
+			border-top: $stile-tab-page-size-tab-current-top solid $stile-tab-page-color-tab-current-top;
+			border-bottom-color: $stile-tab-page-color-bg;
+			background-color: $stile-tab-page-color-tab-current-bg;
+			color: $stile-tab-page-color-tab-text-current;
 		}
-		li + li {
-			@include for-tablet-up {
+		@include for-tablet-up {
+			border-bottom: 1px solid $stile-tab-page-color-line;
+			li {
+				top: 1px;
+				border: 1px solid $stile-tab-page-color-tab-line;
+
+				&[data-stile ~= 'current'] {
+					cursor: initial;
+					user-select: initial;
+				}
+			}
+			li + li {
 				margin-left: $stile-tab-page-size-tab-margin;
 			}
 		}
-
-		@include for-phone-only {
-			flex-direction: column;
-			// border-bottom: 1px dotted $stile-tab-page-color-line;
-			border-bottom: none;
-		}
-	}
-	.stile-tab-page-tab-list.low {
-		display: none;
-		border-bottom: none;
-
-		@include for-phone-only {
-			display: flex;
+		@include for-phone-only {  // Accordion Mode
 			flex-direction: column;
 
 			li {
-				border: 1px solid $stile-tab-page-color-tab-accordion;
-				border-top: none;
-				margin-top: $stile-tab-page-size-tab-margin;
+				border: 1px solid $stile-tab-page-color-tab-accordion-line;
+				border-bottom: none;
+				margin-bottom: $stile-tab-page-size-tab-margin;
+	
+				&:not([data-stile ~= 'current']):last-child {  // When the all tabs are closed
+					border-bottom: 1px solid $stile-tab-page-color-tab-accordion-line;
+					margin-bottom: 0;
+				}
+				&[data-stile ~= 'current'] {
+					border-bottom: 1px dotted $stile-tab-page-color-tab-accordion-line;
+					margin-bottom: 0;
+				}
 			}
+		}
+	}
+
+	.stile-tab-page-tab-list-below {  // Accordion Mode
+		display: none;
+		@include for-phone-only { display: flex; }
+
+		flex-direction: column;
+
+		li {
+			border: 1px solid $stile-tab-page-color-tab-accordion-line;
+			border-top: none;
+			margin-top: $stile-tab-page-size-tab-margin;
 		}
 	}
 }
