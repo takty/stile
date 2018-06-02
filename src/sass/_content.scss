@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-06-02
  *
  */
 
@@ -19,8 +19,7 @@
 
 
 @mixin stile-content($set-heading-design: true) {
-	@include stile-margin-basic;
-	@include stile-margin-advanced;
+	@include stile-margin;
 
 	@include stile-block;
 	@include stile-heading($set-heading-design);
@@ -30,6 +29,11 @@
 	@include stile-table;
 
 	@media print { @include stile-print; }
+}
+
+@mixin stile-margin {
+	@include stile-margin-basic;
+	@include stile-margin-advanced;
 }
 
 @mixin stile-margin-basic {
