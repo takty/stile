@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-02
  *
  */
 
@@ -12,9 +12,9 @@
 @import '../basic/query';
 @import '../basic/font';
 
-$stile-link-color-text:         rgba(#12f, 0.9) !default;
+$stile-link-color-text        : rgba(#12f, 0.9) !default;
 $stile-link-color-text-visited: rgba(#609, 0.9) !default;
-$stile-link-color-bg:           rgba($stile-link-color-text, 0.05) !default;
+$stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
 
 
 @mixin stile-link-mark {
