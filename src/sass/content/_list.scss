@@ -3,7 +3,7 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-04
  *
  */
 
@@ -33,6 +33,7 @@ $stile-list-rate-square-mark: 0.44 !default;
 
 		padding-left: base-vr(4);
 		&[data-stile ~= 'no-indent'] { padding-left: base-vr(2); }
+		@include for-phone-only      { padding-left: base-vr(2); }
 
 		> li {
 			position: relative;
@@ -86,6 +87,7 @@ $stile-list-rate-square-mark: 0.44 !default;
 	ol.stile {
 		padding-left: base-vr(1);
 		&[data-stile ~= 'no-indent'] { padding-left: 0; }
+		@include for-phone-only      { padding-left: 0; }
 
 		> li {
 			counter-increment: li;
@@ -106,6 +108,7 @@ $stile-list-rate-square-mark: 0.44 !default;
 			color: $stile-list-color-mark;
 		}
 		&[data-stile ~= 'no-indent'] > li::before { min-width: base-vr(2); }
+		@include for-phone-only { > li::before { min-width: base-vr(2); } }
 
 		&[data-stile ~= 'list-lower-alpha'] > li::before {
 			content: counter(li, lower-alpha) '.';
@@ -136,7 +139,9 @@ $stile-list-rate-square-mark: 0.44 !default;
 @mixin stile-list-dl {
 	dl:not([class]),
 	dl.stile {
-		&:not([data-stile ~= 'no-indent']) { padding-left: base-vr(2); }
+		padding-left: base-vr(2);
+		&[data-stile ~= 'no-indent'] { padding-left: 0; }
+		@include for-phone-only      { padding-left: 0; }
 
 		line-height: base-vr(2);
 
