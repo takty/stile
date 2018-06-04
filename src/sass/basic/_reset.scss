@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-04
  *
  * Based on:
  *  modern-normalize v0.4
@@ -32,6 +32,10 @@ html {
 
 html {
 	line-height: 1;
+}
+
+main {
+	display: block;  // for IE11
 }
 
 
