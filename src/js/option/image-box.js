@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-02
+ * @version 2018-06-05
  *
  */
 
@@ -13,11 +13,13 @@ let ST = ST || {};
 
 window.addEventListener('load', function () {
 
+	const WIN_SIZE_RESPONSIVE       = 600
 	const TARGET_SELECTOR           = '.stile';
 	const TARGET_SELECTOR_IMAGE_BOX = '.stile-image-box';
 	const STILE_CLS_IMAGE_BOX       = 'image-box';
 	const STILE_STATE_OPEN          = 'open';
 	const STILE_STATE_VISIBLE       = 'visible';
+	const SIZE_BOX_PADDING          = '4rem';
 
 	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
 	modifyImageAnchorStyle(as);
@@ -84,16 +86,16 @@ window.addEventListener('load', function () {
 	function onOpen(e, frame, img) {
 		e.preventDefault();
 		ST.addStile(frame, STILE_STATE_OPEN);
-		const isLandscape = (img.offsetHeight < img.offsetWidth);
-		if (isLandscape) {
+		const isPhone = window.innerWidth < WIN_SIZE_RESPONSIVE;
+		if (checkLandscape(frame, img)) {
 			img.style.minWidth = '';
-			img.style.width = '100%';
+			img.style.width = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
 			img.style.height = 'auto';
 		} else {
 			img.style.minHeight = '';
 			img.style.width = 'auto';
 			img.style.maxWidth = 'none';
-			img.style.height = '100%';
+			img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
 		}
 		centeringImage(frame, img);
 		const delay = ST.BROWSER === 'ie11' ? 30 : 0;
@@ -115,7 +117,7 @@ window.addEventListener('load', function () {
 		let isMoving = false;
 
 		frame.addEventListener('touchstart', function (e) {
-			isLandscape = (img.offsetHeight < img.offsetWidth);
+			isLandscape = checkLandscape(frame, img);
 			baseDist = 0;
 			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
 			if (e.touches.length === 1) {
@@ -167,6 +169,12 @@ window.addEventListener('load', function () {
 				}
 			}
 		}, true);
+	}
+
+	function checkLandscape(frame, img) {
+		const winAspect = frame.offsetWidth / frame.offsetHeight;
+		const imgAspect = img.offsetWidth / img.offsetHeight;
+		return (winAspect < imgAspect);
 	}
 
 	function centeringImage(frame, img) {
