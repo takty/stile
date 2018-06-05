@@ -3,7 +3,7 @@
  * Backward Compatibility
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-02
+ * @version 2018-06-05
  *
  */
 
@@ -54,15 +54,15 @@ $stile-link-color-bg           : $inline-color-link-bg !default;
 // -----------------------------------------------------------------------------
 
 
-$inline-color-broken-image      : $inline-color-link-text !default;
 $inline-color-underline         : #ed0 !default;
 $inline-color-del               : #f44 !default;
 $inline-color-abbr              : $inline-color-link-text !default;
+$inline-color-broken-image      : $inline-color-link-text !default;
 
-$stile-inline-color-underline   : $inline-color-broken-image !default;
-$stile-inline-color-del         : $inline-color-underline !default;
-$stile-inline-color-abbr        : $inline-color-del !default;
-$stile-inline-color-broken-image: $inline-color-abbr !default;
+$stile-inline-color-underline   : $inline-color-underline !default;
+$stile-inline-color-del         : $inline-color-del !default;
+$stile-inline-color-abbr        : $inline-color-link-text !default;
+$stile-inline-color-broken-image: $inline-color-link-text !default;
 
 
 // -----------------------------------------------------------------------------
