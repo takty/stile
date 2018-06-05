@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-05
  *
  */
 
@@ -25,7 +25,8 @@ $stile-block-size-max-width      : 36rem !default;
 }
 
 @mixin stile-block-main {
-	p {
+	p,
+	div:not([class]) {
 		text-align: justify;
 		@include for-ie { text-align: left; }
 		line-height: base-vr(2);
