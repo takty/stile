@@ -3,7 +3,7 @@
  * Layout Mixins 
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-31
+ * @version 2018-06-11
  *
  */
 
@@ -73,20 +73,6 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-gap($x, $y) {
-	margin-right: -$x;
-	margin-bottom: -$y;
-
-	> *:not(:empty) {
-		margin-right: $x;
-		margin-bottom: $y;
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
 @mixin layout-aspect($width, $height) {
 	position: relative;
 
@@ -124,6 +110,35 @@
 
 @mixin layout-minimum-aspect-gold {
 	@include layout-minimum-aspect(1.618, 1);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-gap($x, $y) {
+	margin-right: -$x;
+	margin-bottom: -$y;
+
+	> *:not(:empty) {
+		margin-right: $x;
+		margin-bottom: $y;
+	}
+}
+
+@mixin layout-wrap($gap: false, $align: center) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+	@if $gap != false {
+		@include layout-gap($gap_x, $gap_y);
+	}
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: $align;
 }
 
 
