@@ -73,7 +73,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-aspect($width, $height) {
+@mixin layout-aspect($width, $height, $by_height: false) {
 	position: relative;
 
 	&:before {
@@ -83,7 +83,7 @@
 	}
 
 	> *:first-child {
-		@include layout-fill-self(absolute, true);
+		@include layout-fill-self(absolute, $by_height);
 	}
 }
 
