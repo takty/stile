@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			windowScroll(cont);
 			tableScroll(cont);
 
-			if (tab.scrollWidth - tab.offsetWidth <= 0 || tab.offsetWidth >= ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {
+			if (tab.scrollWidth - tab.offsetWidth <= 1 || tab.offsetWidth >= ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {
 				etb.style.display = 'none';
 			}
 		}
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.style.maxWidth = '';
 			ST.removeStile(tab, ST_STATE_ENLARGED);
 		} else {
-			if (tab.scrollWidth - tab.clientWidth <= 2) return;
+			if (tab.scrollWidth - tab.offsetWidth <= 1) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
-		if (tab.scrollWidth - tab.offsetWidth > 0 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
+		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
 		} else {
