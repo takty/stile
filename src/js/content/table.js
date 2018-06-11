@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-06-11
  *
  */
 
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
 		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
-		const offset = getTableHeaderOffset();
+		const offset = getTableHeaderOffset() + ST.getWpAdminBarHeight();
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
 		const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
 

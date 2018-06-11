@@ -3,7 +3,7 @@
  * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-11
  *
  */
 
@@ -97,7 +97,6 @@ ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
 };
 
 ST.getWpAdminBarHeight = function () {
-	if (ST.BROWSER === 'chrome') return 0;
 	const wpab = document.getElementById('wpadminbar');
 	return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
 };
