@@ -1,17 +1,20 @@
 /**
  *
- * Reset
+ * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-19
+ * @version 2018-06-04
  *
  * Based on:
- *  minireset.css v0.0.3
- *  https://github.com/jgthms/minireset.css
  *  modern-normalize v0.4
  *  https://github.com/sindresorhus/modern-normalize
+ *  minireset.css v0.0.3
+ *  https://github.com/jgthms/minireset.css
  *
  */
+
+
+// =============================================================================
 
 
 html {
@@ -22,8 +25,78 @@ html {
 	box-sizing: inherit;
 }
 
+:root {
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
+
+html {
+	line-height: 1;
+}
+
+main {
+	display: block;  // for IE11
+}
+
 
 // -----------------------------------------------------------------------------
+
+
+code, kbd, samp, pre {
+	font-size: 1em;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+button, input, optgroup, select, textarea {
+	margin: 0;
+	font-family: inherit;
+	font-size: 100%;
+	line-height: 1;
+}
+
+button, select {
+	text-transform: none;
+}
+
+button, [type='button'], [type='reset'], [type='submit'] {
+	-webkit-appearance: button;
+	appearance: button;
+
+	&::-moz-focus-inner {
+		border-style: none;
+		padding: 0;
+	}
+	&:-moz-focusring {
+		outline: 1px dotted ButtonText;
+	}
+}
+
+[type='number']::-webkit-inner-spin-button, [type='number']::-webkit-outer-spin-button {
+	height: auto;
+}
+
+[type='search'] {
+	-webkit-appearance: textfield;
+	appearance: textfield;
+	outline-offset: -2px;
+}
+
+[type='search']::-webkit-search-decoration {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+::-webkit-file-upload-button {
+	-webkit-appearance: button;
+	appearance: button;
+	font: inherit;
+}
+
+
+// =============================================================================
 
 
 html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset,
@@ -37,13 +110,13 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 }
 
-ul {
+ul[class] {
 	list-style: none;
 }
 
 img, embed, object, audio, video {
-	height: auto;
 	max-width: 100%;
+	height: auto;
 }
 
 iframe {
@@ -61,33 +134,11 @@ td, th {
 	text-align: left;
 }
 
+
+// =============================================================================
+
+
 a {
 	color: inherit;
 	text-decoration: none;
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-button, input, optgroup, select, textarea {
-	margin: 0;
-	font-family: inherit;
-	font-size: 100%;
-}
-
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-	-webkit-appearance: button;
-}
-
-[type='search'] {
-	-webkit-appearance: textfield;
-	outline-offset: -2px;
-}
-
-[type='search']::-webkit-search-decoration {
-	-webkit-appearance: none;
 }

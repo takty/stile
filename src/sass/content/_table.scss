@@ -3,47 +3,29 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-22
+ * @version 2018-05-30
  *
  */
 
 
-$table-color-rule-horizontal      : #369 !default;
-$table-color-rule-horizontal-edge : $table-color-rule-horizontal !default;
-$table-color-rule-vertical        : rgba($table-color-rule-horizontal, 0.1) !default;
-$table-color-header-text          : #666 !default;
-$table-color-header-background    : rgba(lighten($table-color-rule-horizontal, 55%), 0.85) !default; // Must have transparency for scroll shadow.
-$table-color-scrollbar-thumb      : $table-color-rule-horizontal !default;
-$table-color-scrollbar-background : $table-color-header-background !default;
-$table-color-enlarge-button       : rgba($table-color-rule-horizontal, 0.5) !default;
-$table-color-enlarge-button-opened: rgba($table-color-rule-horizontal, 0.25) !default;
-$table-color-background-enlarged  : #fff !default;
+@import '../basic/base';
+@import '../basic/query';
+@import '../basic/font';
 
-$table-size-rule-horizontal-edge : 2px !default;
-
-$stile-size-unit: 0.9rem !default;
-@function vr($val) {@return $val * $stile-size-unit;}
+$stile-table-color-rule-horizontal      : rgba(#777, 0.35) !default;
+$stile-table-color-rule-horizontal-edge : $stile-table-color-rule-horizontal !default;
+$stile-table-color-rule-vertical        : rgba($stile-table-color-rule-horizontal, 0.1) !default;
+$stile-table-color-header-text          : rgba(#000, 0.95) !default;
+$stile-table-color-header-background    : rgba(#eee, 0.75) !default;  // Must have transparency for scroll shadow.
+$stile-table-color-scrollbar-thumb      : $stile-table-color-rule-horizontal !default;
+$stile-table-color-scrollbar-background : $stile-table-color-header-background !default;
+$stile-table-color-enlarge-button       : rgba($stile-table-color-rule-horizontal, 0.5) !default;
+$stile-table-color-enlarge-button-opened: rgba($stile-table-color-rule-horizontal, 0.25) !default;
+$stile-table-color-background-enlarged  : #fff !default;
+$stile-table-size-rule-horizontal-edge  : 2px !default;
 
 
 @mixin stile-table {
-
-	@include stile-table-main;
-	@include stile-table-color(
-		$table-color-rule-horizontal,
-		$table-color-rule-horizontal-edge,
-		$table-color-rule-vertical,
-		$table-color-header-text,
-		$table-color-header-background,
-		$table-color-scrollbar-thumb,
-		$table-color-scrollbar-background,
-		$table-color-enlarge-button,
-		$table-color-enlarge-button-opened,
-		$table-color-background-enlarged
-	);
-
-}
-
-@mixin stile-table-main {
 
 	table {
 		position: relative;
@@ -63,38 +45,44 @@ $stile-size-unit: 0.9rem !default;
 	// Design ------------------------------------------------------------------
 
 	thead, tbody:first-child {
-		border-top: $table-size-rule-horizontal-edge solid;
-		/* tr:first-of-type {
-			td, th {
-			}
-		} */
+		border-top: $stile-table-size-rule-horizontal-edge solid;
+
+		border-top-color: $stile-table-color-rule-horizontal-edge;
 	}
 
 	tbody, tfoot {
-		border-bottom: $table-size-rule-horizontal-edge solid;
-		/* tr:last-of-type {
-			td, th {
-				border-bottom: $table-size-rule-horizontal-edge solid;
-			}
-		} */
+		border-bottom: $stile-table-size-rule-horizontal-edge solid;
+
+		border-bottom-color: $stile-table-color-rule-horizontal-edge;
 	}
 
 	th, td {
-		padding: vr(0.5) vr(1);  // This half vr is irregular but needed.
-		border-top: 1px solid;
-		border-bottom: 1px solid;
-		line-height: vr(2);
+		padding: base-vr(0.5) base-vr(1);  // This half vr is irregular but needed.
+		line-height: base-vr(2);
 		@include font-proportional;
+	}
+
+	tr:not(:last-child) {
+		th, td {
+			border-top: 1px solid;
+			border-bottom: 1px solid;
+			border-top-color: $stile-table-color-rule-horizontal;
+			border-bottom-color: $stile-table-color-rule-horizontal;
+		}
 	}
 
 	th:not(:first-child),
 	td:not(:first-child) {
 		border-left: 1px solid;
+
+		border-left-color: $stile-table-color-rule-vertical;
 	}
 
 	th:not(:last-child),
 	td:not(:last-child) {
 		border-right: 1px solid;
+
+		border-right-color: $stile-table-color-rule-vertical;
 	}
 
 	thead td,
@@ -102,9 +90,12 @@ $stile-size-unit: 0.9rem !default;
 		font-size: 1rem;
 		@include font-bold;
 		text-align: center;
+
+		color: $stile-table-color-header-text;
+		background-color: $stile-table-color-header-background;
 	}
 
-	table:not([class]):not([data-style~="no-neat-wrap"]) td {
+	table:not([class]):not([data-stile ~= "no-neat-wrap"]) td {
 		white-space: nowrap;
 	}
 
@@ -114,7 +105,7 @@ $stile-size-unit: 0.9rem !default;
 
 	// Fixed Header ------------------------------------------------------------
 
-	.fixed-table-header-container {
+	div[data-stile ~= "fixed-table-header-container"] {
 		position: fixed;
 		top: 0px;
 		z-index: 99;
@@ -124,27 +115,31 @@ $stile-size-unit: 0.9rem !default;
 		@media print { display: none !important; }
 	}
 
-	.fixed-table-header-table {
+	div[data-stile ~= "fixed-table-header-table"] {
 		display: table;
 		margin: 0;
 
 		overflow-x: hidden;
 		pointer-events: none;
-		-webkit-backdrop-filter: blur(0.1rem);  // for iOS
+		backdrop-filter: blur(0.1rem);  // for iOS
 
 		border-collapse: collapse;
 		border-spacing: 0;
+
+		thead td,
+		th {
+			@include for-ie   { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
+			@include for-edge { border-bottom-width: $stile-table-size-rule-horizontal-edge; }
+	
+			color: $stile-table-color-header-text;
+			background-color: $stile-table-color-header-background;
+		}
 	}
 
-	.fixed-table-header-table thead td,
-	.fixed-table-header-table th {
-		@include for-ie   { border-bottom-width: $table-size-rule-horizontal-edge; }
-		@include for-edge { border-bottom-width: $table-size-rule-horizontal-edge; }
-	}
 
 	// Pseudo Scroll Bars ------------------------------------------------------
 
-	.fixed-table-scroll-bar {
+	div[data-stile ~= "fixed-table-scroll-bar"] {
 		position: fixed;
 		bottom: 0;
 		z-index: 99;
@@ -152,8 +147,10 @@ $stile-size-unit: 0.9rem !default;
 		overflow-x: auto;
 		overflow-y: hidden;  // for IE11 & Edge
 
-		height: calc(#{vr(1)} + 2px);  // for Safari
+		height: calc(#{base-vr(1)} + 2px);  // for Safari
 		border: 1px solid;  // for Safari
+
+		border: 1px solid rgba($stile-table-color-scrollbar-background, 0.1);  // for Safari
 
 		@media print { display: none !important; }
 	}
@@ -161,160 +158,50 @@ $stile-size-unit: 0.9rem !default;
 	// Scroll Bars Design ------------------------------------------------------
 
 	table::-webkit-scrollbar,
-	.fixed-table-scroll-bar::-webkit-scrollbar {
-		height: vr(1);
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
+		height: base-vr(1);
+		background-color: $stile-table-color-scrollbar-background;
 	}
 
-	table::-webkit-scrollbar {
-	}
-
-	.fixed-table-scroll-bar::-webkit-scrollbar {
-		border-radius: vr(1) / 2;
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
+		border-radius: base-vr(1) / 2;
 	}
 
 	table::-webkit-scrollbar-thumb,
-	.fixed-table-scroll-bar::-webkit-scrollbar-thumb {
-		border-radius: vr(1) / 2;
+	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar-thumb {
+		border-radius: base-vr(1) / 2;
+		background-color: $stile-table-color-scrollbar-thumb;
 	}
 
-	table, .fixed-table-scroll-bar {  // for IE11
+	table, div[data-stile ~= "fixed-table-scroll-bar"] {  // for IE11
+		scrollbar-face-color: $stile-table-color-scrollbar-thumb;
+		scrollbar-shadow-color: $stile-table-color-scrollbar-thumb;
+		scrollbar-track-color: $stile-table-color-scrollbar-background;
 	}
 
 	// Enlarger ----------------------------------------------------------------
 
-	table.enlarged-table > * {
+	table[data-stile ~= "table-enlarged"] > * {
+		background-color: $stile-table-color-background-enlarged;
 	}
 
-	table .enlarger-button,
-	.fixed-table-header-container .enlarger-button {
-		position: absolute;
-		z-index: 999;
-		width: vr(2);
-		height: vr(2);
-		left: 0;
-		top: 0;
-	}
+	table,
+	div[data-stile ~= "fixed-table-header-container"] {
+		div[data-stile ~= "enlarger-button"] {
+			position: absolute;
+			z-index: 999;
+			width: base-vr(1.5);
+			height: base-vr(1.5);
+			top: 0;
+			right: 0;
+			cursor: ew-resize;
 
-	table.enlarged-table .enlarger-button,
-	.fixed-table-header-container.enlarged-table .enlarger-button {
-	}
-
-}
-
-@mixin stile-table-color(
-	$table-color-rule-horizontal: #369,
-	$table-color-rule-horizontal-edge: false,
-	$table-color-rule-vertical: false,
-	$table-color-header-text: #666,
-	$table-color-header-background: false,
-	$table-color-scrollbar-thumb: false,
-	$table-color-scrollbar-background: false,
-	$table-color-enlarge-button: false,
-	$table-color-enlarge-button-opened: false,
-	$table-color-background-enlarged: #fff
-) {
-
-	@if $table-color-rule-horizontal-edge == false {
-		$table-color-rule-horizontal-edge: $table-color-rule-horizontal;
-	}
-	@if $table-color-rule-vertical == false {
-		$table-color-rule-vertical: rgba($table-color-rule-horizontal, 0.1);
-	}
-	@if $table-color-header-background == false {
-		$table-color-header-background: rgba(lighten($table-color-rule-horizontal, 55%), 0.85);
-	}
-
-	@if $table-color-scrollbar-thumb == false {
-		$table-color-scrollbar-thumb: $table-color-rule-horizontal;
-	}
-	@if $table-color-scrollbar-background == false {
-		$table-color-scrollbar-background: $table-color-header-background;
-	}
-	@if $table-color-enlarge-button == false {
-		$table-color-enlarge-button: rgba($table-color-rule-horizontal, 0.5);
-	}
-	@if $table-color-enlarge-button-opened == false {
-		$table-color-enlarge-button-opened: rgba($table-color-rule-horizontal, 0.25);
-	}
-
-	thead, tbody:first-child {
-		border-top-color: $table-color-rule-horizontal-edge;
-		/* tr:first-of-type {
-			td, th {
+			background: linear-gradient(to top right, transparent 50%, $stile-table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
+		}
+		&[data-stile ~= "table-enlarged"] {
+			div[data-stile ~= "enlarger-button"] {
+				background: linear-gradient(to bottom left, transparent 50%, $stile-table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
 			}
-		} */
+		}
 	}
-
-	tbody, tfoot {
-		border-bottom-color: $table-color-rule-horizontal-edge;
-		/* tr:last-of-type {
-			td, th {
-			}
-		} */
-	}
-
-	th, td {
-		border-top-color: $table-color-rule-horizontal;
-		border-bottom-color: $table-color-rule-horizontal;
-	}
-
-	th:not(:first-child),
-	td:not(:first-child) {
-		border-left-color: $table-color-rule-vertical;
-	}
-
-	th:not(:last-child),
-	td:not(:last-child) {
-		border-right-color: $table-color-rule-vertical;
-	}
-
-	thead td,
-	th {
-		color: $table-color-header-text;
-		background-color: $table-color-header-background;
-	}
-
-	.fixed-table-header-table thead td,
-	.fixed-table-header-table th {
-		color: $table-color-header-text;
-		background-color: $table-color-header-background;
-	}
-
-	.fixed-table-scroll-bar {
-		border: 1px solid rgba($table-color-scrollbar-background, 0.1);  // for Safari
-	}
-
-	table::-webkit-scrollbar {
-		background-color: $table-color-scrollbar-background;
-	}
-
-	.fixed-table-scroll-bar::-webkit-scrollbar {
-		background-color: $table-color-scrollbar-background;
-	}
-
-	table::-webkit-scrollbar-thumb,
-	.fixed-table-scroll-bar::-webkit-scrollbar-thumb {
-		background-color: $table-color-scrollbar-thumb;
-	}
-
-	table, .fixed-table-scroll-bar {  // for IE11
-		scrollbar-face-color: $table-color-scrollbar-thumb;
-		scrollbar-shadow-color: $table-color-scrollbar-thumb;
-		scrollbar-track-color: $table-color-scrollbar-background;
-	}
-
-	table.enlarged-table > * {
-		background-color: $table-color-background-enlarged;
-	}
-
-	table .enlarger-button,
-	.fixed-table-header-container .enlarger-button {
-		background: linear-gradient(to top left, transparent 50%, $table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
-	}
-
-	table.enlarged-table .enlarger-button,
-	.fixed-table-header-container.enlarged-table .enlarger-button {
-		background: linear-gradient(to bottom right, transparent 50%, $table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
-	}
-
 }

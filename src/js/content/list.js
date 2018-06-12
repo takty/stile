@@ -1,11 +1,14 @@
 /**
  *
- * Content Style - List (JS)
+ * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-01-11
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -34,17 +37,28 @@ document.addEventListener('DOMContentLoaded', function () {
 	function setStyleDirectlyFor(ts, tc) {
 		for (let i = 0; i < ts.length; i += 1) {
 			const t = ts[i];
-			if (!t.dataset.listStyleType && t.classList.contains(tc)) {
+			if (!hasListStile(t) && t.classList.contains(tc)) {
 				setStyle(t);
 			}
 		}
+	}
+
+	function hasListStile(elm) {
+		const stile = elm.dataset['stile'];
+		if (!stile) return false;
+		const ats = stile.split(' ');
+		for (let i = 0; i < ats.length; i += 1) {
+			const at = ats[i];
+			if(at.indexOf('list-') === 0) return true;
+		}
+		return false;
 	}
 
 	function setStyle(t) {
 		const type = t.style.listStyleType;
 		if (type !== '' && type !== 'none') {
 			t.style.listStyleType = '';
-			t.dataset.listStyleType = type;
+			ST.addStile(t, 'list-' + type);
 		}
 	}
 

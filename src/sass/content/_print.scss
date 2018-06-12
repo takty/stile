@@ -1,18 +1,17 @@
 /**
  *
- * Content Style for Printing
+ * Print Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-03
+ * @version 2018-05-30
  *
  */
 
 
 @mixin stile-print {
-
 	font-size: 10.5pt !important;
 
-	a[href][data-style ~= 'simple-link']:not([data-style ~= 'url-link']):not([data-style ~= 'anchor-link'])::after {
+	a[href][data-stile ~= 'link-simple']:not([data-stile ~= 'link-link']):not([data-stile ~= 'link-link'])::after {
 		content: attr(href) !important;
 
 		font-family: inherit !important;
@@ -41,5 +40,4 @@
 	img {
 		opacity: 1 !important;
 	}
-
 }

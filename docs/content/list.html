@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>List Style - Stile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.min.css">
+<script src="../stile-full.min.js"></script>
+</head>
+<body>
+<div class="stile">
+
+	<h1>List Style</h1>
+	<nav>
+		<a href="../index.html">Go Back</a>
+	</nav>
+
+	<h2>Unordered List</h2>
+
+	<h3>Normal and disk style</h3>
+	<ul>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ul>
+
+	<pre><code>&lt;ul&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+	<ul data-stile="no-indent">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ul>
+
+	<pre><code>&lt;ul data-stile="no-indent"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+	<h3>Circle style</h3>
+	<ul style="list-style: circle;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ul>
+
+	<pre><code>&lt;ul style="list-style: circle;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+	
+	<h3>Square style</h3>
+	<ul style="list-style: square;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ul>
+
+	<pre><code>&lt;ul style="list-style: square;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+	
+	<h3>Nested Lists</h3>
+	<ul>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit
+			<ul>
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+			</ul>
+			<ul style="list-style: circle;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+			</ul>
+			<ul style="list-style: square;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<pre><code>&lt;ul&gt;
+    &lt;li&gt;...
+        &lt;ul&gt;
+            &lt;li&gt;...&lt;/li&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;ul style="list-style: circle;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;ul style="list-style: square;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+	
+	<h2>Ordered List</h2>
+
+	<h3>Normal style</h3>
+
+	<ol>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+	<ol data-stile="no-indent">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol data-stile="no-indent"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+	<h3>Lower-alpha style</h3>
+	<ol style="list-style: lower-alpha;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol style="list-style: lower-alpha;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+	
+	<h3>Lower-greek style</h3>
+	<ol style="list-style: lower-greek;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol style="list-style: lower-greek;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+	
+	<h3>Lower-roman style</h3>
+	<ol style="list-style: lower-roman;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol style="list-style: lower-roman;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+	
+	<h3>Upper-alpha style</h3>
+	<ol style="list-style: upper-alpha;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol style="list-style: upper-alpha;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+	
+	<h3>Upper-roman style</h3>
+	<ol style="list-style: upper-roman;">
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+	</ol>
+
+	<pre><code>&lt;ol style="list-style: upper-roman;"&gt;
+    &lt;li&gt;...&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+	
+	<h3>Nested Lists</h3>
+	<ul>
+		<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit
+			<ol>
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+			<ol style="list-style: lower-alpha;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+			<ol style="list-style: lower-greek;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+			<ol style="list-style: lower-roman;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+			<ol style="list-style: upper-alpha;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+			<ol style="list-style: upper-roman;">
+				<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+			</ol>
+		</li>
+	</ul>
+
+	<pre><code>&lt;ul&gt;
+    &lt;li&gt;...
+        &lt;ol&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;ol style="list-style: lower-alpha;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;ol style="list-style: lower-greek;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;ol style="list-style: lower-roman;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;ol style="list-style: upper-alpha;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;ol style="list-style: upper-roman;"&gt;
+            &lt;li&gt;...&lt;/li&gt;
+        &lt;/ol&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+	<h2>Definition List</h2>
+	<dl>
+		<dt>Definition Term</dt><dd>Definition Description</dd>
+		<dt>Definition Term</dt><dd>Definition Description</dd>
+	</dl>
+
+	<pre><code>&lt;dl&gt;
+    &lt;dt&gt;...&lt;/dt&gt;&lt;dd&gt;...&lt;/dd&gt;
+    &lt;dt&gt;...&lt;/dt&gt;&lt;dd&gt;...&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+	<dl data-stile="no-indent">
+		<dt>Definition Term</dt><dd>Definition Description</dd>
+		<dt>Definition Term</dt><dd>Definition Description</dd>
+	</dl>
+
+	<pre><code>&lt;dl data-stile="no-indent"&gt;
+    &lt;dt&gt;...&lt;/dt&gt;&lt;dd&gt;...&lt;/dd&gt;
+    &lt;dt&gt;...&lt;/dt&gt;&lt;dd&gt;...&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+
+</div>
+</body>
+</html>

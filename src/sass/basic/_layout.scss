@@ -1,25 +1,35 @@
 /**
  *
- * Mixins for Layout
+ * Layout Mixins 
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-26
+ * @version 2018-06-11
  *
  */
 
 
-@mixin layout-fill($position: absolute, $by_height: false) {
-	position: $position;
-	top: 0;
-	left: 0;
-	right: 0;
+@mixin layout-side-margin($max_width, $side_margin: false) {
+	margin-left: auto;
+	margin-right: auto;
 
-	@if $by_height == false {
-		bottom: 0;
+	max-width: $max_width;  // must be max-width for Android Chrome
+
+	@if $side_margin == false {
+		width: 100%;  // must be width for Android Chrome
 	} @else {
-		min-height: 100%;
+		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
 	}
 }
+
+@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
+	min-width: $min_width;
+	width: calc(($breakpoint - 100%) * 1000);
+	max-width: $max_width;
+}
+
+
+// -----------------------------------------------------------------------------
+
 
 @mixin layout-centering($inline: false) {
 	@if $inline == false {
@@ -46,26 +56,16 @@
 	}
 }
 
+@mixin layout-fill-self($position: absolute, $by_height: false) {
+	position: $position;
+	top: 0;
+	left: 0;
+	right: 0;
 
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
-	min-width: $min_width;
-	width: calc(($breakpoint - 100%) * 1000);
-	max-width: $max_width;
-}
-
-@mixin layout-side-margin($max_width, $side_margin: false) {
-	margin-left: auto;
-	margin-right: auto;
-
-	max-width: $max_width;  // must be max-width for Android Chrome
-
-	@if $side_margin == false {
-		width: 100%;  // must be width for Android Chrome
+	@if $by_height == false {
+		bottom: 0;
 	} @else {
-		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
+		min-height: 100%;
 	}
 }
 
@@ -73,21 +73,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-gap($x, $y) {
-	margin-right: -$x;
-	margin-bottom: -$y;
-
-	> *:not(:empty) {
-		margin-right: $x;
-		margin-bottom: $y;
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-aspect($width, $height) {
+@mixin layout-aspect($width, $height, $by_height: false) {
 	position: relative;
 
 	&:before {
@@ -97,21 +83,13 @@
 	}
 
 	> *:first-child {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		min-height: 100%;
+		@include layout-fill-self(absolute, $by_height);
 	}
 }
 
 @mixin layout-aspect-gold {
 	@include layout-aspect(1.618, 1);
 }
-
-
-// -----------------------------------------------------------------------------
-
 
 @mixin layout-minimum-aspect($width, $height) {
 	position: relative;
@@ -138,23 +116,64 @@
 // -----------------------------------------------------------------------------
 
 
+@mixin layout-gap($x, $y) {
+	margin-right: -$x;
+	margin-bottom: -$y;
+
+	> *:not(:empty) {
+		margin-right: $x;
+		margin-bottom: $y;
+	}
+}
+
+@mixin layout-wrap($gap: false, $align: center) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+	@if $gap != false {
+		@include layout-gap($gap_x, $gap_y);
+	}
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: $align;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-spacer() {
+	> *:empty {  // for Spacer
+		visibility: hidden;
+		height: 0px;
+		padding: 0;
+		margin-bottom: 0;
+		border: none;
+		&::before { content: none; }
+	}
+}
+
 @mixin layout-column($n, $gap: false) {
+	$cw: 100% / $n;
+
 	display: flex;
 	flex-direction: row;
 
 	@if $gap != false {
 		margin-right: -$gap;
 	}
-
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
 			margin-right: $gap;
-			flex-basis: calc(#{100% / $n} - #{$gap});
+			flex-basis: calc(#{$cw} - #{$gap});
 		} @else {
-			flex-basis: calc(#{100% / $n});
+			flex-basis: #{$cw};
 		}
 	}
 }
@@ -173,17 +192,7 @@
 			margin-bottom: $gap;
 		}
 	}
-
-	> *:empty {  // for Spacer
-		visibility: hidden;
-		height: 0px;
-		padding: 0;
-		margin-bottom: 0;
-		border: none;
-		&::before {
-			content: none;
-		}
-	}
+	@include layout-spacer;
 }
 
 
@@ -191,59 +200,50 @@
 
 
 @mixin layout-card($n, $gap: false) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+	$cw: 100% / $n;
+
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 
 	@if $gap != false {
-		@if length($gap) == 2 {
-			margin-right: -#{nth($gap, 1)};
-			margin-bottom: -#{nth($gap, 2)};
-		} @else {
-			margin-right: -$gap;
-			margin-bottom: -$gap;
-		}
+		margin-right : -$gap_x;
+		margin-bottom: -$gap_y;
 	}
-
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
-			@if length($gap) == 2 {
-				margin-right: nth($gap, 1);
-				flex-basis: calc(#{100% / $n} - #{nth($gap, 1)});
-				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{nth($gap, 1)}); }
-			} @else {
-				margin-right: $gap;
-				flex-basis: calc(#{100% / $n} - #{$gap});
-				@include for-ie { flex-basis: calc(#{floor(100% / $n)} - #{$gap}); }
-				width: calc(#{100% / $n} - #{$gap});  // for Safari
-			}
-		} @else {
-			flex-basis: calc(#{100% / $n});
-			@include for-ie { flex-basis: calc(#{floor(100% / $n)}); }
-			width: calc(#{100% / $n});  // for Safari
-		}
-	}
-	> *:not(:empty) {
-		@if length($gap) == 2 {
-			margin-bottom: nth($gap, 2);
-		} @else {
-			@if $gap != false {
-				margin-bottom: $gap;
-			}
-		}
-	}
+			margin-right: $gap_x;
+			flex-basis: calc(#{$cw} - #{$gap_x});
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x}); }
+			width: calc(#{$cw} - #{$gap_x});  // for Safari
 
-	> *:empty {  // for Spacer
-		visibility: hidden;
-		height: 0px;
-		padding: 0;
-		margin-bottom: 0;
-		border: none;
-		&::before {
-			content: none;
+			&:not(:empty) {
+				margin-bottom: $gap_y;
+			}
+		} @else {
+			flex-basis: calc(#{$cw});
+			@include for-ie { flex-basis: #{floor($cw)}; }
+			width: #{$cw};  // for Safari
+		}
+	}
+	@include layout-spacer;
+
+	@for $i from 1 through $n {
+		> *:nth-child(#{$n}n+#{$i}):last-child {
+			@if $gap_x == false {
+				margin-right: #{$cw * ($n - $i)};
+			} @else {
+				margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+			}
 		}
 	}
 }
@@ -260,7 +260,6 @@
 	@if $gap != false {
 		margin-bottom: -$gap;
 	}
-
 	> * {
 		display: inline-block;
 		line-height: 1;

@@ -3,9 +3,12 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-02-16
+ * @version 2018-05-24
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
 	const TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
+
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium_large', 'size-large', 'size-full'];
 
 	modifySpanStyle();
 
@@ -22,6 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	modifyAnchorStyle(as);
 	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
 	modifyAnchorStyleExternal(as);
+
+	const fs = document.querySelectorAll(TARGET_SELECTOR + ' iframe');
+	modifyIframeStyle(fs);
+	const figs = document.querySelectorAll(TARGET_SELECTOR + ' figure');
+	modifyFigureStyle(figs);
 
 
 	// -------------------------------------------------------------------------
@@ -36,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				type = target.style.textDecoration;
 				if (type === 'underline') {
 					target.style.textDecoration = '';
-					target.dataset.textDecorationLine = type;
+					ST.addStile(target, 'inline-' + type);
 				}
 			} else {
 				if (type === 'underline') {
 					target.style.textDecorationLine = '';
-					target.dataset.textDecorationLine = type;
+					ST.addStile(target, 'inline-' + type);
 				}
 			}
 		}
@@ -54,16 +64,20 @@ document.addEventListener('DOMContentLoaded', function () {
 	function modifyAnchorStyle(as) {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
+			if (isImageLink(a)) {
+				ST.addStile(a, 'link-image');
+				continue;
+			}
 			if (!isSimple(a)) continue;
-			addDataStyle(a, 'simple-link');
+			ST.addStile(a, 'link-simple');
 			const url = a.getAttribute('href');
 			if (isUrlLink(a, url)) {
-				addDataStyle(a, 'url-link');
+				ST.addStile(a, 'link-url');
 			}
 			if (isExternal(url)) {
-				addDataStyle(a, 'external-link');
+				ST.addStile(a, 'link-external');
 			} else if (isAnchor(url)) {
-				addDataStyle(a, 'anchor-link');
+				ST.addStile(a, 'link-anchor');
 			}
 		}
 	}
@@ -71,8 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	function modifyAnchorStyleExternal(as) {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
-			if (isExternal(a.getAttribute('href'))) {
-				a.dataset.style = a.dataset.style ? (a.dataset.style + ' external-link') : 'external-link';
+			const url = a.getAttribute('href');
+			if (isExternal(url)) {
+				ST.addStile(a, 'link-external');
 			}
 		}
 	}
@@ -117,11 +132,54 @@ document.addEventListener('DOMContentLoaded', function () {
 		return a.innerHTML.trim() === url;
 	}
 
-	function addDataStyle(elm, style) {
-		if (elm.dataset.style) {
-			elm.dataset.style = elm.dataset.style + ' ' + style;
-		} else {
-			elm.dataset.style = style;
+	function isImageLink(a) {
+		if (a.className) {
+			const cs = a.className.split(' ');
+			for (let i = 0; i < cs.length; i += 1) {
+				if (PERMITTED_CLASSES.indexOf(cs[i]) === -1) return false;
+			}
+		}
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		let success = false;
+		for (let i = 0; i < cs.length; i += 1) {
+			const tn = cs[i].tagName;
+			if (success === false && tn === 'IMG') {
+				success = true;
+				continue;
+			}
+			if (tn) return false;
+		}
+		return success;
+	}
+
+
+	// -------------------------------------------------------------------------
+	// Iframe Styles
+
+	function modifyIframeStyle(fs) {
+		for (let i = 0; i < fs.length; i += 1) {
+			const f = fs[i];
+			const width = f.width;
+			const height = f.height;
+			const wrap = document.createElement('SPAN');
+			ST.addStile(wrap, 'iframe-wrapper');
+			const spacer = document.createElement('DIV');
+			spacer.style.paddingTop = (100 * height / width) + '%';
+			wrap.appendChild(spacer);
+			wrap.style.maxWidth = width + 'px';
+			f.parentElement.insertBefore(wrap, f);
+			wrap.appendChild(f);
+		}
+	}
+
+
+	// -------------------------------------------------------------------------
+	// Figure Styles
+
+	function modifyFigureStyle(figs) {
+		for (let i = 0; i < figs.length; i += 1) {
+			figs[i].style.width = '';
 		}
 	}
 

@@ -3,74 +3,73 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-04-05
+ * @version 2018-06-05
  *
  */
 
 
-$block-color-line          : #369 !default;
-$block-color-shade         : rgba(lighten($block-color-line, 55%), 0.85) !default;
-$block-size-line-width     : 2px !default;
-$block-size-font-figcaption: 0.85rem !default;
+@import '../basic/base';
+@import '../basic/query';
+@import '../basic/font';
 
-$stile-size-unit: 0.9rem !default;
-@function vr($val) { @return $val * $stile-size-unit; }
+$stile-block-color-line          : rgba(#777, 0.9) !default;
+$stile-block-color-shade         : rgba($stile-block-color-line, 0.1) !default;
+$stile-block-size-line-width     : 1px !default;
+$stile-block-size-font-figcaption: 0.85rem !default;
+$stile-block-size-max-width      : 36rem !default;
 
 
 @mixin stile-block {
-
 	@include stile-block-main;
-	@include stile-block-color($block-color-line, $block-color-shade)
 	@include stile-block-figure;
-
 }
 
 @mixin stile-block-main {
-
-	p {
+	p,
+	div:not([class]) {
 		text-align: justify;
 		@include for-ie { text-align: left; }
-		line-height: vr(2);
-
-		-ms-hyphens: auto;
-		-webkit-hyphens: auto;
-		hyphens: auto;
+		line-height: base-vr(2);
+		hyphens: auto;  // Autoprefixer is needed. 
 	}
 
-	embed, iframe, object { max-width: 100%; }
-
 	hr {
-		height: $block-size-line-width;
+		height: calc(#{$stile-block-size-line-width} + 0.5px);
 		border: none;
+		border-top: $stile-block-size-line-width solid $stile-block-color-line;
 	}
 
 	blockquote {
+		padding-left: base-vr(4);
 		font-style: italic;
-		padding-left: vr(4);
 
 		position: relative;
 		&::before {
 			content: '';
 			display: block;
+
 			position: absolute;
-			left: vr(2);
-			width: $block-size-line-width;
+			left: base-vr(2);
+
+			width: calc(#{$stile-block-size-line-width} + 0.5px);
 			height: 100%;
+			border-left: $stile-block-size-line-width solid $stile-block-color-line;
+		}
+
+		&[data-stile~='no-indent'] {
+			padding-left: base-vr(2);
+			&::before { left: 0; }
 		}
 	}
 
 	pre {
 		@include font-family-monospace;
 		display: block;
-		padding: vr(2);
+		padding: base-vr(2);
 		overflow-x: auto;
-		line-height: vr(2);
-	}
+		line-height: base-vr(2);
 
-	code, var, samp, kbd {
-		@include font-family-monospace;
-		padding: 0 vr(1);
-		white-space: pre-wrap;
+		background-color: $stile-block-color-shade;
 	}
 
 	pre > code {
@@ -78,23 +77,9 @@ $stile-size-unit: 0.9rem !default;
 		background-color: transparent;
 		white-space: pre;
 	}
-
-}
-
-@mixin stile-block-color($color-line, $color-shade: $color-line) {
-
-	hr { background-color: $color-line; }
-
-	blockquote::before { background-color: $color-line; }
-
-	pre { background-color: $color-shade; }
-
-	code, var, samp, kbd { background-color: $color-shade; }
-
 }
 
 @mixin stile-block-figure {
-
 	figure:not([class]) { max-width: 100%; }
 
 	figure img {
@@ -102,6 +87,9 @@ $stile-size-unit: 0.9rem !default;
 		margin-left: auto;
 		margin-right: auto;
 		max-height: 100vh;
+
+		// for broken images (does not work on IE11 and Edge)
+		&[alt]::after { width: 100%; }
 	}
 
 	figure {
@@ -110,9 +98,9 @@ $stile-size-unit: 0.9rem !default;
 
 	figcaption {
 		display: inline-block;
+		max-width: $stile-block-size-max-width;
+		font-size: $stile-block-size-font-figcaption;
+		line-height: base-vr(1.5);
 		text-align: left;  // for left align of long caption
-		font-size: $block-size-font-figcaption;
-		line-height: 1.5;
 	}
-
 }

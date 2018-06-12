@@ -1,0 +1,37 @@
+/**
+ *
+ * Stile Sample (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2018-06-02
+ *
+ */
+
+@charset 'utf-8';
+
+@import '../dist/sass/basic';
+@import '../dist/sass/content';
+@import '../dist/sass/option';
+
+
+body {
+	@include font-responsive-size(600px, 2560px, 16px, 20px);
+	@include font-family;
+	@include font-smoothing;
+	@include font-visible-chrome;
+
+	padding-top: 6rem;
+	padding-bottom: 6rem;
+	overflow-x: hidden;
+}
+
+.stile {
+	@include layout-side-margin(48rem, 1rem);
+	@include for-tablet-up {
+		@include layout-side-margin(48rem, 2rem);
+	}
+	@include stile-content(false);
+	@include stile-option;
+
+	color: hsla(0, 0, 0, 0.75);
+}

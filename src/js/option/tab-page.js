@@ -1,73 +1,83 @@
 /**
  *
- * Tab Page (JS)
+ * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-22
+ * @version 2018-06-01
  *
  */
 
 
+let ST = ST || {};
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
-	const SELECTOR_TARGET   = '.tab-page';
-	const CLS_TAB_LIST      = 'tab-page-tab-list';
-	const CLS_STATE_CURRENT = 'current';
+	const SELECTOR_TARGET    = '.tab-page';
+	const CLS_TAB_LIST       = 'stile-tab-page-tab-list';
+	const CLS_TAB_LIST_BELOW = 'stile-tab-page-tab-list-below';
+	const ST_STATE_CURRENT   = 'current';
 
 	const tabPages = [];
 	const tps = document.querySelectorAll(SELECTOR_TARGET);
-	for (var i = 0; i < tps.length; i += 1) {
-		if (createTab(tps[i])) tabPages.push(tps[i]);
+	for (let i = 0; i < tps.length; i += 1) {
+		const tabPage = createTabPage(tps[i]);
+		if (tabPage) tabPages.push(tabPage);
 	}
-	window.addEventListener('resize', function () {onResize(tabPages);});
+	window.addEventListener('resize', function () { onResize(tabPages); });
 	onResize(tabPages);
 
-	function createTab(tabPage) {
-		const fh = getFirstHeading(tabPage);
+	function createTabPage(container) {
+		const fh = getFirstHeading(container);
 		if (!fh) return false;
 		const tabH = fh.tagName;
 
-		const pages = [], tabs = [];
+		const pages = [], htmls = [];
+		const cs = [].slice.call(container.children);
 		let curPage = null;
-
-		const cs = [].slice.call(tabPage.children);
 
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
 			if (c.tagName === tabH) {
 				if (curPage) pages.push(curPage);
 				curPage = document.createElement('div');
-
-				tabPage.removeChild(c);
-				const li = document.createElement('li');
-				li.innerHTML = c.innerHTML;
-				tabs.push(li);
-
-				li.addEventListener('click', (function (idx) {
-					return function (e) {
-						e.preventDefault();
-						onTabClick(idx, tabs, pages);
-					};
-				})(tabs.length - 1));
+				container.removeChild(c);
+				htmls.push(c.innerHTML);
 			} else {
 				if (curPage) curPage.appendChild(c);
 			}
 		}
 		if (curPage) pages.push(curPage);
 
-		const ul = document.createElement('ul');
-		ul.className = CLS_TAB_LIST;
-		for (let i = 0; i < tabs.length; i += 1) ul.appendChild(tabs[i]);
-		tabPage.insertBefore(ul, tabPage.firstChild);
+		const tp = {pages, container, currentIdx: 0, isAccordion: false};
+		createTab(htmls, tp);
 
-		for (let i = 0; i < pages.length; i += 1) tabPage.appendChild(pages[i]);
+		container.insertBefore(tp.tabUl, container.firstChild);
+		for (let i = 0; i < pages.length; i += 1) container.appendChild(pages[i]);
+		container.appendChild(tp.tabUl2);
 
-		onTabClick(0, tabs, pages);
-		return true;
+		addTabEvent(tp);
+		onTabClick(0, tp);
+		return tp;
 	}
 
-	function getFirstHeading(page) {
-		const cs = page.children;
+	function createTab(htmls, tp) {
+		tp.tabUl = document.createElement('ul');
+		for (let i = 0; i < htmls.length; i += 1) {
+			const li = document.createElement('li');
+			li.innerHTML = htmls[i];
+			tp.tabUl.appendChild(li);
+		}
+		tp.tabUl.className = CLS_TAB_LIST;
+		tp.tabs = [].slice.call(tp.tabUl.children);
+
+		tp.tabUl2 = tp.tabUl.cloneNode(true);
+		tp.tabUl2.className = CLS_TAB_LIST_BELOW;
+		tp.tabs2 = [].slice.call(tp.tabUl2.children);
+	}
+
+	function getFirstHeading(container) {
+		const cs = container.children;
 		for (let i = 0; i < cs.length; i += 1) {
 			const tn = cs[i].tagName;
 			if (tn[0] === 'H' && (tn[1] === '1' || tn[1] === '2' || tn[1] === '3' || tn[1] === '4' || tn[1] === '5' || tn[1] === '6')) {
@@ -77,37 +87,102 @@ document.addEventListener('DOMContentLoaded', function () {
 		return null;
 	}
 
-	function filterChild(parent, nodeList) {
-		return [].slice.call(nodeList).filter(function (x) {return x.parentNode === parent;});
+	function addTabEvent(tp) {
+		const ts  = tp.tabs;
+		const ts2 = tp.tabs2;
+		for (let i = 0; i < ts.length; i += 1) {
+			const f = (function (idx) {
+				return function (e) {
+					e.preventDefault();
+					onTabClick(idx, tp);
+				};
+			})(i);
+			ts[i].addEventListener('click', f);
+			ts2[i].addEventListener('click', f);
+		}
 	}
 
-	function onTabClick(idx, tabs, pages) {
-		for (var i = 0; i < tabs.length; i += 1) {
-			if (i === idx) tabs[i].classList.add(CLS_STATE_CURRENT);
-			else tabs[i].classList.remove(CLS_STATE_CURRENT);
+	function onTabClick(idx, tp) {
+		if (tp.isAccordion) {
+			idx = tp.currentIdx === idx ? -1 : idx;
+			updateAccordionTabState(idx, tp);
 		}
-		for (var i = 0; i < pages.length; i += 1) {
-			if (i === idx) pages[i].classList.add(CLS_STATE_CURRENT);
-			else pages[i].classList.remove(CLS_STATE_CURRENT);
-		}
+		changeCurrentTab(idx, tp);
 	}
 
-	function onResize(tabPages) {
-		for (var i = 0; i < tabPages.length; i += 1) {
-			const tabPage = tabPages[i];
-			var tabRow = tabPage.getElementsByTagName('ul')[0];
-			var pages = filterChild(tabPage, tabPage.querySelectorAll('div'));
+	function changeCurrentTab(idx, tp) {
+		const ts  = tp.tabs;
+		const ps  = tp.pages;
 
-			var margin = parseInt(getComputedStyle(tabRow).marginBottom);
-			var height = 0;
-
-			for (var j = 0; j < pages.length; j += 1) {
-				var p = pages[j];
-				margin = Math.max(margin, parseInt(getComputedStyle(p).marginTop));
-				height = Math.max(height, p.getBoundingClientRect().height);
+		for (let i = 0; i < ts.length; i += 1) {
+			if (i === idx) {
+				ST.addStile(ts[i], ST_STATE_CURRENT);
+				ST.addStile(ps[i], ST_STATE_CURRENT);
+			} else {
+				ST.removeStile(ts[i], ST_STATE_CURRENT);
+				ST.removeStile(ps[i], ST_STATE_CURRENT);
 			}
-			tabPage.style.minHeight = tabRow.clientHeight + margin + height + 'px';
+			ts[i].className = '';
+			ps[i].className = '';
 		}
+		tp.currentIdx = idx;
+	}
+
+	function updateAccordionTabState(idx, tp) {
+		const ts  = tp.tabs;
+		const ts2 = tp.tabs2;
+		if (idx === -1) {
+			for (let i = 0; i < ts.length; i += 1) {
+				ts[i].style.display  = '';
+				ts2[i].style.display = 'none';
+			}
+		} else {
+			for (let i = 0; i < ts.length; i += 1) {
+				ts[i].style.display  = (i <= idx) ? '' : 'none';
+				ts2[i].style.display = (i > idx)  ? '' : 'none';
+			}
+		}
+	}
+
+	function onResize(tps) {
+		for (let i = 0; i < tps.length; i += 1) {
+			onResizeOne(tps[i]);
+		}
+	}
+
+	function onResizeOne(tp) {
+		const cont = tp.container;
+		tp.isAccordion = getComputedStyle(tp.tabUl2).display !== 'none';
+
+		if (tp.isAccordion) {
+			cont.style.minHeight = '';
+			cont.style.height    = '';
+			updateAccordionTabState(tp.currentIdx, tp);
+		} else {
+			const tabs  = tp.tabs;
+			const minH = getMinHeight(tp) + 'px';
+			cont.style.minHeight = minH;
+			cont.style.height    = minH;
+
+			for (let i = 0; i < tabs.length; i += 1) tabs[i].style.display = '';
+			if (tp.currentIdx === -1) tp.currentIdx = 0;
+			onTabClick(tp.currentIdx, tp);
+		}
+	}
+
+	function getMinHeight(tp) {
+		const tabUl = tp.tabUl;
+		const pages = tp.pages;
+
+		let margin = parseInt(getComputedStyle(tabUl).marginBottom);
+		let height = 0;
+
+		for (let i = 0; i < pages.length; i += 1) {
+			const p = pages[i];
+			margin = Math.max(margin, parseInt(getComputedStyle(p).marginTop));
+			height = Math.max(height, p.getBoundingClientRect().height);
+		}
+		return tabUl.offsetHeight + margin + height;
 	}
 
 });

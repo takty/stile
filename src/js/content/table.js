@@ -1,23 +1,30 @@
 /**
  *
- * Content Style - Table (JS)
+ * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-03-20
+ * @version 2018-06-11
  *
  */
+
+
+let ST = ST || {};
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
-
 	const TARGET_SELECTOR    = '.stile';
-	const CLS_STATE_ENLARGED = 'enlarged-table';
 
-	const DS_NO_NEAT_WRAP = 'no-neat-wrap';
-	const DS_NO_ENLARGER  = 'no-enlarger';
+	const ST_HEADER_CONTAINER = 'fixed-table-header-container';
+	const ST_HEADER_TABLE     = 'fixed-table-header-table';
+	const ST_SCROLL_BAR       = 'fixed-table-scroll-bar';
+	const ST_ENLARGER_BUTTON  = 'enlarger-button';
+	const ST_STATE_ENLARGED   = 'table-enlarged';
+
+	const ST_OPT_NO_NEAT_WRAP = 'no-neat-wrap';
+	const ST_OPT_NO_ENLARGER  = 'no-enlarger';
 
 	const CELL_MIN_WIDTH = 120;
 	const CELL_MIN_RATIO = 2 / 3;  // width : height
@@ -26,59 +33,60 @@ document.addEventListener('DOMContentLoaded', function () {
 	const HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	const getTableHeaderOffset = makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 	let scrollBarWidth;
-	setTimeout(initFixedHeaderTable, 100);  // Delay for Chrome and Edge
+	setTimeout(function () { init(tabs); }, 100);  // Delay for Chrome and Edge
 
-	function initFixedHeaderTable() {
+	function init(tabs) {
+		for (let i = 0; i < tabs.length; i += 1) {
+			if (!ST.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) addWrapStyle(tabs[i]);
+		}
+		setTimeout(function () { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
+	}
+
+	function initFixedHeaderTable(tabs) {
 		scrollBarWidth = parseInt(getScrollBarWidth());
-		const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 		const conts = [];
 
 		for (let i = 0; i < tabs.length; i += 1) {
-			const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
-			if (ss.indexOf(DS_NO_NEAT_WRAP) !== -1) continue;
-			addWrapStyle(tabs[i]);
+			const tab  = tabs[i];
+			const head = cloneTableHeader(tab);
+			const bar  = cloneTableScrollBar(tab);
+			const etb  = ST.containStile(tab, ST_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
+			const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
+			initEvents(cont);
+			conts.push(cont);
+
+			windowScroll(cont);
+			tableScroll(cont);
+
+			if (tab.scrollWidth - tab.offsetWidth <= 1 || tab.offsetWidth >= ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {
+				etb.style.display = 'none';
+			}
 		}
 
-		setTimeout(function () {  // Delay for IE11
-			for (let i = 0; i < tabs.length; i += 1) {
-				const ss = (tabs[i].dataset['style'] === undefined) ? [] : tabs[i].dataset['style'].split(' ');
-
-				const tab  = tabs[i];
-				const head = cloneTableHeader(tab);
-				const bar  = cloneTableScrollBar(tab);
-				const etb  = (ss.indexOf(DS_NO_ENLARGER) === -1) ? createEnlarger(tab) : null;
-				const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
-				initEvents(cont);
-				conts.push(cont);
-
-				windowScroll(conts[i]);
-				tableScroll(conts[i]);
-			}
-
-			let scrollSt = null, resizeSt = null;
-			window.addEventListener('scroll', function () {
-				if (scrollSt) clearTimeout(scrollSt);
-				scrollSt = setTimeout(function() {
-					for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
-					scrollSt = null;
-				}, 10);
-			});
-			window.addEventListener('resize', function () {
-				if (resizeSt) clearTimeout(resizeSt);
-				resizeSt = setTimeout(function() {
-					for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
-					resizeSt = null;
-				}, 10);
-			});
-		}, 0);
+		let scrollSt = null, resizeSt = null;
+		window.addEventListener('scroll', function () {
+			if (scrollSt) clearTimeout(scrollSt);
+			scrollSt = setTimeout(function() {
+				for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
+				scrollSt = null;
+			}, 10);
+		});
+		window.addEventListener('resize', function () {
+			if (resizeSt) clearTimeout(resizeSt);
+			resizeSt = setTimeout(function() {
+				for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
+				resizeSt = null;
+			}, 10);
+		});
 	}
 
 	function initEvents(cont) {
 		const tab = cont.table;
 		let tableScrollChanged = false, barScrollChanged = false;
-		tab.addEventListener('scroll', function (e) {
+		tab.addEventListener('scroll', function () {
 			tableScroll(cont);
 			if (tableScrollChanged) {
 				tableScrollChanged = false;
@@ -87,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				barScrollChanged = true;
 			}
 		});
-		cont.barScrollListener = function (e) {
+		cont.barScrollListener = function () {
 			if (barScrollChanged) {
 				barScrollChanged = false;
 			} else {
@@ -110,15 +118,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (!thead) return null;
 		}
 		const cont = document.createElement('div');
-		cont.classList.add('fixed-table-header-container');
-		cont.style.maxWidth = table.clientWidth + 'px';
+		ST.addStile(cont, ST_HEADER_CONTAINER);
+		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
-		cont.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
+		cont.style.top = (getTableHeaderOffset() + ST.getWpAdminBarHeight()) + 'px';
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
-		ptab.classList.add('fixed-table-header-table');
-		ptab.style.width = thead.clientWidth + 'px';
+		ST.addStile(ptab, ST_HEADER_TABLE);
+		ptab.style.width = thead.getBoundingClientRect().width + 'px';
 		cont.appendChild(ptab);
 
 		const clone = thead.cloneNode(true);
@@ -137,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
 			}
 		}
-		if (table.classList.contains(CLS_STATE_ENLARGED)) cont.classList.add(CLS_STATE_ENLARGED);
+		if (ST.containStile(table, ST_STATE_ENLARGED)) ST.addStile(cont, ST_STATE_ENLARGED);
 		return cont;
 	}
 
@@ -172,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tbody = table.tBodies[0];
 
 		const bar = document.createElement('div');
-		bar.classList.add('fixed-table-scroll-bar');
+		ST.addStile(bar, ST_SCROLL_BAR);
 		bar.style.maxWidth = table.clientWidth + 'px';
 		bar.style.display = 'none';
 		const h = parseInt(getScrollBarWidth());
@@ -189,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function windowResize(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
-		if (cont.etb && tab.classList.contains(CLS_STATE_ENLARGED)) windowResize_enlarger(tab);
+		if (cont.etb && ST.containStile(tab, ST_STATE_ENLARGED)) windowResize_enlarger(tab);
 
 		if (head) {
 			if (head.parentNode) head.parentNode.removeChild(head);
@@ -207,9 +215,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	function windowScroll(cont) {
 		const tab = cont.table, head = cont.header, bar = cont.bar;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
-		const tabTop = elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
-		const offset = getTableHeaderOffset();
+		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
+		const offset = getTableHeaderOffset() + ST.getWpAdminBarHeight();
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
+		const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
 
 		if (head) {
 			if (isInWin) {
@@ -220,12 +229,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (cont.etb) switchEnlargerToTable(cont);
 			} else if (tabTop < winY + offset) {
 				head.style.display = 'block';
-				head.style.top = (getTableHeaderOffset() + getWpAdminBarHeight()) + 'px';
+				head.style.top = (getTableHeaderOffset() + ST.getWpAdminBarHeight()) + 'px';
 				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 				cont.headerHeight = head.getBoundingClientRect().height;
 				if (cont.etb) switchEnlargerToFloatingHeader(cont);
 			}
-			head.style.left = (elementLeftOnWindow(tab) - winX) + 'px';
+			head.style.left = tabLeft;
 			head.scrollLeft = tab.scrollLeft;
 		}
 		if (bar) {
@@ -236,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			} else if (tab.scrollWidth - tab.clientWidth > 1) {  // for avoiding needless scrolling
 				bar.style.display = 'block';
 			}
-			bar.style.left = (elementLeftOnWindow(tab) - winX) + 'px';
+			bar.style.left = tabLeft;
 			bar.scrollLeft = tab.scrollLeft;
 		}
 	}
@@ -258,14 +267,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.style.overflowX = '';
 			if (head) head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 		}
-		if (cont.etb) tableScroll_enlarger(cont);
+		if (cont.etb) tableScroll_enlarger_wrap(cont);
 	}
 
-	// Enlarger ----------------------------------------------------------------
+
+	// -------------------------------------------------------------------------
+	// Enlarger
 
 	function createEnlarger(table) {
 		const etb = document.createElement('div');
-		etb.classList.add('enlarger-button');
+		etb.dataset['stile'] = ST_ENLARGER_BUTTON;
 		table.appendChild(etb);
 		return etb;
 	}
@@ -286,24 +297,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function enlarge(cont) {
 		const tab = cont.table;
-		if (tab.classList.contains(CLS_STATE_ENLARGED)) {
+		if (ST.containStile(tab, ST_STATE_ENLARGED)) {
 			tab.style.marginLeft = '';
 			tab.style.zIndex = '';
 			tab.style.width = '';
 			tab.style.maxWidth = '';
-			tab.classList.remove(CLS_STATE_ENLARGED);
+			ST.removeStile(tab, ST_STATE_ENLARGED);
 		} else {
-			if (tab.scrollWidth - tab.clientWidth <= 2) return;
+			if (tab.scrollWidth - tab.offsetWidth <= 1) return;
 			tab.style.zIndex = '98';
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			tab.style.maxWidth = '100vw';
-			tab.classList.add(CLS_STATE_ENLARGED);
+			tab.scrollLeft = 0;
+			ST.addStile(tab, ST_STATE_ENLARGED);
 		}
 		windowResize(cont);
 	}
 
 	function windowResize_enlarger(tab) {
-		let left = elementLeftOnWindow(tab.parentNode);
+		let left = ST.elementLeftOnWindow(tab.parentNode);
 		const tbody = tab.tBodies[0];
 		const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 
@@ -311,14 +323,31 @@ document.addEventListener('DOMContentLoaded', function () {
 		tab.style.marginLeft = -left + 'px';
 	}
 
+	let tse = null;
+
+	function tableScroll_enlarger_wrap(cont) {
+		if (ST.BROWSER === 'chrome' || ST.BROWSER === 'edge') {
+			if (tse) clearTimeout(tse);
+			tse = setTimeout(function () {tableScroll_enlarger(cont);}, 0);  // for updating enlager button position
+		} else {
+			tableScroll_enlarger(cont);
+		}
+	}
+
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb;
-		if (tab.scrollWidth - tab.clientWidth > 2 && tab.clientWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
-			etb.style.left = (tab.scrollLeft) + 'px';
+		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
+			etb.style.right = (-tab.scrollLeft) + 'px';
 			etb.style.display = 'block';
 		} else {
-			etb.style.left = '0';
-			if (tab.classList.contains(CLS_STATE_ENLARGED)) {
+			if (ST.containStile(tab, ST_STATE_ENLARGED)) {
+				const pw = etb.parentElement.offsetWidth;
+				const diff = pw - tab.tBodies[0].clientWidth;
+				if (0 < diff) {
+					etb.style.right = diff + 'px';
+				} else {
+					etb.style.right = (-tab.scrollLeft) + 'px';
+				}
 				etb.style.display = 'block';
 			} else {
 				etb.style.display = 'none';
@@ -326,7 +355,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	// Neat Wrap ---------------------------------------------------------------
+
+	// -------------------------------------------------------------------------
+	// Neat Wrap
 
 	function addWrapStyle(table) {
 		if (table.getAttribute('width') != null) table.setAttribute('width', '');
@@ -366,12 +397,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function isIE11orOldEdge() {
-		const ua = window.navigator.userAgent.toLowerCase();
-		if (ua.indexOf('msie') !== -1 || ua.indexOf('trident') !== -1) return true;
-		if (getEdgeRev(ua) < 16) return true;  // Before Fall Creators Update
+		if (ST.BROWSER === 'ie11') return true;
+		if (getEdgeRev() < 16) return true;  // Before Fall Creators Update
 		return false;
 
-		function getEdgeRev(ua) {
+		function getEdgeRev() {
+			const ua = window.navigator.userAgent.toLowerCase();
 			const ss = ua.split(' ');
 			for (let i = 0; i < ss.length; i += 1) {
 				if (ss[i].indexOf('edge') === 0) {
@@ -561,54 +592,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	// Utilities ---------------------------------------------------------------
-
-	function getWpAdminBarHeight() {
-		const wpab = document.getElementById('wpadminbar');
-		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
-	}
-
-	function makeOffsetFunction(fixedElementClass, fixedTopClass) {
-		let elmFixed = document.getElementsByClassName(fixedElementClass);
-		if (elmFixed && elmFixed.length > 0) {
-			elmFixed = elmFixed[0];
-			let elmTops = document.getElementsByClassName(fixedTopClass);
-			if (elmTops) {
-				return function () {
-					const pos = getComputedStyle(elmFixed).position;
-					if (pos === 'fixed') {
-						let height = 0;
-						for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
-						return height;
-					}
-					return 0;
-				};
-			}
-			return function () {
-				const pos = getComputedStyle(elmFixed).position;
-				return pos === 'fixed' ? elmFixed.offsetHeight : 0;
-			};
-		}
-		return function () { return 0; }
-	}
-
-	function elementLeftOnWindow(elm) {
-		let left = 0;
-		while (elm) {
-			left += elm.offsetLeft;
-			elm = elm.offsetParent;
-		}
-		return left;
-	}
-
-	function elementTopOnWindow(elm) {
-		let top = 0;
-		while (elm) {
-			top += elm.offsetTop;
-			elm = elm.offsetParent;
-		}
-		return top;
-	}
+	// -------------------------------------------------------------------------
+	// Utilities
 
 	function getScrollBarWidth() {
 		const dummy = document.createElement('div');
