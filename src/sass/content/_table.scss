@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-14
  *
  */
 
@@ -44,7 +44,7 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 
 	// Design ------------------------------------------------------------------
 
-	thead, tbody:first-child {
+	thead, tbody:first-child, colgroup + tbody {
 		border-top: $stile-table-size-rule-horizontal-edge solid;
 
 		border-top-color: $stile-table-color-rule-horizontal-edge;
