@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-01
+ * @version 2018-06-19
  *
  */
 
@@ -17,6 +17,7 @@ $stile-tab-page-color-bg                : #fff !default;
 $stile-tab-page-color-line              : rgba(#777, 0.35) !default;
 $stile-tab-page-color-tab-bg            : transparent !default;
 $stile-tab-page-color-tab-line          : transparent !default;
+$stile-tab-page-color-tab-bg-hover      : rgba(#fff, 0.35) !default;
 
 $stile-tab-page-color-tab-current-bg    : rgba(#fff, 0.75) !default;
 $stile-tab-page-color-tab-current-line  : rgba(#777, 0.35) !default;
@@ -26,6 +27,7 @@ $stile-tab-page-color-tab-accordion-line: rgba(#777, 0.35) !default;
 
 $stile-tab-page-color-tab-text          : rgba(#000, 0.5) !default;
 $stile-tab-page-color-tab-text-current  : rgba(#000, 0.95) !default;
+$stile-tab-page-color-tab-text-hover    : rgba(#000, 0.75) !default;
 
 $stile-tab-page-size-tab-current-top    : 2px !default;
 $stile-tab-page-size-tab-margin         : 0.25rem !default;
@@ -78,6 +80,11 @@ $stile-tab-page-size-font               : 1rem !default;
 		
 		background-color: $stile-tab-page-color-tab-bg;
 		color: $stile-tab-page-color-tab-text;
+		&:not([data-stile ~= 'current']):hover {
+			background-color: $stile-tab-page-color-tab-bg-hover;
+			color: $stile-tab-page-color-tab-text-hover;
+			top: 0px;
+		}
 		cursor: pointer;
 		user-select: none;
 		border-radius: 1px;
