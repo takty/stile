@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-11
+ * @version 2018-06-19
  *
  */
 
@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		cont.style.maxWidth = table.getBoundingClientRect().width + 'px';
 		cont.style.display = 'none';
 		cont.style.top = (getTableHeaderOffset() + ST.getWpAdminBarHeight()) + 'px';
+		cont.style.marginTop = '0';  // for cancel 'stile-margin-basic'
 		table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
