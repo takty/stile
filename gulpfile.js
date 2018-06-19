@@ -69,8 +69,14 @@ gulp.task('docs-js', gulp.series('js-with-option', () => {
 		.pipe(gulp.dest('docs'));
 }));
 
-gulp.task('docs', gulp.series('default', () => {
+gulp.task('docs-watch', () => {
 	gulp.watch('src/js/**/*.js',     gulp.series('docs-js'));
 	gulp.watch('src/sass/**/*.scss', gulp.series('docs-sass'));
 	gulp.watch('docs/style.scss',    gulp.series('docs-sass'));
-}));
+});
+
+gulp.task('docs-build', gulp.parallel('docs-js', 'docs-sass'));
+
+gulp.task('docs-default', gulp.series('docs-build', 'docs-watch'));
+
+gulp.task('docs', gulp.parallel('default', 'docs-default'));
