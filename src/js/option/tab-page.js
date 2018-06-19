@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-01
+ * @version 2018-06-19
  *
  */
 
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 	window.addEventListener('resize', function () { onResize(tabPages); });
 	onResize(tabPages);
+	setTimeout(function () {onResize(tabPages)}, 100);  // Delay
 
 	function createTabPage(container) {
 		const fh = getFirstHeading(container);

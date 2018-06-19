@@ -83,7 +83,6 @@ $stile-tab-page-size-font               : 1rem !default;
 		&:not([data-stile ~= 'current']):hover {
 			background-color: $stile-tab-page-color-tab-bg-hover;
 			color: $stile-tab-page-color-tab-text-hover;
-			top: 0px;
 		}
 		cursor: pointer;
 		user-select: none;
@@ -102,12 +101,13 @@ $stile-tab-page-size-font               : 1rem !default;
 			color: $stile-tab-page-color-tab-text-current;
 		}
 		@include for-tablet-up {
+			min-height: 3rem;
 			border-bottom: 1px solid $stile-tab-page-color-line;
 			li {
-				top: 1px;
 				border: 1px solid $stile-tab-page-color-tab-line;
 
 				&[data-stile ~= 'current'] {
+					top: 1px;
 					cursor: initial;
 					user-select: initial;
 				}
@@ -123,7 +123,7 @@ $stile-tab-page-size-font               : 1rem !default;
 				border: 1px solid $stile-tab-page-color-tab-accordion-line;
 				border-bottom: none;
 				margin-bottom: $stile-tab-page-size-tab-margin;
-	
+
 				&:not([data-stile ~= 'current']):last-child {  // When the all tabs are closed
 					border-bottom: 1px solid $stile-tab-page-color-tab-accordion-line;
 					margin-bottom: 0;
