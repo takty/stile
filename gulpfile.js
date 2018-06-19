@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')({pattern:['gulp-*']});
 
 
-gulp.task('js-with-option', function () {
+gulp.task('js-with-option', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
 		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
@@ -13,7 +13,7 @@ gulp.task('js-with-option', function () {
 		.pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('js-without-option', function () {
+gulp.task('js-without-option', () => {
 	return gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 		.pipe($.plumber())
 		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
@@ -22,7 +22,7 @@ gulp.task('js-without-option', function () {
 		.pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('js-each', function () {
+gulp.task('js-each', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
 		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
@@ -31,28 +31,28 @@ gulp.task('js-each', function () {
 		.pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('js', ['js-with-option', 'js-without-option', 'js-each']);
+gulp.task('js', gulp.parallel('js-with-option', 'js-without-option', 'js-each'));
 
-gulp.task('sass', function () {
+gulp.task('sass', () => {
 	return gulp.src(['src/sass/**/*.scss'], {base: 'src/sass'})
 		.pipe($.plumber())
 		.pipe($.changed('dist/sass'))
 		.pipe(gulp.dest('dist/sass'));
 });
 
-gulp.task('watch', function () {
-	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/sass/**/*.scss', ['sass']);
+gulp.task('watch', () => {
+	gulp.watch('src/js/**/*.js', gulp.parallel('js'));
+	gulp.watch('src/sass/**/*.scss', gulp.parallel('sass'));
 });
 
-gulp.task('build', ['js', 'sass']);
+gulp.task('build', gulp.parallel('js', 'sass'));
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', gulp.series('build', 'watch'));
 
 
 // -----------------------------------------------------------------------------
 
-gulp.task('docs-sass', ['sass'], function () {
+gulp.task('docs-sass', gulp.series('sass', () => {
 	return gulp.src('docs/style.scss')
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
@@ -61,16 +61,16 @@ gulp.task('docs-sass', ['sass'], function () {
 		.pipe($.rename({extname: '.min.css'}))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('docs'));
-});
+}));
 
-gulp.task('docs-js', ['js-with-option'], function () {
+gulp.task('docs-js', gulp.series('js-with-option', () => {
 	return gulp.src(['dist/js/stile-full.min.js'])
 		.pipe($.plumber())
 		.pipe(gulp.dest('docs'));
-});
+}));
 
-gulp.task('docs', ['default'], () => {
-	gulp.watch('src/js/**/*.js',     ['docs-js']);
-	gulp.watch('src/sass/**/*.scss', ['docs-sass']);
-	gulp.watch('docs/style.scss',    ['docs-sass']);
-});
+gulp.task('docs', gulp.series('default', () => {
+	gulp.watch('src/js/**/*.js',     gulp.series('docs-js'));
+	gulp.watch('src/sass/**/*.scss', gulp.series('docs-sass'));
+	gulp.watch('docs/style.scss',    gulp.series('docs-sass'));
+}));
