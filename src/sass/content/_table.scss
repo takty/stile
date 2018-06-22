@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-14
+ * @version 2018-06-22
  *
  */
 
@@ -95,8 +95,10 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 		background-color: $stile-table-color-header-background;
 	}
 
-	table:not([class]):not([data-stile ~= "no-neat-wrap"]) td {
-		white-space: nowrap;
+	table:not([class]):not([data-stile ~= "no-neat-wrap"]) {
+		td, th {
+			white-space: nowrap;
+		}
 	}
 
 	td p:not([class]) {
