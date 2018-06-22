@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-19
+ * @version 2018-06-22
  *
  */
 
@@ -127,7 +127,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		const ptab = document.createElement('div');
 		ST.addStile(ptab, ST_HEADER_TABLE);
-		ptab.style.width = thead.getBoundingClientRect().width + 'px';
+		let w = thead.getBoundingClientRect().width;
+		if (ST.BROWSER === 'ie11') w = Math.ceil(w);
+		ptab.style.width = w + 'px';
 		cont.appendChild(ptab);
 
 		const clone = thead.cloneNode(true);
@@ -316,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function windowResize_enlarger(tab) {
-		let left = ST.elementLeftOnWindow(tab.parentNode);
+		let left = ST.elementLeftOnWindow(tab);
 		const tbody = tab.tBodies[0];
 		const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 
