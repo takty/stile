@@ -23,6 +23,7 @@ $stile-tab-page-color-tab-current-bg    : rgba(#fff, 0.75) !default;
 $stile-tab-page-color-tab-current-line  : rgba(#777, 0.35) !default;
 $stile-tab-page-color-tab-current-top   : rgba(#777, 0.75) !default;
 
+$stile-tab-page-color-tab-accordion-bg  : rgba(#777, 0.75) !default;
 $stile-tab-page-color-tab-accordion-line: rgba(#777, 0.35) !default;
 
 $stile-tab-page-color-tab-text          : rgba(#000, 0.5) !default;
@@ -89,6 +90,7 @@ $stile-tab-page-size-font               : 1rem !default;
 		border-radius: 1px;
 
 		@include for-phone-only {  // Accordion Mode
+			background-color: $stile-tab-page-color-tab-accordion-bg;
 			&::after {
 				content: '';
 				display: block;
