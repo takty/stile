@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-19
+ * @version 2018-06-22
  *
  */
 
@@ -87,6 +87,21 @@ $stile-tab-page-size-font               : 1rem !default;
 		cursor: pointer;
 		user-select: none;
 		border-radius: 1px;
+
+		@include for-phone-only {  // Accordion Mode
+			&::after {
+				content: '';
+				display: block;
+				width: 0;
+				height: 0;
+				border: 0.35rem solid transparent;
+				border-top: 0.35rem solid $stile-tab-page-color-tab-accordion-line;
+				position: absolute;
+				top: calc(50% - 0.175rem);
+				right: 1rem;
+				transition: 0.2s transform;
+			}
+		}
 	}
 
 	.stile-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
@@ -131,6 +146,10 @@ $stile-tab-page-size-font               : 1rem !default;
 				&[data-stile ~= 'current'] {
 					border-bottom: 1px dotted $stile-tab-page-color-tab-accordion-line;
 					margin-bottom: 0;
+					&::after {
+						transform: scaleY(-1) translateY(0.4rem);
+						transition: 0.2s transform;
+					}
 				}
 			}
 		}

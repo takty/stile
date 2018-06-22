@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-19
+ * @version 2018-06-22
  *
  */
 
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		container.appendChild(tp.tabUl2);
 
 		addTabEvent(tp);
-		onTabClick(0, tp);
+		onTabClick(tp, 0);
 		return tp;
 	}
 
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const f = (function (idx) {
 				return function (e) {
 					e.preventDefault();
-					onTabClick(idx, tp);
+					onTabClick(tp, idx);
 				};
 			})(i);
 			ts[i].addEventListener('click', f);
@@ -103,15 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function onTabClick(idx, tp) {
+	function onTabClick(tp, idx) {
 		if (tp.isAccordion) {
 			idx = tp.currentIdx === idx ? -1 : idx;
-			updateAccordionTabState(idx, tp);
+			updateAccordionTabState(tp, idx);
 		}
-		changeCurrentTab(idx, tp);
+		changeCurrentTab(tp, idx);
 	}
 
-	function changeCurrentTab(idx, tp) {
+	function changeCurrentTab(tp, idx) {
 		const ts  = tp.tabs;
 		const ps  = tp.pages;
 
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		tp.currentIdx = idx;
 	}
 
-	function updateAccordionTabState(idx, tp) {
+	function updateAccordionTabState(tp, idx) {
 		const ts  = tp.tabs;
 		const ts2 = tp.tabs2;
 		if (idx === -1) {
@@ -153,21 +153,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function onResizeOne(tp) {
 		const cont = tp.container;
+		const prevIsAccordion = tp.isAccordion;
 		tp.isAccordion = getComputedStyle(tp.tabUl2).display !== 'none';
 
 		if (tp.isAccordion) {
 			cont.style.minHeight = '';
 			cont.style.height    = '';
-			updateAccordionTabState(tp.currentIdx, tp);
+			if (prevIsAccordion !== tp.isAccordion) changeCurrentTab(tp, -1);
+			updateAccordionTabState(tp, tp.currentIdx);
 		} else {
-			const tabs  = tp.tabs;
+			const tabs = tp.tabs;
 			const minH = getMinHeight(tp) + 'px';
 			cont.style.minHeight = minH;
 			cont.style.height    = minH;
 
 			for (let i = 0; i < tabs.length; i += 1) tabs[i].style.display = '';
 			if (tp.currentIdx === -1) tp.currentIdx = 0;
-			onTabClick(tp.currentIdx, tp);
+			onTabClick(tp, tp.currentIdx);
 		}
 	}
 
