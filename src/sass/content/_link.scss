@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-02
+ * @version 2018-06-22
  *
  */
 
@@ -25,12 +25,8 @@ $stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
 	line-height: 1;
 	@include font-bold-cancel;
 
-	width: 1rem;
-	height: 1rem;
 	overflow: hidden;  // for removing underline on IE11
-
 	transform: translateY(0.1rem);
-	@include for-firefox { transform: translateY(0.2rem); }
 }
 
 @mixin stile-link-mark-anchor {
