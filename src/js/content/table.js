@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (tab.scrollWidth - tab.offsetWidth <= 1 || tab.offsetWidth >= ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {
 				etb.style.display = 'none';
 			}
+			cont.calcWidth = tab.offsetWidth;
 		}
 
 		let scrollSt = null, resizeSt = null;
@@ -191,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		table.parentNode.appendChild(bar);
 
 		const spacer = document.createElement('div');
-		spacer.style.width = tbody.clientWidth + 'px';
+		spacer.style.width = Math.ceil(tbody.clientWidth) + 'px';
 		spacer.style.height = '1px';
 		bar.appendChild(spacer);
 
@@ -211,11 +212,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			cont.bar = cloneTableScrollBar(tab);
 			initBarEvent(cont);
 		}
+		cont.calcWidth = cont.table.offsetWidth;
 		if (cont.header || cont.bar) windowScroll(cont);
 		tableScroll(cont);
 	}
 
 	function windowScroll(cont) {
+		if (cont.calcWidth !== cont.table.offsetWidth) {
+			windowResize(cont);
+		}
 		const tab = cont.table, head = cont.header, bar = cont.bar;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
 		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
@@ -605,7 +610,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		dummy.style.position = 'absolute';
 		dummy.style.width    = 'calc(100vw - 100%)';
 		document.body.appendChild(dummy);
-		const width = window.getComputedStyle(dummy, null).getPropertyValue('width');
+		let width = 0 | window.getComputedStyle(dummy, '').getPropertyValue('width');
+
+		if (width === 0) {  // Window does not have any scroll bar
+			dummy.style.overflowY = 'scroll';
+			dummy.style.width = '';
+			const c = document.createElement('div');
+			c.style.minHeight = '100px';
+			dummy.appendChild(c);
+			const cw = 0 | window.getComputedStyle(c, '').getPropertyValue('width');
+			width = dummy.offsetWidth - cw;
+		}
 		document.body.removeChild(dummy);
 		return width;
 	}
