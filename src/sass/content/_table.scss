@@ -178,7 +178,7 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 	table, div[data-stile ~= "fixed-table-scroll-bar"] {  // for IE11
 		scrollbar-face-color: $stile-table-color-scrollbar-thumb;
 		scrollbar-shadow-color: $stile-table-color-scrollbar-thumb;
-		scrollbar-track-color: $stile-table-color-scrollbar-background;
+		scrollbar-track-color: lighten($stile-table-color-scrollbar-background, 10%);
 	}
 
 	// Enlarger ----------------------------------------------------------------
