@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const CLS_TAB_LIST_BELOW = 'stile-tab-page-tab-list-below';
 	const ST_STATE_CURRENT   = 'current';
 
+	const PAGE_HEIGHT_WINDOW_HEIGHT_RATIO = 0.8;
+
 	const tabPages = [];
 	const tps = document.querySelectorAll(SELECTOR_TARGET);
 	for (let i = 0; i < tps.length; i += 1) {
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 	window.addEventListener('resize', function () { onResize(tabPages); });
 	onResize(tabPages);
-	setTimeout(function () {onResize(tabPages)}, 100);  // Delay
+	setTimeout(function () {onResize(tabPages)}, 200);  // Delay
 
 	function createTabPage(container) {
 		const fh = getFirstHeading(container);
@@ -96,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				return function (e) {
 					e.preventDefault();
 					onTabClick(tp, idx);
+					if (!tp.isAccordion) onResizeOne(tp);
 				};
 			})(i);
 			ts[i].addEventListener('click', f);
@@ -163,10 +166,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			updateAccordionTabState(tp, tp.currentIdx);
 		} else {
 			const tabs = tp.tabs;
-			const minH = getMinHeight(tp) + 'px';
-			cont.style.minHeight = minH;
-			cont.style.height    = minH;
-
+			const minH = getMinHeight(tp);
+			if (minH < window.innerHeight * PAGE_HEIGHT_WINDOW_HEIGHT_RATIO) {
+				cont.style.minHeight = minH + 'px';
+				cont.style.height    = minH + 'px';
+			}
 			for (let i = 0; i < tabs.length; i += 1) tabs[i].style.display = '';
 			if (tp.currentIdx === -1) tp.currentIdx = 0;
 			onTabClick(tp, tp.currentIdx);
