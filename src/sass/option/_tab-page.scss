@@ -40,14 +40,8 @@ $stile-tab-page-size-font               : 1rem !default;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
 
 		> div {
-			position: absolute;
-			left: 100vw;
-			opacity: 0;
-			transition: opacity 1s;
-
 			width: 100%;
 			border-left  : 1px solid $stile-tab-page-color-line;
 			border-right : 1px solid $stile-tab-page-color-line;
@@ -58,9 +52,13 @@ $stile-tab-page-size-font               : 1rem !default;
 			// Margins inside
 			@include stile-margin-basic;
 		}
+		> div:not([data-stile ~= 'current']) {
+			position: absolute;
+			bottom: 1000vh;
+			opacity: 0;
+		}
 		> div[data-stile ~= 'current'] {
 			position: static;
-			left: 0;
 			opacity: 1;
 			transition: opacity 1s;
 			flex-grow: 1;

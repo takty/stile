@@ -170,6 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (minH < window.innerHeight * PAGE_HEIGHT_WINDOW_HEIGHT_RATIO) {
 				cont.style.minHeight = minH + 'px';
 				cont.style.height    = minH + 'px';
+			} else {
+				cont.style.minHeight = '';
+				cont.style.height    = '';
 			}
 			for (let i = 0; i < tabs.length; i += 1) tabs[i].style.display = '';
 			if (tp.currentIdx === -1) tp.currentIdx = 0;
@@ -186,8 +189,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		for (let i = 0; i < pages.length; i += 1) {
 			const p = pages[i];
-			margin = Math.max(margin, parseInt(getComputedStyle(p).marginTop));
-			height = Math.max(height, p.getBoundingClientRect().height);
+			const m = parseInt(getComputedStyle(p).marginTop);
+			const h = p.getBoundingClientRect().height;
+			margin = Math.max(margin, m);
+			height = Math.max(height, h);
 		}
 		return tabUl.offsetHeight + margin + height;
 	}
