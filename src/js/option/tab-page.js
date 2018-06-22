@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (tabPage) tabPages.push(tabPage);
 	}
 	window.addEventListener('resize', function () { onResize(tabPages); });
-	onResize(tabPages);
 	setTimeout(function () {onResize(tabPages)}, 200);  // Delay
 
 	function createTabPage(container) {

@@ -60,7 +60,7 @@ $stile-tab-page-size-font               : 1rem !default;
 		> div[data-stile ~= 'current'] {
 			position: static;
 			opacity: 1;
-			transition: opacity 1s;
+			transition: opacity 0.6s;
 			flex-grow: 1;
 		}
 	}
