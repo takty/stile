@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-25
  *
  */
 
@@ -280,6 +280,9 @@ $stile-font-monospace:
 		@if $set-line-height { line-height: base-vr(2); }
 	} @else if $level == 4 {
 		font-size: 1.5rem;
+		@if $set-line-height { line-height: base-vr(3); }
+	} @else if $level == 4.5 {
+		font-size: 1.75rem;
 		@if $set-line-height { line-height: base-vr(3); }
 	} @else if $level == 5 {
 		font-size: 2rem;
