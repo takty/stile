@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-22
+ * @version 2018-06-25
  *
  */
 
@@ -46,6 +46,7 @@ $stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
 		&[href ^= 'http']:empty::before {
 			text-decoration: none;
 			color: $stile-link-color-text;
+			word-wrap: break-word;  // for URL in text
 
 			margin-left: 0.075rem;
 			margin-right: 0.075rem;
