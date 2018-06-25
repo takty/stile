@@ -57,7 +57,7 @@ gulp.task('docs-sass', gulp.series('sass', () => {
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass({outputStyle: 'compressed'}))
-		.pipe($.autoprefixer(['ie >= 11']))
+		.pipe($.autoprefixer({browsers: ['ie >= 11'], remove: false}))
 		.pipe($.rename({extname: '.min.css'}))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('docs'));
