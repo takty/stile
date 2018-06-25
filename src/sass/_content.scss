@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-02
+ * @version 2018-06-25
  *
  */
 
@@ -37,15 +37,15 @@
 }
 
 @mixin stile-margin-basic {
-	text-align: center;  // for table on IE11
-	> * { text-align: left; }  // for table on IE11
-
 	> * + * { margin-top: base-vr(2); }
 	> *:first-child.alignleft  + *:not([class]) { margin-top: 0; }
 	> *:first-child.alignright + *:not([class]) { margin-top: 0; }
 }
 
 @mixin stile-margin-advanced() {
+	text-align: center;  // for table on IE11
+	> * { text-align: left; }  // for table on IE11
+
 	*:not([class]) + table { margin-top: base-vr(4); }
 	table + *:not([class]) { margin-top: base-vr(4); }
 
