@@ -41,8 +41,8 @@ gulp.task('sass', () => {
 });
 
 gulp.task('watch', () => {
-	gulp.watch('src/js/**/*.js', gulp.parallel('js'));
-	gulp.watch('src/sass/**/*.scss', gulp.parallel('sass'));
+	gulp.watch('src/js/**/*.js', gulp.series('js'));
+	gulp.watch('src/sass/**/*.scss', gulp.series('sass'));
 });
 
 gulp.task('build', gulp.parallel('js', 'sass'));
