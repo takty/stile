@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-22
+ * @version 2018-06-26
  *
  */
 
@@ -58,7 +58,7 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 
 	th, td {
 		padding: base-vr(0.5) base-vr(1);  // This half vr is irregular but needed.
-		line-height: base-vr(2);
+		@include font-size-level(1);
 		@include font-proportional;
 	}
 
@@ -87,7 +87,6 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 
 	thead td,
 	th {
-		font-size: 1rem;
 		@include font-bold;
 		text-align: center;
 

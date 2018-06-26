@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-05
+ * @version 2018-06-26
  *
  */
 
@@ -12,11 +12,11 @@
 @import '../basic/query';
 @import '../basic/font';
 
-$stile-block-color-line          : rgba(#777, 0.9) !default;
-$stile-block-color-shade         : rgba($stile-block-color-line, 0.1) !default;
-$stile-block-size-line-width     : 1px !default;
-$stile-block-size-font-figcaption: 0.85rem !default;
-$stile-block-size-max-width      : 36rem !default;
+$stile-block-color-line      : rgba(#777, 0.9) !default;
+$stile-block-color-shade     : rgba($stile-block-color-line, 0.1) !default;
+$stile-block-size-line-width : 1px !default;
+$stile-block-size-max-width  : 36rem !default;
+$stile-block-level-figcaption: 0 !default;
 
 
 @mixin stile-block {
@@ -99,8 +99,7 @@ $stile-block-size-max-width      : 36rem !default;
 	figcaption {
 		display: inline-block;
 		max-width: $stile-block-size-max-width;
-		font-size: $stile-block-size-font-figcaption;
-		line-height: base-vr(1.5);
+		@include font-size-level($stile-block-level-figcaption);
 		text-align: left;  // for left align of long caption
 	}
 }

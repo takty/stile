@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-25
+ * @version 2018-06-26
  *
  */
 
@@ -269,26 +269,38 @@ $stile-font-monospace:
 }
 
 @mixin font-size-level($level, $set-line-height: true) {
-	@if $level == 1 {
-		font-size: 1rem;
-		@if $set-line-height { line-height: base-vr(2); }
-	} @else if $level == 2 {
-		font-size: 1.125rem;
-		@if $set-line-height { line-height: base-vr(2); }
-	} @else if $level == 3 {
-		font-size: 1.25rem;
-		@if $set-line-height { line-height: base-vr(2); }
-	} @else if $level == 4 {
-		font-size: 1.5rem;
-		@if $set-line-height { line-height: base-vr(3); }
-	} @else if $level == 4.5 {
-		font-size: 1.75rem;
-		@if $set-line-height { line-height: base-vr(3); }
-	} @else if $level == 5 {
-		font-size: 2rem;
-		@if $set-line-height { line-height: base-vr(3); }
-	} @else if $level == 6 {
-		font-size: 2.5rem;
-		@if $set-line-height { line-height: base-vr(4); }
+	$sizes: (
+		0: (0.850rem, 1.5),
+		1: (1.000rem, 2.0),
+		2: (1.125rem, 2.0),
+		3: (1.250rem, 2.0),
+		4: (1.500rem, 3.0),
+		5: (2.000rem, 3.0),
+		6: (2.500rem, 4.0),
+	);
+	$margin: 0.4rem;
+	$level_f: floor($level);
+	$fs: 0;
+	$lh: 0;
+
+	@if $level_f == $level {
+		$s: map-get($sizes, $level);
+		$fs: nth($s, 1);
+		$lh: base-vr(nth($s, 2));
+	} @else {
+		$level_c: ceil($level);
+		$s_f: map-get($sizes, $level_f);
+		$s_c: map-get($sizes, $level_c);
+
+		$fs_f: nth($s_f, 1);
+		$fs_c: nth($s_c, 1);
+		$fs: $fs_f * ($level_c - $level) + $fs_c * ($level - $level_f);
+		@if 1 < $level {
+			$lh: ceil(($fs + $margin) / $stile-size-unit) * $stile-size-unit;
+		} @else {
+			$lh: base-vr(1.5);
+		}
 	}
+	font-size: $fs;
+	@if $set-line-height { line-height: $lh; }
 }

@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-22
+ * @version 2018-06-26
  *
  */
 
@@ -32,7 +32,7 @@ $stile-tab-page-color-tab-text-hover    : rgba(#000, 0.75) !default;
 
 $stile-tab-page-size-tab-current-top    : 2px !default;
 $stile-tab-page-size-tab-margin         : 0.25rem !default;
-$stile-tab-page-size-font               : 1rem !default;
+$stile-tab-page-level-font              : 1 !default;
 
 
 @mixin stile-tab-page {
@@ -72,10 +72,9 @@ $stile-tab-page-size-font               : 1rem !default;
 		padding: base-vr(0.5) base-vr(1);
 		@include for-tablet-landscape-up { padding: base-vr(0.5) base-vr(2); }
 		
-		line-height: base-vr(2);
-		font-size: $stile-tab-page-size-font;
 		@include font-bold;
 		@include font-proportional;
+		@include font-size-level($stile-tab-page-level-font);
 		
 		background-color: $stile-tab-page-color-tab-bg;
 		color: $stile-tab-page-color-tab-text;
