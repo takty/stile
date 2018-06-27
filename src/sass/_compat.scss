@@ -3,7 +3,7 @@
  * Backward Compatibility
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-05
+ * @version 2018-06-27
  *
  */
 
@@ -16,6 +16,10 @@
 	@include stile-link-mark-external;
 }
 
+@function vr($val) {
+	@return base-vr($val);
+}
+
 
 // -----------------------------------------------------------------------------
 
@@ -23,12 +27,10 @@
 $block-color-line                : #369 !default;
 $block-color-shade               : rgba(lighten($block-color-line, 55%), 0.85) !default;
 $block-size-line-width           : 2px !default;
-$block-size-font-figcaption      : 0.85rem !default;
 
 $stile-block-color-line          : $block-color-line !default;
 $stile-block-color-shade         : $block-color-shade !default;
 $stile-block-size-line-width     : $block-size-line-width !default;
-$stile-block-size-font-figcaption: $block-size-font-figcaption !default;
 
 
 // -----------------------------------------------------------------------------
@@ -114,7 +116,6 @@ $tab-page-color-tab                   : rgba($tab-page-color-line, 0.25) !defaul
 $tab-page-color-tab-current           : rgba($tab-page-color-line, 0.5) !default;
 $tab-page-color-tab-text              : inherit !default;
 $tab-page-color-tab-text-current      : $tab-page-color-tab-text !default;
-$tab-page-size-font                   : 0.8rem !default;
 $tab-page-size-tab-margin             : 0.5rem !default;
 
 $stile-tab-page-color-bg              : $tab-page-color-bg !default;
@@ -127,4 +128,3 @@ $stile-tab-page-color-tab-current-top : $tab-page-color-line !default;
 $stile-tab-page-color-tab-text        : $tab-page-color-tab-text !default;
 $stile-tab-page-color-tab-text-current: $tab-page-color-tab-text-current !default;
 $stile-tab-page-size-tab-margin       : $tab-page-size-tab-margin !default;
-$stile-tab-page-size-font             : $tab-page-size-font !default;
