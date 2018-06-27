@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-22
+ * @version 2018-06-27
  *
  */
 
@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		for (let i = 0; i < tabs.length; i += 1) {
 			const tab  = tabs[i];
+			if (tab.style.height) tab.style.height = '';
+
 			const head = cloneTableHeader(tab);
 			const bar  = cloneTableScrollBar(tab);
 			const etb  = ST.containStile(tab, ST_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
