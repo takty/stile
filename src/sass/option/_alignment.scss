@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-06-28
  *
  */
 
@@ -67,19 +67,22 @@ $stile-alignment-size-min-text-width: 16rem !default;
 
 	// By Content Query --------------------------------------------------------
 
+	*[data-stile ~= 'alignleft'],
+	*[data-stile ~= 'alignright'] {
+		margin-top: 0;
+		margin-bottom: base-vr(1);
+		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
+	}
 	*[data-stile ~= 'alignleft'] {
 		float: left;
 		margin-left: auto;
 		margin-right: base-vr(2);
-		transform: translateY(#{(base-vr(2) - 1rem) / 2});
-		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'alignright'] {
 		float: right;
 		margin-left: base-vr(2);
 		margin-right: auto;
-		transform: translateY(#{(base-vr(2) - 1rem) / 2});
-		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'aligncenter'] {
 		&.alignleft,
@@ -95,9 +98,7 @@ $stile-alignment-size-min-text-width: 16rem !default;
 @mixin stile-alignment-center {
 	display: block;
 	float: none;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: base-vr(1);  // for these classes specific!
+	margin: base-vr(2) auto;
 	transform: initial;
 	text-align: center;
 	clear: both;
@@ -106,11 +107,12 @@ $stile-alignment-size-min-text-width: 16rem !default;
 @mixin stile-alignment-float($max-width: false) {
 	&.alignleft,
 	&.alignright {
+		margin-top: 0;
+		margin-bottom: base-vr(1);
 		@if $max-width == false {
-			max-width: calc(100% - #{$stile-alignment-size-min-text-width});
-		} @else {
-			max-width: $max-width;
+			$max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 		}
+		max-width: $max-width;
 		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		clear: none;
 	}
