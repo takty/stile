@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-15
+ * @version 2018-07-03
  *
  */
 
@@ -14,8 +14,11 @@
 @import '../dist/sass/option';
 
 
+:root {
+	@include font-responsive-size(600px, 1200px, 14px, 18px);
+}
+
 body {
-	@include font-responsive-size(600px, 2560px, 12px, 18px);
 	@include font-family;
 	@include font-smoothing;
 	@include font-visible-chrome;
