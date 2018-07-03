@@ -3,51 +3,52 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-02
+ * @version 2018-07-03
  *
  */
 
 
 @import 'base';
 
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,700');              // Laten
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,700&text=0123456789/');  // Number and Slash
-@import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');       // Laten Serif
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,400i,600i');  // Laten
+@import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');  // Laten Serif
 
-$stile-font-sans-serif-laten : 'Nunito Sans';
-$stile-font-sans-serif-number: 'Roboto';
-$stile-font-serif-laten      : 'Spectral';
+$stile-font-sans-serif-laten: 'Open Sans';
+$stile-font-serif-laten     : 'Spectral';
 
 
 $stile-font-sans-serif:
-	'Helvetica Neue', 'Yu Gothic', 'YuGothic',
+	$stile-font-sans-serif-laten,
+	'Yu Gothic C', 'Yu Gothic Medium', 'Yu Gothic', 'YuGothic',  // 'Yu Gothic Medium' is for Chrome
 	Verdana, Meiryo, sans-serif;
 
 $stile-font-sans-serif-ie:
+	$stile-font-sans-serif-laten,
 	Verdana, Meiryo, sans-serif;
 
 $stile-font-sans-serif-ios:
-	'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
-	sans-serif;
+	-apple-system, sans-serif;
 
 $stile-font-sans-serif-android:
-	'Noto Sans CJK JP',
-	sans-serif;
+	Verdana, sans-serif;
 
 
 $stile-font-serif:
+	$stile-font-serif-laten, 
 	'Yu Mincho',
-	'Hiragino Mincho ProN', 'Hiragino Mincho Pro',
+	'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 'HG Mincho',
 	Georgia, Meiryo, serif;
 
 $stile-font-serif-ie:
-	'HGS Mincho', 'Yu Mincho',
+	$stile-font-serif-laten, 
+	'HG Mincho',
 	Georgia, Meiryo, serif;
 
+$stile-font-serif-ios:
+	serif;
+
 $stile-font-serif-android:
-	'Noto Serif CJK JP',
-	'Sawarabi Mincho',
-	Georgia, serif;
+	Verdana, sans-serif;
 
 
 $stile-font-monospace:
@@ -61,39 +62,39 @@ $stile-font-monospace:
 
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: 100;
-	src: local('YuGothic-Medium'), local('Yu Gothic Medium'), local('YuGothic-Regular');
+	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: 200;
-	src: local('YuGothic-Medium'), local('Yu Gothic Medium'), local('YuGothic-Regular');
+	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: 300;
-	src: local('YuGothic-Medium'), local('Yu Gothic Medium'), local('YuGothic-Regular');
+	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: 400;
-	src: local('YuGothic-Medium'), local('Yu Gothic Medium'), local('YuGothic-Regular');
+	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: normal;
-	src: local('YuGothic-Medium'), local('Yu Gothic Medium'), local('YuGothic-Regular');
+	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
-	font-family: 'Yu Gothic';
+	font-family: 'Yu Gothic C';
 	font-weight: bold;
-	src: local('YuGothic-Bold'), local('Yu Gothic Bold');
+	src: local('Yu Gothic Bold'), local('YuGothic-Bold');
 }
 
 
@@ -103,66 +104,37 @@ $stile-font-monospace:
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 100;
-	src: local('YuMincho-Regular'), local('Yu Mincho Regular');
+	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 200;
-	src: local('YuMincho-Regular'), local('Yu Mincho Regular');
+	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 300;
-	src: local('YuMincho-Regular'), local('Yu Mincho Regular');
+	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 400;
-	src: local('YuMincho-Regular'), local('Yu Mincho Regular');
+	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: normal;
-	src: local('YuMincho-Regular'), local('Yu Mincho Regular');
+	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: bold;
-	src: local('YuMincho-Demibold'), local('Yu Mincho Demibold');
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-// Mainly for Android
-@font-face {
-	font-family: 'Sawarabi Mincho';
-	src: url('//fonts.gstatic.com/ea/sawarabimincho/v1/SawarabiMincho-Regular.eot?#iefix') format('embedded-opentype'),
-		url('//fonts.gstatic.com/ea/sawarabimincho/v1/SawarabiMincho-Regular.woff2') format('woff2'),
-		url('//fonts.gstatic.com/ea/sawarabimincho/v1/SawarabiMincho-Regular.woff') format('woff'),
-		url('//fonts.gstatic.com/ea/sawarabimincho/v1/SawarabiMincho-Regular.ttf') format('truetype');
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@font-face {
-	font-family: 'Helvetica Neue';
-	font-weight: 100;
-	src: local('Helvetica Neue Regular');
-}
-
-@font-face {
-	font-family: 'Helvetica Neue';
-	font-weight: 200;
-	src: local('Helvetica Neue Regular');
+	src: local('Yu Mincho Demibold'), local('YuMincho-Demibold');
 }
 
 
@@ -182,15 +154,15 @@ $stile-font-monospace:
 }
 
 @font-face {  // for Serif Japanese on IE11 but bad quality when small size
-	font-family: 'HGS Mincho';
+	font-family: 'HG Mincho';
 	font-weight: normal;
-	src: local('HGSMinchoB');
+	src: local('HGMinchoB');
 }
 
 @font-face {  // for Serif Japanese on IE11 but bad quality when small size
-	font-family: 'HGS Mincho';
+	font-family: 'HG Mincho';
 	font-weight: bold;
-	src: local('HGSMinchoE');
+	src: local('HGMinchoE');
 }
 
 
@@ -198,22 +170,28 @@ $stile-font-monospace:
 
 
 @mixin font-family {
-	font-family: $stile-font-sans-serif-number, $stile-font-sans-serif-laten, $stile-font-sans-serif;
+	font-family: $stile-font-sans-serif;
 	@include for-ie {
-		font-family: $stile-font-sans-serif-number, $stile-font-sans-serif-laten, $stile-font-sans-serif-ie;
+		font-family: $stile-font-sans-serif-ie;
 	}
-	&.ios, .ios & {  // need to use os.js
+	&.ios, .ios & {  // need to use user-agent.js
 		font-family: $stile-font-sans-serif-ios;
 	}
-	&.android, .android & {  // need to use os.js
+	&.android, .android & {  // need to use user-agent.js
 		font-family: $stile-font-sans-serif-android;
 	}
 }
 
 @mixin font-family-serif {
-	font-family: $stile-font-serif-laten, $stile-font-serif;
-	&.android, .android & {  // need to use os.js
-		font-family: $stile-font-serif-laten, $stile-font-serif-android;
+	font-family: $stile-font-serif;
+	@include for-ie {
+		font-family: $stile-font-serif-ie;
+	}
+	&.ios, .ios & {  // need to use user-agent.js
+		font-family: $stile-font-serif-ios;
+	}
+	&.android, .android & {  // need to use user-agent.js
+		font-family: $stile-font-serif-android;
 	}
 }
 
