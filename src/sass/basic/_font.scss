@@ -19,7 +19,7 @@ $stile-font-serif-laten     : 'Spectral';
 
 $stile-font-sans-serif:
 	$stile-font-sans-serif-laten,
-	'Yu Gothic C', 'Yu Gothic Medium', 'Yu Gothic', 'YuGothic',  // 'Yu Gothic Medium' is for Chrome
+	'Yu Gothic C', '游ゴシック Medium', 'Yu Gothic', 'YuGothic',  // 'Yu Gothic Medium' is for Chrome
 	Verdana, Meiryo, sans-serif;
 
 $stile-font-sans-serif-ie:
@@ -217,7 +217,7 @@ $stile-font-monospace:
 
 @mixin font-visible-chrome-cancel {
 	@include for-chrome {
-		-webkit-text-stroke-width: 0.01px;
+		-webkit-text-stroke-width: initial;
 	}
 }
 
