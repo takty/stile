@@ -10,7 +10,7 @@
 
 @import 'base';
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,400i,600i');  // Laten
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,400i,700i');  // Laten
 @import url('https://fonts.googleapis.com/css?family=Spectral:300,600,300i,600i');  // Laten Serif
 
 $stile-font-sans-serif-laten: 'Open Sans';
@@ -211,7 +211,7 @@ $stile-font-monospace:
 
 @mixin font-visible-chrome {
 	@include for-chrome {
-		-webkit-text-stroke-width: 0.25px;
+		-webkit-text-stroke-width: 0.1px;
 	}
 }
 
