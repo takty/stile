@@ -56,8 +56,10 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		font-style: italic;
 	}
 	
-	p > {
-		strong, b, em { color: $stile-inline-color-strong; }
+	p, li {
+		> {
+			strong, b, em { color: $stile-inline-color-strong; }
+		}
 	}
 
 	u, span[data-stile ~= 'inline-underline'] {
