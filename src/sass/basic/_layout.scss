@@ -3,7 +3,7 @@
  * Layout Mixins 
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-11
+ * @version 2018-07-14
  *
  */
 
@@ -25,6 +25,11 @@
 	min-width: $min_width;
 	width: calc(($breakpoint - 100%) * 1000);
 	max-width: $max_width;
+}
+
+@mixin layout-full-width() {
+	margin-left: calc((100vw - 100%) / -2);
+	margin-right: calc((100vw - 100%) / -2);
 }
 
 
