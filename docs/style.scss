@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-03
+ * @version 2018-07-27
  *
  */
 
@@ -15,7 +15,10 @@
 
 
 :root {
-	@include font-responsive-size(600px, 1200px, 14px, 18px);
+	font-size: 14px;
+	@include font-responsive-size-interval(600px, 900px, 14px, 16px);
+	@include font-responsive-size-interval(900px, 1800px, 16px, 20px);
+	@include for-big-desktop-up { font-size: 20px; }
 }
 
 body {
@@ -30,11 +33,9 @@ body {
 
 .stile {
 	@include layout-side-margin(48rem, 1rem);
-	@include for-tablet-up {
-		@include layout-side-margin(48rem, 2rem);
-	}
+	@include for-tablet-up { @include layout-side-margin(48rem, 2rem); }
+
 	@include stile-content(false);
 	@include stile-option;
-
 	color: hsla(0, 0, 0, 0.75);
 }
