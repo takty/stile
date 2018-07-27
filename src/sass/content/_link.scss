@@ -16,7 +16,7 @@ $stile-link-color-text        : rgba(#12f, 0.9) !default;
 $stile-link-color-text-visited: rgba(#609, 0.9) !default;
 $stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
 $stile-link-icon-anchor       : '\e5db' !default;
-$stile-link-icon-external     : '\e0b2' !default;
+$stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 
 
 @mixin stile-link-mark {
