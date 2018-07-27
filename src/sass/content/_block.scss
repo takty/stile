@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-03
+ * @version 2018-07-27
  *
  */
 
@@ -28,8 +28,10 @@ $stile-block-level-figcaption: 0 !default;
 	p,
 	div:not([class]) {
 		text-align: left;
-		@include for-tablet-up { text-align: justify; }
-		@include for-ie { text-align: left; }
+		@include for-tablet-up {
+			text-align: justify;
+			text-justify: inter-ideograph;  // for Edge & IE
+		}
 		line-height: base-vr(2);
 		hyphens: auto;  // Autoprefixer is needed. 
 	}
