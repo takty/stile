@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-05
+ * @version 2018-07-27
  *
  */
 
@@ -242,6 +242,12 @@ $stile-font-monospace:
 	}
 	@media screen and (min-width: $max-vw) {
 		font-size: $max-value;
+	}
+}
+
+@mixin font-responsive-size-interval($min-vw, $max-vw, $min-value, $max-value) {
+	@media screen and (min-width: $min-vw) and (max-width: $max-vw)  {
+		font-size: calc(#{$min-value} + #{base-strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{base-strip-unit($max-vw - $min-vw)});
 	}
 }
 
