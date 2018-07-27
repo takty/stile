@@ -30,8 +30,9 @@ $stile-block-level-figcaption: 0 !default;
 		text-align: left;
 		@include for-tablet-up {
 			text-align: justify;
-			text-justify: inter-ideograph;  // for Edge & IE
+			text-justify: inter-ideograph;  // for Edge
 		}
+		@include for-ie { text-align: left; }
 		line-height: base-vr(2);
 		hyphens: auto;  // Autoprefixer is needed. 
 	}
