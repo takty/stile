@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-25
+ * @version 2018-07-27
  *
  */
 
@@ -15,6 +15,8 @@
 $stile-link-color-text        : rgba(#12f, 0.9) !default;
 $stile-link-color-text-visited: rgba(#609, 0.9) !default;
 $stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
+$stile-link-icon-anchor       : '\e5db' !default;
+$stile-link-icon-external     : '\e0b2' !default;
 
 
 @mixin stile-link-mark {
@@ -26,16 +28,17 @@ $stile-link-color-bg          : rgba($stile-link-color-text, 0.05) !default;
 	@include font-bold-cancel;
 
 	overflow: hidden;  // for removing underline on IE11
-	transform: translateY(0.1rem);
+	transform: translateY(0.125rem);
+	@include for-firefox { transform: translateY(0.175rem); }
 }
 
 @mixin stile-link-mark-anchor {
-	content: '\E5DB';
+	content: $stile-link-icon-anchor;
 	@include stile-link-mark;
 }
 
 @mixin stile-link-mark-external {
-	content: '\E0B2';
+	content: $stile-link-icon-external;
 	@include stile-link-mark;
 }
 
