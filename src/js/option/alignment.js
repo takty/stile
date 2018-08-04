@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-08-04
  *
  */
 
@@ -16,11 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 320;  // px
 
+	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
+	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
+	const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
+	replaceAlignClass(als);
+	replaceAlignClass(ars);
+	replaceAlignClass(acs);
+
 	if (ST.BROWSER === 'ie11') return;
 
-	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
 	modifyAlignmentStyle(als, 'alignleft');
-	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
 	modifyAlignmentStyle(ars, 'alignright');
 
 
@@ -37,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		window.addEventListener('scroll', function () {
 			assignWidths(asw, stile);  // for Lazy Image Loading
 		});
+		updateApplicableWidths(asw);
+		switchFloat(asw, stile);
 	}
 
 	function initTargets(as) {
@@ -84,6 +91,51 @@ document.addEventListener('DOMContentLoaded', function () {
 		const style = getComputedStyle(elm);
 		const padH = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
 		return elm.clientWidth - padH;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+	function replaceAlignClass(ts) {
+		for (let i = 0; i < ts.length; i += 1) {
+			const c = ts[i];
+			const p = c.parentNode;
+			if (p.tagName === 'A' && isImageLink(p)) {
+				moveClass(c, p, 'alignleft');
+				moveClass(c, p, 'aligncenter');
+				moveClass(c, p, 'alignright');
+			}
+		}
+	}
+
+	function moveClass(c, p, cls) {
+		if (c.classList.contains(cls)) {
+			c.classList.remove(cls);
+			p.classList.add(cls);
+		}
+	}
+
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium_large', 'size-large', 'size-full'];
+
+	function isImageLink(a) {
+		if (a.className) {
+			const cs = a.className.split(' ');
+			for (let i = 0; i < cs.length; i += 1) {
+				if (PERMITTED_CLASSES.indexOf(cs[i]) === -1) return false;
+			}
+		}
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		let success = false;
+		for (let i = 0; i < cs.length; i += 1) {
+			const tn = cs[i].tagName;
+			if (success === false && tn === 'IMG') {
+				success = true;
+				continue;
+			}
+			if (tn) return false;
+		}
+		return success;
 	}
 
 });
