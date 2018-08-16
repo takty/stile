@@ -3,7 +3,7 @@
  * Layout Mixins 
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-14
+ * @version 2018-08-16
  *
  */
 
@@ -204,7 +204,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-card($n, $gap: false) {
+@mixin layout-card($n, $gap: false, $align_left: true) {
 	$gap_x: $gap;
 	$gap_y: $gap;
 	@if $gap != false and length($gap) == 2 {
@@ -242,12 +242,14 @@
 	}
 	@include layout-spacer;
 
-	@for $i from 1 through $n {
-		> *:nth-child(#{$n}n+#{$i}):last-child {
-			@if $gap_x == false {
-				margin-right: #{$cw * ($n - $i)};
-			} @else {
-				margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+	@if $align_left {
+		@for $i from 1 through $n {
+			> *:nth-child(#{$n}n+#{$i}):last-child {
+				@if $gap_x == false {
+					margin-right: #{$cw * ($n - $i)};
+				} @else {
+					margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+				}
 			}
 		}
 	}
