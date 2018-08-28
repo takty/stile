@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-26
+ * @version 2018-08-28
  *
  */
 
@@ -46,13 +46,15 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 
 	thead, tbody:first-child, colgroup + tbody {
 		border-top: $stile-table-size-rule-horizontal-edge solid;
-
 		border-top-color: $stile-table-color-rule-horizontal-edge;
+
+		> tr:first-child {
+			th, td { border-top: none; }
+		}
 	}
 
 	tbody, tfoot {
 		border-bottom: $stile-table-size-rule-horizontal-edge solid;
-
 		border-bottom-color: $stile-table-color-rule-horizontal-edge;
 	}
 
@@ -60,29 +62,18 @@ $stile-table-size-rule-horizontal-edge  : 2px !default;
 		padding: base-vr(0.5) base-vr(1);  // This half vr is irregular but needed.
 		@include font-size-level(1);
 		@include font-proportional;
-	}
 
-	tr:not(:last-child) {
-		th, td {
-			border-top: 1px solid;
-			border-bottom: 1px solid;
-			border-top-color: $stile-table-color-rule-horizontal;
-			border-bottom-color: $stile-table-color-rule-horizontal;
+		border-top: 1px solid;
+		border-top-color: $stile-table-color-rule-horizontal;
+
+		&:not(:first-child) {
+			border-left: 1px solid;
+			border-left-color: $stile-table-color-rule-vertical;
 		}
-	}
-
-	th:not(:first-child),
-	td:not(:first-child) {
-		border-left: 1px solid;
-
-		border-left-color: $stile-table-color-rule-vertical;
-	}
-
-	th:not(:last-child),
-	td:not(:last-child) {
-		border-right: 1px solid;
-
-		border-right-color: $stile-table-color-rule-vertical;
+		&:first-child[rowspan] {
+			border-right: 1px solid;
+			border-right-color: $stile-table-color-rule-vertical;
+		}
 	}
 
 	thead td,
