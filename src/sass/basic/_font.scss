@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-27
+ * @version 2018-08-28
  *
  */
 
@@ -217,7 +217,7 @@ $stile-font-monospace:
 
 @mixin font-visible-chrome-cancel {
 	@include for-chrome {
-		-webkit-text-stroke-width: 0.01px;
+		-webkit-text-stroke-width: initial;
 	}
 }
 
