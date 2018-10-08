@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2018-10-08
  *
  */
 
@@ -121,9 +121,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < cs.length; i += 1) {
 			const tn = cs[i].tagName;
 			if (tn === 'BR') continue;
+			if (tn && isInlineElement(cs[i])) continue;
 			if (tn) return false;
 		}
 		return true;
+	}
+
+	function isInlineElement(elm) {
+		const d = getComputedStyle(elm).display;
+		return d === 'inline';
 	}
 
 	function isUrlLink(a, url) {
