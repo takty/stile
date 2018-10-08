@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function isInlineElement(elm) {
 		const d = getComputedStyle(elm).display;
-		return d === 'inline';
+		return d.indexOf('inline') !== -1;
 	}
 
 	function isUrlLink(a, url) {
