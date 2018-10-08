@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-27
+ * @version 2018-10-08
  *
  */
 
@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
+
+	const MAX_ROW_COUNT = 200;
 
 	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
@@ -376,6 +378,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		const tbody = table.tBodies[0];
 		if (tbody.clientWidth <= table.clientWidth) return;
 
+		if (MAX_ROW_COUNT < countRows(table)) return;
+
 		const tab = makeCellGrid(table);
 		if (tab.length === 0) return;
 
@@ -404,6 +408,18 @@ document.addEventListener('DOMContentLoaded', function () {
 				td.style.width = '';
 			}
 		}
+	}
+
+	function countRows(table) {
+		const thead = table.tHead;
+		const tbody = table.tBodies[0];
+		const tfoot = table.tFoot;
+
+		let count = 0;
+		if (thead) count += thead.rows.length;
+		if (tbody) count += tbody.rows.length;
+		if (tfoot) count += tfoot.rows.length;
+		return count;
 	}
 
 	function isIE11orOldEdge() {
