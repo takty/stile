@@ -7,7 +7,7 @@ const $ = require('gulp-load-plugins')({pattern:['gulp-*']});
 gulp.task('js-with-option', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
-		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
+		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile-full.min.js'))
 		.pipe($.uglify())
 		.pipe(gulp.dest('dist/js'));
@@ -16,7 +16,7 @@ gulp.task('js-with-option', () => {
 gulp.task('js-without-option', () => {
 	return gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 		.pipe($.plumber())
-		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
+		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile.min.js'))
 		.pipe($.uglify())
 		.pipe(gulp.dest('dist/js'));
@@ -25,16 +25,16 @@ gulp.task('js-without-option', () => {
 gulp.task('js-each', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
-		.pipe($.babel({presets: [['env', {targets: {ie: 11}}]]}))
+		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
 		.pipe($.uglify())
-		.pipe($.rename({extname: '.min.js'}))
+		.pipe($.rename({ extname: '.min.js' }))
 		.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('js', gulp.parallel('js-with-option', 'js-without-option', 'js-each'));
 
 gulp.task('sass', () => {
-	return gulp.src(['src/sass/**/*.scss'], {base: 'src/sass'})
+	return gulp.src(['src/sass/**/*.scss'], { base: 'src/sass' })
 		.pipe($.plumber())
 		.pipe($.changed('dist/sass'))
 		.pipe(gulp.dest('dist/sass'));
@@ -56,9 +56,9 @@ gulp.task('docs-sass', gulp.series('sass', () => {
 	return gulp.src('docs/style.scss')
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
-		.pipe($.sass({outputStyle: 'compressed'}))
-		.pipe($.autoprefixer({browsers: ['ie >= 11'], remove: false}))
-		.pipe($.rename({extname: '.min.css'}))
+		.pipe($.sass({ outputStyle: 'compressed' }))
+		.pipe($.autoprefixer({ browsers: ['ie >= 11'], remove: false }))
+		.pipe($.rename({ extname: '.min.css' }))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('docs'));
 }));
