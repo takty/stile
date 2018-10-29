@@ -22,7 +22,7 @@
 }
 
 body {
-	@include font-family;
+	@include font-family();
 	@include font-smoothing;
 	@include font-visible-chrome;
 

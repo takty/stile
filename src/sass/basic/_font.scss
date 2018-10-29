@@ -170,10 +170,17 @@ $stile-font-monospace:
 // -----------------------------------------------------------------------------
 
 
-@mixin font-family {
-	font-family: $stile-font-sans-serif;
-	@include for-ie {
-		font-family: $stile-font-sans-serif-ie;
+@mixin font-family($pc-specific: false) {
+	@if $pc-specific {
+		font-family: $pc-specific, $stile-font-sans-serif;
+		@include for-ie {
+			font-family: $pc-specific, $stile-font-sans-serif-ie;
+		}
+	} @else {
+		font-family: $stile-font-sans-serif;
+		@include for-ie {
+			font-family: $stile-font-sans-serif-ie;
+		}
 	}
 	&.ios, .ios & {  // need to use user-agent.js
 		font-family: $stile-font-sans-serif-ios;
