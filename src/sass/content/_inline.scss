@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-05
+ * @version 2018-10-30
  *
  */
 
@@ -35,7 +35,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 			padding: base-vr(0.5) base-vr(1);
 			border: 1px dashed $stile-inline-color-broken-image;
 			min-height: base-vr(2);
-			
+
 			color: $stile-inline-color-broken-image;
 			font-size: 0.85em;
 			line-height: 1.35em;
@@ -52,10 +52,10 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		@include font-bold;
 	}
 
-	em {
+	em, cite {
 		font-style: italic;
 	}
-	
+
 	p, li {
 		> {
 			strong, b, em { color: $stile-inline-color-strong; }
@@ -74,7 +74,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	small {
 		font-size: $stile-inline-size-font-small;
 	}
-	
+
 	sub, sup {
 		position: relative;
 		display: inline-block;  // for neat line height
