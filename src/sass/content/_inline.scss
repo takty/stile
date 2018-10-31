@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-10-31
+ * @version 2018-11-01
  *
  */
 
@@ -57,7 +57,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		font-style: italic;
 	}
 
-	p, li, span:not([class]) {
+	p, li, td, th, span:not([class]) {
 		> {
 			strong, b, em { color: $stile-inline-color-strong; }
 		}
