@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-07-27
+ * @version 2018-10-31
  *
  */
 
@@ -40,10 +40,66 @@ body {
 	color: hsla(0, 0, 0, 0.75);
 }
 
+.width-query,
 .browser-query {
-	padding: 2rem;
+	padding: 1rem;
 	border: 1px solid gray;
+}
 
+.width-query {
+	&.phone-only {
+		@include for-phone-only {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-up {
+		@include for-tablet-up {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-only {
+		@include for-tablet-only {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-portrait-up {
+		@include for-tablet-portrait-up {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-portrait-only {
+		@include for-tablet-portrait-only {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-landscape-up {
+		@include for-tablet-landscape-up {
+			border: 2px solid red;
+		}
+	}
+	&.tablet-landscape-only {
+		@include for-tablet-landscape-only {
+			border: 2px solid red;
+		}
+	}
+	&.desktop-up {
+		@include for-desktop-up {
+			border: 2px solid red;
+		}
+	}
+	&.desktop-only {
+		@include for-desktop-only {
+			border: 2px solid red;
+		}
+	}
+	&.big-desktop-up {
+		@include for-big-desktop-up {
+			border: 2px solid red;
+		}
+	}
+}
+
+.browser-query {
 	&.chrome {
 		@include for-chrome {
 			border: 2px solid red;
