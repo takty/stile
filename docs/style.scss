@@ -39,3 +39,34 @@ body {
 	@include stile-option;
 	color: hsla(0, 0, 0, 0.75);
 }
+
+.browser-query {
+	padding: 2rem;
+	border: 1px solid gray;
+
+	&.chrome {
+		@include for-chrome {
+			border: 2px solid red;
+		}
+	}
+	&.firefox {
+		@include for-firefox {
+			border: 2px solid red;
+		}
+	}
+	&.safari {
+		@include for-safari {
+			border: 2px solid red;
+		}
+	}
+	&.edge {
+		@include for-edge {
+			border: 2px solid red;
+		}
+	}
+	&.ie {
+		@include for-ie {
+			border: 2px solid red;
+		}
+	}
+}
