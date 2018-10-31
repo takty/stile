@@ -17,6 +17,7 @@ $stile-inline-color-underline    : rgba(#fd0, 0.9) !default;
 $stile-inline-color-del          : rgba(#f40, 0.9) !default;
 $stile-inline-color-abbr         : rgba(#12f, 0.9) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
+$stile-inline-width-underline    : 0.4em !default;
 $stile-inline-size-font-small    : 0.85em !default;
 $stile-inline-size-font-subscript: 0.75em !default;
 $stile-inline-size-font-monospace: 0.95em !default;
@@ -64,11 +65,10 @@ $stile-inline-size-font-monospace: 0.95em !default;
 
 	u, span[data-stile ~= 'inline-underline'] {
 		text-decoration: none;
-		background: linear-gradient(
-			transparent 75%,
-			rgba($stile-inline-color-underline, 0.4) 75%,
-			$stile-inline-color-underline 100%
-		);
+		background-image: linear-gradient(to right, $stile-inline-color-underline 0%, rgba($stile-inline-color-underline, 0.75) 100%);
+		background-size: 100% $stile-inline-width-underline;
+		background-repeat: no-repeat;
+		background-position: bottom left;
 	}
 
 	small {
