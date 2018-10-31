@@ -114,7 +114,6 @@
 
 
 @mixin for-chrome {
-	// @media (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
 	@supports (-webkit-appearance: none) and (-webkit-tap-highlight-color: currentcolor) and (not (-moz-appearance: none)) and (not ((-ms-ime-align: auto))) {
 		@content;
 	}
@@ -127,6 +126,7 @@
 }
 
 @mixin for-safari {
+	// for Safari 10+
 	@media not all and (min-resolution: .001dpcm) { @supports (-webkit-appearance: none) {
 		@content;
 	} }
