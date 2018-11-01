@@ -65,7 +65,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 
 	u, span[data-stile ~= 'inline-underline'] {
 		text-decoration: none;
-		background-image: linear-gradient(to right, $stile-inline-color-underline 0%, rgba($stile-inline-color-underline, 0.75) 100%);
+		background-image: linear-gradient(to right, $stile-inline-color-underline 0%, transparentize($stile-inline-color-underline, 0.25) 100%);
 		background-size: 100% $stile-inline-width-underline;
 		background-repeat: no-repeat;
 		background-position: bottom left;
