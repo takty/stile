@@ -57,7 +57,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		font-style: italic;
 	}
 
-	p, li, td, th, span:not([class]) {
+	p, li, td, th, del, span:not([class]) {
 		> {
 			strong, b, em { color: $stile-inline-color-strong; }
 		}
