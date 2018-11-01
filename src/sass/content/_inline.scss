@@ -18,6 +18,7 @@ $stile-inline-color-del          : rgba(#f40, 0.9) !default;
 $stile-inline-color-abbr         : rgba(#12f, 0.9) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
 $stile-inline-width-underline    : 0.4em !default;
+$stile-inline-width-del          : 0.15em !default;
 $stile-inline-size-font-small    : 0.85em !default;
 $stile-inline-size-font-subscript: 0.75em !default;
 $stile-inline-size-font-monospace: 0.95em !default;
@@ -68,7 +69,15 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		background-image: linear-gradient(to right, $stile-inline-color-underline 0%, transparentize($stile-inline-color-underline, 0.25) 100%);
 		background-size: 100% $stile-inline-width-underline;
 		background-repeat: no-repeat;
-		background-position: bottom left;
+		background-position: left bottom;
+	}
+
+	del {
+		text-decoration: none;
+		background-image: linear-gradient(to right, $stile-inline-color-del 0%, transparentize($stile-inline-color-del, 0.25) 100%);
+		background-size: 100% $stile-inline-width-del;
+		background-repeat: no-repeat;
+		background-position: left 55%;
 	}
 
 	small {
@@ -97,16 +106,6 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	abbr[title] {
 		text-decoration: none;
 		border-bottom: 2px dotted $stile-inline-color-abbr;
-	}
-
-	del {
-		text-decoration: none;
-		background: linear-gradient(
-			transparent 50%,
-			$stile-inline-color-del 50%,
-			$stile-inline-color-del 60%,
-			transparent 60%
-		);
 	}
 
 	code, var, samp, kbd {
