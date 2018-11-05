@@ -3,13 +3,14 @@
  * Design Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-02
+ * @version 2018-11-05
  *
  */
 
 
 @mixin stile-design {
 	@include stile-design-hr;
+	@include stile-design-blockquote;
 }
 
 
@@ -17,7 +18,6 @@
 
 
 @mixin stile-design-hr {
-
 	hr {
 		&:not(.is-style-wide):not(.is-style-dots) {
 			max-width: 6rem;
@@ -44,5 +44,14 @@
 			}
 		}
 	}
+}
 
+@mixin stile-design-blockquote {
+	blockquote {
+		&.is-style-large {
+			> p {
+				@include font-size-level(4);
+			}
+		}
+	}
 }
