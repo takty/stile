@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-28
+ * @version 2018-11-06
  *
  */
 
@@ -12,12 +12,15 @@
 @import '../basic/query';
 
 $stile-alignment-size-min-text-width: 16rem !default;
+$stile-alignment-size-text-width    : 48rem !default;
+$stile-alignment-size-width         : 72rem !default;
 
 
 @mixin stile-alignment {
 	@include stile-alignment-main;
 	@include stile-alignment-margin;
 	@include stile-alignment-size;
+	@include stile-alignment-option($stile-alignment-size-text-width, $stile-alignment-size-width);
 }
 
 
@@ -197,5 +200,25 @@ $stile-alignment-size-min-text-width: 16rem !default;
 		.size-medium       { min-width: 10rem; }
 		.size-medium_large { min-width: 15rem; }
 		.size-large        { min-width: 20rem; }
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin stile-alignment-option($text-width, $wide-width) {
+	.alignfull,
+	.alignwide {
+		@include layout-full-width;
+		width: 100vw;
+		max-width: initial;
+	}
+	.alignwide {
+		@media screen and (min-width: $wide-width) {
+			margin-left: #{($wide-width - $text-width) / -2};
+			margin-right: #{($wide-width - $text-width) / -2};
+			max-width: $wide-width;
+		}
 	}
 }
