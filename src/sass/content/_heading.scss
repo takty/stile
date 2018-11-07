@@ -28,6 +28,7 @@ $stile-heading-color-text: rgba(#000, 0.95) !default;
 
 		> small { display: block; }
 		&:not([class]) span { display: inline-block; }
+		div:not([class]) { line-height: inherit; }
 	}
 
 	h1 { @include font-size-level(6); }
