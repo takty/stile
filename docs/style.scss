@@ -42,7 +42,7 @@ body {
 	@include for-tablet-up { @include layout-side-margin(48rem, 2rem); }
 
 	@include stile-content;
-	@include stile-option;
+	@include stile-option(true);
 	color: hsla(0, 0, 0, 0.75);
 }
 
