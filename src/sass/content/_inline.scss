@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-01
+ * @version 2018-11-07
  *
  */
 
@@ -11,6 +11,7 @@
 @import '../basic/base';
 @import '../basic/font';
 @import '../basic/layout';
+
 
 $stile-inline-color-strong       : rgba(#000, 0.95) !default;
 $stile-inline-color-underline    : rgba(#fd0, 0.9) !default;
@@ -46,24 +47,19 @@ $stile-inline-size-font-monospace: 0.95em !default;
 
 			vertical-align: text-bottom;
 		}
-
 		transition: opacity 0.2s;  // for lazy loading
 	}
-
 	strong, b {
 		@include font-bold;
 	}
-
 	em, cite {
 		font-style: italic;
 	}
-
 	p, li, td, th, del, span:not([class]) {
 		> {
 			strong, b, em { color: $stile-inline-color-strong; }
 		}
 	}
-
 	u, span[data-stile ~= 'inline-underline'] {
 		text-decoration: none;
 		background-image: linear-gradient(to right, $stile-inline-color-underline 0%, transparentize($stile-inline-color-underline, 0.25) 100%);
@@ -71,7 +67,6 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		background-repeat: no-repeat;
 		background-position: left bottom;
 	}
-
 	del {
 		text-decoration: none;
 		background-image: linear-gradient(to right, $stile-inline-color-del 0%, transparentize($stile-inline-color-del, 0.25) 100%);
@@ -79,11 +74,9 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		background-repeat: no-repeat;
 		background-position: left 55%;
 	}
-
 	small {
 		font-size: $stile-inline-size-font-small;
 	}
-
 	sub, sup {
 		position: relative;
 		display: inline-block;  // for neat line height
@@ -92,22 +85,18 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		margin-right: 0.1em;
 		font-size: $stile-inline-size-font-subscript;
 	}
-
 	sub {
 		bottom: -0.25em;
 		margin-bottom: -0.25em;
 	}
-
 	sup {
 		top: -0.75em;
 		margin-top: -0.75em;
 	}
-
 	abbr[title] {
 		text-decoration: none;
 		border-bottom: 2px dotted $stile-inline-color-abbr;
 	}
-
 	code, var, samp, kbd {
 		@include font-family-monospace;
 		margin-left: 0.075rem;
@@ -115,7 +104,6 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		white-space: pre-wrap;
 		font-size: $stile-inline-size-font-monospace;
 	}
-
 	*[data-stile ~= 'iframe-wrapper'] {
 		display: inline-block;
 		width: 100%;
