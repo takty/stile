@@ -11,17 +11,17 @@
 @import 'basic/base';
 
 
-$stile-content-color-accent    : rgba(#777, 0.90) !default;
 $stile-content-color-rule      : rgba(#777, 0.35) !default;
+$stile-content-color-accent    : rgba(#777, 0.90) !default;
 $stile-content-color-heading   : rgba(#000, 0.95)  !default;
 $stile-content-color-background: rgba(#777, 0.10) !default;
 
 
-$stile-block-color-line             : $stile-content-color-rule !default;
-$stile-block-color-shade            : $stile-content-color-background !default;
+$stile-block-color-rule             : $stile-content-color-rule !default;
+$stile-block-color-background       : $stile-content-color-background !default;
 $stile-heading-color-text           : $stile-content-color-heading !default;
 $stile-list-color-mark              : $stile-content-color-accent !default;
-$stile-table-color-rule-horizontal  : $stile-content-color-rule !default;
+$stile-table-color-rule             : $stile-content-color-rule !default;
 $stile-table-color-header-text      : $stile-content-color-heading !default;
 $stile-table-color-header-background: $stile-content-color-background !default;
 
