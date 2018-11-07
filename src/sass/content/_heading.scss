@@ -3,12 +3,13 @@
  * Heading Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2018-11-07
  *
  */
 
 
 @import '../basic/font';
+
 
 $stile-heading-color-text: rgba(#000, 0.95) !default;
 
@@ -16,7 +17,7 @@ $stile-heading-color-text: rgba(#000, 0.95) !default;
 @mixin stile-heading($set-design: true) {
 	h1, h2, h3, h4, h5, h6 {
 		@include font-proportional;
-		hyphens: auto;  // Autoprefixer is needed. 
+		hyphens: auto;  // Autoprefixer is needed.
 
 		-ms-word-break: break-all;
 		word-break: break-word;
