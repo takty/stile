@@ -13,7 +13,7 @@
 
 $stile-content-color-rule      : rgba(#777, 0.35) !default;
 $stile-content-color-accent    : rgba(#777, 0.90) !default;
-$stile-content-color-heading   : rgba(#000, 0.95)  !default;
+$stile-content-color-heading   : rgba(#000, 0.95) !default;
 $stile-content-color-background: rgba(#777, 0.10) !default;
 
 
@@ -27,6 +27,7 @@ $stile-table-color-header-background  : $stile-content-color-background !default
 $stile-tab-page-color-rule            : $stile-content-color-rule !default;
 $stile-tab-page-color-tab-current-top : $stile-content-color-accent !default;
 $stile-tab-page-color-tab-text-current: $stile-content-color-heading !default;
+
 
 @import 'content/margin';
 @import 'content/block';
