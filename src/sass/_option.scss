@@ -3,7 +3,7 @@
  * Optional Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-02
+ * @version 2018-11-07
  *
  */
 
@@ -15,10 +15,12 @@
 @import 'option/tab-page';
 
 
-@mixin stile-option {
+@mixin stile-option($use-design: false) {
 	@include stile-alignment;
 	@include stile-container;
-	@include stile-design;
 	@include stile-image-box;
 	@include stile-tab-page;
+	@if $use-design {
+		@include stile-design;
+	}
 }
