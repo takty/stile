@@ -38,7 +38,7 @@ $stile-design-color-table-stripe-background: $stile-table-color-header-backgroun
 			max-height: 0.5rem;
 
 			&::before {
-				color: $stile-block-color-line;
+				color: $stile-block-color-rule;
 				content: '\00b7 \00b7 \00b7';
 				font-family: serif;
 				font-size: 2.25rem;

@@ -3,13 +3,14 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-05
+ * @version 2018-11-07
  *
  */
 
 
 @import '../basic/query';
 @import '../basic/layout';
+
 
 $stile-container-margin           : base-vr(4) !default;
 $stile-container-column-gap       : base-vr(2) !default;
@@ -56,7 +57,7 @@ $stile-container-4-child-min-width: 11rem !default;
 		> * {
 			width: calc(50% - #{$stile-container-column-gap});
 			min-width: $stile-container-2-child-min-width;
-			
+
 			@include for-tablet-up {
 				width: calc((#{$stile-container-4-child-min-width * 4 + $stile-container-column-gap * 3} - 100%) * 1000);
 				min-width: calc(25% - #{$stile-container-column-gap});

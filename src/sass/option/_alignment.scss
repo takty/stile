@@ -3,13 +3,14 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-06
+ * @version 2018-11-07
  *
  */
 
 
 @import '../basic/base';
 @import '../basic/query';
+
 
 $stile-alignment-size-min-text-width: 16rem !default;
 $stile-alignment-size-text-width    : 48rem !default;
@@ -140,14 +141,12 @@ $stile-alignment-size-width         : 72rem !default;
 	.alignright + * {
 		margin-top: base-vr(1);
 	}
-
 	* + figure.alignleft,
 	* + figure.alignright,
 	figure.alignleft + *,
 	figure.alignright + * {
 		margin-top: base-vr(4);  // for Centering View
 	}
-
 	@include for-tablet-up {
 		* + figure.alignleft,
 		* + figure.alignright,
@@ -156,7 +155,6 @@ $stile-alignment-size-width         : 72rem !default;
 			margin-top: base-vr(1);  // for Actual Floating View
 		}
 	}
-
 	@include stile-alignment-define-figure-margin(h1, 6);
 	@include stile-alignment-define-figure-margin(h2, 5);
 	@include stile-alignment-define-figure-margin(h3, 4);
