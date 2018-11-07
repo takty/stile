@@ -9,6 +9,11 @@
 
 @charset 'utf-8';
 
+$stile-content-color-rule      : rgba(red, 0.35) !default;
+$stile-content-color-accent    : rgba(green, 0.90) !default;
+$stile-content-color-heading   : rgba(blue, 0.95)  !default;
+$stile-content-color-background: rgba(orange, 0.10) !default;
+
 @import '../dist/sass/basic';
 @import '../dist/sass/content';
 @import '../dist/sass/option';
