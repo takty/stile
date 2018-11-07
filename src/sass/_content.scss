@@ -11,10 +11,10 @@
 @import 'basic/base';
 
 
-$stile-content-color-accent    : red !default;
-$stile-content-color-rule      : green !default;
-$stile-content-color-heading   : blue !default;
-$stile-content-color-background: pink !default;
+$stile-content-color-accent    : rgba(#777, 0.90) !default;
+$stile-content-color-rule      : rgba(#777, 0.35) !default;
+$stile-content-color-heading   : rgba(#000, 0.95)  !default;
+$stile-content-color-background: rgba(#777, 0.10) !default;
 
 
 $stile-block-color-line             : $stile-content-color-rule !default;
