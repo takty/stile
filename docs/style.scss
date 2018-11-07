@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-10-31
+ * @version 2018-11-07
  *
  */
 
@@ -35,7 +35,7 @@ body {
 	@include layout-side-margin(48rem, 1rem);
 	@include for-tablet-up { @include layout-side-margin(48rem, 2rem); }
 
-	@include stile-content(false);
+	@include stile-content;
 	@include stile-option;
 	color: hsla(0, 0, 0, 0.75);
 }
