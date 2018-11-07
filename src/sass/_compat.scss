@@ -3,7 +3,7 @@
  * Backward Compatibility
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-27
+ * @version 2018-11-07
  *
  */
 
@@ -24,13 +24,13 @@
 // -----------------------------------------------------------------------------
 
 
-$block-color-line                : #369 !default;
-$block-color-shade               : rgba(lighten($block-color-line, 55%), 0.85) !default;
-$block-size-line-width           : 2px !default;
+$block-color-line            : #369 !default;
+$block-color-shade           : rgba(lighten($block-color-line, 55%), 0.85) !default;
+$block-size-line-width       : 2px !default;
 
-$stile-block-color-line          : $block-color-line !default;
-$stile-block-color-shade         : $block-color-shade !default;
-$stile-block-size-line-width     : $block-size-line-width !default;
+$stile-block-color-rule      : $block-color-line !default;
+$stile-block-color-background: $block-color-shade !default;
+$stile-block-size-rule-width : $block-size-line-width !default;
 
 
 // -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ $inline-color-link-bg          : rgba($inline-color-link-text, 0.05) !default;
 
 $stile-link-color-text         : $inline-color-link-text !default;
 $stile-link-color-text-visited : $inline-color-link-text-visited !default;
-$stile-link-color-bg           : $inline-color-link-bg !default;
+$stile-link-color-background   : $inline-color-link-bg !default;
 
 
 // -----------------------------------------------------------------------------
@@ -94,8 +94,8 @@ $table-color-enlarge-button-opened      : rgba($table-color-rule-horizontal, 0.2
 $table-color-background-enlarged        : #fff !default;
 $table-size-rule-horizontal-edge        : 2px !default;
 
-$stile-table-color-rule-horizontal      : $table-color-rule-horizontal !default;
-$stile-table-color-rule-horizontal-edge : $table-color-rule-horizontal-edge !default;
+$stile-table-color-rule                 : $table-color-rule-horizontal !default;
+$stile-table-color-rule-edge            : $table-color-rule-horizontal-edge !default;
 $stile-table-color-rule-vertical        : $table-color-rule-vertical !default;
 $stile-table-color-header-text          : $table-color-header-text !default;
 $stile-table-color-header-background    : $table-color-header-background !default;
@@ -104,7 +104,7 @@ $stile-table-color-scrollbar-background : $table-color-scrollbar-background !def
 $stile-table-color-enlarge-button       : $table-color-enlarge-button !default;
 $stile-table-color-enlarge-button-opened: $table-color-enlarge-button-opened !default;
 $stile-table-color-background-enlarged  : $table-color-background-enlarged !default;
-$stile-table-size-rule-horizontal-edge  : $table-size-rule-horizontal-edge !default;
+$stile-table-size-rule-edge             : $table-size-rule-horizontal-edge !default;
 
 
 // -----------------------------------------------------------------------------
