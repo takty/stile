@@ -7,7 +7,7 @@ const $ = require('gulp-load-plugins')({pattern:['gulp-*']});
 gulp.task('js-with-option', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
-		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
+		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile-full.min.js'))
 		.pipe($.uglify())
 		.pipe(gulp.dest('dist/js'));
@@ -16,7 +16,7 @@ gulp.task('js-with-option', () => {
 gulp.task('js-without-option', () => {
 	return gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 		.pipe($.plumber())
-		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
+		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile.min.js'))
 		.pipe($.uglify())
 		.pipe(gulp.dest('dist/js'));
@@ -25,7 +25,7 @@ gulp.task('js-without-option', () => {
 gulp.task('js-each', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe($.plumber())
-		.pipe($.babel({ presets: [['env', { targets: { ie: 11 } }]] }))
+		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.uglify())
 		.pipe($.rename({ extname: '.min.js' }))
 		.pipe(gulp.dest('dist/js'));
