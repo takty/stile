@@ -13,17 +13,17 @@
 @import '../basic/font';
 
 
-$stile-table-color-rule                 : rgba(#777, 0.35) !default;
-$stile-table-color-rule-edge            : $stile-table-color-rule !default;
-$stile-table-color-rule-vertical        : rgba($stile-table-color-rule, 0.1) !default;
-$stile-table-color-header-text          : rgba(#000, 0.95) !default;
-$stile-table-color-header-background    : rgba(#eee, 0.75) !default;  // Must have transparency for scroll shadow.
-$stile-table-color-scrollbar-thumb      : $stile-table-color-rule !default;
-$stile-table-color-scrollbar-background : $stile-table-color-header-background !default;
-$stile-table-color-enlarge-button       : rgba($stile-table-color-rule, 0.5) !default;
-$stile-table-color-enlarge-button-opened: rgba($stile-table-color-rule, 0.25) !default;
-$stile-table-color-background-enlarged  : #fff !default;
-$stile-table-size-rule-edge             : 2px !default;
+$stile-table-color-rule                : rgba(#777, 0.35) !default;
+$stile-table-color-rule-edge           : $stile-table-color-rule !default;
+$stile-table-color-rule-vertical       : rgba($stile-table-color-rule, 0.1) !default;
+$stile-table-color-header-text         : rgba(#000, 0.95) !default;
+$stile-table-color-header-background   : rgba(#eee, 0.75) !default;  // Must have transparency for scroll shadow.
+$stile-table-color-scrollbar-thumb     : $stile-table-color-rule !default;
+$stile-table-color-scrollbar-background: $stile-table-color-header-background !default;
+$stile-table-color-enlarger            : rgba($stile-table-color-rule, 0.5) !default;
+$stile-table-color-enlarger-opened     : rgba($stile-table-color-rule, 0.25) !default;
+$stile-table-color-background-enlarged : #fff !default;
+$stile-table-size-rule-edge            : 2px !default;
 
 
 @mixin stile-table {
@@ -41,9 +41,14 @@ $stile-table-size-rule-edge             : 2px !default;
 
 		-webkit-overflow-scrolling: touch;
 	}
+	@include stile-table-design;
+	@include stile-table-fixed-header;
+	@include stile-table-pseudo-scroll-bar;
+	@include stile-table-scroll-bar-design;
+	@include stile-table-enlarger;
+}
 
-	// Design ------------------------------------------------------------------
-
+@mixin stile-table-design {
 	thead, tbody:first-child, colgroup + tbody {
 		border-top: $stile-table-size-rule-edge solid $stile-table-color-rule-edge;
 		> tr:first-child {
@@ -83,9 +88,9 @@ $stile-table-size-rule-edge             : 2px !default;
 	td p:not([class]) {
 		text-align: initial;
 	}
+}
 
-	// Fixed Header ------------------------------------------------------------
-
+@mixin stile-table-fixed-header {
 	div[data-stile ~= "fixed-table-header-container"] {
 		position: fixed;
 		top: 0px;
@@ -115,10 +120,9 @@ $stile-table-size-rule-edge             : 2px !default;
 			background-color: $stile-table-color-header-background;
 		}
 	}
+}
 
-
-	// Pseudo Scroll Bars ------------------------------------------------------
-
+@mixin stile-table-pseudo-scroll-bar {
 	div[data-stile ~= "fixed-table-scroll-bar"] {
 		position: fixed;
 		bottom: 0;
@@ -134,9 +138,9 @@ $stile-table-size-rule-edge             : 2px !default;
 
 		@media print { display: none !important; }
 	}
+}
 
-	// Scroll Bars Design ------------------------------------------------------
-
+@mixin stile-table-scroll-bar-design {
 	table::-webkit-scrollbar,
 	div[data-stile ~= "fixed-table-scroll-bar"]::-webkit-scrollbar {
 		height: base-vr(1);
@@ -154,9 +158,9 @@ $stile-table-size-rule-edge             : 2px !default;
 		scrollbar-face-color: $stile-table-color-scrollbar-thumb;
 		scrollbar-shadow-color: $stile-table-color-scrollbar-thumb;
 	}
+}
 
-	// Enlarger ----------------------------------------------------------------
-
+@mixin stile-table-enlarger {
 	table[data-stile ~= "table-enlarged"] > * {
 		background-color: $stile-table-color-background-enlarged;
 	}
@@ -171,11 +175,11 @@ $stile-table-size-rule-edge             : 2px !default;
 			right: 0;
 			cursor: ew-resize;
 
-			background: linear-gradient(to top right, transparent 50%, $stile-table-color-enlarge-button 50.1%) no-repeat top left/100% 100%
+			background: linear-gradient(to top right, transparent 50%, $stile-table-color-enlarger 50.1%) no-repeat top left/100% 100%
 		}
 		&[data-stile ~= "table-enlarged"] {
 			div[data-stile ~= "enlarger-button"] {
-				background: linear-gradient(to bottom left, transparent 50%, $stile-table-color-enlarge-button-opened 50.1%) no-repeat top left/100% 100%
+				background: linear-gradient(to bottom left, transparent 50%, $stile-table-color-enlarger-opened 50.1%) no-repeat top left/100% 100%
 			}
 		}
 	}
