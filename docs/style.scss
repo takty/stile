@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-11-08
  *
  */
 
@@ -44,6 +44,35 @@ body {
 	@include stile-content;
 	@include stile-option(true);
 	color: hsla(0, 0, 0, 0.75);
+
+	.font-size-level-0 { @include font-size-level(0); }
+	.font-size-level-1 { @include font-size-level(1); }
+	.font-size-level-2 { @include font-size-level(2); }
+	.font-size-level-3 { @include font-size-level(3); }
+	.font-size-level-4 { @include font-size-level(4); }
+	.font-size-level-5 { @include font-size-level(5); }
+	.font-size-level-6 { @include font-size-level(6); }
+
+	.kerning > span {
+		background: rgba(red, 0.5);
+	}
+
+	.segmenter {
+		text-align: left;
+		span {
+			display: inline-block;
+			margin: 0 0.25rem;
+			background-size: 100% 0.25rem;
+			background-repeat: no-repeat;
+			background-position: left bottom;
+		}
+		> span {
+			background-image: linear-gradient(to right, red 0%, rgba(red, 0.5) 100%);
+		}
+		> * > span {
+			background-image: linear-gradient(to right, blue 0%, rgba(blue, 0.5) 100%);
+		}
+	}
 }
 
 .width-query,
