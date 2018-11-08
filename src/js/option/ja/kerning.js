@@ -127,8 +127,8 @@ window.addEventListener('load', function () {
 		let temp = '';
 
 		// White Space Character Class Excluding \u3000
-		// [ \f\n\r\t\v​\u00a0\u1680​\u180e\u2000​-\u200a​\u2028\u2029\u202f\u205f​\ufeff]
-		text = text.replace(/([^\x01-\x7E\xA1-\xDF]+)([\t\n]+|[ \f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\ufeff]{2})([^\x01-\x7E\xA1-\xDF]+)/g, function (match, g1, d, g2) {return g1 + g2;});
+		// [ \f\n\r\t\v​\u00a0​\u180e\u2000​-\u200a​\u2028\u2029\u202f\u205f​\ufeff]
+		text = text.replace(/([^\x01-\x7E\xA1-\xDF]+)([\t\n]+|[ \f\n\r\t\v\u00a0\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\ufeff]{2})([^\x01-\x7E\xA1-\xDF]+)/g, function (match, g1, d, g2) {return g1 + g2;});
 
 		for (let i = 0, I = text.length; i < I; i += 1) {
 			const ch1 = text.substr(i, 1);
