@@ -1,9 +1,9 @@
 /**
  *
- * Layout Mixins 
+ * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-10-31
+ * @version 2018-11-08
  *
  */
 
@@ -209,7 +209,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-card($n, $gap: false, $align_left: true) {
+@mixin layout-card($n, $gap: false, $align_left: true, $width_offset_ie: 1px) {
 	$gap_x: $gap;
 	$gap_y: $gap;
 	@if $gap != false and length($gap) == 2 {
@@ -233,7 +233,7 @@
 		@if $gap != false {
 			margin-right: $gap_x;
 			flex-basis: calc(#{$cw} - #{$gap_x});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x}); }
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width_offset_ie}); }  // Hack for calculation error
 			width: calc(#{$cw} - #{$gap_x});  // for Safari
 
 			&:not(:empty) {
@@ -241,7 +241,7 @@
 			}
 		} @else {
 			flex-basis: calc(#{$cw});
-			@include for-ie { flex-basis: #{floor($cw)}; }
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width_offset_ie}); }  // Hack for calculation error
 			width: #{$cw};  // for Safari
 		}
 	}
