@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-11-09
  *
  */
 
@@ -30,7 +30,7 @@ $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 
 	overflow: hidden;  // for removing underline on IE11
 	transform: translateY(0.125rem);
-	@include for-firefox { transform: translateY(0.175rem); }
+	@include for-firefox { transform: translateY(0.2rem); }
 }
 
 @mixin stile-link-mark-anchor {
@@ -45,8 +45,9 @@ $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 
 @mixin stile-link {
 	a:not([class]) {
+		&:not([data-stile]),  // Before the script loaded
 		&[data-stile ~= 'link-simple'],
-		&[href ^= 'http']:empty::before {
+		&[href ^= 'http']:empty {
 			text-decoration: none;
 			color: $stile-link-color-text;
 			word-wrap: break-word;  // for URL in text
@@ -58,6 +59,7 @@ $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 			background-color: $stile-link-color-background;
 			border-radius: 0.25rem;
 		}
+		&:not([data-stile]),  // Before the script loaded
 		&[data-stile ~= 'link-simple'] {
 			&:hover {
 				color: $stile-link-color-text;
@@ -76,11 +78,6 @@ $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 				word-break: break-all;
 				display: inline;
 			}
-			&:hover::before {
-				color: $stile-link-color-text;
-				text-decoration: underline;
-			}
-			&:visited::before { color: $stile-link-color-text-visited; }
 		}
 	}
 
