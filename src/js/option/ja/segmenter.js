@@ -1,9 +1,9 @@
 /**
  *
- * Segmenter
+ * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-19
+ * @version 2018-11-08
  *
  */
 
@@ -38,17 +38,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function applySeparaterToElement(elm) {
 		const cs = Array.prototype.slice.call(elm.childNodes, 0);
+		const tn = elm.tagName;
+		const fs = [];
 
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
-			if (c.nodeType === 1 /*ELEMENT_NODE*/) applySeparaterToElement(c);
-			else if (c.nodeType === 3 /*TEXT_NODE*/) {
-				c.outerText = separateTextAndMakeSpans(c.textContent);
+			if (c.nodeType === 1 /*ELEMENT_NODE*/) {
+				applySeparaterToElement(c);
+				fs.push(c.outerHTML);
+			} else if (c.nodeType === 3 /*TEXT_NODE*/) {
+				fs.push(separateTextAndMakeSpans(c.textContent, tn));
 			}
 		}
+		elm.innerHTML = fs.join('');
 	}
 
-	function separateTextAndMakeSpans(text) {
+	function separateTextAndMakeSpans(text, tn) {
 		const parts = [];
 		let t_prev = '';
 		let word = '';
@@ -78,6 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 		if (0 < word.length) parts.push([word, (t_prev !== 'O'), isHira]);
 
+		const newParts = concatenateJoshi(parts);
+		if (newParts.length === 1 && tn === 'SPAN') return text;
+		return wrapWithSpan(newParts);
+	}
+
+	function concatenateJoshi(parts) {
 		const newParts = [];
 		let prevWs = null;
 		for (let i = 0, I = parts.length; i < I; i += 1) {
@@ -89,10 +100,13 @@ document.addEventListener('DOMContentLoaded', function () {
 				prevWs = ws;
 			}
 		}
+		return newParts;
+	}
 
+	function wrapWithSpan(parts) {
 		let ret = '';
-		for (let i = 0, I = newParts.length; i < I; i += 1) {
-			const ws = newParts[i];
+		for (let i = 0, I = parts.length; i < I; i += 1) {
+			const ws = parts[i];
 			ret += (ws[1]) ? ('<span>' + ws[0] + '</span>') : ws[0];
 		}
 		return ret;
