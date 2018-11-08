@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-25
+ * @version 2018-11-08
  *
  */
 
@@ -15,6 +15,7 @@ window.addEventListener('load', function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_KERNING = '.stile-kerning';
+	const ST_NO_KERNING = 'no-kerning';
 
 	const OFFSET_KERNING_PAIR = -0.4;
 	const OFFSET_KERNING_SOLO = -0.5;
@@ -29,7 +30,7 @@ window.addEventListener('load', function () {
 		['、', '，', '。', '．', ',', '.']
 	);
 	makeKerningPairs(kerningInfo,
-		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔'],
+		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔', '　'],
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
 	makeKerningPairs(kerningInfo,
@@ -66,14 +67,18 @@ window.addEventListener('load', function () {
 
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
-			if (c.nodeType === 1 /*ELEMENT_NODE*/) applyKerningToElement(c, ki);
-			else if (c.nodeType === 3 /*TEXT_NODE*/) {
+			if (c.nodeType === 1 /*ELEMENT_NODE*/) {
+				if (!ST.containStile(c, ST_NO_KERNING)) applyKerningToElement(c, ki);
+			} else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				let text = c.textContent;
 				let prev = c.previousSibling;
 				const isParentBlock = isBlockParent(c.parentNode);
 				if (isParentBlock) {
 					const next = c.nextSibling;
-					if (!prev || isBlockSibling(prev)) text = text.replace(/^\s+/g,'');  // trim left
+					if (!prev || isBlockSibling(prev)) {
+						const zs = text.match(/^(\u3000*)/g);
+						text = zs + text.replace(/^\s+/g, '');  // trim left
+					}
 					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
 				}
 				const es = applyKerning(text, ki, isParentBlock && (prev === null || isBlockSibling(prev)));
