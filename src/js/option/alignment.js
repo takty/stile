@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('load', function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 320;  // px
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function switchFloat(asw, stile) {
 		for (let i = 0; i < asw.length; i += 1) {
 			const a = asw[i][0], w = asw[i][1];
-			const pw = contentWidth(a.parentElement);
+			const pw = contentWidth(a.parentElement, true);
 			if (pw - w < WIDTH_MIN) {
 				ST.removeStile(a, stile);
 				ST.addStile(a, 'aligncenter');
@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function contentWidth(elm) {
+	function contentWidth(elm, checkDisplay = false) {
 		const style = getComputedStyle(elm);
-		if (style.display === 'inline') return contentWidth(elm.parentElement);
+		if (checkDisplay && style.display === 'inline') return contentWidth(elm.parentElement);
 		const padH = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
 		return elm.clientWidth - padH;
 	}
