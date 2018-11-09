@@ -14,9 +14,9 @@
 
 
 $stile-inline-color-strong       : rgba(#000, 0.95) !default;
-$stile-inline-color-underline    : rgba(#fd0, 0.9) !default;
-$stile-inline-color-del          : rgba(#f40, 0.9) !default;
-$stile-inline-color-abbr         : rgba(#12f, 0.9) !default;
+$stile-inline-color-underline    : rgba(#fd0, 0.90) !default;
+$stile-inline-color-del          : rgba(#f40, 0.90) !default;
+$stile-inline-color-abbr         : rgba(#12f, 0.90) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
 $stile-inline-width-underline    : 0.4em !default;
 $stile-inline-width-del          : 0.15em !default;
@@ -70,7 +70,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	span:not([data-stile]) {  // Before the script loaded
 		&[style = 'text-decoration:underline;'],
 		&[style = 'text-decoration: underline;'] {
-			text-decoration: underline $stile-inline-color-underline !important;
+			text-decoration: underline darken($stile-inline-color-underline, 10%) !important;
 		}
 	}
 	del {
