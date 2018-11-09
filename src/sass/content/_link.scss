@@ -67,6 +67,7 @@ $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 		}
 	}
 	a[data-stile ~= 'link-image'] {
+		@include for-firefox { display: block; }  // For correct focus rectangle
 		> img { vertical-align: middle; }
 	}
 }
