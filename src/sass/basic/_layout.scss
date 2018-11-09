@@ -3,37 +3,37 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-08
+ * @version 2018-11-09
  *
  */
 
 
-@mixin layout-side-margin($max_width, $side_margin: false) {
+@mixin layout-side-margin($max-width, $side-margin: false) {
 	margin-left: auto;
 	margin-right: auto;
 
-	max-width: $max_width;  // must be max-width for Android Chrome
+	max-width: $max-width;  // must be max-width for Android Chrome
 
-	@if $side_margin == false {
+	@if $side-margin == false {
 		width: 100%;  // must be width for Android Chrome
 	} @else {
-		width: calc(100% - #{$side_margin * 2});  // must be width for Android Chrome
+		width: calc(100% - #{$side-margin * 2});  // must be width for Android Chrome
 	}
 }
 
-@mixin layout-width-breakpoint($min_width, $breakpoint, $max_width) {
-	min-width: $min_width;
+@mixin layout-width-breakpoint($min-width, $breakpoint, $max-width) {
+	min-width: $min-width;
 	width: calc(($breakpoint - 100%) * 1000);
-	max-width: $max_width;
+	max-width: $max-width;
 }
 
-@mixin layout-full-width($side_margin: false) {
-	@if $side_margin == false {
+@mixin layout-full-width($side-margin: false) {
+	@if $side-margin == false {
 		margin-left: calc(50% - 50vw);
 		margin-right: calc(50% - 50vw);
 	} @else {
-		margin-left: calc(#{$side_margin} + 50% - 50vw);
-		margin-right: calc(#{$side_margin} + 50% - 50vw);
+		margin-left: calc(#{$side-margin} + 50% - 50vw);
+		margin-right: calc(#{$side-margin} + 50% - 50vw);
 	}
 }
 
@@ -66,13 +66,13 @@
 	}
 }
 
-@mixin layout-fill-self($position: absolute, $by_height: false) {
+@mixin layout-fill-self($position: absolute, $by-height: false) {
 	position: $position;
 	top: 0;
 	left: 0;
 	right: 0;
 
-	@if $by_height == false {
+	@if $by-height == false {
 		bottom: 0;
 	} @else {
 		min-height: 100%;
@@ -83,7 +83,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-aspect($width, $height, $by_height: false) {
+@mixin layout-aspect($width, $height, $by-height: false) {
 	position: relative;
 
 	&:before {
@@ -93,7 +93,7 @@
 	}
 
 	> *:first-child {
-		@include layout-fill-self(absolute, $by_height);
+		@include layout-fill-self(absolute, $by-height);
 	}
 }
 
@@ -209,7 +209,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-card($n, $gap: false, $align_left: true, $width_offset_ie: 1px) {
+@mixin layout-card($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
 	$gap_x: $gap;
 	$gap_y: $gap;
 	@if $gap != false and length($gap) == 2 {
@@ -233,7 +233,7 @@
 		@if $gap != false {
 			margin-right: $gap_x;
 			flex-basis: calc(#{$cw} - #{$gap_x});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width_offset_ie}); }  // Hack for calculation error
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width-offset-ie}); }  // Hack for calculation error
 			width: calc(#{$cw} - #{$gap_x});  // for Safari
 
 			&:not(:empty) {
@@ -241,13 +241,13 @@
 			}
 		} @else {
 			flex-basis: calc(#{$cw});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width_offset_ie}); }  // Hack for calculation error
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width-offset-ie}); }  // Hack for calculation error
 			width: #{$cw};  // for Safari
 		}
 	}
 	@include layout-spacer;
 
-	@if $align_left {
+	@if $align-left {
 		@for $i from 1 through $n {
 			> *:nth-child(#{$n}n+#{$i}):last-child {
 				@if $gap_x == false {

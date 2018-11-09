@@ -3,13 +3,13 @@
  * Backward Compatibility
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-11-09
  *
  */
 
 
-@mixin layout-fill($position: absolute, $by_height: false) {
-	@include layout-fill-self($position, $by_height);
+@mixin layout-fill($position: absolute, $by-height: false) {
+	@include layout-fill-self($position, $by-height);
 }
 
 @mixin stile-link-external {
