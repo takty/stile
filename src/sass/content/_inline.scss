@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-11-09
  *
  */
 
@@ -66,6 +66,12 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		background-size: 100% $stile-inline-width-underline;
 		background-repeat: no-repeat;
 		background-position: left bottom;
+	}
+	span:not([data-stile]) {  // Before the script loaded
+		&[style = 'text-decoration:underline;'],
+		&[style = 'text-decoration: underline;'] {
+			text-decoration: underline $stile-inline-color-underline !important;
+		}
 	}
 	del {
 		text-decoration: none;
