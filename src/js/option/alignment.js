@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-08-04
+ * @version 2018-11-09
  *
  */
 
@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function contentWidth(elm) {
 		const style = getComputedStyle(elm);
+		if (style.display === 'inline') return contentWidth(elm.parentElement);
 		const padH = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
 		return elm.clientWidth - padH;
 	}

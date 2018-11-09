@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-11-09
  *
  */
 
@@ -135,10 +135,10 @@ $stile-alignment-size-width         : 72rem !default;
 
 
 @mixin stile-alignment-margin {
-	* + .alignleft,
-	* + .alignright,
-	.alignleft + *,
-	.alignright + * {
+	*:not(.alignleft) + .alignleft,
+	*:not(.alignright) + .alignright,
+	.alignleft + *:not(.alignleft),
+	.alignright + *:not(.alignright) {
 		margin-top: base-vr(1);
 	}
 	* + figure.alignleft,
