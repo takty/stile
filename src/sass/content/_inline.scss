@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-09
+ * @version 2018-11-12
  *
  */
 
@@ -15,10 +15,12 @@
 
 $stile-inline-color-strong       : rgba(#000, 0.95) !default;
 $stile-inline-color-underline    : rgba(#fd0, 0.90) !default;
+$stile-inline-color-mark         : rgba(#fd0, 0.90) !default;
 $stile-inline-color-del          : rgba(#f40, 0.90) !default;
 $stile-inline-color-abbr         : rgba(#12f, 0.90) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
 $stile-inline-width-underline    : 0.4em !default;
+$stile-inline-width-mark         : 1.0em !default;
 $stile-inline-width-del          : 0.15em !default;
 $stile-inline-size-font-small    : 0.85em !default;
 $stile-inline-size-font-subscript: 0.75em !default;
@@ -55,9 +57,9 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	em, cite {
 		font-style: italic;
 	}
-	p, li, td, th, del, span:not([class]) {
+	p, li, dd, td, th, del, span:not([class]) {
 		> {
-			strong, b, em { color: $stile-inline-color-strong; }
+			strong, b, em, mark { color: $stile-inline-color-strong; }
 		}
 	}
 	u, span[data-stile ~= 'inline-underline'] {
@@ -72,6 +74,13 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		&[style = 'text-decoration: underline;'] {
 			text-decoration: underline darken($stile-inline-color-underline, 10%) !important;
 		}
+	}
+	mark {
+		text-decoration: none;
+		background-image: linear-gradient(to right, $stile-inline-color-mark 0%, transparentize($stile-inline-color-mark, 0.45) 100%);
+		background-size: 100% $stile-inline-width-mark;
+		background-repeat: no-repeat;
+		background-position: left center;
 	}
 	del {
 		text-decoration: none;
