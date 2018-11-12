@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-04
+ * @version 2018-11-12
  *
  * Based on:
  *  modern-normalize v0.4
@@ -141,4 +141,9 @@ td, th {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+mark {
+	color: inherit;
+	background-color: inherit;
 }
