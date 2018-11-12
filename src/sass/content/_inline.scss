@@ -15,7 +15,7 @@
 
 $stile-inline-color-strong       : rgba(#000, 0.95) !default;
 $stile-inline-color-underline    : rgba(#fd0, 0.90) !default;
-$stile-inline-color-mark         : rgba(#fd0, 0.90) !default;
+$stile-inline-color-mark         : rgba(#fe0, 0.90) !default;
 $stile-inline-color-del          : rgba(#f40, 0.90) !default;
 $stile-inline-color-abbr         : rgba(#12f, 0.90) !default;
 $stile-inline-color-broken-image : $stile-inline-color-del !default;
@@ -57,7 +57,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	em, cite {
 		font-style: italic;
 	}
-	p, li, dd, td, th, del, span:not([class]) {
+	p, li, dd, td, th, del, code, span:not([class]) {
 		> {
 			strong, b, em, mark { color: $stile-inline-color-strong; }
 		}
