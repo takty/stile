@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-11
+ * @version 2018-12-12
  *
  */
 
@@ -39,6 +39,9 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 		position: relative;
 		display: flex;
 		flex-direction: column;
+
+		// Margins inside
+		@include stile-margin-basic;
 	}
 	.stile-pseudo-tab-page-tab-list li {
 		position: relative;
