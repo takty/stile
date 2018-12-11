@@ -14,24 +14,24 @@
 @import '../basic/layout';
 
 
-$stile-tab-page-color-background              : #fff !default;
-$stile-tab-page-color-rule                    : rgba(#777, 0.35) !default;
-$stile-tab-page-color-rule-vertical           : false !default;
-$stile-tab-page-color-tab-background          : transparent !default;
-$stile-tab-page-color-tab-rule                : transparent !default;
-$stile-tab-page-color-tab-background-hover    : transparent !default;
+$stile-pseudo-tab-page-color-background            : #fff !default;
+$stile-pseudo-tab-page-color-rule                  : rgba(#777, 0.35) !default;
+$stile-pseudo-tab-page-color-rule-vertical         : false !default;
+$stile-pseudo-tab-page-color-tab-background        : transparent !default;
+$stile-pseudo-tab-page-color-tab-rule              : rgba(#777, 0.35) !default;
+$stile-pseudo-tab-page-color-tab-background-hover  : transparent !default;
 
-$stile-tab-page-color-tab-current-background  : transparent !default;
-$stile-tab-page-color-tab-current-rule        : $stile-tab-page-color-rule !default;
-$stile-tab-page-color-tab-current-top         : $stile-tab-page-color-rule !default;
+$stile-pseudo-tab-page-color-tab-current-background: transparent !default;
+$stile-pseudo-tab-page-color-tab-current-rule      : $stile-pseudo-tab-page-color-rule !default;
+$stile-pseudo-tab-page-color-tab-current-top       : $stile-pseudo-tab-page-color-rule !default;
 
-$stile-tab-page-color-tab-text-current        : rgba(#000, 0.95) !default;
-$stile-tab-page-color-tab-text                : rgba($stile-tab-page-color-tab-text-current, 0.50) !default;
-$stile-tab-page-color-tab-text-hover          : $stile-tab-page-color-tab-text-current !default;
+$stile-pseudo-tab-page-color-tab-text-current      : rgba(#000, 0.95) !default;
+$stile-pseudo-tab-page-color-tab-text              : rgba($stile-pseudo-tab-page-color-tab-text-current, 0.50) !default;
+$stile-pseudo-tab-page-color-tab-text-hover        : $stile-pseudo-tab-page-color-tab-text-current !default;
 
-$stile-tab-page-size-tab-current-top          : 2px !default;
-$stile-tab-page-size-tab-margin               : 0.25rem !default;
-$stile-tab-page-level-font                    : 1 !default;
+$stile-pseudo-tab-page-size-tab-current-top        : 2px !default;
+$stile-pseudo-tab-page-size-tab-margin             : 0.5rem !default;
+$stile-pseudo-tab-page-level-font                  : 1 !default;
 
 
 @mixin stile-pseudo-tab-page {
@@ -48,13 +48,13 @@ $stile-tab-page-level-font                    : 1 !default;
 
 		@include font-bold;
 		@include font-proportional;
-		@include font-size-level($stile-tab-page-level-font);
+		@include font-size-level($stile-pseudo-tab-page-level-font);
 
-		background-color: $stile-tab-page-color-tab-background;
-		color: $stile-tab-page-color-tab-text;
+		background-color: $stile-pseudo-tab-page-color-tab-background;
+		color: $stile-pseudo-tab-page-color-tab-text;
 		&:not([data-stile ~= 'current']):hover {
-			background-color: $stile-tab-page-color-tab-background-hover;
-			color: $stile-tab-page-color-tab-text-hover;
+			background-color: $stile-pseudo-tab-page-color-tab-background-hover;
+			color: $stile-pseudo-tab-page-color-tab-text-hover;
 		}
 		cursor: pointer;
 		user-select: none;
@@ -63,34 +63,31 @@ $stile-tab-page-level-font                    : 1 !default;
 	.stile-pseudo-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
 		display: flex;
 		justify-content: flex-start;
+		flex-wrap: wrap;
 
-		&:not(:first-child) { margin-top: base-vr(8); }
+		@include layout-gap($stile-pseudo-tab-page-size-tab-margin, $stile-pseudo-tab-page-size-tab-margin);
+
+		&:not(:first-child) { margin-top: base-vr(6); }
 		& + *:not(.alignright):not(.alignleft) {
-			margin-top: base-vr(4);
+			margin-top: base-vr(2);
 		}
 
 		li[data-stile ~= 'current'] {
-			border: 1px solid $stile-tab-page-color-tab-current-rule;
-			border-top: $stile-tab-page-size-tab-current-top solid $stile-tab-page-color-tab-current-top;
-			border-bottom-color: $stile-tab-page-color-background;
-			background-color: $stile-tab-page-color-tab-current-background;
-			color: $stile-tab-page-color-tab-text-current;
+			border: 1px solid $stile-pseudo-tab-page-color-tab-current-rule;
+			border-left: $stile-pseudo-tab-page-size-tab-current-top solid $stile-pseudo-tab-page-color-tab-current-top;
+			border-right-color: $stile-pseudo-tab-page-color-background;
+			background-color: $stile-pseudo-tab-page-color-tab-current-background;
+			color: $stile-pseudo-tab-page-color-tab-text-current;
 		}
-
 		min-height: 3rem;
-		border-bottom: 1px solid $stile-tab-page-color-rule;
 		li {
-			border: 1px solid $stile-tab-page-color-tab-rule;
-			border-bottom-color: transparent;
+			border: 1px solid $stile-pseudo-tab-page-color-tab-rule;
+			border-right-color: transparent;
 
 			&[data-stile ~= 'current'] {
-				top: 1px;
 				cursor: initial;
 				user-select: initial;
 			}
-		}
-		li + li {
-			margin-left: $stile-tab-page-size-tab-margin;
 		}
 	}
 }

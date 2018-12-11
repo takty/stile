@@ -13,11 +13,11 @@ let ST = ST || {};
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	const SELECTOR_TARGET  = '.pseudo-tab-page';
-	const CLS_TAB_LIST     = 'stile-pseudo-tab-page-tab-list';
-	const ST_STATE_CURRENT = 'current';
+	const SELECTOR_TARGET     = '.pseudo-tab-page';
+	const CLS_TAB_LIST        = 'stile-pseudo-tab-page-tab-list';
+	const ID_TAB_LIST_ID_BASE = '';
+	const ST_STATE_CURRENT    = 'current';
 
-	const tabPages = [];
 	const tps = document.querySelectorAll(SELECTOR_TARGET);
 	for (let i = 0; i < tps.length; i += 1) {
 		createTabPage(tps[i], i);
@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (!fh) return false;
 		const tabH = fh.tagName;
 
-		const pages = [], htmls = [];
 		const cs = [].slice.call(container.children);
 		const hs = [];
+		const htmls = [];
 
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
@@ -39,20 +39,22 @@ document.addEventListener('DOMContentLoaded', function () {
 				htmls.push(c.innerHTML);
 			}
 		}
-		let hss = [].slice.call(hs);
-
-		for (let i = 0; i < hss.length; i += 1) {
-			const tp = {pages, container, currentIdx: i, isAccordion: false};
-			createTab(htmls, tp, i, idx);
-			container.insertBefore(tp.tabUl, hss[i]);
-			container.removeChild(hss[i]);
-			tabPages.push(tp);
+		const tabUls = [];
+		for (let i = 0; i < hs.length; i += 1) {
+			const tp = createTab(htmls, i, idx);
+			container.insertBefore(tp.tabUl, hs[i]);
+			tabUls.push(tp.tabUl);
 		}
+		ST.initializeAnchorOffset(tabUls);
 	}
 
-	function createTab(htmls, tp, tabIdx, contIdx) {
+	function createTab(htmls, tabIdx, contIdx) {
+		const tp = {};
 		tp.tabUl = document.createElement('ul');
-		tp.tabUl.id = 'stile-pseudo-tab-page-' + contIdx + '-' + tabIdx;
+		tp.tabUl.id = ID_TAB_LIST_ID_BASE + contIdx + '-' + tabIdx;
+		tp.tabUl.className = CLS_TAB_LIST;
+		tp.tabUl.classList.add('stile-link-target');
+
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
 			let tc;
@@ -60,16 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
 				tc = document.createElement('span');
 			} else {
 				tc = document.createElement('a');
-				tc.href = '#stile-pseudo-tab-page-' + contIdx + '-' + i;
+				tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			}
 			tc.innerHTML = htmls[i];
 			li.appendChild(tc);
 			tp.tabUl.appendChild(li);
 		}
-		tp.tabUl.className = CLS_TAB_LIST;
-		tp.tabs = [].slice.call(tp.tabUl.children);
-
-		ST.addStile(tp.tabs[tabIdx], ST_STATE_CURRENT);
+		ST.addStile(tp.tabUl.children[tabIdx], ST_STATE_CURRENT);
+		return tp;
 	}
 
 	function getFirstHeading(container) {

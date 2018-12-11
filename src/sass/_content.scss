@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2018-12-11
  *
  */
 
@@ -17,16 +17,19 @@ $stile-content-color-heading   : rgba(#000, 0.95) !default;
 $stile-content-color-background: rgba(#777, 0.10) !default;
 
 
-$stile-block-color-rule               : $stile-content-color-accent !default;
-$stile-block-color-background         : $stile-content-color-background !default;
-$stile-heading-color-text             : $stile-content-color-heading !default;
-$stile-list-color-mark                : $stile-content-color-accent !default;
-$stile-table-color-rule               : $stile-content-color-rule !default;
-$stile-table-color-header-text        : $stile-content-color-heading !default;
-$stile-table-color-header-background  : $stile-content-color-background !default;
-$stile-tab-page-color-rule            : $stile-content-color-rule !default;
-$stile-tab-page-color-tab-current-top : $stile-content-color-accent !default;
-$stile-tab-page-color-tab-text-current: $stile-content-color-heading !default;
+$stile-block-color-rule                      : $stile-content-color-accent !default;
+$stile-block-color-background                : $stile-content-color-background !default;
+$stile-heading-color-text                    : $stile-content-color-heading !default;
+$stile-list-color-mark                       : $stile-content-color-accent !default;
+$stile-table-color-rule                      : $stile-content-color-rule !default;
+$stile-table-color-header-text               : $stile-content-color-heading !default;
+$stile-table-color-header-background         : $stile-content-color-background !default;
+$stile-tab-page-color-rule                   : $stile-content-color-rule !default;
+$stile-tab-page-color-tab-current-top        : $stile-content-color-accent !default;
+$stile-tab-page-color-tab-text-current       : $stile-content-color-heading !default;
+$stile-pseudo-tab-page-color-rule            : $stile-content-color-rule !default;
+$stile-pseudo-tab-page-color-tab-current-top : $stile-content-color-accent !default;
+$stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading !default;
 
 
 @import 'content/margin';

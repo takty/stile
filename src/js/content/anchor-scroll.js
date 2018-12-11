@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-29
+ * @version 2018-12-11
  *
  */
 
@@ -31,10 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
 		const anchorTargets = as1.concat(filterTarget(as2));
+		initializeAnchorOffset(anchorTargets);
 
-		initTargetToStyle(anchorTargets);
-		window.addEventListener('resize', function () {setAnchorOffset(anchorTargets);});
-		setTimeout(function () {setAnchorOffset(anchorTargets);}, 100);
 		if (window.location.hash) hashChanged();
 	}
 	window.addEventListener('hashchange', hashChanged);
@@ -60,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	function initTargetToStyle(ats) {
+	function initializeAnchorOffset(ats) {
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
 			const pat = document.createElement('span');
@@ -77,6 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			at.id = '';
 			at.appendChild(pat);
 		}
+		window.addEventListener('resize', () => { setAnchorOffset(ats); });
+		setTimeout(() => { setAnchorOffset(ats); }, 100);
 	}
 
 	function setAnchorOffset(ats) {
@@ -91,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			pat.style.top = newTop + 'px';
 		}
 	}
+
+	// Export
+	ST.initializeAnchorOffset = initializeAnchorOffset;
 
 
 	// -------------------------------------------------------------------------
