@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-11
+ * @version 2018-12-12
  *
  */
 
@@ -44,8 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			const tp = createTab(htmls, i, idx);
 			container.insertBefore(tp.tabUl, hs[i]);
 			tabUls.push(tp.tabUl);
+			if (ST.onClickAnchorLink) {
+				for (let j = 0; j < tp.tabAs.length; j += 1) {
+					tp.tabAs[j].addEventListener('click', ST.onClickAnchorLink);
+				}
+			}
 		}
-		ST.initializeAnchorOffset(tabUls);
+		if (ST.initializeAnchorOffset) ST.initializeAnchorOffset(tabUls);
 	}
 
 	function createTab(htmls, tabIdx, contIdx) {
@@ -54,19 +59,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		tp.tabUl.id = ID_TAB_LIST_ID_BASE + contIdx + '-' + tabIdx;
 		tp.tabUl.className = CLS_TAB_LIST;
 		tp.tabUl.classList.add('stile-link-target');
+		tp.tabAs = [];
 
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
-			let tc;
-			if (i === tabIdx) {
-				tc = document.createElement('span');
-			} else {
-				tc = document.createElement('a');
-				tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
-			}
+			const tc = document.createElement('a');
+			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
 			li.appendChild(tc);
+
 			tp.tabUl.appendChild(li);
+			tp.tabAs.push(tc);
 		}
 		ST.addStile(tp.tabUl.children[tabIdx], ST_STATE_CURRENT);
 		return tp;
