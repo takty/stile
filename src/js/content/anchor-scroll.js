@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-11
+ * @version 2018-12-12
  *
  */
 
@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	// -------------------------------------------------------------------------
 	// Anchor Offset
 
+
 	const getAnchorOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
-	if (getAnchorOffset() !== 0) {
+	if (ADDITIONAL_OFFSET + getAnchorOffset() !== 0) {
 		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
 		const anchorTargets = as1.concat(filterTarget(as2));
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	// -------------------------------------------------------------------------
 	// Smooth Scroll
 
+
 	const as = document.getElementsByTagName('a');
 
 	for (let i = 0; i < as.length; i += 1) {
@@ -113,25 +115,24 @@ document.addEventListener('DOMContentLoaded', function () {
 			const url = href.substr(0, pos);
 			const pn = window.location.pathname;
 			if (pn.lastIndexOf(url) !== pn.length - url.length) continue;
-
-			as[i].addEventListener('click', function (e) {
-				let href= e.target.getAttribute('href');
-				if (href) {
-					const pos = href.lastIndexOf('#');
-					href = href.substr(pos);
-					jumpToHash(e, href);
-				}
-			});
-		} else {
-			as[i].addEventListener('click', function (e) {
-				const href = e.target.getAttribute('href');
-				jumpToHash(e, href);
-			});
 		}
+		as[i].addEventListener('click', onClickAnchorLink);
 	}
 
 	let isJumping;
 	document.addEventListener('wheel', function () { isJumping = false; });
+
+	function onClickAnchorLink(e) {
+		let href = e.target.getAttribute('href');
+		if (href) {
+			const pos = href.lastIndexOf('#');
+			if (pos !== -1) href = href.substr(pos);
+			jumpToHash(e, href);
+		}
+	}
+
+	// Export
+	ST.onClickAnchorLink = onClickAnchorLink;
 
 	function jumpToHash(e, hash) {
 		let tar = false;
@@ -183,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// -------------------------------------------------------------------------
 	// Utilities
+
 
 	function setFocus(tar) {
 		if (!tar) return;
