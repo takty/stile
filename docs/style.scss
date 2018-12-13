@@ -3,16 +3,16 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-08
+ * @version 2018-12-13
  *
  */
 
 @charset 'utf-8';
 
-$stile-content-color-rule      : rgba(#447, 0.35) !default;
-$stile-content-color-accent    : rgba(#44b, 0.90) !default;
-$stile-content-color-heading   : rgba(#447, 0.95)  !default;
-$stile-content-color-background: rgba(#447, 0.10) !default;
+$stile-content-color-rule      : rgba(#447, 0.35);
+$stile-content-color-accent    : rgba(#44b, 0.90);
+$stile-content-color-heading   : rgba(#447, 0.95);
+$stile-content-color-background: rgba(#447, 0.10);
 
 
 @import '../dist/sass/basic';
