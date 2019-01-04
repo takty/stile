@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-12
+ * @version 2019-01-04
  *
  */
 
@@ -14,7 +14,6 @@
 @import '../basic/layout';
 
 
-// $stile-pseudo-tab-page-color-background            : #fff !default;
 $stile-pseudo-tab-page-color-rule                  : rgba(#777, 0.35) !default;
 $stile-pseudo-tab-page-color-rule-vertical         : false !default;
 $stile-pseudo-tab-page-color-tab-background        : transparent !default;
@@ -43,6 +42,8 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 		// Margins inside
 		@include stile-margin-basic;
 	}
+	* + .pseudo-tab-page { margin-top: base-vr(6); }
+
 	.stile-pseudo-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
 		display: flex;
 		justify-content: flex-start;
