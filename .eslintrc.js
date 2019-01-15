@@ -246,7 +246,7 @@ module.exports = {
         "sort-keys": "off",
         "sort-vars": "off",
         "space-before-blocks": "off",
-        "space-before-function-paren": "off",
+        "space-before-function-paren": "on",
         "space-in-parens": [
             "error",
             "never"
