@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-10-08
+ * @version 2019-01-15
  *
  */
 
@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 	let scrollBarWidth;
-	setTimeout(function () { init(tabs); }, 100);  // Delay for Chrome and Edge
+	setTimeout(() => { init(tabs); }, 100);  // Delay for Chrome and Edge
 
 	function init(tabs) {
 		for (let i = 0; i < tabs.length; i += 1) {
-			if (!ST.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) addWrapStyle(tabs[i]);
+			if (!ST.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) setTimeout(() => { addWrapStyle(tabs[i]); }, 0);
 		}
-		setTimeout(function () { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
+		setTimeout(() => { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
 	}
 
 	function initFixedHeaderTable(tabs) {
@@ -72,16 +72,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 
 		let scrollSt = null, resizeSt = null;
-		window.addEventListener('scroll', function () {
+		window.addEventListener('scroll', () => {
 			if (scrollSt) clearTimeout(scrollSt);
-			scrollSt = setTimeout(function() {
+			scrollSt = setTimeout(() => {
 				for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
 				scrollSt = null;
 			}, 10);
 		});
-		window.addEventListener('resize', function () {
+		window.addEventListener('resize', () => {
 			if (resizeSt) clearTimeout(resizeSt);
-			resizeSt = setTimeout(function() {
+			resizeSt = setTimeout(() => {
 				for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
 				resizeSt = null;
 			}, 10);
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function initEvents(cont) {
 		const tab = cont.table;
 		let tableScrollChanged = false, barScrollChanged = false;
-		tab.addEventListener('scroll', function () {
+		tab.addEventListener('scroll', () => {
 			tableScroll(cont);
 			if (tableScrollChanged) {
 				tableScrollChanged = false;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				barScrollChanged = true;
 			}
 		});
-		cont.barScrollListener = function () {
+		cont.barScrollListener = () => {
 			if (barScrollChanged) {
 				barScrollChanged = false;
 			} else {
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function initEnlargerEvent(cont) {
-		cont.etb.addEventListener('click', function () {enlarge(cont);});
+		cont.etb.addEventListener('click', () => { enlarge(cont); });
 	}
 
 	function switchEnlargerToTable(cont) {
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function tableScroll_enlarger_wrap(cont) {
 		if (ST.BROWSER === 'chrome' || ST.BROWSER === 'edge') {
 			if (tse) clearTimeout(tse);
-			tse = setTimeout(function () {tableScroll_enlarger(cont);}, 0);  // for updating enlager button position
+			tse = setTimeout(() => { tableScroll_enlarger(cont); }, 0);  // for updating enlager button position
 		} else {
 			tableScroll_enlarger(cont);
 		}
