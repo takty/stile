@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-22
+ * @version 2019-01-15
  *
  */
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (tabPage) tabPages.push(tabPage);
 	}
 	window.addEventListener('resize', function () { onResize(tabPages); });
-	setTimeout(function () {onResize(tabPages)}, 200);  // Delay
+	setTimeout(function () { onResize(tabPages) }, 200);  // Delay
 
 	function createTabPage(container) {
 		const fh = getFirstHeading(container);
@@ -58,8 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (let i = 0; i < pages.length; i += 1) container.appendChild(pages[i]);
 		container.appendChild(tp.tabUl2);
 
-		addTabEvent(tp);
-		onTabClick(tp, 0);
 		return tp;
 	}
 
@@ -76,6 +74,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		tp.tabUl2 = tp.tabUl.cloneNode(true);
 		tp.tabUl2.className = CLS_TAB_LIST_BELOW;
 		tp.tabs2 = [].slice.call(tp.tabUl2.children);
+		addTabEvent(tp);
+
+		setTimeout(() => {
+			tp.isAccordion = getComputedStyle(tp.tabUl2).flexDirection === 'column';
+			onTabClick(tp, tp.isAccordion ? -1 : 0);
+		}, 10);
 	}
 
 	function getFirstHeading(container) {
@@ -90,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function addTabEvent(tp) {
-		const ts  = tp.tabs;
-		const ts2 = tp.tabs2;
+		const ts = tp.tabs, ts2 = tp.tabs2;
+
 		for (let i = 0; i < ts.length; i += 1) {
 			const f = (function (idx) {
 				return function (e) {
@@ -114,26 +118,29 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	function changeCurrentTab(tp, idx) {
-		const ts  = tp.tabs;
-		const ps  = tp.pages;
+		const ts = tp.tabs, ts2 = tp.tabs2;
+		const ps = tp.pages;
 
 		for (let i = 0; i < ts.length; i += 1) {
 			if (i === idx) {
 				ST.addStile(ts[i], ST_STATE_CURRENT);
+				ST.addStile(ts2[i], ST_STATE_CURRENT);
 				ST.addStile(ps[i], ST_STATE_CURRENT);
 			} else {
 				ST.removeStile(ts[i], ST_STATE_CURRENT);
+				ST.removeStile(ts2[i], ST_STATE_CURRENT);
 				ST.removeStile(ps[i], ST_STATE_CURRENT);
 			}
 			ts[i].className = '';
+			ts2[i].className = '';
 			ps[i].className = '';
 		}
 		tp.currentIdx = idx;
 	}
 
 	function updateAccordionTabState(tp, idx) {
-		const ts  = tp.tabs;
-		const ts2 = tp.tabs2;
+		const ts  = tp.tabs, ts2 = tp.tabs2;
+
 		if (idx === -1) {
 			for (let i = 0; i < ts.length; i += 1) {
 				ts[i].style.display  = '';
@@ -142,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		} else {
 			for (let i = 0; i < ts.length; i += 1) {
 				ts[i].style.display  = (i <= idx) ? '' : 'none';
-				ts2[i].style.display = (i > idx)  ? '' : 'none';
+				ts2[i].style.display = (i > idx)  ? 'flex' : 'none';
 			}
 		}
 	}
@@ -156,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function onResizeOne(tp) {
 		const cont = tp.container;
 		const prevIsAccordion = tp.isAccordion;
-		tp.isAccordion = getComputedStyle(tp.tabUl2).display !== 'none';
+		tp.isAccordion = getComputedStyle(tp.tabUl2).flexDirection === 'column';
 
 		if (tp.isAccordion) {
 			cont.style.minHeight = '';
@@ -164,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (prevIsAccordion !== tp.isAccordion) changeCurrentTab(tp, -1);
 			updateAccordionTabState(tp, tp.currentIdx);
 		} else {
-			const tabs = tp.tabs;
 			const minH = getMinHeight(tp);
 			if (minH < window.innerHeight * PAGE_HEIGHT_WINDOW_HEIGHT_RATIO) {
 				cont.style.minHeight = minH + 'px';
@@ -173,27 +179,37 @@ document.addEventListener('DOMContentLoaded', function () {
 				cont.style.minHeight = '';
 				cont.style.height    = '';
 			}
-			for (let i = 0; i < tabs.length; i += 1) tabs[i].style.display = '';
+			const ts = tp.tabs, ts2 = tp.tabs2;
+
+			for (let i = 0; i < ts.length; i += 1) {
+				ts[i].style.display = '';
+				ts2[i].style.display = '';
+			}
 			if (tp.currentIdx === -1) tp.currentIdx = 0;
 			onTabClick(tp, tp.currentIdx);
 		}
 	}
 
 	function getMinHeight(tp) {
-		const tabUl = tp.tabUl;
-		const pages = tp.pages;
+		const tabUl  = tp.tabUl;
+		const tabUl2 = tp.tabUl2;
+		const pages  = tp.pages;
 
-		let margin = parseInt(getComputedStyle(tabUl).marginBottom);
+		let marginBtm = parseInt(getComputedStyle(tabUl).marginBottom);
+		let marginTop = parseInt(getComputedStyle(tabUl2).marginTop);
 		let height = 0;
 
 		for (let i = 0; i < pages.length; i += 1) {
 			const p = pages[i];
-			const m = parseInt(getComputedStyle(p).marginTop);
+			const ps = getComputedStyle(p);
+			const mt = parseInt(ps.marginTop);
+			const mb = parseInt(ps.marginBottom);
 			const h = p.getBoundingClientRect().height;
-			margin = Math.max(margin, m);
+			marginBtm = Math.max(marginBtm, mt);
+			marginTop = Math.max(marginTop, mb);
 			height = Math.max(height, h);
 		}
-		return tabUl.offsetHeight + margin + height;
+		return tabUl.offsetHeight + tabUl2.offsetHeight + marginBtm + marginTop + height;
 	}
 
 });

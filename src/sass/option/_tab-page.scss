@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2019-01-15
  *
  */
 
@@ -36,6 +36,8 @@ $stile-tab-page-size-tab-current-top          : 2px !default;
 $stile-tab-page-size-tab-margin               : 0.25rem !default;
 $stile-tab-page-level-font                    : 1 !default;
 
+$stile-tab-page-visible-tab-below             : false !default;
+
 
 @mixin stile-tab-page {
 	.tab-page {
@@ -53,6 +55,9 @@ $stile-tab-page-level-font                    : 1 !default;
 				border-right : 1px solid $stile-tab-page-color-rule-vertical;
 			}
 			border-bottom: 1px solid $stile-tab-page-color-rule;
+			@if $stile-tab-page-visible-tab-below == true {
+				@include for-tablet-up { border-bottom: none; }
+			}
 			background-color: $stile-tab-page-color-background;
 			padding: base-vr(2);
 
@@ -159,16 +164,53 @@ $stile-tab-page-level-font                    : 1 !default;
 			}
 		}
 	}
-	.stile-tab-page-tab-list-below {  // Accordion Mode
-		display: none;
-		@include for-phone-only { display: flex; }
+	@if $stile-tab-page-visible-tab-below == true {
+		.stile-tab-page-tab-list-below {
+			display: flex;
+			justify-content: flex-start;
 
-		flex-direction: column;
+			li[data-stile ~= 'current'] {
+				border: 1px solid $stile-tab-page-color-tab-current-rule;
+				border-bottom: $stile-tab-page-size-tab-current-top solid $stile-tab-page-color-tab-current-top;
+				border-top-color: $stile-tab-page-color-background;
+				background-color: $stile-tab-page-color-tab-current-background;
+				color: $stile-tab-page-color-tab-text-current;
+			}
+			@include for-tablet-up {
+				min-height: 3rem;
+				border-top: 1px solid $stile-tab-page-color-rule;
+				li {
+					border: 1px solid $stile-tab-page-color-tab-rule;
+					border-top-color: transparent;
 
-		li {
-			border: 1px solid $stile-tab-page-color-tab-accordion-rule;
-			border-top: none;
-			margin-top: $stile-tab-page-size-tab-margin;
+					&[data-stile ~= 'current'] {
+						bottom: 1px;
+						cursor: initial;
+						user-select: initial;
+					}
+				}
+				li + li {
+					margin-left: $stile-tab-page-size-tab-margin;
+				}
+			}
+			@include for-phone-only { @include stile-tab-page-accordion-below; }
 		}
+	} @else {
+		.stile-tab-page-tab-list-below {
+			display: none;
+			@include for-phone-only { @include stile-tab-page-accordion-below; }
+		}
+	}
+}
+
+@mixin stile-tab-page-accordion-below {
+	display: flex;
+	flex-direction: column;
+
+	li {
+		display: none;
+		border: 1px solid $stile-tab-page-color-tab-accordion-rule;
+		border-top: none;
+		margin-top: $stile-tab-page-size-tab-margin;
 	}
 }
