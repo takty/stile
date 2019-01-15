@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(4, function () {
 
 	const TARGET_CLASS = 'stile';
 

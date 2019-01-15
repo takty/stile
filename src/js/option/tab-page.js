@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(3, function () {
 
 	const SELECTOR_TARGET    = '.tab-page';
 	const CLS_TAB_LIST       = 'stile-tab-page-tab-list';

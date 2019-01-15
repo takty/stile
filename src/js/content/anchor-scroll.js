@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-12
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(4, function () {
 
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';

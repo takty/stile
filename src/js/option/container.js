@@ -3,12 +3,15 @@
  * Container Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-30
+ * @version 2019-01-15
  *
  */
 
 
-document.addEventListener('DOMContentLoaded', function () {
+let ST = ST || {};
+
+
+ST.addInitializer(1, function () {
 
 	const TARGET_SELECTOR = '.stile';
 

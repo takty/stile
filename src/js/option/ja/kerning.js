@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-08
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-window.addEventListener('load', function () {
+ST.addInitializer(7, function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_KERNING = '.stile-kerning';

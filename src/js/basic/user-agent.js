@@ -3,7 +3,7 @@
  * User Agent
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-05-24
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,8 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(0, function () {
+
 	const ua = window.navigator.userAgent.toLowerCase();
 	const cl = document.body.classList;
 
@@ -27,4 +28,5 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (ua.indexOf('android') !== -1) {
 		cl.add('android');
 	}
+
 });

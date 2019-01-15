@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-12
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(3, function () {
 
 	const SELECTOR_TARGET     = '.pseudo-tab-page';
 	const CLS_TAB_LIST        = 'stile-pseudo-tab-page-tab-list';

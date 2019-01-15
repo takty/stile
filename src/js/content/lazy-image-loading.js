@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-29
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(5, function () {
 
 	const TARGET_SELECTOR = '.stile';
 

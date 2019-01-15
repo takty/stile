@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-05
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-window.addEventListener('load', function () {
+ST.addInitializer(7, function () {
 
 	const WIN_SIZE_RESPONSIVE       = 600
 	const TARGET_SELECTOR           = '.stile';

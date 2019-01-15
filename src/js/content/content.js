@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-10-09
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ST.addInitializer(2, function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';

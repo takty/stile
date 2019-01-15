@@ -3,7 +3,7 @@
  * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-06-11
+ * @version 2019-01-15
  *
  */
 
@@ -26,6 +26,27 @@ let ST = ST || {};
 		ST.BROWSER = 'firefox';
 	}
 })();
+
+
+// -----------------------------------------------------------------------------
+
+
+const _initializer = [[], [], [], [], [], [], [], []];
+
+document.addEventListener('DOMContentLoaded', function () {
+	for (let i = 0; i < _initializer.length; i += 1) {
+		const is = _initializer[i];
+		for (let j = 0; j < is.length; j += 1) is[j]();
+	}
+});
+
+ST.addInitializer = function (level, fn) {
+	_initializer[level].push(fn);
+}
+
+
+// -----------------------------------------------------------------------------
+
 
 ST.addStile = function (elm, style) {
 	if (elm.dataset.stile) {
@@ -59,6 +80,7 @@ ST.removeStile = function (elm, style) {
 
 // -----------------------------------------------------------------------------
 
+
 ST.elementTopOnWindow = function (elm) {
 	const br = elm.getBoundingClientRect();
 	return br.top + window.pageYOffset;
@@ -71,6 +93,7 @@ ST.elementLeftOnWindow = function (elm) {
 
 
 // -----------------------------------------------------------------------------
+
 
 ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
 	let elmFixed = document.getElementsByClassName(fixedElementClass);

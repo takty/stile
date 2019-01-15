@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-09
+ * @version 2019-01-15
  *
  */
 
@@ -11,7 +11,7 @@
 let ST = ST || {};
 
 
-document.addEventListener('load', function () {
+ST.addInitializer(1, function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 320;  // px
