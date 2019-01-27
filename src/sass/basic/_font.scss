@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2019-01-27
  *
  */
 
@@ -191,10 +191,17 @@ $stile-font-monospace:
 	}
 }
 
-@mixin font-family-serif {
-	font-family: $stile-font-serif;
-	@include for-ie {
-		font-family: $stile-font-serif-ie;
+@mixin font-family-serif($pc-specific: false) {
+	@if $pc-specific {
+		font-family: $pc-specific, $stile-font-serif;
+		@include for-ie {
+			font-family: $pc-specific, $stile-font-serif-ie;
+		}
+	} @else {
+		font-family: $stile-font-serif;
+		@include for-ie {
+			font-family: $stile-font-serif-ie;
+		}
 	}
 	&.ios, .ios & {  // need to use user-agent.js
 		font-family: $stile-font-serif-ios;
