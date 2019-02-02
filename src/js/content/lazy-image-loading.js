@@ -3,12 +3,12 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-01-15
+ * @version 2019-02-02
  *
  */
 
 
-let ST = ST || {};
+window.ST = window['ST'] || {};
 
 
 ST.addInitializer(5, function () {

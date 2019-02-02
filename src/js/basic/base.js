@@ -3,12 +3,12 @@
  * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-01-15
+ * @version 2019-02-02
  *
  */
 
 
-let ST = ST || {};
+window.ST = window['ST'] || {};
 
 (function () {
 	const ua = window.navigator.userAgent.toLowerCase();
