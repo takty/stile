@@ -5,7 +5,7 @@ const $ = require('gulp-load-plugins')({pattern:['gulp-*']});
 
 
 gulp.task('js-with-option', () => {
-	return gulp.src('src/js/**/*.js')
+	return gulp.src(['src/js/basic/*.js', 'src/js/content/*.js', 'src/js/option/*.js'])
 		.pipe($.plumber())
 		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile-full.min.js'))
