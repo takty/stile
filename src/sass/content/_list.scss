@@ -3,7 +3,7 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-13
+ * @version 2019-02-02
  *
  */
 
@@ -133,6 +133,7 @@ $stile-list-img-mark-circle : false !default;
 	&[data-stile ~= 'no-indent'] { padding-left: 0; }
 	@include for-phone-only      { padding-left: 0; }
 
+	counter-reset: li;
 	> li {
 		counter-increment: li;
 		display: table-row;
@@ -149,6 +150,10 @@ $stile-list-img-mark-circle : false !default;
 			@include font-bold;
 			color: $stile-list-color-mark;
 		}
+	}
+	&[reversed],
+	&[data-stile ~= 'reversed'] {
+		> li { counter-increment: li -1; }
 	}
 	&[data-stile ~= 'no-indent'] > li::before { min-width: base-vr(2); }
 	@include for-phone-only { > li::before { min-width: base-vr(2); } }

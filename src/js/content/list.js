@@ -3,12 +3,12 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-01-15
+ * @version 2019-02-02
  *
  */
 
 
-let ST = ST || {};
+window.ST = window['ST'] || {};
 
 
 ST.addInitializer(4, function () {
@@ -30,6 +30,7 @@ ST.addInitializer(4, function () {
 			const ols = t.getElementsByTagName('ol');
 			for (let i = 0; i < ols.length; i += 1) {
 				setStyle(ols[i]);
+				setCounterReset(ols[i]);
 			}
 		}
 	}
@@ -39,6 +40,7 @@ ST.addInitializer(4, function () {
 			const t = ts[i];
 			if (!hasListStile(t) && t.classList.contains(tc)) {
 				setStyle(t);
+				if (t.tagName === 'OL') setCounterReset(ols[i]);
 			}
 		}
 	}
@@ -59,6 +61,22 @@ ST.addInitializer(4, function () {
 		if (type !== '' && type !== 'none') {
 			t.style.listStyleType = '';
 			ST.addStile(t, 'list-' + type);
+		}
+	}
+
+	function setCounterReset(t) {
+		if (ST.containStile(t, 'reversed')) {
+			const ces = t.children;
+			let count = 0;
+			for (let i = 0; i < ces.length; i += 1) {
+				if (ces[i].tagName === 'LI') count += 1;
+			}
+			t.style.counterReset = 'li ' + (count + 1);
+		}
+		const v = t.getAttribute('start');
+		if (v !== null && v !== '') {
+			const s = parseInt(v);
+			t.style.counterReset = 'li ' + (s + 1);
 		}
 	}
 
