@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const $ = require('gulp-load-plugins')({pattern:['gulp-*']});
+const $ = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
 
 
 gulp.task('js-with-option', () => {
