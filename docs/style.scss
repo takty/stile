@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-13
+ * @version 2019-02-07
  *
  */
 
@@ -13,6 +13,8 @@ $stile-content-color-rule      : rgba(#447, 0.35);
 $stile-content-color-accent    : rgba(#44b, 0.90);
 $stile-content-color-heading   : rgba(#447, 0.95);
 $stile-content-color-background: rgba(#447, 0.10);
+
+$stile-link-icon-file: '\e226';
 
 
 @import '../dist/sass/basic';
@@ -44,6 +46,11 @@ body {
 	@include stile-content;
 	@include stile-option(true);
 	color: hsla(0, 0, 0, 0.75);
+
+	a:not([class])[data-stile ~= 'link-file-pdf']::after { content: '\e86d'; }
+	a:not([class])[data-stile ~= 'link-file-word']::after { content: '\e06f'; }
+	a:not([class])[data-stile ~= 'link-file-excel']::after { content: '\e228'; }
+	a:not([class])[data-stile ~= 'link-file-powerpoint']::after { content: '\e071'; }
 
 	.font-size-level-0 { @include font-size-level(0); }
 	.font-size-level-1 { @include font-size-level(1); }
