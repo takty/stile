@@ -506,7 +506,7 @@ ST.addInitializer(4, function () {
 
 		const cellMinWidth = Math.max(CELL_MIN_WIDTH, origTableWidth * CELL_MIN_WIDTH_RATE);
 		const origCellWidths = [];
-		for (let x = 0; x < tab[0].length; x += 1) origCellWidths[x] = tabRow[x].clientWidth;
+		for (let x = 0; x < tab[0].length; x += 1) origCellWidths[x] = tab[0][x].clientWidth;
 
 		const wrapped = [];
 
