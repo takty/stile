@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-02-07
  *
  */
 
@@ -44,11 +44,6 @@ ST.addInitializer(3, function () {
 			const tp = createTab(htmls, i, idx);
 			container.insertBefore(tp.tabUl, hs[i]);
 			tabUls.push(tp.tabUl);
-			if (ST.onClickAnchorLink) {
-				for (let j = 0; j < tp.tabAs.length; j += 1) {
-					tp.tabAs[j].addEventListener('click', ST.onClickAnchorLink);
-				}
-			}
 		}
 		if (ST.initializeAnchorOffset) ST.initializeAnchorOffset(tabUls);
 	}
@@ -66,6 +61,7 @@ ST.addInitializer(3, function () {
 			const tc = document.createElement('a');
 			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
+			tc.dataset['stile'] = 'anchor-scroll-fast';
 			li.appendChild(tc);
 
 			tp.tabUl.appendChild(li);
