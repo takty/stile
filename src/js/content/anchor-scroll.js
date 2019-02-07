@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-02-07
  *
  */
 
@@ -19,8 +19,15 @@ ST.addInitializer(4, function () {
 	const CLS_LINK_TARGET = 'stile-link-target';
 	const SELECTOR_TARGET = '.stile *[id]:not([class])';
 
+	const SCROLL_DURATION = 400;
+	const ST_NO_ANCHOR_SCROLL = 'no-anchor-scroll';
+	const ST_ANCHOR_SCROLL_FAST = 'anchor-scroll-fast';
+
 	let ADDITIONAL_OFFSET = 16;
 	if (typeof ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET;
+
+	const as = document.getElementsByTagName('a');
+	initializeSmoothScroll(as);
 
 
 	// -------------------------------------------------------------------------
@@ -101,26 +108,29 @@ ST.addInitializer(4, function () {
 	// Smooth Scroll
 
 
-	const as = document.getElementsByTagName('a');
+	let isJumping = false;
 
-	for (let i = 0; i < as.length; i += 1) {
-		const cn = (as[i].className + '').trim();
-		if (cn !== '') continue;
+	function initializeSmoothScroll(as) {
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
+			if (ST.containStile(a, ST_NO_ANCHOR_SCROLL)) continue;
 
-		const href = as[i].getAttribute('href');
-		if (!href) continue;
-		if (href[0] !== '#' || href === '#') {
-			const pos = href.lastIndexOf('#');
-			if (pos === -1) continue;
-			const url = href.substr(0, pos);
-			const pn = window.location.pathname;
-			if (pn.lastIndexOf(url) !== pn.length - url.length) continue;
+			const cn = (a.className + '').trim();
+			if (cn !== '') continue;
+
+			const href = a.getAttribute('href');
+			if (!href) continue;
+			if (href[0] !== '#' || href === '#') {
+				const pos = href.lastIndexOf('#');
+				if (pos === -1) continue;
+				const url = href.substr(0, pos);
+				const pn = window.location.pathname;
+				if (pn.lastIndexOf(url) !== pn.length - url.length) continue;
+			}
+			a.addEventListener('click', onClickAnchorLink);
 		}
-		as[i].addEventListener('click', onClickAnchorLink);
+		document.addEventListener('wheel', function () { isJumping = false; });
 	}
-
-	let isJumping;
-	document.addEventListener('wheel', function () { isJumping = false; });
 
 	function onClickAnchorLink(e) {
 		let href = e.target.getAttribute('href');
@@ -144,7 +154,8 @@ ST.addInitializer(4, function () {
 		if (!tar) return false;
 		e.stopPropagation();
 		e.preventDefault();
-		jump(tar, 800);
+		const sep = ST.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? 4 : 1;
+		jump(tar, SCROLL_DURATION / sep);
 	}
 
 	function jump(tar, duration) {
@@ -180,11 +191,6 @@ ST.addInitializer(4, function () {
 			return -(c - b) / 2 * (t * (t - 2) - 1) + b;
 		}
 	}
-
-
-	// -------------------------------------------------------------------------
-	// Utilities
-
 
 	function setFocus(tar) {
 		if (!tar) return;
