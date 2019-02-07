@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-02-08
  *
  */
 
@@ -27,6 +27,7 @@ ST.addInitializer(4, function () {
 	const ST_OPT_NO_ENLARGER  = 'no-enlarger';
 
 	const CELL_MIN_WIDTH = 120;
+	const CELL_MIN_WIDTH_RATE = 0.15;
 	const CELL_MIN_RATIO = 2 / 3;  // width : height
 	const HEAD_BOTTOM_SHADOW = '0px 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5)';
 
@@ -502,6 +503,11 @@ ST.addInitializer(4, function () {
 		dummy.style.position = 'fixed';
 		dummy.style.visibility = 'hidden';
 		table.appendChild(dummy);
+
+		const cellMinWidth = Math.max(CELL_MIN_WIDTH, origTableWidth * CELL_MIN_WIDTH_RATE);
+		const origCellWidths = [];
+		for (let x = 0; x < tab[0].length; x += 1) origCellWidths[x] = tabRow[x].clientWidth;
+
 		const wrapped = [];
 
 		for (let y = 0; y < tab.length; y += 1) {
@@ -522,7 +528,7 @@ ST.addInitializer(4, function () {
 				for (let i = 1;; i += 1) {
 					const tempW = aw / i + padH;
 					const tempH = l * (i * lineHeight) + padV;
-					if (tempW < CELL_MIN_WIDTH || tempW / tempH < CELL_MIN_RATIO) break;
+					if (tempW < cellMinWidth || tempW / tempH < CELL_MIN_RATIO) break;
 					if (1 < i) wrapped[x] = true;
 					minW = tempW;
 				}
@@ -530,10 +536,10 @@ ST.addInitializer(4, function () {
 			}
 		}
 		table.removeChild(dummy);
-		widenTableWidth(newWs, wrapped, origTableWidth);
+		widenTableWidth(newWs, wrapped, origTableWidth, origCellWidths);
 	}
 
-	function widenTableWidth(newWs, wrapped, widthOrig) {
+	function widenTableWidth(newWs, wrapped, widthOrig, origCellWidths) {
 		let widthNew = 0, widthFix = 0;
 		for (let i = 0; i < newWs.length; i += 1) {
 			if (newWs[i] === false) return;
@@ -544,9 +550,14 @@ ST.addInitializer(4, function () {
 			}
 		}
 		if (widthNew + widthFix < widthOrig) {
+			let realloc = widthOrig - widthFix;
 			for (let i = 0; i < newWs.length; i += 1) {
 				if (wrapped[i]) {
-					newWs[i] = newWs[i] / widthNew * (widthOrig - widthFix);
+					let w = newWs[i] / widthNew * realloc;
+					w = Math.min(w, origCellWidths[i] + 10);
+					realloc  -= (w - newWs[i]);
+					widthNew -= (w - newWs[i]);
+					newWs[i] = w;
 				}
 			}
 		}
