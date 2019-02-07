@@ -17,11 +17,15 @@ ST.addInitializer(3, function () {
 	const CLS_TAB_LIST        = 'stile-pseudo-tab-page-tab-list';
 	const ID_TAB_LIST_ID_BASE = '';
 	const ST_STATE_CURRENT    = 'current';
+	const SINGLE_TAB          = true;
 
+	const tabUlss = [];
 	const tps = document.querySelectorAll(SELECTOR_TARGET);
 	for (let i = 0; i < tps.length; i += 1) {
-		createTabPage(tps[i], i);
+		const tabUls = createTabPage(tps[i], i);
+		if (tabUls !== false) tabUlss.push(tabUls);
 	}
+	if (SINGLE_TAB) initializeSingleTab();
 
 	function createTabPage(container, idx) {
 		const fh = getFirstHeading(container);
@@ -46,6 +50,7 @@ ST.addInitializer(3, function () {
 			tabUls.push(tp.tabUl);
 		}
 		if (ST.initializeAnchorOffset) ST.initializeAnchorOffset(tabUls);
+		return tabUls;
 	}
 
 	function createTab(htmls, tabIdx, contIdx) {
@@ -62,6 +67,7 @@ ST.addInitializer(3, function () {
 			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
 			tc.dataset['stile'] = 'anchor-scroll-fast';
+			if (SINGLE_TAB) tc.addEventListener('click', onTabClick);
 			li.appendChild(tc);
 
 			tp.tabUl.appendChild(li);
@@ -80,6 +86,62 @@ ST.addInitializer(3, function () {
 			}
 		}
 		return null;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	let stopUpdateVisibility = false;
+
+	function initializeSingleTab() {
+		updateVisibility(tabUlss);
+		let st = null;
+		window.addEventListener('scroll', () => {
+			if (st) clearTimeout(st);
+			st = setTimeout(() => { updateVisibility(tabUlss); }, 10);
+		});
+	}
+
+	function onTabClick() {
+		stopUpdateVisibility = true;
+		showAll(tabUlss);
+		setTimeout(() => {
+			stopUpdateVisibility = false;
+			updateVisibility(tabUlss);
+		}, 10);
+	}
+
+	function updateVisibility(tabUlss) {
+		if (stopUpdateVisibility) return;
+		for (let i = 0; i < tabUlss.length; i += 1) {
+			const tabUls = tabUlss[i];
+			let shown = false;
+			for (let j = 0; j < tabUls.length; j += 1) {
+				const tabUl = tabUls[j];
+				const y = tabUl.getBoundingClientRect().top;
+
+				if (0 < y && !shown) {
+					shown = true;
+					tabUl.style.maxHeight = '';
+					continue;
+				}
+				if (shown) {
+					tabUl.style.maxHeight = '0';
+					tabUl.style.overflow = 'hidden';
+				}
+			}
+		}
+	}
+
+	function showAll(tabUlss) {
+		for (let i = 0; i < tabUlss.length; i += 1) {
+			const tabUls = tabUlss[i];
+			for (let j = 0; j < tabUls.length; j += 1) {
+				const tabUl = tabUls[j];
+				tabUl.style.maxHeight = '';
+			}
+		}
 	}
 
 });
