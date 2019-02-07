@@ -60,13 +60,14 @@ ST.addInitializer(3, function () {
 		tp.tabUl.className = CLS_TAB_LIST;
 		tp.tabUl.classList.add('stile-link-target');
 		tp.tabAs = [];
+		const ios = document.body.classList.contains('ios');
 
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
 			const tc = document.createElement('a');
 			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
-			tc.dataset['stile'] = 'anchor-scroll-fast';
+			tc.dataset['stile'] = ios ? 'no-anchor-scroll' : 'anchor-scroll-fast';
 			if (SINGLE_TAB) tc.addEventListener('click', onTabClick);
 			li.appendChild(tc);
 
