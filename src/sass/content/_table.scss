@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-11
+ * @version 2019-02-08
  *
  */
 
@@ -176,12 +176,17 @@ $stile-table-size-rule-edge              : 2px !default;
 			top: 0;
 			right: 0;
 			cursor: ew-resize;
+			background: linear-gradient(to top right, transparent 50%, $stile-table-color-enlarger 50.1%) no-repeat top left/100% 100%;
 
-			background: linear-gradient(to top right, transparent 50%, $stile-table-color-enlarger 50.1%) no-repeat top left/100% 100%
+			opacity: 0;
+			&[data-stile ~= "visible"] {
+				opacity: 1;
+				transition: opacity 0.2s;
+			}
 		}
 		&[data-stile ~= "table-enlarged"] {
 			div[data-stile ~= "enlarger-button"] {
-				background: linear-gradient(to bottom left, transparent 50%, $stile-table-color-enlarger-opened 50.1%) no-repeat top left/100% 100%
+				background: linear-gradient(to bottom left, transparent 50%, $stile-table-color-enlarger-opened 50.1%) no-repeat top left/100% 100%;
 			}
 		}
 	}

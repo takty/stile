@@ -352,15 +352,14 @@ ST.addInitializer(4, function () {
 		tab.style.marginLeft = -left + 'px';
 	}
 
-	let tse = null;
-
 	function tableScroll_enlarger_wrap(cont) {
-		if (ST.BROWSER === 'chrome' || ST.BROWSER === 'edge') {
-			if (tse) clearTimeout(tse);
-			tse = setTimeout(() => { tableScroll_enlarger(cont); }, 0);  // for updating enlager button position
-		} else {
-			tableScroll_enlarger(cont);
-		}
+		const etb = cont.etb;
+		ST.removeStile(etb, 'visible');
+		if (cont.tse) clearTimeout(cont.tse);
+		cont.tse = setTimeout(() => {
+			ST.addStile(etb, 'visible');
+		}, 200);
+		tableScroll_enlarger(cont);
 	}
 
 	function tableScroll_enlarger(cont) {
