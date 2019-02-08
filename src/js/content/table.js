@@ -39,7 +39,6 @@ ST.addInitializer(4, function () {
 	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
 	let scrollBarWidth;
-	setTimeout(() => { init(tabs); }, 100);  // Delay for Chrome and Edge
 
 	function init(tabs) {
 		for (let i = 0; i < tabs.length; i += 1) {
@@ -47,6 +46,17 @@ ST.addInitializer(4, function () {
 		}
 		setTimeout(() => { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
 	}
+	setTimeout(() => { init(tabs); }, 100);  // Delay for Chrome and Edge
+
+
+
+
+	// =========================================================================
+	// Fixed Header
+	// =========================================================================
+
+
+
 
 	function initFixedHeaderTable(tabs) {
 		scrollBarWidth = parseInt(getScrollBarWidth());
@@ -284,8 +294,14 @@ ST.addInitializer(4, function () {
 	}
 
 
-	// -------------------------------------------------------------------------
+
+
+	// =========================================================================
 	// Enlarger
+	// =========================================================================
+
+
+
 
 	function createEnlarger(table) {
 		const etb = document.createElement('div');
@@ -399,9 +415,9 @@ ST.addInitializer(4, function () {
 
 
 
-	// -------------------------------------------------------------------------
+	// =========================================================================
 	// Neat Wrap
-	// -------------------------------------------------------------------------
+	// =========================================================================
 
 
 
