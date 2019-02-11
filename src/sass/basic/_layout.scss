@@ -174,13 +174,15 @@
 
 	@if $gap != false {
 		margin-right: -$gap;
+		> * {
+			margin-right: $gap;
+		}
 	}
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
-			margin-right: $gap;
 			flex-basis: calc(#{$cw} - #{$gap});
 		} @else {
 			flex-basis: #{$cw};
@@ -194,13 +196,12 @@
 
 	@if $gap != false {
 		margin-bottom: -$gap;
+		> * {
+			margin-bottom: $gap;
+		}
 	}
 	> * {
 		flex-basis: auto;
-
-		@if $gap != false {
-			margin-bottom: $gap;
-		}
 	}
 	@include layout-spacer;
 }
@@ -225,24 +226,25 @@
 	@if $gap != false {
 		margin-right : -$gap_x;
 		margin-bottom: -$gap_y;
+		> * {
+			margin-right: $gap_x;
+			&:not(:empty) {
+				margin-bottom: $gap_y;
+			}
+		}
 	}
 	> * {
 		flex-grow: 1;
 		flex-shrink: 1;
 
 		@if $gap != false {
-			margin-right: $gap_x;
 			flex-basis: calc(#{$cw} - #{$gap_x});
 			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width-offset-ie}); }  // Hack for calculation error
 			width: calc(#{$cw} - #{$gap_x});  // for Safari
-
-			&:not(:empty) {
-				margin-bottom: $gap_y;
-			}
 		} @else {
-			flex-basis: calc(#{$cw});
+			flex-basis: $cw;
 			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width-offset-ie}); }  // Hack for calculation error
-			width: #{$cw};  // for Safari
+			width: $cw;  // for Safari
 		}
 	}
 	@include layout-spacer;
