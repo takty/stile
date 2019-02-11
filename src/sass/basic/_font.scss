@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-07
+ * @version 2019-02-11
  *
  */
 
@@ -253,19 +253,19 @@ $stile-font-monospace:
 // -----------------------------------------------------------------------------
 
 
-@mixin font-responsive-size($min-vw, $max-vw, $min-value, $max-value) {
-	font-size: $min-value;
+@mixin font-responsive-size($min-vw, $max-vw, $min-size, $max-size) {
+	font-size: $min-size;
 	@media screen and (min-width: $min-vw) {
-		font-size: calc(#{$min-value} + #{base-strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{base-strip-unit($max-vw - $min-vw)});
+		@include base-responsive-size(font-size, $min-vw, $max-vw, $min-size, $max-size);
 	}
 	@media screen and (min-width: $max-vw) {
-		font-size: $max-value;
+		font-size: $max-size;
 	}
 }
 
-@mixin font-responsive-size-interval($min-vw, $max-vw, $min-value, $max-value) {
+@mixin font-responsive-size-interval($min-vw, $max-vw, $min-size, $max-size) {
 	@media screen and (min-width: $min-vw) and (max-width: $max-vw)  {
-		font-size: calc(#{$min-value} + #{base-strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{base-strip-unit($max-vw - $min-vw)});
+		@include base-responsive-size(font-size, $min-vw, $max-vw, $min-size, $max-size);
 	}
 }
 
