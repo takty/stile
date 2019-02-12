@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-02-12
  *
  */
 
@@ -14,7 +14,7 @@ window.ST = window['ST'] || {};
 ST.addInitializer(1, function () {
 
 	const TARGET_SELECTOR = '.stile';
-	const WIDTH_MIN = 320;  // px
+	const WIDTH_MIN = 240;  // px
 
 	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
 	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
