@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-08
+ * @version 2019-02-12
  *
  */
 
@@ -25,6 +25,8 @@ $stile-table-color-enlarger              : rgba($stile-table-color-rule, 0.5) !d
 $stile-table-color-enlarger-opened       : rgba($stile-table-color-rule, 0.25) !default;
 $stile-table-color-background-enlarged   : #fff !default;
 $stile-table-size-rule-edge              : 2px !default;
+$stile-table-size-caption-max-width      : 36rem !default;
+$stile-table-level-caption               : 0 !default;
 
 
 @mixin stile-table {
@@ -36,11 +38,22 @@ $stile-table-size-rule-edge              : 2px !default;
 
 		max-width: 100%;
 		vertical-align: top;
+		text-align: center;  // for Caption
 
 		overflow-x: hidden;
 		overflow-y: auto;
 
 		-webkit-overflow-scrolling: touch;
+
+		caption {
+			position: relative;  // for Scrolling
+			display: inline-block;
+			padding-left: base-vr(1.5);
+			padding-right: base-vr(1.5);  // for Avoiding overwrapping with enlarger
+			max-width: #{$stile-table-size-caption-max-width + 2 * base-vr(1.5)};
+			@include font-size-level($stile-table-level-caption);
+			text-align: left;  // for left align of long caption
+		}
 	}
 	@include stile-table-design;
 	@include stile-table-fixed-header;
@@ -50,7 +63,7 @@ $stile-table-size-rule-edge              : 2px !default;
 }
 
 @mixin stile-table-design {
-	thead, tbody:first-child, colgroup + tbody {
+	thead, tbody:first-child, caption + tbody, colgroup + tbody {
 		border-top: $stile-table-size-rule-edge solid $stile-table-color-rule-edge;
 		> tr:first-child {
 			th, td { border-top: none; }
@@ -94,7 +107,7 @@ $stile-table-size-rule-edge              : 2px !default;
 @mixin stile-table-fixed-header {
 	div[data-stile ~= "fixed-table-header-container"] {
 		position: fixed;
-		top: 0px;
+		top: 0;
 		z-index: 99;
 		margin: 0;
 		overflow-x: hidden;
@@ -134,8 +147,6 @@ $stile-table-size-rule-edge              : 2px !default;
 		overflow-y: hidden;  // for IE11 & Edge
 
 		height: calc(#{base-vr(1)} + 2px);  // for Safari
-		border: 1px solid;  // for Safari
-
 		border: 1px solid rgba($stile-table-color-scrollbar-background, 0.1);  // for Safari
 
 		@media print { display: none !important; }

@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-08
+ * @version 2019-02-12
  *
  */
 
@@ -69,7 +69,9 @@ ST.addInitializer(4, function () {
 			const head = cloneTableHeader(tab);
 			const bar  = cloneTableScrollBar(tab);
 			const etb  = ST.containStile(tab, ST_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
-			const cont = {table: tab, header: head, headerHeight: 0, bar: bar, etb: etb};
+			const caps = tab.getElementsByTagName('caption');
+			const cap  = caps.length ? caps[0] : null;
+			const cont = { table: tab, header: head, headerHeight: 0, bar: bar, etb: etb, cap: cap };
 			initEvents(cont);
 			conts.push(cont);
 
@@ -236,10 +238,11 @@ ST.addInitializer(4, function () {
 		if (cont.calcWidth !== cont.table.offsetWidth) {
 			windowResize(cont);
 		}
-		const tab = cont.table, head = cont.header, bar = cont.bar;
+		const tab = cont.table, head = cont.header, bar = cont.bar, cap = cont.cap;
 		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
 		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
-		const offset = getTableHeaderOffset() + ST.getWpAdminBarHeight();
+		const capH = cap ? cap.offsetHeight : 0;
+		const offset = getTableHeaderOffset() + ST.getWpAdminBarHeight() - capH;
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
 		const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
 
@@ -274,7 +277,7 @@ ST.addInitializer(4, function () {
 	}
 
 	function tableScroll(cont) {
-		const tab = cont.table, head = cont.header;
+		const tab = cont.table, head = cont.header, cap = cont.cap;
 		if (head) head.scrollLeft = tab.scrollLeft;
 		if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
 			const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
@@ -285,10 +288,12 @@ ST.addInitializer(4, function () {
 			tab.style.boxShadow = shadow;
 			tab.style.overflowX = 'auto';
 			if (head) head.style.boxShadow = shadow + ', ' + HEAD_BOTTOM_SHADOW;
+			if (cap) cap.style.transform = 'translateX(' + tab.scrollLeft + 'px)';
 		} else {
 			tab.style.boxShadow = '';
 			tab.style.overflowX = '';
 			if (head) head.style.boxShadow = HEAD_BOTTOM_SHADOW;
+			if (cap) cap.style.transform = null;
 		}
 		if (cont.etb) tableScroll_enlarger_wrap(cont);
 	}
@@ -434,7 +439,7 @@ ST.addInitializer(4, function () {
 
 		const newWs = [];
 		for (let x = 0; x < grid[0].length; x += 1) newWs.push(false);
-		
+
 		const data = collectMetrix(table, grid);
 		if (isIE11orOldEdge()) {
 			calcNewWidthes_simply(table, grid, data, newWs);
@@ -570,7 +575,7 @@ ST.addInitializer(4, function () {
 
 	// -------------------------------------------------------------------------
 
-	
+
 	function calcNewWidthes_simply(table, tab, data, newWs) {
 		const origWs = [].concat(newWs);
 		for (let y = 0; y < tab.length; y += 1) {
