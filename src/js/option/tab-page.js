@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-02-12
  *
  */
 
@@ -28,6 +28,7 @@ ST.addInitializer(3, function () {
 	}
 	window.addEventListener('resize', function () { onResize(tabPages); });
 	setTimeout(function () { onResize(tabPages) }, 200);  // Delay
+	initializeSmoothScroll();
 
 	function createTabPage(container) {
 		const fh = getFirstHeading(container);
@@ -101,7 +102,7 @@ ST.addInitializer(3, function () {
 				return function (e) {
 					e.preventDefault();
 					onTabClick(tp, idx);
-					if (!tp.isAccordion) onResizeOne(tp);
+					if (!tp.isAccordion) onResizeOne(tp, true);
 				};
 			})(i);
 			ts[i].addEventListener('click', f);
@@ -120,6 +121,7 @@ ST.addInitializer(3, function () {
 	function changeCurrentTab(tp, idx) {
 		const ts = tp.tabs, ts2 = tp.tabs2;
 		const ps = tp.pages;
+		const bcrOrig = tp.tabUl2.getBoundingClientRect();
 
 		for (let i = 0; i < ts.length; i += 1) {
 			if (i === idx) {
@@ -136,6 +138,12 @@ ST.addInitializer(3, function () {
 			ps[i].className = '';
 		}
 		tp.currentIdx = idx;
+		if (idx === -1) return;
+
+		setTimeout(() => {
+			const bcr = tp.tabUl2.getBoundingClientRect();
+			if (bcr.top < 0) jump(bcr.top - bcrOrig.top, 200);
+		}, 10);
 	}
 
 	function updateAccordionTabState(tp, idx) {
@@ -160,7 +168,7 @@ ST.addInitializer(3, function () {
 		}
 	}
 
-	function onResizeOne(tp) {
+	function onResizeOne(tp, suppressTabClick = false) {
 		const cont = tp.container;
 		const prevIsAccordion = tp.isAccordion;
 		tp.isAccordion = getComputedStyle(tp.tabUl2).flexDirection === 'column';
@@ -186,7 +194,7 @@ ST.addInitializer(3, function () {
 				ts2[i].style.display = '';
 			}
 			if (tp.currentIdx === -1) tp.currentIdx = 0;
-			onTabClick(tp, tp.currentIdx);
+			if (!suppressTabClick) onTabClick(tp, tp.currentIdx);
 		}
 	}
 
@@ -210,6 +218,44 @@ ST.addInitializer(3, function () {
 			height = Math.max(height, h);
 		}
 		return tabUl.offsetHeight + tabUl2.offsetHeight + marginBtm + marginTop + height;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	let isJumping = false;
+
+	function initializeSmoothScroll() {
+		document.addEventListener('wheel', () => { isJumping = false; });
+	}
+
+	function jump(offset, duration) {
+		const start = window.pageYOffset;
+		let posY = start + offset;
+		let timeStart, timeElapsed;
+
+		isJumping = true;
+		requestAnimationFrame((time) => { timeStart = time; loop(time); });
+
+		function loop(time) {
+			if (!isJumping) return;
+			timeElapsed = time - timeStart;
+			window.scrollTo(0, easing(timeElapsed, start, posY, duration));
+			if (timeElapsed < duration) requestAnimationFrame(loop)
+			else end();
+		}
+		function end() {
+			window.scrollTo(0, posY);
+			setTimeout(() => { window.scrollTo(0, posY); }, 50);
+			isJumping = false;
+		}
+		function easing(t, b, c, d) {
+			t /= d / 2;
+			if (t < 1) return (c - b) / 2 * t * t + b;
+			t--;
+			return -(c - b) / 2 * (t * (t - 2) - 1) + b;
+		}
 	}
 
 });
