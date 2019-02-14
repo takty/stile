@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-12
+ * @version 2019-02-15
  *
  */
 
@@ -15,6 +15,8 @@ ST.addInitializer(1, function () {
 
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 240;  // px
+
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium_large', 'size-large', 'size-full'];
 
 	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
 	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
@@ -30,7 +32,7 @@ ST.addInitializer(1, function () {
 
 
 	// -------------------------------------------------------------------------
-	// Alignment
+
 
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
@@ -97,6 +99,7 @@ ST.addInitializer(1, function () {
 
 	// -------------------------------------------------------------------------
 
+
 	function replaceAlignClass(ts) {
 		for (let i = 0; i < ts.length; i += 1) {
 			const c = ts[i];
@@ -115,8 +118,6 @@ ST.addInitializer(1, function () {
 			p.classList.add(cls);
 		}
 	}
-
-	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium_large', 'size-large', 'size-full'];
 
 	function isImageLink(a) {
 		if (a.className) {
