@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-09
+ * @version 2019-02-15
  *
  */
 
@@ -92,7 +92,7 @@ $stile-alignment-size-width         : 72rem !default;
 		&.alignleft,
 		&.alignright {
 			@include stile-alignment-center;
-			&:not(.size-thumbnail):not(.size-small):not(.size-medium):not(.size-medium_large):not(.size-large):not(.size-full) {
+			&:not([class ^= 'size-']):not([class *= ' size-']) {
 				max-width: initial;
 			}
 		}
