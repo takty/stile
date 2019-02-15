@@ -47,7 +47,8 @@ $stile-alignment-size-width         : 72rem !default;
 
 	.size-small,
 	.size-medium,
-	.size-medium_large,
+	.size-medium_large,  // For compatibility with WordPress-embed image size name
+	.size-medium-large,
 	.size-large,
 	.size-full {
 		&.alignleft,
@@ -61,7 +62,8 @@ $stile-alignment-size-width         : 72rem !default;
 	.size-medium {
 		@include for-tablet-portrait-up { @include stile-alignment-float(20rem); }
 	}
-	.size-medium_large {
+	.size-medium_large,  // For compatibility with WordPress-embed image size name
+	.size-medium-large {
 		@include for-tablet-landscape-up { @include stile-alignment-float(30rem); }
 	}
 	.size-large,
@@ -184,7 +186,8 @@ $stile-alignment-size-width         : 72rem !default;
 		max-width: 20rem;
 		width: 100%;
 	}
-	.size-medium_large {  // This naming is compatible with WordPress-embed image size name.
+	.size-medium_large,  // For compatibility with WordPress-embed image size name
+	.size-medium-large {
 		max-width: 30rem;
 		width: 100%;
 	}
@@ -196,7 +199,8 @@ $stile-alignment-size-width         : 72rem !default;
 		.size-thumbnail    { min-width: 5rem; }
 		.size-small        { min-width: 5rem; }
 		.size-medium       { min-width: 10rem; }
-		.size-medium_large { min-width: 15rem; }
+		.size-medium_large,  // For compatibility with WordPress-embed image size name
+		.size-medium-large { min-width: 15rem; }
 		.size-large        { min-width: 20rem; }
 	}
 }
