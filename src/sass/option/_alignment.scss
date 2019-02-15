@@ -46,6 +46,7 @@ $stile-alignment-size-width         : 72rem !default;
 	.size-thumbnail { @include stile-alignment-float(10rem); }
 
 	.size-small,
+	.size-medium-small,
 	.size-medium,
 	.size-medium_large,  // For compatibility with WordPress-embed image size name
 	.size-medium-large,
@@ -58,6 +59,9 @@ $stile-alignment-size-width         : 72rem !default;
 	}
 	.size-small {
 		@include for-tablet-portrait-up { @include stile-alignment-float(10rem); }
+	}
+	.size-medium-small {
+		@include for-tablet-portrait-up { @include stile-alignment-float(15rem); }
 	}
 	.size-medium {
 		@include for-tablet-portrait-up { @include stile-alignment-float(20rem); }
@@ -182,6 +186,10 @@ $stile-alignment-size-width         : 72rem !default;
 		max-width: 10rem;
 		width: 100%;
 	}
+	.size-medium-small {
+		max-width: 15rem;
+		width: 100%;
+	}
 	.size-medium {
 		max-width: 20rem;
 		width: 100%;
@@ -198,6 +206,7 @@ $stile-alignment-size-width         : 72rem !default;
 	td, th {
 		.size-thumbnail    { min-width: 5rem; }
 		.size-small        { min-width: 5rem; }
+		.size-medium-small { min-width: 7.5rem; }
 		.size-medium       { min-width: 10rem; }
 		.size-medium_large,  // For compatibility with WordPress-embed image size name
 		.size-medium-large { min-width: 15rem; }

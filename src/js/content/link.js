@@ -17,7 +17,7 @@ ST.addInitializer(2, function () {
 	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
 	const TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
 
-	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
 	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');

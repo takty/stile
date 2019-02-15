@@ -16,7 +16,7 @@ ST.addInitializer(1, function () {
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 240;  // px
 
-	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
+	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 
 	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
 	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
