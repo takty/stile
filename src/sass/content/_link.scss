@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-07
+ * @version 2019-02-22
  *
  */
 
@@ -19,6 +19,10 @@ $stile-link-color-background  : rgba($stile-link-color-text, 0.05) !default;
 $stile-link-icon-anchor       : '\e5db' !default;
 $stile-link-icon-external     : '\e0b2' !default;  // Another choice is '\e89e'
 $stile-link-icon-file         : false !default;
+$stile-link-img-anchor        : false !default;
+$stile-link-img-external      : false !default;
+$stile-link-img-file          : false !default;
+$stile-link-size-gap          : 0.15em !default;
 
 
 @mixin stile-link-mark {
@@ -47,7 +51,20 @@ $stile-link-icon-file         : false !default;
 @mixin stile-link-mark-file {
 	content: $stile-link-icon-file;
 	@include stile-link-mark;
-	padding-left: 0.15rem;
+	padding-left: $stile-link-size-gap;
+}
+
+@mixin stile-link-img($url) {
+	content: '';
+	display: inline-block;
+	transform: translateY(0.125rem);
+	margin-left: $stile-link-size-gap;
+
+	width: 1em;
+	height: 1em;
+	background-image: #{$url};
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 @mixin stile-link {
@@ -61,10 +78,23 @@ $stile-link-icon-file         : false !default;
 		&[href ^= 'http']:empty {
 			@include stile-link-inside;
 		}
-		&[data-stile ~= 'link-anchor']::after   { @include stile-link-mark-anchor; }
-		&[data-stile ~= 'link-external']::after { @include stile-link-mark-external; }
-		@if $stile-link-icon-file != false {
+		@if $stile-link-icon-anchor != false and $stile-link-img-anchor == false {
+			&[data-stile ~= 'link-anchor']::after { @include stile-link-mark-anchor; }
+		}
+		@if $stile-link-img-anchor != false {
+			&[data-stile ~= 'link-anchor']::after { @include stile-link-img($stile-link-img-anchor); }
+		}
+		@if $stile-link-icon-external != false and $stile-link-img-external == false {
+			&[data-stile ~= 'link-external']::after { @include stile-link-mark-external; }
+		}
+		@if $stile-link-img-external != false {
+			&[data-stile ~= 'link-external']::after { @include stile-link-img($stile-link-img-external); }
+		}
+		@if $stile-link-icon-file != false and $stile-link-img-file == false {
 			&[data-stile ~= 'link-file']::after { @include stile-link-mark-file; }
+		}
+		@if $stile-link-img-file != false {
+			&[data-stile ~= 'link-file']::after { @include stile-link-img($stile-link-img-file); }
 		}
 
 		// Show URL instead of empty text
