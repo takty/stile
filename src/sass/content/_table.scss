@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-12
+ * @version 2019-02-22
  *
  */
 
@@ -26,7 +26,8 @@ $stile-table-color-enlarger-opened       : rgba($stile-table-color-rule, 0.25) !
 $stile-table-color-background-enlarged   : #fff !default;
 $stile-table-size-rule-edge              : 2px !default;
 $stile-table-size-caption-max-width      : 36rem !default;
-$stile-table-level-caption               : 0 !default;
+$stile-table-level-caption               : 1 !default;
+$stile-table-align-caption               : center !default;
 
 
 @mixin stile-table {
@@ -38,7 +39,7 @@ $stile-table-level-caption               : 0 !default;
 
 		max-width: 100%;
 		vertical-align: top;
-		text-align: center;  // for Caption
+		text-align: $stile-table-align-caption;  // for Caption
 
 		overflow-x: hidden;
 		overflow-y: auto;
@@ -48,8 +49,8 @@ $stile-table-level-caption               : 0 !default;
 		caption {
 			position: relative;  // for Scrolling
 			display: inline-block;
-			padding-left: base-vr(1.5);
-			padding-right: base-vr(1.5);  // for Avoiding overwrapping with enlarger
+			padding-left: base-vr(1);
+			padding-right: base-vr(1);  // for Avoiding overwrapping with enlarger
 			max-width: #{$stile-table-size-caption-max-width + 2 * base-vr(1.5)};
 			@include font-size-level($stile-table-level-caption);
 			text-align: left;  // for left align of long caption
