@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-12
+ * @version 2019-02-22
  *
  */
 
@@ -321,11 +321,13 @@ ST.addInitializer(4, function () {
 
 	function switchEnlargerToTable(cont) {
 		cont.etb.parentNode.removeChild(cont.etb);
+		cont.etb.style.top = cont.cap ? (cont.cap.offsetHeight + 'px') : 0;
 		cont.table.appendChild(cont.etb);
 	}
 
 	function switchEnlargerToFloatingHeader(cont) {
 		cont.etb.parentNode.removeChild(cont.etb);
+		cont.etb.style.top = 0;
 		cont.header.appendChild(cont.etb);
 	}
 
@@ -368,9 +370,10 @@ ST.addInitializer(4, function () {
 	}
 
 	function tableScroll_enlarger(cont) {
-		const tab = cont.table, etb = cont.etb;
+		const tab = cont.table, etb = cont.etb, cap = cont.cap;
 		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
 			etb.style.right = (-tab.scrollLeft) + 'px';
+			if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 			etb.style.display = 'block';
 		} else {
 			if (ST.containStile(tab, ST_STATE_ENLARGED)) {
@@ -381,6 +384,7 @@ ST.addInitializer(4, function () {
 				} else {
 					etb.style.right = (-tab.scrollLeft) + 'px';
 				}
+				if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 				etb.style.display = 'block';
 			} else {
 				etb.style.display = 'none';
