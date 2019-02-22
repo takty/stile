@@ -22,20 +22,35 @@ $stile-link-icon-file         : false !default;
 $stile-link-img-anchor        : false !default;
 $stile-link-img-external      : false !default;
 $stile-link-img-file          : false !default;
-$stile-link-size-gap          : 0.15em !default;
+$stile-link-size-gap          : 0.2em !default;
 
+
+@mixin stile-link-img($url) {
+	content: '';
+	display: inline-block;
+	margin-left: $stile-link-size-gap;
+
+	width: 1em;
+	height: 1em;
+	background-image: #{$url};
+	background-size: contain;
+	background-repeat: no-repeat;
+
+	transform: translateY(0.1em);
+}
 
 @mixin stile-link-mark {
-	font-family: 'Material Icons';
-
 	display: inline-block;
+	margin-left: $stile-link-size-gap;
+
+	font-family: 'Material Icons';
 	font-style: normal;
 	line-height: 1;
 	@include font-bold-cancel;
 
 	overflow: hidden;  // for removing underline on IE11
-	transform: translateY(0.125rem);
-	@include for-firefox { transform: translateY(0.2rem); }
+	transform: translateY(0.125em);
+	@include for-firefox { transform: translateY(0.2em); }
 }
 
 @mixin stile-link-mark-anchor {
@@ -51,20 +66,6 @@ $stile-link-size-gap          : 0.15em !default;
 @mixin stile-link-mark-file {
 	content: $stile-link-icon-file;
 	@include stile-link-mark;
-	padding-left: $stile-link-size-gap;
-}
-
-@mixin stile-link-img($url) {
-	content: '';
-	display: inline-block;
-	transform: translateY(0.125rem);
-	margin-left: $stile-link-size-gap;
-
-	width: 1em;
-	height: 1em;
-	background-image: #{$url};
-	background-size: contain;
-	background-repeat: no-repeat;
 }
 
 @mixin stile-link {
@@ -98,16 +99,14 @@ $stile-link-size-gap          : 0.15em !default;
 		}
 
 		// Show URL instead of empty text
-		&[href ^= 'http']:empty {
-			&::before {
-				content: attr(href);
-				word-break: break-all;
-				display: inline;
-			}
+		&[href ^= 'http']:empty::before {
+			content: attr(href);
+			word-break: break-all;
+			display: inline;
 		}
 	}
 	a[data-stile ~= 'link-image'] {
-		@include for-firefox { display: block; }  // For correct focus rectangle
+		@include for-firefox { display: inline-block; }  // For correct focus rectangle
 		> img { vertical-align: middle; }
 	}
 }
