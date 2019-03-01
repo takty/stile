@@ -3,38 +3,33 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-27
+ * @version 2019-03-01
  *
  */
 
 
 @mixin layout-side-margin($max-width, $side-margin: false) {
-	margin-left: auto;
-	margin-right: auto;
-
-	max-width: $max-width;  // must be max-width for Android Chrome
-
-	@if $side-margin == false {
-		width: 100%;  // must be width for Android Chrome
-	} @else {
-		width: calc(100% - #{$side-margin * 2});  // must be width for Android Chrome
+	$w: 100%;
+	@if $side-margin != false {
+		$w: calc(100% - #{$side-margin * 2});
 	}
+	margin: { left: auto; right: auto; }
+	max-width: $max-width;  // must be max-width for Android Chrome
+	width: $w;  // must be width for Android Chrome
 }
 
 @mixin layout-width-breakpoint($min-width, $breakpoint, $max-width) {
 	min-width: $min-width;
-	width: calc(($breakpoint - 100%) * 1000);
+	width: calc((#{$breakpoint} - 100%) * 1000);
 	max-width: $max-width;
 }
 
 @mixin layout-full-width($side-margin: false) {
-	@if $side-margin == false {
-		margin-left: calc(50% - 50vw);
-		margin-right: calc(50% - 50vw);
-	} @else {
-		margin-left: calc(#{$side-margin} + 50% - 50vw);
-		margin-right: calc(#{$side-margin} + 50% - 50vw);
+	$m: calc(50% - 50vw);
+	@if $side-margin != false {
+		$m: calc(#{$side-margin} + 50% - 50vw);
 	}
+	margin: { left: $m; right: $m; }
 }
 
 
@@ -104,18 +99,16 @@
 @mixin layout-minimum-aspect($width, $height) {
 	position: relative;
 
-	&::before {
+	&::before, &::after {
 		content: '';
 		display: block;
+	}
+	&::before {
 		padding-top: ($height / $width * 100%);
 		float: right;
 	}
 	> * { clear: none; }
-	&::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+	&::after { clear: both; }
 }
 
 @mixin layout-minimum-aspect-gold {
