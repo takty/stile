@@ -17,6 +17,72 @@
 		<a href="../index.html">Go Back</a>
 	</nav>
 
+	<div style="border-left:1px dashed gray;border-right:1px dashed gray;">
+
+		<h2>Side Margin</h2>
+		<div class="layout-side-margin">
+			@include layout-side-margin(32rem, 1rem);
+		</div>
+
+		<h2>Width Breakpoint</h2>
+		<div class="layout-width-breakpoint">
+			@include layout-width-breakpoint(40%, 32rem, 100%);
+		</div>
+
+		<h2>Full Width</h2>
+		<div class="layout-full-width">
+			@include layout-full-width(1rem);
+		</div>
+
+		<!-- --------------------------------------------------------------- -->
+
+		<h2>Centering</h2>
+		<div class="layout-centering">
+			<div>@include layout-centering(false);</div>
+		</div>
+
+		<h2>Centering self</h2>
+		<div class="layout-centering-self">
+			<div>@include layout-centering-self(true, true, relative);</div>
+		</div>
+
+		<h2>Fill self</h2>
+		<div class="layout-fill-self">
+			<div>@include layout-fill-self(absolute, false);</div>
+		</div>
+
+		<!-- --------------------------------------------------------------- -->
+
+		<h2>Aspect</h2>
+		<div class="layout-aspect">
+			<div>@include layout-aspect(2, 1, false);</div>
+		</div>
+
+		<h2>Aspect gold</h2>
+		<div class="layout-aspect-gold">
+			<div>@include layout-aspect-gold();</div>
+		</div>
+
+		<h2>Minimum aspect</h2>
+		<div class="layout-minimum-aspect">
+			<div>@include layout-minimum-aspect(2, 1);</div>
+		</div>
+
+		<h2>Minimum aspect gold</h2>
+		<div class="layout-minimum-aspect-gold">
+			<div>@include layout-minimum-aspect-gold();</div>
+		</div>
+
+		<!-- --------------------------------------------------------------- -->
+
+		<h2>Gap</h2>
+
+		<h2>Wrap</h2>
+
+		<!-- --------------------------------------------------------------- -->
+
+	</div>
+
 </div>
 </body>
 </html>
