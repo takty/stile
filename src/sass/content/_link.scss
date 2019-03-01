@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-22
+ * @version 2019-03-01
  *
  */
 
@@ -106,7 +106,6 @@ $stile-link-size-gap          : 0.2em !default;
 		}
 	}
 	a[data-stile ~= 'link-image'] {
-		@include for-firefox { display: inline-block; }  // For correct focus rectangle
 		> img { vertical-align: middle; }
 	}
 }
