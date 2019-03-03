@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-07
+ * @version 2019-03-04
  *
  */
 
@@ -124,12 +124,11 @@ ST.addInitializer(3, function () {
 
 				if (0 < y && !shown) {
 					shown = true;
-					tabUl.style.maxHeight = '';
+					ST.removeStile(tabUl, 'hidden');
 					continue;
 				}
 				if (shown) {
-					tabUl.style.maxHeight = '0';
-					tabUl.style.overflow = 'hidden';
+					ST.addStile(tabUl, 'hidden');
 				}
 			}
 		}
@@ -140,7 +139,7 @@ ST.addInitializer(3, function () {
 			const tabUls = tabUlss[i];
 			for (let j = 0; j < tabUls.length; j += 1) {
 				const tabUl = tabUls[j];
-				tabUl.style.maxHeight = '';
+				ST.removeStile(tabUl, 'hidden');
 			}
 		}
 	}

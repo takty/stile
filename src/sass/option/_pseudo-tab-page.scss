@@ -48,11 +48,18 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 		display: flex;
 		justify-content: flex-start;
 		flex-wrap: wrap;
-
 		@include layout-gap($stile-pseudo-tab-page-size-tab-margin, $stile-pseudo-tab-page-size-tab-margin);
+
+		clear: both;
 
 		&:not(:first-child) { margin-top: base-vr(6); }
 		& + *:not(.alignright):not(.alignleft) { margin-top: base-vr(2); }
+
+		&[data-stile ~= 'hidden'] {
+			position: relative;
+			overflow: hidden;
+			max-height: 0;
+		}
 	}
 	.stile-pseudo-tab-page-tab-list li {
 		@include layout-centering();
