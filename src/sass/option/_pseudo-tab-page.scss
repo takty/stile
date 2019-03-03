@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-15
+ * @version 2019-03-04
  *
  */
 
@@ -37,6 +37,10 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 	.pseudo-tab-page {
 		// Margins inside
 		@include stile-margin-basic;
+		@if $stile-margin-align-table == center {
+			text-align: center;        // for table on IE11
+			> * { text-align: left; }  // for table on IE11
+		}
 	}
 	* + .pseudo-tab-page { margin-top: base-vr(6); }
 
