@@ -14,7 +14,7 @@ $stile-content-color-accent    : rgba(#44b, 0.90);
 $stile-content-color-heading   : rgba(#447, 0.95);
 $stile-content-color-background: rgba(#447, 0.10);
 
-$stile-margin-align-table        : left;
+// $stile-margin-align-table        : left;
 $stile-table-align-caption       : left;
 $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
@@ -182,15 +182,15 @@ body {
 	background-color: rgba(red, 0.5);
 	height: 6rem;
 	@include layout-centering(false);
-	> div { 
+	> div {
 		display: inline-block;
-		border: 1px solid blue; 
+		border: 1px solid blue;
 	}
 }
 .layout-centering-self {
 	border: 1px solid blue;
 	height: 6rem;
-	> div { 
+	> div {
 		display: inline-block;
 		background-color: rgba(red, 0.5);
 		@include layout-centering-self(true, true, relative);
@@ -200,7 +200,7 @@ body {
 	position: relative;
 	border: 1px solid blue;
 	height: 6rem;
-	> div { 
+	> div {
 		@include layout-fill-self(absolute, false);
 		background-color: rgba(red, 0.5);
 	}
