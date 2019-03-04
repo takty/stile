@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-22
+ * @version 2019-03-04
  *
  */
 
@@ -372,7 +372,8 @@ ST.addInitializer(4, function () {
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb, cap = cont.cap;
 		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
-			etb.style.right = (-tab.scrollLeft) + 'px';
+			const pos = Math.min(tab.scrollWidth - tab.offsetWidth, tab.scrollLeft);
+			etb.style.right = (-pos) + 'px';
 			if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 			etb.style.display = 'block';
 		} else {
