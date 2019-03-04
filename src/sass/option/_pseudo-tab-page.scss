@@ -28,8 +28,8 @@ $stile-pseudo-tab-page-color-tab-text-current      : rgba(#000, 0.95) !default;
 $stile-pseudo-tab-page-color-tab-text              : rgba($stile-pseudo-tab-page-color-tab-text-current, 0.50) !default;
 $stile-pseudo-tab-page-color-tab-text-hover        : $stile-pseudo-tab-page-color-tab-text-current !default;
 
-$stile-pseudo-tab-page-color-tab-focus-outline     : rgba($stile-pseudo-tab-page-color-tab-current-rule, 0.35) !default;
-$stile-pseudo-tab-page-color-tab-focus-background  : rgba($stile-pseudo-tab-page-color-tab-current-rule, 0.05) !default;
+$stile-pseudo-tab-page-color-tab-focus-outline     : false !default;
+$stile-pseudo-tab-page-color-tab-focus-background  : false !default;
 
 $stile-pseudo-tab-page-size-tab-height             : 3rem !default;
 $stile-pseudo-tab-page-size-tab-padding            : base-vr(0.5) base-vr(2) !default;
