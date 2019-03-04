@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-07
+ * @version 2019-03-04
  *
  */
 
@@ -77,6 +77,7 @@ ST.addInitializer(4, function () {
 			pat.style.left = 0;
 			pat.style.width = '100%';
 			pat.id = at.id;
+			pat.dataset['stile'] = 'anchor-offset';
 
 			at.style.position = 'relative';
 			at.dataset.id = at.id;
@@ -194,6 +195,9 @@ ST.addInitializer(4, function () {
 
 	function setFocus(tar) {
 		if (!tar) return;
+		if (ST.containStile(tar, 'anchor-offset')) {
+			tar = tar.parentElement;
+		}
 		if (!/^(?:a|select|input|button|textarea)$/i.test(tar.tagName)) {
 			tar.tabIndex = -1;
 		}
