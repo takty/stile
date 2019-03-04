@@ -83,12 +83,16 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 		& + *:not(.alignright):not(.alignleft) { margin-top: base-vr(2); }
 
 		@if $stile-pseudo-tab-page-hidden-redundant-tab == true {
-			max-height: 100vh;
-			&:not([data-stile ~= 'immediately']) { transition: max-height 2s; }
+			overflow: hidden;
+
+			max-height: 50vh;
+			opacity: 1;
+			&:not([data-stile ~= 'immediately']) { transition: max-height 2s, opacity 2s; }
+
 			&[data-stile ~= 'hidden'] {
-				overflow: hidden;
 				max-height: 0;
-				&:not([data-stile ~= 'immediately']) { transition: max-height 1s; }
+				opacity: 0;
+				&:not([data-stile ~= 'immediately']) { transition: max-height 1s, opacity 1s; }
 			}
 		}
 		&:focus {
