@@ -96,7 +96,7 @@ ST.addInitializer(3, function () {
 	let stopUpdateVisibility = false;
 
 	function initializeSingleTab() {
-		updateVisibility(tabUlss);
+		updateVisibility(tabUlss, true);
 		let st = null;
 		window.addEventListener('scroll', () => {
 			if (st) clearTimeout(st);
@@ -109,11 +109,11 @@ ST.addInitializer(3, function () {
 		showAll(tabUlss);
 		setTimeout(() => {
 			stopUpdateVisibility = false;
-			updateVisibility(tabUlss);
+			updateVisibility(tabUlss, true);
 		}, 10);
 	}
 
-	function updateVisibility(tabUlss) {
+	function updateVisibility(tabUlss, immediately = false) {
 		if (stopUpdateVisibility) return;
 		for (let i = 0; i < tabUlss.length; i += 1) {
 			const tabUls = tabUlss[i];
@@ -122,13 +122,15 @@ ST.addInitializer(3, function () {
 				const tabUl = tabUls[j];
 				const y = tabUl.getBoundingClientRect().top;
 
+				if (immediately) ST.addStile(tabUl, 'immediately');
 				if (0 < y && !shown) {
 					shown = true;
 					ST.removeStile(tabUl, 'hidden');
-					continue;
-				}
-				if (shown) {
+				} else if (shown) {
 					ST.addStile(tabUl, 'hidden');
+				}
+				if (immediately) {
+					setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
 				}
 			}
 		}
@@ -139,7 +141,9 @@ ST.addInitializer(3, function () {
 			const tabUls = tabUlss[i];
 			for (let j = 0; j < tabUls.length; j += 1) {
 				const tabUl = tabUls[j];
+				ST.addStile(tabUl, 'immediately');
 				ST.removeStile(tabUl, 'hidden');
+				setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
 			}
 		}
 	}

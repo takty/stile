@@ -28,9 +28,36 @@ $stile-pseudo-tab-page-color-tab-text-current      : rgba(#000, 0.95) !default;
 $stile-pseudo-tab-page-color-tab-text              : rgba($stile-pseudo-tab-page-color-tab-text-current, 0.50) !default;
 $stile-pseudo-tab-page-color-tab-text-hover        : $stile-pseudo-tab-page-color-tab-text-current !default;
 
+$stile-pseudo-tab-page-color-tab-focus-outline     : rgba($stile-pseudo-tab-page-color-tab-current-rule, 0.35) !default;
+$stile-pseudo-tab-page-color-tab-focus-background  : rgba($stile-pseudo-tab-page-color-tab-current-rule, 0.05) !default;
+
+$stile-pseudo-tab-page-size-tab-height             : 3rem !default;
+$stile-pseudo-tab-page-size-tab-padding            : base-vr(0.5) base-vr(2) !default;
+$stile-pseudo-tab-page-size-tab-padding-phone      : base-vr(0.5) base-vr(1) !default;
 $stile-pseudo-tab-page-size-tab-current-top        : 2px !default;
 $stile-pseudo-tab-page-size-tab-margin             : 0.5rem !default;
 $stile-pseudo-tab-page-level-font                  : 1 !default;
+
+$stile-pseudo-tab-page-visible-tab-separator       : false !default;
+$stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
+
+
+@mixin stile-pseudo-tab-page-variable-simple {
+	$stile-pseudo-tab-page-color-rule            : transparent !global;
+	$stile-pseudo-tab-page-color-rule-vertical   : rgba(#777, 0.35) !global;
+	$stile-pseudo-tab-page-color-tab-rule        : transparent !global;
+
+	$stile-pseudo-tab-page-color-tab-current-rule: transparent !global;
+	$stile-pseudo-tab-page-color-tab-current-top : transparent !global;
+
+	$stile-pseudo-tab-page-size-tab-height       : 2.5rem !global;
+	$stile-pseudo-tab-page-size-tab-padding      : 0 !global;
+	$stile-pseudo-tab-page-size-tab-padding-phone: 0 !global;
+	$stile-pseudo-tab-page-size-tab-current-top  : 0 !global;
+	$stile-pseudo-tab-page-size-tab-margin       : 0 !global;
+
+	$stile-pseudo-tab-page-visible-tab-separator : true !global;
+}
 
 
 @mixin stile-pseudo-tab-page {
@@ -55,16 +82,28 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 		&:not(:first-child) { margin-top: base-vr(6); }
 		& + *:not(.alignright):not(.alignleft) { margin-top: base-vr(2); }
 
-		&[data-stile ~= 'hidden'] {
-			position: relative;
-			overflow: hidden;
-			max-height: 0;
+		@if $stile-pseudo-tab-page-hidden-redundant-tab == true {
+			max-height: 100vh;
+			&:not([data-stile ~= 'immediately']) { transition: max-height 2s; }
+			&[data-stile ~= 'hidden'] {
+				overflow: hidden;
+				max-height: 0;
+				&:not([data-stile ~= 'immediately']) { transition: max-height 1s; }
+			}
+		}
+		&:focus {
+			@if $stile-pseudo-tab-page-color-tab-focus-outline != false {
+				outline: $stile-pseudo-tab-page-color-tab-focus-outline auto 2px;
+			}
+			@if $stile-pseudo-tab-page-color-tab-focus-background != false {
+				background-color: $stile-pseudo-tab-page-color-tab-focus-background;
+			}
 		}
 	}
 	.stile-pseudo-tab-page-tab-list li {
 		@include layout-centering();
 
-		min-height: 3rem;
+		min-height: $stile-pseudo-tab-page-size-tab-height;
 		cursor: pointer;
 		user-select: none;
 		border-radius: 1px;
@@ -85,10 +124,19 @@ $stile-pseudo-tab-page-level-font                  : 1 !default;
 			border-right-color: transparent;
 			border-left: $stile-pseudo-tab-page-size-tab-current-top solid $stile-pseudo-tab-page-color-tab-current-top;
 		}
+		@if $stile-pseudo-tab-page-visible-tab-separator == true {
+			&:not(:last-child)::after {
+				content: '';
+				width: 2px;
+				height: 1rem;
+				border-left: 1px solid $stile-pseudo-tab-page-color-rule-vertical;
+				margin: 0 1rem;
+			}
+		}
 		a {
 			@include layout-centering();
-			padding: base-vr(0.5) base-vr(1);
-			@include for-tablet-landscape-up { padding: base-vr(0.5) base-vr(2); }
+			padding: $stile-pseudo-tab-page-size-tab-padding-phone;
+			@include for-tablet-landscape-up { padding: $stile-pseudo-tab-page-size-tab-padding; }
 
 			@include font-bold;
 			@include font-proportional;
