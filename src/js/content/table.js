@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-04
+ * @version 2019-03-05
  *
  */
 
@@ -371,19 +371,20 @@ ST.addInitializer(4, function () {
 
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb, cap = cont.cap;
+		const bodyW = tab.tBodies[0].clientWidth;
 		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
-			const pos = Math.min(tab.tBodies[0].clientWidth - tab.offsetWidth, tab.scrollLeft);
+			const pos = Math.min(bodyW - tab.offsetWidth, tab.scrollLeft);  // for Mobile Safari
 			etb.style.right = (-pos) + 'px';
 			if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 			etb.style.display = 'block';
 		} else {
 			if (ST.containStile(tab, ST_STATE_ENLARGED)) {
-				const pw = etb.parentElement.offsetWidth;
-				const diff = pw - tab.tBodies[0].clientWidth;
+				const diff = etb.parentElement.offsetWidth - bodyW;
 				if (0 < diff) {
 					etb.style.right = diff + 'px';
 				} else {
-					etb.style.right = (-tab.scrollLeft) + 'px';
+					const pos = Math.min(bodyW - tab.offsetWidth, tab.scrollLeft);  // for Mobile Safari
+					etb.style.right = (-pos) + 'px';
 				}
 				if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 				etb.style.display = 'block';
