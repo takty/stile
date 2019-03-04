@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-22
+ * @version 2019-03-04
  *
  */
 
@@ -14,15 +14,17 @@ $stile-content-color-accent    : rgba(#44b, 0.90);
 $stile-content-color-heading   : rgba(#447, 0.95);
 $stile-content-color-background: rgba(#447, 0.10);
 
-// $stile-margin-align-table        : left;
+$stile-margin-align-table        : left;
 $stile-table-align-caption       : left;
 $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
-
+$stile-pseudo-tab-page-hidden-redundant-tab: false;
 
 @import '../dist/sass/basic';
 @import '../dist/sass/content';
 @import '../dist/sass/option';
+
+@include stile-pseudo-tab-page-variable-simple;
 
 
 :root {
