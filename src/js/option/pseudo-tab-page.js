@@ -45,7 +45,7 @@ ST.addInitializer(3, function () {
 		}
 		const tabUls = [];
 		for (let i = 0; i < hs.length; i += 1) {
-			const tp = createTab(htmls, i, idx);
+			const tp = createTab(htmls, i, idx, tabUls);
 			container.insertBefore(tp.tabUl, hs[i]);
 			tabUls.push(tp.tabUl);
 		}
@@ -53,7 +53,7 @@ ST.addInitializer(3, function () {
 		return tabUls;
 	}
 
-	function createTab(htmls, tabIdx, contIdx) {
+	function createTab(htmls, tabIdx, contIdx, tabUls) {
 		const tp = {};
 		tp.tabUl = document.createElement('ul');
 		tp.tabUl.id = ID_TAB_LIST_ID_BASE + contIdx + '-' + tabIdx;
@@ -68,13 +68,14 @@ ST.addInitializer(3, function () {
 			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
 			tc.dataset['stile'] = ios ? 'no-anchor-scroll' : 'anchor-scroll-fast';
-			if (SINGLE_TAB) tc.addEventListener('click', onTabClick);
+			if (SINGLE_TAB) tc.addEventListener('click', () => { onTabClick(i, tabUls); });
 			li.appendChild(tc);
 
 			tp.tabUl.appendChild(li);
 			tp.tabAs.push(tc);
 		}
 		ST.addStile(tp.tabUl.children[tabIdx], ST_STATE_CURRENT);
+		if (SINGLE_TAB) ST.addStile(tp.tabUl, 'hidden');
 		return tp;
 	}
 
@@ -93,8 +94,6 @@ ST.addInitializer(3, function () {
 	// -------------------------------------------------------------------------
 
 
-	let stopUpdateVisibility = false;
-
 	function initializeSingleTab() {
 		updateVisibility(tabUlss, true);
 		let st = null;
@@ -104,48 +103,50 @@ ST.addInitializer(3, function () {
 		});
 	}
 
-	function onTabClick() {
-		stopUpdateVisibility = true;
-		showAll(tabUlss);
-		setTimeout(() => {
-			stopUpdateVisibility = false;
-			updateVisibility(tabUlss, true);
-		}, 10);
+	function onTabClick(idx, tabUls) {
+		showImmediately(tabUls[idx]);
+		setTimeout(() => { updateVisibility(tabUlss, true); }, 10);
 	}
 
 	function updateVisibility(tabUlss, immediately = false) {
-		if (stopUpdateVisibility) return;
+		if (immediately) {
+			for (let i = 0; i < tabUlss.length; i += 1) {
+				const tabUls = tabUlss[i];
+				for (let j = 0; j < tabUls.length; j += 1) {
+					ST.addStile(tabUls[j], 'immediately');
+				}
+			}
+		}
 		for (let i = 0; i < tabUlss.length; i += 1) {
 			const tabUls = tabUlss[i];
 			let shown = false;
 			for (let j = 0; j < tabUls.length; j += 1) {
 				const tabUl = tabUls[j];
 				const y = tabUl.getBoundingClientRect().top;
-
-				if (immediately) ST.addStile(tabUl, 'immediately');
 				if (0 < y && !shown) {
 					shown = true;
 					ST.removeStile(tabUl, 'hidden');
 				} else if (shown) {
 					ST.addStile(tabUl, 'hidden');
 				}
-				if (immediately) {
-					setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
-				}
 			}
+		}
+		if (immediately) {
+			setTimeout(() => {
+				for (let i = 0; i < tabUlss.length; i += 1) {
+					const tabUls = tabUlss[i];
+					for (let j = 0; j < tabUls.length; j += 1) {
+						ST.removeStile(tabUls[j], 'immediately');
+					}
+				}
+			}, 1000);
 		}
 	}
 
-	function showAll(tabUlss) {
-		for (let i = 0; i < tabUlss.length; i += 1) {
-			const tabUls = tabUlss[i];
-			for (let j = 0; j < tabUls.length; j += 1) {
-				const tabUl = tabUls[j];
-				ST.addStile(tabUl, 'immediately');
-				ST.removeStile(tabUl, 'hidden');
-				setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
-			}
-		}
+	function showImmediately(tabUl) {
+		ST.addStile(tabUl, 'immediately');
+		ST.removeStile(tabUl, 'hidden');
+		setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
 	}
 
 });
