@@ -372,7 +372,7 @@ ST.addInitializer(4, function () {
 	function tableScroll_enlarger(cont) {
 		const tab = cont.table, etb = cont.etb, cap = cont.cap;
 		if (tab.scrollWidth - tab.offsetWidth > 1 && tab.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth) {  // for avoiding needless scrolling
-			const pos = Math.min(tab.scrollWidth - tab.offsetWidth, tab.scrollLeft);
+			const pos = Math.min(tab.tBodies[0].clientWidth - tab.offsetWidth, tab.scrollLeft);
 			etb.style.right = (-pos) + 'px';
 			if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
 			etb.style.display = 'block';
