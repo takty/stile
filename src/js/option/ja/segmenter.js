@@ -3,7 +3,7 @@
  * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-20
+ * @version 2019-03-05
  *
  */
 
@@ -38,6 +38,7 @@ ST.addInitializer(6, function () {
 
 
 	// -------------------------------------------------------------------------
+
 
 	function applySeparaterToElement(elm) {
 		const cs = Array.prototype.slice.call(elm.childNodes, 0);
@@ -123,5 +124,11 @@ ST.addInitializer(6, function () {
 		}
 		return 'O';
 	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	ST['segmenter'] = { applySeparaterToElement, separateTextAndMakeSpans };
 
 });
