@@ -71,7 +71,7 @@ ST.addInitializer(4, function () {
 			const etb  = ST.containStile(tab, ST_OPT_NO_ENLARGER) ? null : createEnlarger(tab);
 			const caps = tab.getElementsByTagName('caption');
 			const cap  = caps.length ? caps[0] : null;
-			if (ST.BROWSER === 'ie11' && head && cap) {
+			if ((ST.BROWSER === 'ie11' || ST.BROWSER === 'edge') && head && cap) {
 				tab.insertBefore(cap, tab.firstChild);  // Replace the order of caption and header
 			}
 			const cont = { table: tab, header: head, headerHeight: 0, bar: bar, etb: etb, cap: cap };
