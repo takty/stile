@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-15
+ * @version 2019-03-07
  *
  */
 
@@ -161,16 +161,22 @@ $stile-alignment-size-width         : 72rem !default;
 			margin-top: base-vr(1);  // for Actual Floating View
 		}
 	}
-	@include stile-alignment-define-figure-margin(h1, 6);
-	@include stile-alignment-define-figure-margin(h2, 5);
-	@include stile-alignment-define-figure-margin(h3, 4);
-	@include stile-alignment-define-figure-margin(h4, 3);
-	@include stile-alignment-define-figure-margin(h5, 2);
-	@include stile-alignment-define-figure-margin(h6, 1);
+	@include stile-alignment-define-figure-margin(h1, nth($stile-margin-heading, 1));
+	@include stile-alignment-define-figure-margin(h2, nth($stile-margin-heading, 2));
+	@include stile-alignment-define-figure-margin(h3, nth($stile-margin-heading, 3));
+	@include stile-alignment-define-figure-margin(h4, nth($stile-margin-heading, 4));
+	@include stile-alignment-define-figure-margin(h5, nth($stile-margin-heading, 5));
+	@include stile-alignment-define-figure-margin(h6, nth($stile-margin-heading, 6));
 }
 
-@mixin stile-alignment-define-figure-margin($tag, $top) {
-	#{$tag} { & + figure.alignright, & + figure.alignleft { margin-top: base-vr($top); } }
+@mixin stile-alignment-define-figure-margin($tag, $top-bottom) {
+	$bottom: nth($top-bottom, 2);
+	#{$tag} {
+		& + figure.alignright:not(.alignleft),
+		& + figure.alignleft:not(.alignright) {
+			margin-top: base-vr($bottom);
+		}
+	}
 }
 
 
