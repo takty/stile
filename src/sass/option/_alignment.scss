@@ -162,7 +162,9 @@ $stile-alignment-size-width         : 72rem !default;
 		}
 		figure.alignleft,
 		figure.alignright {
-			> figcaption { padding-bottom: base-vr(1); }
+			&:not([data-stile ~= 'aligncenter']) > figcaption { 
+				padding-bottom: base-vr(1); 
+			}
 		}
 	}
 	@include stile-alignment-define-figure-margin(h6, nth($stile-margin-heading, 6));
