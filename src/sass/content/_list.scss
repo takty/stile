@@ -3,7 +3,7 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-02
+ * @version 2019-03-08
  *
  */
 
@@ -13,6 +13,9 @@
 
 
 $stile-list-color-mark      : rgba(#777, 0.9) !default;
+$stile-list-color-mark-ul   : $stile-list-color-mark !default;
+$stile-list-color-mark-ol   : $stile-list-color-mark !default;
+$stile-list-color-mark-dl   : $stile-list-color-mark !default;
 $stile-list-rate-mark       : 0.45 !default;
 $stile-list-rate-mark-square: 0.44 !default;
 $stile-list-rate-mark-circle: 0.45 !default;
@@ -83,7 +86,7 @@ $stile-list-img-mark-circle : false !default;
 		transform: translateY(-0.5em) scale(#{$stile-list-rate-mark});
 		@if $stile-list-img-mark == false {
 			border-radius: 50%;
-			background-color: $stile-list-color-mark;
+			background-color: $stile-list-color-mark-ul;
 		} @else {
 			background-image: $stile-list-img-mark;
 			background-size: contain;
@@ -95,7 +98,7 @@ $stile-list-img-mark-circle : false !default;
 		transform: translateY(-0.5em) scale(#{$stile-list-rate-mark-square});
 		@if $stile-list-img-mark-square == false {
 			border-radius: 10%;
-			background-color: $stile-list-color-mark;
+			background-color: $stile-list-color-mark-ul;
 		} @else {
 			background-image: $stile-list-img-mark-square;
 			background-size: contain;
@@ -106,7 +109,7 @@ $stile-list-img-mark-circle : false !default;
 	&[data-stile ~= 'list-circle'] > li::before {
 		transform: translateY(-0.5em) scale(#{$stile-list-rate-mark-circle});
 		@if $stile-list-img-mark-circle == false {
-			border: 0.2rem solid $stile-list-color-mark;
+			border: 0.2rem solid $stile-list-color-mark-ul;
 			border-radius: 50%;
 		} @else {
 			background-image: $stile-list-img-mark-circle;
@@ -148,7 +151,7 @@ $stile-list-img-mark-circle : false !default;
 			text-align: right;
 
 			@include font-bold;
-			color: $stile-list-color-mark;
+			color: $stile-list-color-mark-ol;
 		}
 	}
 	&[reversed],
@@ -193,7 +196,7 @@ $stile-list-img-mark-circle : false !default;
 
 	> dt {
 		@include font-bold;
-		color: $stile-list-color-mark;
+		color: $stile-list-color-mark-dl;
 	}
 	> dd { padding-left: base-vr(2); }
 }
