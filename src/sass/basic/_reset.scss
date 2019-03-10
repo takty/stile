@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-03
+ * @version 2019-03-11
  *
  * Based on:
  *  modern-normalize v0.4
@@ -50,10 +50,13 @@ code, kbd, samp, pre {
 // -----------------------------------------------------------------------------
 
 
-button, input, optgroup, select, textarea {
+button, input, optgroup, textarea, select {
 	margin: 0;
 	font-family: inherit;
 	font-size: 100%;
+}
+
+button, input, optgroup, textarea {
 	line-height: 1;
 }
 
