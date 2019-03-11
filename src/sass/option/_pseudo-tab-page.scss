@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-04
+ * @version 2019-03-11
  *
  */
 
@@ -108,7 +108,6 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 		@include layout-centering();
 
 		min-height: $stile-pseudo-tab-page-size-tab-height;
-		cursor: pointer;
 		user-select: none;
 		border-radius: 1px;
 
@@ -117,7 +116,7 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 		border: 1px solid $stile-pseudo-tab-page-color-tab-rule;
 		border-right-color: transparent;
 
-		&:not([data-stile ~= 'current']):hover {
+		&:not([data-stile ~= 'current']) > a:hover {
 			background-color: $stile-pseudo-tab-page-color-tab-background-hover;
 			color: $stile-pseudo-tab-page-color-tab-text-hover;
 		}
