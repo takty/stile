@@ -94,13 +94,14 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 				opacity: 0;
 				&:not([data-stile ~= 'immediately']) { transition: max-height 1s, opacity 1s; }
 			}
-		}
-		&:focus {
-			@if $stile-pseudo-tab-page-color-tab-focus-outline != false {
-				outline: $stile-pseudo-tab-page-color-tab-focus-outline auto 2px;
-			}
-			@if $stile-pseudo-tab-page-color-tab-focus-background != false {
-				background-color: $stile-pseudo-tab-page-color-tab-focus-background;
+		} @else {
+			&:focus {
+				@if $stile-pseudo-tab-page-color-tab-focus-outline != false {
+					outline: $stile-pseudo-tab-page-color-tab-focus-outline auto 2px;
+				}
+				@if $stile-pseudo-tab-page-color-tab-focus-background != false {
+					background-color: $stile-pseudo-tab-page-color-tab-focus-background;
+				}
 			}
 		}
 	}
