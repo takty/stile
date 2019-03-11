@@ -94,6 +94,9 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 				opacity: 0;
 				&:not([data-stile ~= 'immediately']) { transition: max-height 1s, opacity 1s; }
 			}
+			&:focus {
+				outline: none;
+			}
 		} @else {
 			&:focus {
 				@if $stile-pseudo-tab-page-color-tab-focus-outline != false {
