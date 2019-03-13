@@ -3,7 +3,7 @@
  * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-03-13
  *
  */
 
@@ -99,8 +99,8 @@ ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
 	let elmFixed = document.getElementsByClassName(fixedElementClass);
 	if (elmFixed && elmFixed.length > 0) {
 		elmFixed = elmFixed[0];
-		let elmTops = document.getElementsByClassName(fixedTopClass);
-		if (elmTops) {
+		const elmTops = document.getElementsByClassName(fixedTopClass);
+		if (elmTops && elmTops.length > 0) {
 			return function () {
 				const pos = getComputedStyle(elmFixed).position;
 				if (pos === 'fixed') {
