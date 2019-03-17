@@ -94,7 +94,7 @@
 }
 
 @mixin for-tiny-height-only {
-	@include for-size-height-dowm(600px, 148) { @content; }
+	@include for-size-height-down(600px, 148) { @content; }
 }
 
 @mixin for-small-height-up {
