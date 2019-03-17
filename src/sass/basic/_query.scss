@@ -3,7 +3,7 @@
  * Query Mixins for Responsive and Browsers
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-09
+ * @version 2019-03-17
  *
  * https://medium.freecodecamp.org/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
  *
@@ -93,8 +93,16 @@
 	}
 }
 
+@mixin for-tiny-height-only {
+	@include for-size-height-dowm(600px, 148) { @content; }
+}
+
+@mixin for-small-height-up {
+	@include for-size-height-up(600px, 148) { @content; }
+}
+
 @mixin for-small-height-only {
-	@include for-size-height-down(950px, 257) { @content; }
+	@include for-size-height-only(600px, 950px, 148, 257) { @content; }
 }
 
 @mixin for-medium-height-up {
