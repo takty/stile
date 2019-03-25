@@ -3,7 +3,7 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-11-07
+ * @version 2019-03-25
  *
  */
 
@@ -71,6 +71,12 @@ $stile-container-4-child-min-width: 11rem !default;
 	.column-3 + *:not([class]),
 	*:not([class]) + .column-4,
 	.column-4 + *:not([class]) { margin-top: $stile-container-margin; }
+
+	.column-2, .column-3, .column-4 {
+		& + .column-2, & + .column-3, & + .column-4 {
+			margin-top: $stile-container-margin;
+		}
+	}
 }
 
 @mixin stile-container-card {
