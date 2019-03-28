@@ -3,7 +3,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-03-29
  *
  */
 
@@ -27,7 +27,7 @@ ST.addInitializer(7, function () {
 	);
 	makeKerningPairs(kerningInfo,
 		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕'],
-		['、', '，', '。', '．', ',', '.', '・']
+		['、', '，', '。', '．', ',', '.', '・', '：', '｜']
 	);
 	makeKerningPairs(kerningInfo,
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔', '　', '・'],
@@ -35,7 +35,7 @@ ST.addInitializer(7, function () {
 	);
 	makeKerningPairs(kerningInfo,
 		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕'],
-		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕', '：']
+		['」', '』', '）', '］', '｝', '〉', '》', '】', '〕']
 	);
 	makeKerningSolos(kerningInfo,
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
