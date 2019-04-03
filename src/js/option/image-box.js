@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-04-03
  *
  */
 
@@ -59,6 +59,7 @@ ST.addInitializer(7, function () {
 			case 'jpeg':
 			case 'jpg':
 			case 'png':
+			case 'gif':
 				return true;
 		}
 		return false;
