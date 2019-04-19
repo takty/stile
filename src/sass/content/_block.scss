@@ -109,15 +109,18 @@ $stile-block-level-blockquote-cite: 0 !default;
 		text-align: left;  // for left align of long caption
 	}
 
-	figure.alignleft,
-	figure.alignright {
-		display: table;
-		width: 1px;
+	@include for-tablet-portrait-up {
+		figure:not([data-stile~='aligncenter']) {
+			&.alignleft, &.alignright {
+				display: table;
+				width: 1px;
 
-		img {
-			display: table-row;
-			width: auto;
+				img {
+					display: table-row;
+					width: auto;
+				}
+				figcaption { min-width: $stile-block-size-min-width; }
+			}
 		}
-		figcaption { min-width: $stile-block-size-min-width; }
 	}
 }
