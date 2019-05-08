@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-15
+ * @version 2019-05-08
  *
  */
 
@@ -27,8 +27,10 @@ ST.addInitializer(1, function () {
 
 	if (ST.BROWSER === 'ie11') return;
 
-	modifyAlignmentStyle(als, 'alignleft');
-	modifyAlignmentStyle(ars, 'alignright');
+	setTimeout(() => {
+		modifyAlignmentStyle(als, 'alignleft');
+		modifyAlignmentStyle(ars, 'alignright');
+	}, 0);  // Delay
 
 
 	// -------------------------------------------------------------------------
