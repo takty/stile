@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-07
+ * @version 2019-05-08
  *
  */
 
@@ -72,6 +72,12 @@ ST.addInitializer(2, function () {
 	function modifyFigureStyle(figs) {
 		for (let i = 0; i < figs.length; i += 1) {
 			figs[i].style.width = '';
+
+			// Wrap with span for neat centering
+			const fcs = figs[i].getElementsByTagName('figcaption');
+			if (0 < fcs.length) {
+				fcs[0].innerHTML = '<span>' + fcs[0].innerHTML + '</span>';
+			}
 		}
 	}
 
