@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-04
+ * @version 2019-05-08
  *
  */
 
@@ -19,6 +19,7 @@ $stile-table-align-caption       : left;
 $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
 // $stile-pseudo-tab-page-hidden-redundant-tab: false;
+// $stile-print-enabled-link-url: false;
 
 @import '../dist/sass/basic';
 @import '../dist/sass/content';
