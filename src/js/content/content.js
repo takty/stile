@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-08
+ * @version 2019-05-17
  *
  */
 
@@ -54,6 +54,7 @@ ST.addInitializer(2, function () {
 			const f = fs[i];
 			const width = f.width;
 			const height = f.height;
+			if (!width || !height) continue;
 			const wrap = document.createElement('SPAN');
 			ST.addStile(wrap, 'iframe-wrapper');
 			const spacer = document.createElement('DIV');
