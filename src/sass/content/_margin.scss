@@ -3,7 +3,7 @@
  * Margin Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-08
+ * @version 2019-05-20
  *
  */
 
@@ -67,6 +67,7 @@ $stile-margin-heading:
 
 	p + p { margin-top: base-vr(1); }
 	ul:not([class]) > li + li { margin-top: base-vr(1); }
+	ul[data-stile~='compact'] > li + li { margin-top: 0; }
 	ol:not([class]) > li + li::before { padding-top: base-vr(1); }  // Must use 'padding-top' instead of 'margin-top' because ol's 'display' is 'table'.
 	ul.stile > li + li { margin-top: base-vr(1); }
 	ol.stile > li + li::before { padding-top: base-vr(1); }  // Must use 'padding-top' instead of 'margin-top' because ol's 'display' is 'table'.
