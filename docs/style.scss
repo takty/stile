@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-08
+ * @version 2019-05-21
  *
  */
 
@@ -58,13 +58,9 @@ body {
 	a:not([class])[data-stile ~= 'link-file-excel']::after { content: '\e228'; }
 	a:not([class])[data-stile ~= 'link-file-powerpoint']::after { content: '\e071'; }
 
-	.font-size-level-0 { @include font-size-level(0); }
-	.font-size-level-1 { @include font-size-level(1); }
-	.font-size-level-2 { @include font-size-level(2); }
-	.font-size-level-3 { @include font-size-level(3); }
-	.font-size-level-4 { @include font-size-level(4); }
-	.font-size-level-5 { @include font-size-level(5); }
-	.font-size-level-6 { @include font-size-level(6); }
+	@for $i from 0 through 6 {
+		.font-size-level-#{$i} { @include font-size-level($i); }
+	}
 
 	.kerning > span {
 		background: rgba(red, 0.5);
@@ -238,5 +234,14 @@ body {
 	background-color: rgba(red, 0.5);
 	> div {
 		@include layout-fill-self();
+	}
+}
+@for $i from 2 through 4 {
+	.layout-column-#{$i} {
+		border: 1px solid blue;
+		@include layout-column($i, 2rem);
+		> div {
+			background-color: rgba(red, 0.5);
+		}
 	}
 }
