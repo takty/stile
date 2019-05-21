@@ -3,7 +3,7 @@
  * Print Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-08
+ * @version 2019-05-21
  *
  */
 
@@ -22,7 +22,7 @@ $stile-print-enabled-link-url: true !default;
 }
 
 @mixin stile-print-link {
-	a[href][data-stile ~= 'link-simple']:not([data-stile ~= 'link-link']):not([data-stile ~= 'link-link'])::after {
+	a[href][data-stile ~= 'link-simple']:not([data-stile ~= 'link-url']):not([data-stile ~= 'link-anchor'])::after {
 		content: attr(href) !important;
 
 		font-family: inherit !important;
