@@ -22,7 +22,7 @@ $stile-print-enabled-link-url: true !default;
 }
 
 @mixin stile-print-link {
-	a[href][data-stile ~= 'link-simple']:not([data-stile ~= 'link-url']):not([data-stile ~= 'link-anchor'])::after {
+	a[href][data-stile ~= 'link-simple']:not([data-stile ~= 'link-url']):not([data-stile ~= 'link-anchor']):not([data-stile ~= 'link-file'])::after {
 		content: attr(href) !important;
 
 		font-family: inherit !important;
