@@ -10,7 +10,7 @@ gulp.task('js-with-option', () => {
 		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile-full.min.js'))
 		.pipe($.uglify())
-		.pipe(gulp.dest('dist/js'));
+		.pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('js-without-option', () => {
@@ -19,7 +19,7 @@ gulp.task('js-without-option', () => {
 		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.concat('stile.min.js'))
 		.pipe($.uglify())
-		.pipe(gulp.dest('dist/js'));
+		.pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('js-each', () => {
@@ -28,7 +28,7 @@ gulp.task('js-each', () => {
 		.pipe($.babel({ presets: [['@babel/env', { targets: { ie: 11 } }]] }))
 		.pipe($.uglify())
 		.pipe($.rename({ extname: '.min.js' }))
-		.pipe(gulp.dest('dist/js'));
+		.pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('js', gulp.parallel('js-with-option', 'js-without-option', 'js-each'));
@@ -36,8 +36,8 @@ gulp.task('js', gulp.parallel('js-with-option', 'js-without-option', 'js-each'))
 gulp.task('sass', () => {
 	return gulp.src(['src/sass/**/*.scss'], { base: 'src/sass' })
 		.pipe($.plumber())
-		.pipe($.changed('dist/sass'))
-		.pipe(gulp.dest('dist/sass'));
+		.pipe($.changed('./dist/sass'))
+		.pipe(gulp.dest('./dist/sass'));
 });
 
 gulp.task('watch', () => {
@@ -60,13 +60,13 @@ gulp.task('docs-sass', gulp.series('sass', () => {
 		.pipe($.autoprefixer({ browsers: ['ie >= 11'], remove: false }))
 		.pipe($.rename({ extname: '.min.css' }))
 		.pipe($.sourcemaps.write('.'))
-		.pipe(gulp.dest('docs'));
+		.pipe(gulp.dest('./docs'));
 }));
 
 gulp.task('docs-js', gulp.series('js-with-option', () => {
 	return gulp.src(['dist/js/stile-full.min.js'])
 		.pipe($.plumber())
-		.pipe(gulp.dest('docs'));
+		.pipe(gulp.dest('./docs'));
 }));
 
 gulp.task('docs-watch', () => {
