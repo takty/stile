@@ -199,6 +199,46 @@
 	@include layout-spacer;
 }
 
+@mixin layout-column-v2($n, $gap: false) {
+	@if $n == 1 {
+		@include _layout-column-cancel-v2($gap);
+	} @else {
+		@include _layout-column-do-v2($n, $gap);
+	}
+}
+
+@mixin _layout-column-do-v2($n, $gap: false) {
+	display: flex;
+	flex-direction: row;
+
+	> * {
+		flex: { grow: 1; shrink: 1; }
+
+		$cw: 100% / $n;
+		@if $gap == false {
+			flex-basis: $cw;
+		} @else {
+			$cg: $gap * ($n - 1) / $n;
+			flex-basis: calc(#{$cw} - #{$cg});
+			& + * { margin: { left: $gap; top: 0; } }
+		}
+		&:empty { display: block; }
+	}
+}
+
+@mixin _layout-column-cancel-v2($gap: false) {
+	display: flex;
+	flex-direction: column;
+
+	> * {
+		flex-basis: auto;
+		@if $gap != false {
+			& + * { margin: { left: 0; top: $gap; } }
+		}
+		&:empty { display: none; }
+	}
+}
+
 @mixin layout-responsive-column($cont-width, $n, $gap: false) {
 	$gap_x: $gap;
 	$gap_y: $gap;
@@ -283,6 +323,68 @@
 					margin-right: #{$cw * ($n - $i)};
 				} @else {
 					margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+				}
+			}
+		}
+	}
+}
+
+@mixin layout-card-v2($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+	$cw: 100% / $n;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	@if $gap != false {
+		// margin-right : -$gap_x;
+		// margin-bottom: -$gap_y;
+		// > * {
+		// 	margin-right: $gap_x;
+		// 	&:not(:empty) {
+		// 		margin-bottom: $gap_y;
+		// 	}
+		// }
+		> *:not(:nth-child(#{$n}n + 1)) {
+			margin-left: $gap_x;
+		}
+		> *:nth-child(n + #{$n + 1}):not(:empty) {
+			margin-top: $gap_y;
+		}
+	}
+	> * {
+		flex-grow: 1;
+		flex-shrink: 1;
+
+		@if $gap != false {
+			// flex-basis: calc(#{$cw} - #{$gap_x});
+			// @include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width-offset-ie}); }  // Hack for calculation error
+			// width: calc(#{$cw} - #{$gap_x});  // for Safari
+			flex-basis: calc(#{$cw} - #{$gap * ($n - 1) / $n});
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap * ($n - 1) / $n} - #{$width-offset-ie}); }  // Hack for calculation error
+			width: calc(#{$cw} - #{$gap * ($n - 1) / $n});  // for Safari
+		} @else {
+			flex-basis: $cw;
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width-offset-ie}); }  // Hack for calculation error
+			width: $cw;  // for Safari
+		}
+	}
+	@include layout-spacer;
+
+	@if $align-left {
+		@for $i from 1 through $n {
+			> *:nth-child(#{$n}n+#{$i}):last-child {
+				@if $gap_x == false {
+					margin-right: #{$cw * ($n - $i)};
+				} @else {
+					// margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
+					margin-right: calc((#{$cw} - #{$gap * ($n - 1) / $n} + #{$gap}) * #{$n - $i});
 				}
 			}
 		}
