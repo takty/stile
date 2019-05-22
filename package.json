@@ -19,11 +19,11 @@
   },
   "homepage": "https://github.com/takty/stile#readme",
   "devDependencies": {
-    "eslint-config-google": "^0.12.0"
+    "eslint-config-google": "^0.13.0"
   },
   "dependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
