@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-08
+ * @version 2019-05-23
  *
  */
 
@@ -18,11 +18,11 @@ ST.addInitializer(1, function () {
 
 	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 
-	const als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
-	const ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
+	let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
+	let ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
 	const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
-	replaceAlignClass(als);
-	replaceAlignClass(ars);
+	als = replaceAlignClass(als);
+	ars = replaceAlignClass(ars);
 	replaceAlignClass(acs);
 
 	if (ST.BROWSER === 'ie11') return;
@@ -103,22 +103,28 @@ ST.addInitializer(1, function () {
 
 
 	function replaceAlignClass(ts) {
+		const ret = [];
 		for (let i = 0; i < ts.length; i += 1) {
 			const c = ts[i];
 			const p = c.parentNode;
+			let replace = false;
 			if (p.tagName === 'A' && isImageLink(p)) {
-				moveClass(c, p, 'alignleft');
-				moveClass(c, p, 'aligncenter');
-				moveClass(c, p, 'alignright');
+				if (moveClass(c, p, 'alignleft'))   replace = true;
+				if (moveClass(c, p, 'aligncenter')) replace = true;
+				if (moveClass(c, p, 'alignright'))  replace = true;
 			}
+			ret.push(replace ? p : c);
 		}
+		return ret;
 	}
 
 	function moveClass(c, p, cls) {
 		if (c.classList.contains(cls)) {
 			c.classList.remove(cls);
 			p.classList.add(cls);
+			return true;
 		}
+		return false;
 	}
 
 	function isImageLink(a) {
