@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-22
+ * @version 2019-05-24
  *
  */
 
@@ -313,134 +313,130 @@
 }
 
 
-// -----------------------------------------------------------------------------
+// =============================================================================
 
 
 @mixin layout-column-v2($n, $gap: false) {
 	@if 1 < length($n) {
 		@include _layout-column-ratio-v2($n, $gap);
 	} @else if 1 < $n {
-		@include _layout-column-do-v2($n, $gap);
+		@include _layout-column-equal-v2($n, $gap);
 	} @else {
 		@include _layout-column-cancel-v2($gap);
 	}
 }
 
-@mixin _layout-column-do-v2($n, $gap: false) {
-	display: flex;
-	flex-direction: row;
+	@mixin _layout-column-equal-v2($n, $gap: false) {
+		display: flex;
+		flex-direction: row;
 
-	> * {
-		flex: { grow: 1; shrink: 1; }
-
-		$cw: 100% / $n;
-		@if $gap == false {
-			flex-basis: $cw;
-		} @else {
-			$cg: $gap * ($n - 1) / $n;
-			flex-basis: calc(#{$cw} - #{$cg});
-			& + * { margin: { left: $gap; top: 0; } }
-		}
-	}
-}
-
-@mixin _layout-column-ratio-v2($rs, $gap: false) {
-	display: flex;
-	flex-direction: row;
-
-	> * {
-		flex: { grow: 1; shrink: 1; }
-		@if $gap != false {
-			& + * { margin: { left: $gap; top: 0; } }
-		}
-	}
-	$n: length($rs);
-	$cg: if($gap != false, $gap * ($n - 1) / $n, 0);
-	$sum: 0;
-	@each $r in $rs { $sum: $sum + $r; }
-
-	@for $i from 1 through $n {
-		> *:nth-child(#{$i}) {
-			$cw: percentage(nth($rs, $i) / $sum);
+		> * {
+			flex: { grow: 1; shrink: 1; }
+			$cw: 100% / $n;
 			@if $gap == false {
 				flex-basis: $cw;
 			} @else {
+				$cg: $gap * ($n - 1) / $n;
 				flex-basis: calc(#{$cw} - #{$cg});
+				& + * { margin: { left: $gap; top: 0; } }
 			}
 		}
 	}
-}
 
-@mixin _layout-column-cancel-v2($gap: false) {
-	display: flex;
-	flex-direction: column;
+	@mixin _layout-column-ratio-v2($rs, $gap: false) {
+		display: flex;
+		flex-direction: row;
 
-	> * {
-		flex-basis: auto;
-		@if $gap != false {
-			& + * { margin: { left: 0; top: $gap; } }
+		> * {
+			flex: { grow: 1; shrink: 1; }
+			@if $gap != false {
+				& + * { margin: { left: $gap; top: 0; } }
+			}
+		}
+		$n: length($rs);
+		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+		$sum: 0;
+		@each $r in $rs { $sum: $sum + $r; }
+
+		@for $i from 1 through $n {
+			> *:nth-child(#{$i}) {
+				$cw: percentage(nth($rs, $i) / $sum);
+				@if $gap == false {
+					flex-basis: $cw;
+				} @else {
+					flex-basis: calc(#{$cw} - #{$cg});
+				}
+			}
 		}
 	}
-}
 
-@mixin layout-card-v2($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
+	@mixin _layout-column-cancel-v2($gap: false) {
+		display: flex;
+		flex-direction: column;
+
+		> * {
+			flex-basis: auto;
+			@if $gap != false {
+				& + * { margin: { left: 0; top: $gap; } }
+			}
+		}
+	}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-card-v2($n, $gap: false, $align-left: true, $error-ie: 1px) {
 	$gap_x: $gap;
 	$gap_y: $gap;
 	@if $gap != false and length($gap) == 2 {
 		$gap_x: nth($gap, 1);
 		$gap_y: nth($gap, 2);
 	}
-	$cw: 100% / $n;
 
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 
-	@if $gap != false {
-		// margin-right : -$gap_x;
-		// margin-bottom: -$gap_y;
-		// > * {
-		// 	margin-right: $gap_x;
-		// 	&:not(:empty) {
-		// 		margin-bottom: $gap_y;
-		// 	}
-		// }
-		> *:not(:nth-child(#{$n}n + 1)) {
-			margin-left: $gap_x;
-		}
-		> *:nth-child(n + #{$n + 1}):not(:empty) {
-			margin-top: $gap_y;
-		}
-	}
 	> * {
-		flex-grow: 1;
-		flex-shrink: 1;
+		flex: { grow: 1; shrink: 1; }
 
-		@if $gap != false {
-			// flex-basis: calc(#{$cw} - #{$gap_x});
-			// @include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width-offset-ie}); }  // Hack for calculation error
-			// width: calc(#{$cw} - #{$gap_x});  // for Safari
-			flex-basis: calc(#{$cw} - #{$gap * ($n - 1) / $n});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap * ($n - 1) / $n} - #{$width-offset-ie}); }  // Hack for calculation error
-			width: calc(#{$cw} - #{$gap * ($n - 1) / $n});  // for Safari
-		} @else {
+		$cw: 100% / $n;
+		
+		@if $gap == false {
 			flex-basis: $cw;
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width-offset-ie}); }  // Hack for calculation error
-			width: $cw;  // for Safari
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$error-ie}); }  // Hack for calculation error
+			// @include for-safari { width: $cw; }
+		} @else {
+			$cg: $gap_x * ($n - 1) / $n;
+			flex-basis: calc(#{$cw} - #{$cg});
+			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$cg} - #{$error-ie}); }  // Hack for calculation error
+			// @include for-safari { width: calc(#{$cw} - #{$cg}); }
+
+			&:not(:nth-child(#{$n}n + 1)) {
+				margin-left: $gap_x;
+			}
+			&:nth-child(n + #{$n + 1}) {
+				margin-top: $gap_y;
+			}
 		}
 	}
-	@include layout-spacer;
-
 	@if $align-left {
-		@for $i from 1 through $n {
+		@include _layout-card-tail-margin($n, $gap_x);
+	}
+}
+
+	@mixin _layout-card-tail-margin($n, $gap: false) {
+		$cw: 100% / $n;
+		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+
+		@for $i from 1 through ($n - 1) {
 			> *:nth-child(#{$n}n+#{$i}):last-child {
-				@if $gap_x == false {
+				@if $gap == false {
 					margin-right: #{$cw * ($n - $i)};
 				} @else {
-					// margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
-					margin-right: calc((#{$cw} - #{$gap * ($n - 1) / $n} + #{$gap}) * #{$n - $i});
+					margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
 				}
 			}
 		}
 	}
-}
