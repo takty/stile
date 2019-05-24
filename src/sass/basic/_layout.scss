@@ -199,46 +199,6 @@
 	@include layout-spacer;
 }
 
-@mixin layout-column-v2($n, $gap: false) {
-	@if $n == 1 {
-		@include _layout-column-cancel-v2($gap);
-	} @else {
-		@include _layout-column-do-v2($n, $gap);
-	}
-}
-
-@mixin _layout-column-do-v2($n, $gap: false) {
-	display: flex;
-	flex-direction: row;
-
-	> * {
-		flex: { grow: 1; shrink: 1; }
-
-		$cw: 100% / $n;
-		@if $gap == false {
-			flex-basis: $cw;
-		} @else {
-			$cg: $gap * ($n - 1) / $n;
-			flex-basis: calc(#{$cw} - #{$cg});
-			& + * { margin: { left: $gap; top: 0; } }
-		}
-		&:empty { display: block; }
-	}
-}
-
-@mixin _layout-column-cancel-v2($gap: false) {
-	display: flex;
-	flex-direction: column;
-
-	> * {
-		flex-basis: auto;
-		@if $gap != false {
-			& + * { margin: { left: 0; top: $gap; } }
-		}
-		&:empty { display: none; }
-	}
-}
-
 @mixin layout-responsive-column($cont-width, $n, $gap: false) {
 	$gap_x: $gap;
 	$gap_y: $gap;
@@ -329,6 +289,100 @@
 	}
 }
 
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-masonry($n, $gap: false) {
+	column-count: $n;
+	column-gap: $gap;
+	line-height: 0;
+
+	@if $gap != false {
+		margin-bottom: -$gap;
+	}
+	> * {
+		display: inline-block;
+		line-height: 1;
+		width: 100%;
+
+		@if $gap != false {
+			margin-bottom: $gap;
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-column-v2($n, $gap: false) {
+	@if 1 < length($n) {
+		@include _layout-column-ratio-v2($n, $gap);
+	} @else if 1 < $n {
+		@include _layout-column-do-v2($n, $gap);
+	} @else {
+		@include _layout-column-cancel-v2($gap);
+	}
+}
+
+@mixin _layout-column-do-v2($n, $gap: false) {
+	display: flex;
+	flex-direction: row;
+
+	> * {
+		flex: { grow: 1; shrink: 1; }
+
+		$cw: 100% / $n;
+		@if $gap == false {
+			flex-basis: $cw;
+		} @else {
+			$cg: $gap * ($n - 1) / $n;
+			flex-basis: calc(#{$cw} - #{$cg});
+			& + * { margin: { left: $gap; top: 0; } }
+		}
+	}
+}
+
+@mixin _layout-column-ratio-v2($rs, $gap: false) {
+	display: flex;
+	flex-direction: row;
+
+	> * {
+		flex: { grow: 1; shrink: 1; }
+		@if $gap != false {
+			& + * { margin: { left: $gap; top: 0; } }
+		}
+	}
+	$n: length($rs);
+	$cg: if($gap != false, $gap * ($n - 1) / $n, 0);
+	$sum: 0;
+	@each $r in $rs { $sum: $sum + $r; }
+
+	@for $i from 1 through $n {
+		> *:nth-child(#{$i}) {
+			$cw: percentage(nth($rs, $i) / $sum);
+			@if $gap == false {
+				flex-basis: $cw;
+			} @else {
+				flex-basis: calc(#{$cw} - #{$cg});
+			}
+		}
+	}
+}
+
+@mixin _layout-column-cancel-v2($gap: false) {
+	display: flex;
+	flex-direction: column;
+
+	> * {
+		flex-basis: auto;
+		@if $gap != false {
+			& + * { margin: { left: 0; top: $gap; } }
+		}
+	}
+}
+
 @mixin layout-card-v2($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
 	$gap_x: $gap;
 	$gap_y: $gap;
@@ -387,29 +441,6 @@
 					margin-right: calc((#{$cw} - #{$gap * ($n - 1) / $n} + #{$gap}) * #{$n - $i});
 				}
 			}
-		}
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-masonry($n, $gap: false) {
-	column-count: $n;
-	column-gap: $gap;
-	line-height: 0;
-
-	@if $gap != false {
-		margin-bottom: -$gap;
-	}
-	> * {
-		display: inline-block;
-		line-height: 1;
-		width: 100%;
-
-		@if $gap != false {
-			margin-bottom: $gap;
 		}
 	}
 }
