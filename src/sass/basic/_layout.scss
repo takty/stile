@@ -406,10 +406,12 @@
 		@if $gap == false {
 			flex-basis: $cw;
 			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$error-ie}); }  // Hack for calculation error
+			max-width: $cw;
 		} @else {
 			$cg: $gap_x * ($n - 1) / $n;
 			flex-basis: calc(#{$cw} - #{$cg});
 			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$cg} - #{$error-ie}); }  // Hack for calculation error
+			max-width: calc(#{$cw} - #{$cg});
 
 			&:not(:nth-child(#{$n}n + 1)) {
 				margin-left: $gap_x;
