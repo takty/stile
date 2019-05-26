@@ -386,7 +386,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-card-v2($n, $gap: false, $align-left: true, $error-ie: 1px) {
+@mixin layout-card-v2($n, $gap: false, $align-left: true) {
 	$gap_x: $gap;
 	$gap_y: $gap;
 	@if $gap != false and length($gap) == 2 {
@@ -397,24 +397,23 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	justify-content: space-between;  // For reducing calculation error on IE11 and Edge
 
 	> * {
 		flex: { grow: 1; shrink: 1; }
 
 		$cw: 100% / $n;
-		
+
 		@if $gap == false {
 			flex-basis: $cw;
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$error-ie}); }  // Hack for calculation error
 			max-width: $cw;
 		} @else {
 			$cg: $gap_x * ($n - 1) / $n;
 			flex-basis: calc(#{$cw} - #{$cg});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$cg} - #{$error-ie}); }  // Hack for calculation error
 			max-width: calc(#{$cw} - #{$cg});
 
 			&:not(:nth-child(#{$n}n + 1)) {
-				margin-left: $gap_x;
+				margin-left: calc(#{$gap_x} - 1px);  // For reducing calculation error on IE11 and Edge
 			}
 			&:nth-child(n + #{$n + 1}) {
 				margin-top: $gap_y;
