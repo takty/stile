@@ -242,6 +242,7 @@ body {
 		@include layout-column($i, 2rem);
 		> div {
 			background-color: rgba(red, 0.5);
+			border: 0.5rem solid green;
 		}
 	}
 }
@@ -251,6 +252,17 @@ body {
 		@include layout-card($i, 2rem);
 		> div {
 			background-color: rgba(red, 0.5);
+			border: 0.5rem solid green;
+		}
+	}
+}
+@for $i from 2 through 4 {
+	.layout-card-v2-#{$i} {
+		border: 1px solid blue;
+		@include layout-card-v2($i, 2rem);
+		> div {
+			background-color: rgba(red, 0.5);
+			border: 0.5rem solid green;
 		}
 	}
 }
