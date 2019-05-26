@@ -3,180 +3,180 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-24
+ * @version 2019-05-27
  *
  */
 
 
-@mixin layout-side-margin($max-width, $side-margin: false) {
-	$w: 100%;
-	@if $side-margin != false {
-		$w: calc(100% - #{$side-margin * 2});
-	}
-	margin: { left: auto; right: auto; }
-	max-width: $max-width;  // must be max-width for Android Chrome
-	width: $w;  // must be width for Android Chrome
-}
+// @mixin layout-side-margin($max-width, $side-margin: false) {
+// 	$w: 100%;
+// 	@if $side-margin != false {
+// 		$w: calc(100% - #{$side-margin * 2});
+// 	}
+// 	margin: { left: auto; right: auto; }
+// 	max-width: $max-width;  // must be max-width for Android Chrome
+// 	width: $w;  // must be width for Android Chrome
+// }
 
-@mixin layout-width-breakpoint($min-width, $breakpoint, $max-width) {
-	min-width: $min-width;
-	width: calc((#{$breakpoint} - 100%) * 1000);
-	max-width: $max-width;
-}
+// @mixin layout-width-breakpoint($min-width, $breakpoint, $max-width) {
+// 	min-width: $min-width;
+// 	width: calc((#{$breakpoint} - 100%) * 1000);
+// 	max-width: $max-width;
+// }
 
-@mixin layout-full-width($side-margin: false) {
-	$m: calc(50% - 50vw);
-	@if $side-margin != false {
-		$m: calc(#{$side-margin} + 50% - 50vw);
-	}
-	margin: { left: $m; right: $m; }
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-centering($inline: false) {
-	@if $inline == false {
-		display: flex;
-	} @else {
-		display: inline-flex;
-	}
-	align-items: center;
-	justify-content: center;
-}
-
-@mixin layout-centering-self($horizontal: true, $vertical: true, $position: absolute) {
-	position: $position;
-	@if $horizontal == true and $vertical == true {
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	} @else if $horizontal == true {
-		left: 50%;
-		transform: translateX(-50%);
-	} @else if $vertical == true {
-		top: 50%;
-		transform: translateY(-50%);
-	}
-}
-
-@mixin layout-fill-self($position: absolute, $by-height: false) {
-	position: $position;
-	top: 0;
-	left: 0;
-	right: 0;
-
-	@if $by-height == false {
-		bottom: 0;
-	} @else {
-		min-height: 100%;
-	}
-}
+// @mixin layout-full-width($side-margin: false) {
+// 	$m: calc(50% - 50vw);
+// 	@if $side-margin != false {
+// 		$m: calc(#{$side-margin} + 50% - 50vw);
+// 	}
+// 	margin: { left: $m; right: $m; }
+// }
 
 
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-aspect($width, $height, $by-height: false) {
-	position: relative;
+// @mixin layout-centering($inline: false) {
+// 	@if $inline == false {
+// 		display: flex;
+// 	} @else {
+// 		display: inline-flex;
+// 	}
+// 	align-items: center;
+// 	justify-content: center;
+// }
 
-	&:before {
-		content: '';
-		display: block;
-		padding-top: ($height / $width * 100%);
-	}
+// @mixin layout-centering-self($horizontal: true, $vertical: true, $position: absolute) {
+// 	position: $position;
+// 	@if $horizontal == true and $vertical == true {
+// 		top: 50%;
+// 		left: 50%;
+// 		transform: translate(-50%, -50%);
+// 	} @else if $horizontal == true {
+// 		left: 50%;
+// 		transform: translateX(-50%);
+// 	} @else if $vertical == true {
+// 		top: 50%;
+// 		transform: translateY(-50%);
+// 	}
+// }
 
-	> *:first-child {
-		@include layout-fill-self(absolute, $by-height);
-	}
-}
+// @mixin layout-fill-self($position: absolute, $by-height: false) {
+// 	position: $position;
+// 	top: 0;
+// 	left: 0;
+// 	right: 0;
 
-@mixin layout-aspect-gold {
-	@include layout-aspect(1.618, 1);
-}
-
-@mixin layout-minimum-aspect($width, $height) {
-	position: relative;
-
-	&::before, &::after {
-		content: '';
-		display: block;
-	}
-	&::before {
-		padding-top: ($height / $width * 100%);
-		float: right;
-	}
-	> * { clear: none; }
-	&::after { clear: both; }
-}
-
-@mixin layout-minimum-aspect-gold {
-	@include layout-minimum-aspect(1.618, 1);
-}
+// 	@if $by-height == false {
+// 		bottom: 0;
+// 	} @else {
+// 		min-height: 100%;
+// 	}
+// }
 
 
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-gap($x, $y) {
-	margin-right: -$x;
-	margin-bottom: -$y;
+// @mixin layout-aspect($width, $height, $by-height: false) {
+// 	position: relative;
 
-	> *:not(:empty) {
-		margin-right: $x;
-		margin-bottom: $y;
-	}
-}
+// 	&:before {
+// 		content: '';
+// 		display: block;
+// 		padding-top: ($height / $width * 100%);
+// 	}
 
-@mixin layout-wrap($gap: false, $align: center) {
-	$gap_x: $gap;
-	$gap_y: $gap;
-	@if $gap != false and length($gap) == 2 {
-		$gap_x: nth($gap, 1);
-		$gap_y: nth($gap, 2);
-	}
-	@if $gap != false {
-		@include layout-gap($gap_x, $gap_y);
-	}
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: $align;
-}
+// 	> *:first-child {
+// 		@include layout-fill-self(absolute, $by-height);
+// 	}
+// }
 
-@mixin layout-responsive-column($cont-width, $n, $gap: false) {
-	$gap_x: $gap;
-	$gap_y: $gap;
-	@if $gap != false and length($gap) == 2 {
-		$gap_x: nth($gap, 1);
-		$gap_y: nth($gap, 2);
-	}
-	$cw: 100% / $n;
+// @mixin layout-aspect-gold {
+// 	@include layout-aspect(1.618, 1);
+// }
 
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
+// @mixin layout-minimum-aspect($width, $height) {
+// 	position: relative;
 
-	@if $gap != false {
-		margin-right: -$gap_x;
-		margin-bottom: -$gap_y;
-		> * {
-			margin-right: $gap_x;
-			margin-bottom: $gap_y;
-		}
-	}
-	> * {
-		max-width: 100%;
-		flex-grow: 1;
-		flex-basis: calc((#{$cont-width} - 100%) * 1000);
+// 	&::before, &::after {
+// 		content: '';
+// 		display: block;
+// 	}
+// 	&::before {
+// 		padding-top: ($height / $width * 100%);
+// 		float: right;
+// 	}
+// 	> * { clear: none; }
+// 	&::after { clear: both; }
+// }
 
-		@if $gap != false {
-			min-width: calc(#{$cw} - #{$gap_x});
-		} @else {
-			min-width: $cw;
-		}
-	}
-}
+// @mixin layout-minimum-aspect-gold {
+// 	@include layout-minimum-aspect(1.618, 1);
+// }
+
+
+// -----------------------------------------------------------------------------
+
+
+// @mixin layout-gap($x, $y) {
+// 	margin-right: -$x;
+// 	margin-bottom: -$y;
+
+// 	> *:not(:empty) {
+// 		margin-right: $x;
+// 		margin-bottom: $y;
+// 	}
+// }
+
+// @mixin layout-wrap($gap: false, $align: center) {
+// 	$gap_x: $gap;
+// 	$gap_y: $gap;
+// 	@if $gap != false and length($gap) == 2 {
+// 		$gap_x: nth($gap, 1);
+// 		$gap_y: nth($gap, 2);
+// 	}
+// 	@if $gap != false {
+// 		@include layout-gap($gap_x, $gap_y);
+// 	}
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	justify-content: $align;
+// }
+
+// @mixin layout-responsive-column($cont-width, $n, $gap: false) {
+// 	$gap_x: $gap;
+// 	$gap_y: $gap;
+// 	@if $gap != false and length($gap) == 2 {
+// 		$gap_x: nth($gap, 1);
+// 		$gap_y: nth($gap, 2);
+// 	}
+// 	$cw: 100% / $n;
+
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	flex-direction: row;
+
+// 	@if $gap != false {
+// 		margin-right: -$gap_x;
+// 		margin-bottom: -$gap_y;
+// 		> * {
+// 			margin-right: $gap_x;
+// 			margin-bottom: $gap_y;
+// 		}
+// 	}
+// 	> * {
+// 		max-width: 100%;
+// 		flex-grow: 1;
+// 		flex-basis: calc((#{$cont-width} - 100%) * 1000);
+
+// 		@if $gap != false {
+// 			min-width: calc(#{$cw} - #{$gap_x});
+// 		} @else {
+// 			min-width: $cw;
+// 		}
+// 	}
+// }
 
 
 // -----------------------------------------------------------------------------
@@ -199,24 +199,24 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-masonry($n, $gap: false) {
-	column-count: $n;
-	column-gap: $gap;
-	line-height: 0;
+// @mixin layout-masonry($n, $gap: false) {
+// 	column-count: $n;
+// 	column-gap: $gap;
+// 	line-height: 0;
 
-	@if $gap != false {
-		margin-bottom: -$gap;
-	}
-	> * {
-		display: inline-block;
-		line-height: 1;
-		width: 100%;
+// 	@if $gap != false {
+// 		margin-bottom: -$gap;
+// 	}
+// 	> * {
+// 		display: inline-block;
+// 		line-height: 1;
+// 		width: 100%;
 
-		@if $gap != false {
-			margin-bottom: $gap;
-		}
-	}
-}
+// 		@if $gap != false {
+// 			margin-bottom: $gap;
+// 		}
+// 	}
+// }
 
 
 // =============================================================================
