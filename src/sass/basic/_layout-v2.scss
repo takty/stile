@@ -144,61 +144,6 @@
 	justify-content: $align;
 }
 
-
-// -----------------------------------------------------------------------------
-
-
-@mixin layout-spacer() {
-	> *:empty {  // for Spacer
-		visibility: hidden;
-		height: 0;
-		padding: 0;
-		margin-bottom: 0;
-		border: none;
-		&::before { content: none; }
-	}
-}
-
-@mixin layout-column($n, $gap: false) {
-	$cw: 100% / $n;
-
-	display: flex;
-	flex-direction: row;
-
-	@if $gap != false {
-		margin-right: -$gap;
-		> * {
-			margin-right: $gap;
-		}
-	}
-	> * {
-		flex-grow: 1;
-		flex-shrink: 1;
-
-		@if $gap != false {
-			flex-basis: calc(#{$cw} - #{$gap});
-		} @else {
-			flex-basis: #{$cw};
-		}
-	}
-}
-
-@mixin layout-column-cancel($gap: false) {
-	display: flex;
-	flex-direction: column;
-
-	@if $gap != false {
-		margin-bottom: -$gap;
-		> * {
-			margin-bottom: $gap;
-		}
-	}
-	> * {
-		flex-basis: auto;
-	}
-	@include layout-spacer;
-}
-
 @mixin layout-responsive-column($cont-width, $n, $gap: false) {
 	$gap_x: $gap;
 	$gap_y: $gap;
@@ -237,57 +182,18 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin layout-card($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
-	$gap_x: $gap;
-	$gap_y: $gap;
-	@if $gap != false and length($gap) == 2 {
-		$gap_x: nth($gap, 1);
-		$gap_y: nth($gap, 2);
-	}
-	$cw: 100% / $n;
+// @mixin layout-column($n, $gap: false) {
+// }
 
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+// @mixin layout-column-cancel($gap: false) {
+// }
 
-	@if $gap != false {
-		margin-right : -$gap_x;
-		margin-bottom: -$gap_y;
-		> * {
-			margin-right: $gap_x;
-			&:not(:empty) {
-				margin-bottom: $gap_y;
-			}
-		}
-	}
-	> * {
-		flex-grow: 1;
-		flex-shrink: 1;
 
-		@if $gap != false {
-			flex-basis: calc(#{$cw} - #{$gap_x});
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$gap_x} - #{$width-offset-ie}); }  // Hack for calculation error
-			width: calc(#{$cw} - #{$gap_x});  // for Safari
-		} @else {
-			flex-basis: $cw;
-			@include for-ie { flex-basis: calc(#{floor($cw)} - #{$width-offset-ie}); }  // Hack for calculation error
-			width: $cw;  // for Safari
-		}
-	}
-	@include layout-spacer;
+// -----------------------------------------------------------------------------
 
-	@if $align-left {
-		@for $i from 1 through $n {
-			> *:nth-child(#{$n}n+#{$i}):last-child {
-				@if $gap_x == false {
-					margin-right: #{$cw * ($n - $i)};
-				} @else {
-					margin-right: calc(#{$cw * ($n - $i)} + #{$gap_x});
-				}
-			}
-		}
-	}
-}
+
+// @mixin layout-card($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
+// }
 
 
 // -----------------------------------------------------------------------------
@@ -311,3 +217,131 @@
 		}
 	}
 }
+
+
+// =============================================================================
+
+
+@mixin layout-column-v2($n, $gap: false) {
+	@if 1 < length($n) {
+		@include _layout-column-ratio($n, $gap);
+	} @else if 1 < $n {
+		@include _layout-column-equal($n, $gap);
+	} @else {
+		@include _layout-column-cancel($gap);
+	}
+}
+
+	@mixin _layout-column-equal($n, $gap: false) {
+		display: flex;
+		flex-direction: row;
+
+		> * {
+			flex: { grow: 1; shrink: 1; }
+			$cw: 100% / $n;
+			@if $gap == false {
+				flex-basis: $cw;
+			} @else {
+				$cg: $gap * ($n - 1) / $n;
+				flex-basis: calc(#{$cw} - #{$cg});
+				& + * { margin: { left: $gap; top: 0; } }
+			}
+		}
+	}
+
+	@mixin _layout-column-ratio($rs, $gap: false) {
+		display: flex;
+		flex-direction: row;
+
+		> * {
+			flex: { grow: 1; shrink: 1; }
+			@if $gap != false {
+				& + * { margin: { left: $gap; top: 0; } }
+			}
+		}
+		$n: length($rs);
+		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+		$sum: 0;
+		@each $r in $rs { $sum: $sum + $r; }
+
+		@for $i from 1 through $n {
+			> *:nth-child(#{$i}) {
+				$cw: percentage(nth($rs, $i) / $sum);
+				@if $gap == false {
+					flex-basis: $cw;
+				} @else {
+					flex-basis: calc(#{$cw} - #{$cg});
+				}
+			}
+		}
+	}
+
+	@mixin _layout-column-cancel($gap: false) {
+		display: flex;
+		flex-direction: column;
+
+		> * {
+			flex-basis: auto;
+			@if $gap != false {
+				& + * { margin: { left: 0; top: $gap; } }
+			}
+		}
+	}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-card-v2($n, $gap: false, $align-left: true) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;  // For reducing calculation error on IE11 and Edge
+
+	> * {
+		flex: { grow: 1; shrink: 1; }
+
+		$cw: 100% / $n;
+
+		@if $gap == false {
+			flex-basis: $cw;
+			max-width: $cw;
+		} @else {
+			$cg: $gap_x * ($n - 1) / $n;
+			flex-basis: calc(#{$cw} - #{$cg});
+			max-width: calc(#{$cw} - #{$cg});
+
+			&:not(:nth-child(#{$n}n + 1)) {
+				margin-left: calc(#{$gap_x} - 1px);  // For reducing calculation error on IE11 and Edge
+			}
+			&:nth-child(n + #{$n + 1}) {
+				margin-top: $gap_y;
+			}
+		}
+	}
+	@if $align-left {
+		@include _layout-card-tail-margin($n, $gap_x);
+	}
+}
+
+	@mixin _layout-card-tail-margin($n, $gap: false) {
+		$cw: 100% / $n;
+		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+
+		@for $i from 1 through ($n - 1) {
+			> *:nth-child(#{$n}n+#{$i}):last-child {
+				@if $gap == false {
+					margin-right: #{$cw * ($n - $i)};
+				} @else {
+					margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
+				}
+			}
+		}
+	}
