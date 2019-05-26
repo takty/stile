@@ -252,17 +252,18 @@ body {
 		@include layout-card($i, 2rem);
 		> div {
 			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
+			border: 1.25rem solid green;
 		}
 	}
 }
 @for $i from 2 through 4 {
 	.layout-card-v2-#{$i} {
+		margin-top: 1rem;
 		border: 1px solid blue;
 		@include layout-card-v2($i, 2rem);
 		> div {
 			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
+			border: 1.25rem solid green;
 		}
 	}
 }
