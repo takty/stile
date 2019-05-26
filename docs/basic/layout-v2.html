@@ -18,7 +18,7 @@
 	</nav>
 
 	<div style="border-left:1px dashed gray;border-right:1px dashed gray;">
-
+<!--
 		<h2>Side Margin</h2>
 		<div class="layout-side-margin">
 			@include layout-side-margin(32rem, 1rem);
@@ -33,9 +33,9 @@
 		<div class="layout-full-width">
 			@include layout-full-width(1rem);
 		</div>
-
+ -->
 		<!-- --------------------------------------------------------------- -->
-
+<!--
 		<h2>Centering</h2>
 		<div class="layout-centering">
 			<div>@include layout-centering(false);</div>
@@ -50,9 +50,9 @@
 		<div class="layout-fill-self">
 			<div>@include layout-fill-self(absolute, false);</div>
 		</div>
-
+ -->
 		<!-- --------------------------------------------------------------- -->
-
+<!--
 		<h2>Aspect</h2>
 		<div class="layout-aspect">
 			<div>@include layout-aspect(2, 1, false);</div>
@@ -72,29 +72,29 @@
 		<div class="layout-minimum-aspect-gold">
 			<div>@include layout-minimum-aspect-gold();</div>
 		</div>
-
+ -->
 		<!-- --------------------------------------------------------------- -->
-
+<!--
 		<h2>Gap</h2>
 
 		<h2>Wrap</h2>
-
+ -->
 		<!-- --------------------------------------------------------------- -->
 
-		<h2>Column</h2>
-		<div>@include layout-column(2, 2rem);</div>
-		<div class="layout-column-2">
+		<h2>Column v2</h2>
+		<div>@include layout-column-v2(2, 2rem);</div>
+		<div class="layout-column-v2-2">
 			<div>Column 1</div>
 			<div>Column 2</div>
 		</div>
-		<div>@include layout-column(3, 2rem);</div>
-		<div class="layout-column-3">
+		<div>@include layout-column-v2(3, 2rem);</div>
+		<div class="layout-column-v2-3">
 			<div>Column 1</div>
 			<div>Column 2</div>
 			<div>Column 3</div>
 		</div>
-		<div>@include layout-column(4, 2rem);</div>
-		<div class="layout-column-4">
+		<div>@include layout-column-v2(4, 2rem);</div>
+		<div class="layout-column-v2-4">
 			<div>Column 1</div>
 			<div>Column 2</div>
 			<div>Column 3</div>
@@ -103,22 +103,22 @@
 
 		<!-- --------------------------------------------------------------- -->
 
-		<h2>Card</h2>
-		<div>@include layout-card(2, 2rem);</div>
-		<div class="layout-card-2">
+		<h2>Card v2</h2>
+		<div>@include layout-card-v2(2, 2rem);</div>
+		<div class="layout-card-v2-2">
 			<div>Column 1</div>
 			<div>Column 2</div>
 			<div>Column 3</div>
 		</div>
-		<div>@include layout-card(3, 2rem);</div>
-		<div class="layout-card-3">
+		<div>@include layout-card-v2(3, 2rem);</div>
+		<div class="layout-card-v2-3">
 			<div>Column 1</div>
 			<div>Column 2</div>
 			<div>Column 3</div>
 			<div>Column 4</div>
 		</div>
-		<div>@include layout-card(4, 2rem);</div>
-		<div class="layout-card-4">
+		<div>@include layout-card-v2(4, 2rem);</div>
+		<div class="layout-card-v2-4">
 			<div>Column 1</div>
 			<div>Column 2</div>
 			<div>Column 3</div>
@@ -126,6 +126,8 @@
 			<div>Column 5</div>
 			<div>Column 6</div>
 		</div>
+
+		<!-- --------------------------------------------------------------- -->
 
 	</div>
 
