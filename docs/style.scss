@@ -295,9 +295,10 @@ body {
 	.layout-masonry-v2-#{$i} {
 		margin-top: 1rem;
 		border: 1px solid blue;
-		@include layout-masonry-v2($i, (2rem, 2rem));
+		@include layout-masonry-v1($i, (2rem, 2rem));
 		> div {
 			background-color: rgba(red, 0.5);
+			border: 0.5rem solid green;
 		}
 	}
 }
