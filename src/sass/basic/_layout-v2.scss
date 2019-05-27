@@ -348,3 +348,27 @@
 		> * + * { margin-top: $gap_y; }
 	}
 }
+
+@mixin layout-masonry-v1($n, $gap: false) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+
+	column-count: $n;
+	column-gap: $gap_x;
+
+	> * {
+		break-inside: avoid;
+		overflow: hidden;  // for removing spaces on the bottom on Chrome
+
+		display: inline-block;
+		width: 100%;
+	}
+	@if $gap_y != false {
+		margin-bottom: -$gap_y;
+		> * { margin-bottom: $gap_y; }
+	}
+}
