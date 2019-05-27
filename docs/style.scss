@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-26
+ * @version 2019-05-27
  *
  */
 
@@ -258,6 +258,16 @@ body {
 		}
 	}
 }
+@for $i from 2 through 4 {
+	.layout-masonry-#{$i} {
+		margin-top: 1rem;
+		border: 1px solid blue;
+		@include layout-masonry($i, 2rem);
+		> div {
+			background-color: rgba(red, 0.5);
+		}
+	}
+}
 
 
 @for $i from 2 through 4 {
@@ -278,6 +288,16 @@ body {
 		> div {
 			background-color: rgba(red, 0.5);
 			border: 0.5rem solid green;
+		}
+	}
+}
+@for $i from 2 through 4 {
+	.layout-masonry-v2-#{$i} {
+		margin-top: 1rem;
+		border: 1px solid blue;
+		@include layout-masonry-v2($i, (2rem, 2rem));
+		> div {
+			background-color: rgba(red, 0.5);
 		}
 	}
 }
