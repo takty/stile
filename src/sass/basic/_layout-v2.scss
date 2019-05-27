@@ -188,38 +188,14 @@
 // @mixin layout-column-cancel($gap: false) {
 // }
 
-
-// -----------------------------------------------------------------------------
-
-
 // @mixin layout-card($n, $gap: false, $align-left: true, $width-offset-ie: 1px) {
 // }
 
-
-// -----------------------------------------------------------------------------
-
-
 // @mixin layout-masonry($n, $gap: false) {
-// 	column-count: $n;
-// 	column-gap: $gap;
-// 	line-height: 0;
-
-// 	@if $gap != false {
-// 		margin-bottom: -$gap;
-// 	}
-// 	> * {
-// 		display: inline-block;
-// 		line-height: 1;
-// 		width: 100%;
-
-// 		@if $gap != false {
-// 			margin-bottom: $gap;
-// 		}
-// 	}
 // }
 
 
-// =============================================================================
+// -----------------------------------------------------------------------------
 
 
 @mixin layout-column-v2($n, $gap: false) {
@@ -232,61 +208,61 @@
 	}
 }
 
-	@mixin _layout-column-equal($n, $gap: false) {
-		display: flex;
-		flex-direction: row;
+@mixin _layout-column-equal($n, $gap: false) {
+	display: flex;
+	flex-direction: row;
 
-		> * {
-			flex: { grow: 1; shrink: 1; }
-			$cw: 100% / $n;
+	> * {
+		flex: { grow: 1; shrink: 1; }
+		$cw: 100% / $n;
+		@if $gap == false {
+			flex-basis: $cw;
+		} @else {
+			$cg: $gap * ($n - 1) / $n;
+			flex-basis: calc(#{$cw} - #{$cg});
+			& + * { margin: { left: $gap; top: 0; } }
+		}
+	}
+}
+
+@mixin _layout-column-ratio($rs, $gap: false) {
+	display: flex;
+	flex-direction: row;
+
+	> * {
+		flex: { grow: 1; shrink: 1; }
+		@if $gap != false {
+			& + * { margin: { left: $gap; top: 0; } }
+		}
+	}
+	$n: length($rs);
+	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+	$sum: 0;
+	@each $r in $rs { $sum: $sum + $r; }
+
+	@for $i from 1 through $n {
+		> *:nth-child(#{$i}) {
+			$cw: percentage(nth($rs, $i) / $sum);
 			@if $gap == false {
 				flex-basis: $cw;
 			} @else {
-				$cg: $gap * ($n - 1) / $n;
 				flex-basis: calc(#{$cw} - #{$cg});
-				& + * { margin: { left: $gap; top: 0; } }
 			}
 		}
 	}
+}
 
-	@mixin _layout-column-ratio($rs, $gap: false) {
-		display: flex;
-		flex-direction: row;
+@mixin _layout-column-cancel($gap: false) {
+	display: flex;
+	flex-direction: column;
 
-		> * {
-			flex: { grow: 1; shrink: 1; }
-			@if $gap != false {
-				& + * { margin: { left: $gap; top: 0; } }
-			}
-		}
-		$n: length($rs);
-		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
-		$sum: 0;
-		@each $r in $rs { $sum: $sum + $r; }
-
-		@for $i from 1 through $n {
-			> *:nth-child(#{$i}) {
-				$cw: percentage(nth($rs, $i) / $sum);
-				@if $gap == false {
-					flex-basis: $cw;
-				} @else {
-					flex-basis: calc(#{$cw} - #{$cg});
-				}
-			}
+	> * {
+		flex-basis: auto;
+		@if $gap != false {
+			& + * { margin: { left: 0; top: $gap; } }
 		}
 	}
-
-	@mixin _layout-column-cancel($gap: false) {
-		display: flex;
-		flex-direction: column;
-
-		> * {
-			flex-basis: auto;
-			@if $gap != false {
-				& + * { margin: { left: 0; top: $gap; } }
-			}
-		}
-	}
+}
 
 
 // -----------------------------------------------------------------------------
@@ -331,17 +307,44 @@
 	}
 }
 
-	@mixin _layout-card-tail-margin($n, $gap: false) {
-		$cw: 100% / $n;
-		$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+@mixin _layout-card-tail-margin($n, $gap: false) {
+	$cw: 100% / $n;
+	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
 
-		@for $i from 1 through ($n - 1) {
-			> *:nth-child(#{$n}n+#{$i}):last-child {
-				@if $gap == false {
-					margin-right: #{$cw * ($n - $i)};
-				} @else {
-					margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
-				}
+	@for $i from 1 through ($n - 1) {
+		> *:nth-child(#{$n}n+#{$i}):last-child {
+			@if $gap == false {
+				margin-right: #{$cw * ($n - $i)};
+			} @else {
+				margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
 			}
 		}
 	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-masonry-v2($n, $gap: false) {
+	$gap_x: $gap;
+	$gap_y: $gap;
+	@if $gap != false and length($gap) == 2 {
+		$gap_x: nth($gap, 1);
+		$gap_y: nth($gap, 2);
+	}
+
+	column-count: $n;
+	column-gap: $gap_x;
+
+	> * {
+		break-inside: avoid;
+		overflow: hidden;  // for removing spaces on the bottom on Chrome
+
+		// for removing spaces on the bottom on Edge and IE11
+		// border: { top: none; bottom: none !important; }
+	}
+	@if $gap_y != false {
+		> * + * { margin-top: $gap_y; }
+	}
+}
