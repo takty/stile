@@ -150,6 +150,36 @@
 	}
 }
 
+@mixin layout-wrap-responsive-v2($cont-width, $n, $gap: false) {
+	$gap_x: if(length($gap) == 2, nth($gap, 1), $gap);
+	$gap_y: if(length($gap) == 2, nth($gap, 2), $gap);
+
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+
+	&::after {
+		content: '';
+		display: block;
+	}
+
+	@if $gap_y != false {
+		margin-bottom: -$gap_y;
+		> * { margin-bottom: $gap_y; }
+	}
+	> * {
+		max-width: 100%;
+		flex-basis: calc((#{$cont-width} - 100%) * 1000);
+		$cw: 100% / $n;
+		@if $gap_x == false {
+			min-width: $cw;
+		} @else {
+			$cg: $gap * ($n - 1) / $n;
+			min-width: calc(#{$cw} - #{$cg});
+		}
+	}
+}
+
 // @mixin layout-responsive-column($cont-width, $n, $gap: false) {
 // 	$gap_x: $gap;
 // 	$gap_y: $gap;
