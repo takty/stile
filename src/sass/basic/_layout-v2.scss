@@ -343,22 +343,9 @@
 
 		// for removing spaces on the bottom on Edge and IE11
 		// border: { top: none; bottom: none !important; }
-
-		// &::before, &::after {
-		// 	content: '';
-		// 	display: block;
-		// 	width: 100%;
-		// 	height: $gap_y;
-		// }
 	}
 	@if $gap_y != false {
 		> * + * { margin-top: $gap_y; }
-	}
-	&::before, &::after {
-		content: '';
-		display: block;
-		width: 100%;
-		height: $gap_y;
 	}
 }
 
@@ -372,6 +359,7 @@
 
 	column-count: $n;
 	column-gap: $gap_x;
+	line-height: 0;
 
 	> * {
 		break-inside: avoid;
@@ -379,9 +367,9 @@
 
 		display: inline-block;
 		width: 100%;
+		line-height: 1;
 	}
 	@if $gap_y != false {
-//		margin-bottom: -$gap_y;
 		&::after {
 			content: '';
 			display: block;
