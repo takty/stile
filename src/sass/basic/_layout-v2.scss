@@ -333,7 +333,6 @@
 		$gap_x: nth($gap, 1);
 		$gap_y: nth($gap, 2);
 	}
-
 	column-count: $n;
 	column-gap: $gap_x;
 
@@ -347,24 +346,14 @@
 	@if $gap_y != false {
 		> * + * { margin-top: $gap_y; }
 	}
+	@include for-safari {
+		@include _layout-masonry-alt($gap_y);
+	}
 }
 
-@mixin layout-masonry-v1($n, $gap: false) {
-	$gap_x: $gap;
-	$gap_y: $gap;
-	@if $gap != false and length($gap) == 2 {
-		$gap_x: nth($gap, 1);
-		$gap_y: nth($gap, 2);
-	}
-
-	column-count: $n;
-	column-gap: $gap_x;
+@mixin _layout-masonry-alt($gap_y) {
 	line-height: 0;
-
 	> * {
-		break-inside: avoid;
-		overflow: hidden;  // for removing spaces on the bottom on Chrome
-
 		display: inline-block;
 		width: 100%;
 		line-height: 1;
@@ -377,6 +366,7 @@
 			margin-bottom: - $gap_y;
 			column-span: all;
 		}
+		> * + * { margin-top: 0; }
 		> * { margin-bottom: $gap_y; }
 	}
 }
