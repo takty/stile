@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-27
+ * @version 2019-05-29
  *
  */
 
@@ -343,9 +343,22 @@
 
 		// for removing spaces on the bottom on Edge and IE11
 		// border: { top: none; bottom: none !important; }
+
+		// &::before, &::after {
+		// 	content: '';
+		// 	display: block;
+		// 	width: 100%;
+		// 	height: $gap_y;
+		// }
 	}
 	@if $gap_y != false {
 		> * + * { margin-top: $gap_y; }
+	}
+	&::before, &::after {
+		content: '';
+		display: block;
+		width: 100%;
+		height: $gap_y;
 	}
 }
 
@@ -368,7 +381,14 @@
 		width: 100%;
 	}
 	@if $gap_y != false {
-		margin-bottom: -$gap_y;
+//		margin-bottom: -$gap_y;
+		&::after {
+			content: '';
+			display: block;
+			width: 100%;
+			margin-top: - $gap_y;
+			column-span: all;
+		}
 		> * { margin-bottom: $gap_y; }
 	}
 }
