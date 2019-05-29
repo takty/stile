@@ -119,30 +119,36 @@
 // -----------------------------------------------------------------------------
 
 
-// @mixin layout-gap($x, $y) {
-// 	margin-right: -$x;
-// 	margin-bottom: -$y;
+@mixin layout-gap-v2($gaps_or_gap_x, $gap_y: null) {
+	$gap_x: $gaps_or_gap_x;
+	$gap_y: if($gap_y != null, $gap_y, $gaps_or_gap_x);
 
-// 	> *:not(:empty) {
-// 		margin-right: $x;
-// 		margin-bottom: $y;
-// 	}
-// }
+	@if length($gaps_or_gap_x) == 2 {
+		$gap_x: nth($gaps_or_gap_x, 1);
+		$gap_y: nth($gaps_or_gap_x, 2);
+	}
+	margin-right: -$gap_x;
+	@if $gap_y != false {
+		margin-bottom: -$gap_y;
+	}
 
-// @mixin layout-wrap($gap: false, $align: center) {
-// 	$gap_x: $gap;
-// 	$gap_y: $gap;
-// 	@if $gap != false and length($gap) == 2 {
-// 		$gap_x: nth($gap, 1);
-// 		$gap_y: nth($gap, 2);
-// 	}
-// 	@if $gap != false {
-// 		@include layout-gap($gap_x, $gap_y);
-// 	}
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	justify-content: $align;
-// }
+	> *:not(:empty) {
+		margin-right: $gap_x;
+		@if $gap_y != false {
+			margin-bottom: $gap_y;
+		}
+	}
+}
+
+@mixin layout-wrap-v2($gap: false, $align-left: true) {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: if($align-left, left, center);
+
+	@if $gap != false {
+		@include layout-gap($gap);
+	}
+}
 
 // @mixin layout-responsive-column($cont-width, $n, $gap: false) {
 // 	$gap_x: $gap;
