@@ -158,10 +158,10 @@
 	flex-flow: row wrap;
 	justify-content: space-between;
 
-	&::after {
-		content: '';
-		display: block;
-	}
+	// &::after {
+	// 	content: '';
+	// 	display: block;
+	// }
 
 	@if $gap_y != false {
 		margin-bottom: -$gap_y;
@@ -244,32 +244,73 @@
 	}
 }
 
+// @mixin _layout-column-equal($n, $gap: false) {
+// 	display: flex;
+// 	flex-direction: row;
+
+// 	$mw: 100% / $n;
+// 	@if $gap != false {
+// 		$cg: $gap * ($n - 1) / $n;
+// 		$mw: calc(#{$mw} - #{$cg});
+// 	}
+// 	> * {
+// 		flex: { grow: 1; shrink: 1; }
+// 		flex-basis: $mw;
+//  	@if $gap != false {
+// 			& + * { margin: { left: $gap; top: 0; } }
+// 		}
+// 	}
+// }
 @mixin _layout-column-equal($n, $gap: false) {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 
+	$mw: 100% / $n;
+	@if $gap != false {
+		$cg: $gap * ($n - 1) / $n;
+		$mw: calc(#{$mw} - #{$cg});
+	}
 	> * {
-		flex: { grow: 1; shrink: 1; }
-		$cw: 100% / $n;
-		@if $gap == false {
-			flex-basis: $cw;
-		} @else {
-			$cg: $gap * ($n - 1) / $n;
-			flex-basis: calc(#{$cw} - #{$cg});
-			& + * { margin: { left: $gap; top: 0; } }
-		}
+		width: 100%;
+		max-width: $mw;
+		margin-top: 0;  // For canceling _layout-column-cancel
 	}
 }
 
+// @mixin _layout-column-ratio($rs, $gap: false) {
+// 	display: flex;
+// 	flex-direction: row;
+
+// 	> * {
+// 		flex: { grow: 1; shrink: 1; }
+// 		@if $gap != false {
+// 			& + * { margin: { left: $gap; top: 0; } }
+// 		}
+// 	}
+// 	$n: length($rs);
+// 	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+// 	$sum: 0;
+// 	@each $r in $rs { $sum: $sum + $r; }
+
+// 	@for $i from 1 through $n {
+// 		> *:nth-child(#{$i}) {
+// 			$mw: percentage(nth($rs, $i) / $sum);
+// 			@if $gap != false {
+// 				$mw: calc(#{$mw} - #{$cg});
+// 			}
+// 			flex-basis: $cw;
+// 		}
+// 	}
+// }
 @mixin _layout-column-ratio($rs, $gap: false) {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 
 	> * {
-		flex: { grow: 1; shrink: 1; }
-		@if $gap != false {
-			& + * { margin: { left: $gap; top: 0; } }
-		}
+		width: 100%;
+		margin-top: 0;  // For canceling _layout-column-cancel
 	}
 	$n: length($rs);
 	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
@@ -278,24 +319,34 @@
 
 	@for $i from 1 through $n {
 		> *:nth-child(#{$i}) {
-			$cw: percentage(nth($rs, $i) / $sum);
-			@if $gap == false {
-				flex-basis: $cw;
-			} @else {
-				flex-basis: calc(#{$cw} - #{$cg});
+			$mw: percentage(nth($rs, $i) / $sum);
+			@if $gap != false {
+				$mw: calc(#{$mw} - #{$cg});
 			}
+			max-width: $mw;
 		}
 	}
 }
 
+// @mixin _layout-column-cancel($gap: false) {
+// 	display: flex;
+// 	flex-direction: column;
+
+// 	> * {
+// 		flex-basis: auto;
+// 		@if $gap != false {
+// 			& + * { margin: { left: 0; top: $gap; } }
+// 		}
+// 	}
+// }
 @mixin _layout-column-cancel($gap: false) {
 	display: flex;
 	flex-direction: column;
 
 	> * {
-		flex-basis: auto;
+		max-width: 100%;
 		@if $gap != false {
-			& + * { margin: { left: 0; top: $gap; } }
+			& + * { margin-top: $gap; }
 		}
 	}
 }
@@ -304,31 +355,77 @@
 // -----------------------------------------------------------------------------
 
 
+// @mixin layout-card-v2($n, $gap: false, $align-left: true) {
+// 	$gap_x: $gap;
+// 	$gap_y: $gap;
+// 	@if $gap != false and length($gap) == 2 {
+// 		$gap_x: nth($gap, 1);
+// 		$gap_y: nth($gap, 2);
+// 	}
+
+// 	display: flex;
+// 	flex-flow: row wrap;
+// 	justify-content: space-between;  // For reducing calculation error on IE11 and Edge
+
+// 	> * {
+// 		flex: { grow: 1; shrink: 1; }
+
+// 		$cw: 100% / $n;
+
+// 		@if $gap == false {
+// 			flex-basis: $cw;
+// 			max-width: $cw;
+// 		} @else {
+// 			$cg: $gap_x * ($n - 1) / $n;
+// 			flex-basis: calc(#{$cw} - #{$cg});
+// 			max-width: calc(#{$cw} - #{$cg});
+
+// 			&:not(:nth-child(#{$n}n + 1)) {
+// 				margin-left: calc(#{$gap_x} - 1px);  // For reducing calculation error on IE11 and Edge
+// 			}
+// 			&:nth-child(n + #{$n + 1}) {
+// 				margin-top: $gap_y;
+// 			}
+// 		}
+// 	}
+// 	@if $align-left {
+// 		@include _layout-card-tail-margin($n, $gap_x);
+// 	}
+// }
+
+// @mixin _layout-card-tail-margin($n, $gap: false) {
+// 	$cw: 100% / $n;
+// 	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+
+// 	@for $i from 1 through ($n - 1) {
+// 		> *:nth-child(#{$n}n+#{$i}):last-child {
+// 			@if $gap == false {
+// 				margin-right: #{$cw * ($n - $i)};
+// 			} @else {
+// 				margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
+// 			}
+// 		}
+// 	}
+// }
 @mixin layout-card-v2($n, $gap: false, $align-left: true) {
-	$gap_x: $gap;
-	$gap_y: $gap;
-	@if $gap != false and length($gap) == 2 {
-		$gap_x: nth($gap, 1);
-		$gap_y: nth($gap, 2);
-	}
+	$gap_x: if(length($gap) == 2, nth($gap, 1), $gap);
+	$gap_y: if(length($gap) == 2, nth($gap, 2), $gap);
 
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: space-between;  // For reducing calculation error on IE11 and Edge
+	justify-content: space-between;
+
+	$mw: 100% / $n;
+	@if $gap != false {
+		$cg: $gap * ($n - 1) / $n;
+		$mw: calc(#{$mw} - #{$cg});
+	}
 
 	> * {
-		flex: { grow: 1; shrink: 1; }
-
-		$cw: 100% / $n;
-
-		@if $gap == false {
-			flex-basis: $cw;
-			max-width: $cw;
-		} @else {
-			$cg: $gap_x * ($n - 1) / $n;
-			flex-basis: calc(#{$cw} - #{$cg});
-			max-width: calc(#{$cw} - #{$cg});
-
+		width: 100%;
+		max-width: $mw;
+	
+		@if $gap != false {
 			&:not(:nth-child(#{$n}n + 1)) {
 				margin-left: calc(#{$gap_x} - 1px);  // For reducing calculation error on IE11 and Edge
 			}
