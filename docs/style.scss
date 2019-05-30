@@ -290,7 +290,7 @@ body {
 		}
 	}
 }
-@for $i from 2 through 4 {
+@for $i from 1 through 4 {
 	.layout-card-v2-#{$i} {
 		margin-top: 1rem;
 		border: 1px solid blue;
