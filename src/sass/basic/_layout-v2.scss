@@ -1,119 +1,108 @@
 /**
  *
- * Layout Mixins
+ * Layout Mixins v2
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-29
+ * @version 2019-05-31
  *
  */
 
 
-// @mixin layout-side-margin($max-width, $side-margin: false) {
-// 	$w: 100%;
-// 	@if $side-margin != false {
-// 		$w: calc(100% - #{$side-margin * 2});
-// 	}
-// 	margin: { left: auto; right: auto; }
-// 	max-width: $max-width;  // must be max-width for Android Chrome
-// 	width: $w;  // must be width for Android Chrome
-// }
+@mixin layout-side-margin-v2($max-width, $side-margin: false) {
+	$w: 100%;
+	@if $side-margin != false {
+		$w: calc(100% - #{$side-margin * 2});
+	}
+	margin: { left: auto; right: auto; }
+	max-width: $max-width;  // must be max-width for Android Chrome
+	width: $w;  // must be width for Android Chrome
+}
 
-// @mixin layout-width-breakpoint($min-width, $breakpoint, $max-width) {
-// 	min-width: $min-width;
-// 	width: calc((#{$breakpoint} - 100%) * 1000);
-// 	max-width: $max-width;
-// }
+@mixin layout-width-responsive-v2($cont-width, $min-width, $max-width) {
+	min-width: $min-width;
+	width: calc((#{$cont-width} - 100%) * 1000);
+	max-width: $max-width;
+}
 
-// @mixin layout-full-width($side-margin: false) {
-// 	$m: calc(50% - 50vw);
-// 	@if $side-margin != false {
-// 		$m: calc(#{$side-margin} + 50% - 50vw);
-// 	}
-// 	margin: { left: $m; right: $m; }
-// }
-
-
-// -----------------------------------------------------------------------------
-
-
-// @mixin layout-centering($inline: false) {
-// 	@if $inline == false {
-// 		display: flex;
-// 	} @else {
-// 		display: inline-flex;
-// 	}
-// 	align-items: center;
-// 	justify-content: center;
-// }
-
-// @mixin layout-centering-self($horizontal: true, $vertical: true, $position: absolute) {
-// 	position: $position;
-// 	@if $horizontal == true and $vertical == true {
-// 		top: 50%;
-// 		left: 50%;
-// 		transform: translate(-50%, -50%);
-// 	} @else if $horizontal == true {
-// 		left: 50%;
-// 		transform: translateX(-50%);
-// 	} @else if $vertical == true {
-// 		top: 50%;
-// 		transform: translateY(-50%);
-// 	}
-// }
-
-// @mixin layout-fill-self($position: absolute, $by-height: false) {
-// 	position: $position;
-// 	top: 0;
-// 	left: 0;
-// 	right: 0;
-
-// 	@if $by-height == false {
-// 		bottom: 0;
-// 	} @else {
-// 		min-height: 100%;
-// 	}
-// }
+@mixin layout-full-width-v2($side-margin: false) {
+	$m: calc(50% - 50vw);
+	@if $side-margin != false {
+		$m: calc(#{$m} + #{$side-margin});
+	}
+	margin: { left: $m; right: $m; }
+}
 
 
 // -----------------------------------------------------------------------------
 
 
-// @mixin layout-aspect($width, $height, $by-height: false) {
-// 	position: relative;
+@mixin layout-centering-v2($inline: false) {
+	display: if($inline == false, flex, inline-flex);
+	align-items: center;
+	justify-content: center;
+}
 
-// 	&:before {
-// 		content: '';
-// 		display: block;
-// 		padding-top: ($height / $width * 100%);
-// 	}
+@mixin layout-centering-self-v2($horizontal: true, $vertical: true, $position: absolute) {
+	position: $position;
+	@if $horizontal == true { left: 50%; }
+	@if $vertical   == true { top : 50%; }
 
-// 	> *:first-child {
-// 		@include layout-fill-self(absolute, $by-height);
-// 	}
-// }
+	@if $horizontal == true and $vertical == true {
+		transform: translate(-50%, -50%);
+	} @else if $horizontal == true {
+		transform: translateX(-50%);
+	} @else if $vertical == true {
+		transform: translateY(-50%);
+	}
+}
 
-// @mixin layout-aspect-gold {
-// 	@include layout-aspect(1.618, 1);
-// }
+@mixin layout-fill-self-v2() {
+	position: $position;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
 
-// @mixin layout-minimum-aspect($width, $height) {
-// 	position: relative;
 
-// 	&::before, &::after {
-// 		content: '';
-// 		display: block;
-// 	}
-// 	&::before {
-// 		padding-top: ($height / $width * 100%);
-// 		float: right;
-// 	}
-// 	> * { clear: none; }
-// 	&::after { clear: both; }
-// }
+// -----------------------------------------------------------------------------
 
-// @mixin layout-minimum-aspect-gold {
-// 	@include layout-minimum-aspect(1.618, 1);
-// }
+
+@mixin layout-aspect-v2($width, $height, $expandable: false) {
+	@if ($expandable) {
+		@include _layout-aspect-expandable($width, $height);
+	} @else {
+		@include _layout-aspect-fixed($width, $height);
+	}
+}
+
+@mixin _layout-aspect-fixed($width, $height) {
+	&:before {
+		content: '';
+		display: block;
+		padding-top: percentage($height / $width);
+	}
+	position: relative;
+	> *:first-child { @include layout-fill-self; }
+}
+
+@mixin _layout-aspect-expandable($width, $height) {
+	&::before, &::after {
+		content: '';
+		display: block;
+	}
+	&::before {
+		padding-top: percentage($height / $width);
+		float: right;
+	}
+	&::after { clear: both; }
+	> * {
+		clear: none;
+		width: 100%;
+	}
+	display: flex;
+	align-items: stretch;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -127,16 +116,12 @@
 		$gap_x: nth($gaps_or_gap_x, 1);
 		$gap_y: nth($gaps_or_gap_x, 2);
 	}
-	margin-right: -$gap_x;
-	@if $gap_y != false {
-		margin-bottom: -$gap_y;
-	}
+	@if $gap_x != false { margin-right : -$gap_x; }
+	@if $gap_y != false { margin-bottom: -$gap_y; }
 
 	> *:not(:empty) {
-		margin-right: $gap_x;
-		@if $gap_y != false {
-			margin-bottom: $gap_y;
-		}
+		@if $gap_x != false { margin-right : $gap_x; }
+		@if $gap_y != false { margin-bottom: $gap_y; }
 	}
 }
 
@@ -146,7 +131,7 @@
 	justify-content: if($align-left, left, center);
 
 	@if $gap != false {
-		@include layout-gap($gap);
+		@include layout-gap-v2($gap);
 	}
 }
 
@@ -172,10 +157,6 @@
 	} @else {
 		@include _layout-wrap-responsive-equal($cont-width, $n, $gap_x);
 	}
-	// &::after {
-	// 	content: '';
-	// 	display: block;
-	// }
 }
 
 @mixin _layout-wrap-responsive-equal($cont-width, $n, $gap_x: false) {
@@ -298,7 +279,7 @@
 	> * {
 		width: 100%;
 		max-width: $mw;
-	
+
 		@if $gap != false {
 			&:not(:nth-child(#{$n}n + 1)) {
 				margin-left: calc(#{$gap_x} - 1px);  // For reducing calculation error on IE11 and Edge
