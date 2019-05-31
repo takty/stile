@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-27
+ * @version 2019-05-31
  *
  */
 
@@ -270,45 +270,84 @@ body {
 }
 
 
+// -----------------------------------------------------------------------------
+
+
+*[class ^='layout-'] {
+	border: 1px dashed blue;
+	> div {
+		background-color: rgba(red, 0.5);
+		border: 4px solid pink;
+	}
+}
+.col-2 {
+	@include layout-wrap-responsive-v2(24rem, 2, 2rem);
+	align-items: flex-start;
+}
+
+.layout-side-margin-v2 {
+	@include layout-side-margin-v2(40rem, 1rem);
+}
+.layout-width-responsive-v2 {
+	> div {
+		@include layout-width-responsive-v2(32rem, 40%, 100%);
+	}
+}
+.layout-full-width-v2 {
+	@include layout-full-width-v2(1rem);
+}
+
+.layout-centering-v2 {
+	height: 6rem;
+	@include layout-centering(false);
+	> div { display: inline-block; }
+}
+.layout-centering-self-v2 {
+	height: 6rem;
+	> div {
+		display: inline-block;
+		@include layout-centering-self(true, true, relative);
+	}
+}
+.layout-fill-self-v2 {
+	position: relative;
+	height: 6rem;
+	> div { @include layout-fill-self(absolute, false); }
+}
+
+.layout-aspect-v2 {
+	width: 20rem;
+	@include layout-aspect-v2(3, 1);
+}
+.layout-aspect-expandable-v2 {
+	width: 20rem;
+	@include layout-aspect-v2(3, 1, true);
+}
+
+.layout-wrap-v2 {
+	@include layout-wrap-v2((1rem 2rem));
+}
+
 @for $i from 2 through 4 {
 	.layout-wrap-responsive-v2-#{$i} {
-		border: 1px solid blue;
 		@include layout-wrap-responsive-v2(36rem, $i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
+
 @for $i from 2 through 4 {
 	.layout-column-v2-#{$i} {
-		border: 1px solid blue;
 		@include layout-column-v2($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
+
 @for $i from 1 through 4 {
 	.layout-card-v2-#{$i} {
-		margin-top: 1rem;
-		border: 1px solid blue;
 		@include layout-card-v2($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
+
 @for $i from 2 through 4 {
 	.layout-masonry-v2-#{$i} {
-		margin-top: 1rem;
-		border: 1px solid blue;
 		@include layout-masonry-v2($i, (2rem, 2rem));
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
