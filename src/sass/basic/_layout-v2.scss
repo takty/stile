@@ -57,7 +57,7 @@
 }
 
 @mixin layout-fill-self-v2() {
-	position: $position;
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -83,7 +83,7 @@
 		padding-top: percentage($height / $width);
 	}
 	position: relative;
-	> *:first-child { @include layout-fill-self; }
+	> *:first-child { @include layout-fill-self-v2; }
 }
 
 @mixin _layout-aspect-expandable($width, $height) {
