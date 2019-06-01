@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-31
+ * @version 2019-06-01
  *
  */
 
@@ -322,6 +322,11 @@ body {
 .layout-aspect-expandable-v2 {
 	width: 20rem;
 	@include layout-aspect-v2(3, 1, true);
+}
+*[data-stile ~= 'layout-frame-contain'] {
+	@include layout-frame-contain(3, 2);
+	display: block;
+	border: 1px dashed blue;
 }
 
 .layout-wrap-v2 {
