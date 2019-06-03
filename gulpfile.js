@@ -53,14 +53,14 @@ gulp.task('default', gulp.series('build', 'watch'));
 // -----------------------------------------------------------------------------
 
 gulp.task('docs-sass', gulp.series('sass', () => {
-	return gulp.src('docs/style.scss')
+	return gulp.src(['docs/style.scss', 'docs/reset.scss'])
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass({ outputStyle: 'compressed' }))
 		.pipe($.autoprefixer({ browsers: ['ie >= 11'], remove: false }))
 		.pipe($.rename({ extname: '.min.css' }))
 		.pipe($.sourcemaps.write('.'))
-		.pipe(gulp.dest('./docs'));
+		.pipe(gulp.dest('./docs/css'));
 }));
 
 gulp.task('docs-js', gulp.series('js-with-option', () => {
