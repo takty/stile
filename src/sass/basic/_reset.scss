@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-03
+ * @version 2019-06-04
  *
  * Based on:
  *  modern-normalize v0.4
@@ -19,6 +19,7 @@
 
 html {
 	box-sizing: border-box;
+	-webkit-text-size-adjust: 100%;  // for iOS
 }
 
 *, *:before, *:after {
