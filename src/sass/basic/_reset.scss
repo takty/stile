@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-11
+ * @version 2019-06-03
  *
  * Based on:
  *  modern-normalize v0.4
@@ -64,6 +64,10 @@ button, select {
 	text-transform: none;
 }
 
+button, input, select {
+	border-radius: inherit;  // for iOS
+}
+
 button, [type='button'], [type='reset'], [type='submit'] {
 	-webkit-appearance: button;
 	appearance: button;
@@ -85,6 +89,7 @@ button, [type='button'], [type='reset'], [type='submit'] {
 	-webkit-appearance: textfield;
 	appearance: textfield;
 	outline-offset: -2px;
+	border-radius: inherit;  // for iOS
 }
 
 [type='search']::-webkit-search-decoration {
