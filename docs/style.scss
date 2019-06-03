@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-01
+ * @version 2019-06-03
  *
  */
 
@@ -53,7 +53,7 @@ body {
 	@include stile-option(true);
 	color: hsla(0, 0, 0, 0.75);
 
-	> div { @include stile-margin; }
+	> div:not([class]) { @include stile-margin; }
 
 	a:not([class])[data-stile ~= 'link-file-pdf']::after { content: '\e0e0'; }
 	a:not([class])[data-stile ~= 'link-file-word']::after { content: '\e873'; }
