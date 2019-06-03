@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-11
+ * @version 2019-06-03
  *
  */
 
@@ -132,7 +132,7 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 			border-left: $stile-pseudo-tab-page-size-tab-current-top solid $stile-pseudo-tab-page-color-tab-current-top;
 		}
 		@if $stile-pseudo-tab-page-visible-tab-separator == true {
-			&:not(:last-child)::after {
+			&:not(:last-of-type)::after {
 				content: '';
 				width: 2px;
 				height: 1rem;
