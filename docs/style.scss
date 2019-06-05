@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-03
+ * @version 2019-06-05
  *
  */
 
@@ -167,112 +167,6 @@ body {
 // -----------------------------------------------------------------------------
 
 
-.layout-side-margin {
-	background-color: rgba(red, 0.5);
-	@include layout-side-margin(32rem, 1rem);
-}
-.layout-width-breakpoint {
-	background-color: rgba(red, 0.5);
-	@include layout-width-breakpoint(40%, 32rem, 100%);
-}
-.layout-full-width {
-	background-color: rgba(red, 0.5);
-	@include layout-full-width(1rem);
-}
-.layout-centering {
-	background-color: rgba(red, 0.5);
-	height: 6rem;
-	@include layout-centering(false);
-	> div {
-		display: inline-block;
-		border: 1px solid blue;
-	}
-}
-.layout-centering-self {
-	border: 1px solid blue;
-	height: 6rem;
-	> div {
-		display: inline-block;
-		background-color: rgba(red, 0.5);
-		@include layout-centering-self(true, true, relative);
-	}
-}
-.layout-fill-self {
-	position: relative;
-	border: 1px solid blue;
-	height: 6rem;
-	> div {
-		@include layout-fill-self(absolute, false);
-		background-color: rgba(red, 0.5);
-	}
-}
-.layout-aspect {
-	@include layout-aspect(2, 1, false);
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-.layout-aspect-gold {
-	@include layout-aspect-gold();
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-.layout-minimum-aspect {
-	@include layout-minimum-aspect(2, 1);
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-.layout-minimum-aspect-gold {
-	@include layout-minimum-aspect-gold();
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-@for $i from 2 through 4 {
-	.layout-column-#{$i} {
-		border: 1px solid blue;
-		@include layout-column($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
-	}
-}
-@for $i from 2 through 4 {
-	.layout-card-#{$i} {
-		border: 1px solid blue;
-		@include layout-card($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
-	}
-}
-@for $i from 2 through 4 {
-	.layout-masonry-#{$i} {
-		margin-top: 1rem;
-		border: 1px solid blue;
-		@include layout-masonry($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-		}
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
 *[class ^='layout-'] {
 	border: 1px dashed blue;
 	> div {
@@ -281,47 +175,47 @@ body {
 	}
 }
 .col-2 {
-	@include layout-wrap-responsive-v2(24rem, 2, 2rem);
+	@include layout-wrap-responsive(24rem, 2, 2rem);
 	align-items: flex-start;
 }
 
-.layout-side-margin-v2 {
-	@include layout-side-margin-v2(40rem, 1rem);
+.layout-side-margin {
+	@include layout-side-margin(40rem, 1rem);
 }
-.layout-width-responsive-v2 {
+.layout-width-responsive {
 	> div {
-		@include layout-width-responsive-v2(32rem, 40%, 100%);
+		@include layout-width-responsive(32rem, 40%, 100%);
 	}
 }
-.layout-full-width-v2 {
-	@include layout-full-width-v2(1rem);
+.layout-full-width {
+	@include layout-full-width(1rem);
 }
 
-.layout-centering-v2 {
+.layout-centering {
 	height: 6rem;
 	@include layout-centering(false);
 	> div { display: inline-block; }
 }
-.layout-centering-self-v2 {
+.layout-centering-self {
 	height: 6rem;
 	> div {
 		display: inline-block;
 		@include layout-centering-self(true, true, relative);
 	}
 }
-.layout-fill-self-v2 {
+.layout-fill-self {
 	position: relative;
 	height: 6rem;
-	> div { @include layout-fill-self(absolute, false); }
+	> div { @include layout-fill-self; }
 }
 
-.layout-aspect-v2 {
+.layout-aspect {
 	width: 20rem;
-	@include layout-aspect-v2(3, 1);
+	@include layout-aspect(3, 1);
 }
-.layout-aspect-expandable-v2 {
+.layout-aspect-expandable {
 	width: 20rem;
-	@include layout-aspect-v2(3, 1, true);
+	@include layout-aspect(3, 1, true);
 }
 *[data-stile ~= 'layout-frame-contain'] {
 	@include layout-frame-contain(3, 2);
@@ -329,30 +223,30 @@ body {
 	border: 1px dashed blue;
 }
 
-.layout-wrap-v2 {
-	@include layout-wrap-v2((1rem 2rem));
+.layout-wrap {
+	@include layout-wrap((1rem 2rem));
 }
 
 @for $i from 2 through 4 {
-	.layout-wrap-responsive-v2-#{$i} {
-		@include layout-wrap-responsive-v2(36rem, $i, 2rem);
+	.layout-wrap-responsive-#{$i} {
+		@include layout-wrap-responsive(36rem, $i, 2rem);
 	}
 }
 
 @for $i from 2 through 4 {
-	.layout-column-v2-#{$i} {
-		@include layout-column-v2($i, 2rem);
+	.layout-column-#{$i} {
+		@include layout-column($i, 2rem);
 	}
 }
 
 @for $i from 1 through 4 {
-	.layout-card-v2-#{$i} {
-		@include layout-card-v2($i, 2rem);
+	.layout-card-#{$i} {
+		@include layout-card($i, 2rem);
 	}
 }
 
 @for $i from 2 through 4 {
-	.layout-masonry-v2-#{$i} {
-		@include layout-masonry-v2($i, (2rem, 2rem));
+	.layout-masonry-#{$i} {
+		@include layout-masonry($i, (2rem, 2rem));
 	}
 }

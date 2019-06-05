@@ -21,12 +21,12 @@
 
 		<h2>Side Margin</h2>
 		<div class="layout-side-margin">
-			@include layout-side-margin(32rem, 1rem);
+			@include layout-side-margin(40rem, 1rem);
 		</div>
 
-		<h2>Width Breakpoint</h2>
-		<div class="layout-width-breakpoint">
-			@include layout-width-breakpoint(40%, 32rem, 100%);
+		<h2>Width Responsive</h2>
+		<div class="layout-width-responsive">
+			<div>@include layout-width-responsive(32rem, 40%, 100%);</div>
 		</div>
 
 		<h2>Full Width</h2>
@@ -34,52 +34,112 @@
 			@include layout-full-width(1rem);
 		</div>
 
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
 		<h2>Centering</h2>
+		<div>@include layout-centering();</div>
 		<div class="layout-centering">
-			<div>@include layout-centering(false);</div>
+			<div>Content</div>
 		</div>
 
-		<h2>Centering self</h2>
+		<h2>Centering Self</h2>
 		<div class="layout-centering-self">
-			<div>@include layout-centering-self(true, true, relative);</div>
+			<div>@include layout-centering-self(true, true);</div>
 		</div>
 
-		<h2>Fill self</h2>
+		<h2>Fill Self</h2>
 		<div class="layout-fill-self">
-			<div>@include layout-fill-self(absolute, false);</div>
+			<div>@include layout-fill-self();</div>
 		</div>
 
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
 		<h2>Aspect</h2>
-		<div class="layout-aspect">
-			<div>@include layout-aspect(2, 1, false);</div>
+		<div>@include layout-aspect(3, 1);</div>
+		<div class="col-2">
+			<div class="layout-aspect">
+				<div>Content</div>
+			</div>
+			<div class="layout-aspect">
+				<div>
+					<p>Very long long long long long long long long long long
+						long long long long long long long long long long long
+						long long long long long long long long long long long
+						long long long long long long long long long long long text.</p>
+				</div>
+			</div>
 		</div>
 
-		<h2>Aspect gold</h2>
-		<div class="layout-aspect-gold">
-			<div>@include layout-aspect-gold();</div>
+		<div>@include layout-aspect(3, 1, true);</div>
+		<div class="col-2">
+			<div class="layout-aspect-expandable">
+				<div>Content</div>
+			</div>
+			<div class="layout-aspect-expandable">
+				<div>
+					<p>Very long long long long long long long long long long
+						long long long long long long long long long long long
+						long long long long long long long long long long long
+						long long long long long long long long long long long text.</p>
+				</div>
+			</div>
 		</div>
 
-		<h2>Minimum aspect</h2>
-		<div class="layout-minimum-aspect">
-			<div>@include layout-minimum-aspect(2, 1);</div>
+		<h2>Frame Contain</h2>
+		<div>@include layout-frame-contain(3, 2);</div>
+		<div class="col-2">
+			<div>
+				<a href="https://via.placeholder.com/1600x400.png" data-stile="layout-frame-contain">
+					<img width="800" height="200" src="https://via.placeholder.com/800x200.png" class="size-medium" alt="">
+				</a>
+			</div>
+			<div>
+				<div data-stile="layout-frame-contain">
+					<img width="200" height="800" src="https://via.placeholder.com/200x800.png" class="size-medium" alt="">
+				</div>
+			</div>
 		</div>
 
-		<h2>Minimum aspect gold</h2>
-		<div class="layout-minimum-aspect-gold">
-			<div>@include layout-minimum-aspect-gold();</div>
+		<hr><!-- --------------------------------------------------------------- -->
+
+		<h2>Gap and Wrap</h2>
+
+		<div>@include layout-wrap((1rem 2rem));</div>
+		<div class="layout-wrap">
+			<div>Element 1</div>
+			<div>Element 2</div>
+			<div>Element 3</div>
+			<div>Element 4</div>
+			<div>Element 5</div>
+			<div>Element 6</div>
+			<div>Element 7</div>
+			<div>Element 8</div>
+			<div>Element 9</div>
 		</div>
 
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
-		<h2>Gap</h2>
+		<h2>Wrap Responsive</h2>
+		<div>@include layout-wrap-responsive(36rem, 2, 2rem);</div>
+		<div class="layout-wrap-responsive-2">
+			<div>Column 1</div>
+			<div>Column 2</div>
+		</div>
+		<div>@include layout-wrap-responsive(36rem, 3, 2rem);</div>
+		<div class="layout-wrap-responsive-3">
+			<div>Column 1</div>
+			<div>Column 2</div>
+			<div>Column 3</div>
+		</div>
+		<div>@include layout-wrap-responsive(36rem, 4, 2rem);</div>
+		<div class="layout-wrap-responsive-4">
+			<div>Column 1</div>
+			<div>Column 2</div>
+			<div>Column 3</div>
+			<div>Column 4</div>
+		</div>
 
-		<h2>Wrap</h2>
-
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
 		<h2>Column</h2>
 		<div>@include layout-column(2, 2rem);</div>
@@ -101,7 +161,7 @@
 			<div>Column 4</div>
 		</div>
 
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
 		<h2>Card</h2>
 		<div>@include layout-card(2, 2rem);</div>
@@ -127,7 +187,7 @@
 			<div>Column 6</div>
 		</div>
 
-		<!-- --------------------------------------------------------------- -->
+		<hr><!-- --------------------------------------------------------------- -->
 
 		<h2>Masonry</h2>
 		<div>@include layout-masonry(2, 2rem);</div>
