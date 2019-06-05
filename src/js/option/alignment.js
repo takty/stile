@@ -39,7 +39,11 @@ ST.addInitializer(1, function () {
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
 		assignWidths(asw, stile);
-		window.addEventListener('resize', function () {
+		// window.addEventListener('resize', function () {
+		// 	updateApplicableWidths(asw);
+		// 	switchFloat(asw, stile);
+		// });
+		ST.onResize(() => {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);
 		});

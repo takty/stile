@@ -84,7 +84,8 @@ ST.addInitializer(4, function () {
 			at.id = '';
 			at.appendChild(pat);
 		}
-		window.addEventListener('resize', () => { setAnchorOffset(ats); });
+		// window.addEventListener('resize', () => { setAnchorOffset(ats); });
+		ST.onResize(() => { setAnchorOffset(ats); });
 		setTimeout(() => { setAnchorOffset(ats); }, 100);
 	}
 

@@ -26,7 +26,8 @@ ST.addInitializer(3, function () {
 		const tabPage = createTabPage(tps[i]);
 		if (tabPage) tabPages.push(tabPage);
 	}
-	window.addEventListener('resize', function () { onResize(tabPages); });
+	// window.addEventListener('resize', function () { onResize(tabPages); });
+	ST.onResize(() => { onResize(tabPages); });
 	setTimeout(function () { onResize(tabPages) }, 200);  // Delay
 	initializeSmoothScroll();
 
