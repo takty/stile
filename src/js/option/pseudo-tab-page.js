@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-04
+ * @version 2019-06-05
  *
  */
 
@@ -96,11 +96,7 @@ ST.addInitializer(3, function () {
 
 	function initializeSingleTab() {
 		updateVisibility(tabUlss, true);
-		let st = null;
-		window.addEventListener('scroll', () => {
-			if (st) clearTimeout(st);
-			st = setTimeout(() => { updateVisibility(tabUlss); }, 10);
-		});
+		ST.onScroll(() => { updateVisibility(tabUlss); });
 	}
 
 	function onTabClick(idx, tabUls) {

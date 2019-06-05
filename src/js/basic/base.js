@@ -3,29 +3,12 @@
  * Base Functions
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-13
+ * @version 2019-06-05
  *
  */
 
 
 window.ST = window['ST'] || {};
-
-(function () {
-	const ua = window.navigator.userAgent.toLowerCase();
-	if (ua.indexOf('edge') !== -1) {
-		ST.BROWSER = 'edge';
-	} else if (ua.indexOf('trident/7') !== -1) {
-		ST.BROWSER = 'ie11';
-	} else if (ua.indexOf('chrome') !== -1 && ua.indexOf('edge') === -1) {
-		ST.BROWSER = 'chrome';
-	} else if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
-		ST.BROWSER = 'safari';
-	} else if (ua.indexOf('opera') !== -1) {
-		ST.BROWSER = 'opera';
-	} else if (ua.indexOf('firefox') !== -1) {
-		ST.BROWSER = 'firefox';
-	}
-})();
 
 
 // -----------------------------------------------------------------------------
@@ -75,6 +58,45 @@ ST.removeStile = function (elm, style) {
 	elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
 	elm.className = elm.className;  // Hack for IE11
 	if (!elm.className) elm.removeAttribute('class');
+};
+
+
+// -----------------------------------------------------------------------------
+
+
+ST.throttle = (fn) => {
+	let isRunning, that, args;
+
+	const run = () => {
+		isRunning = false;
+		fn.apply(that, args);
+	};
+	return (...args) => {
+		that = this;
+		if (isRunning) return;
+		isRunning = true;
+		requestAnimationFrame(run);
+	};
+};
+
+const _onResize = [];
+const _onScroll = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+	window.addEventListener('resize', () => {
+		for (let i = 0; i < _onResize.length; i += 1) _onResize[i]();
+	});
+	window.addEventListener('scroll', () => {
+		for (let i = 0; i < _onScroll.length; i += 1) _onScroll[i]();
+	});
+});
+
+ST.onResize = (fn) => {
+	_onResize.push(ST.throttle(fn));
+};
+
+ST.onScroll = (fn) => {
+	_onScroll.push(ST.throttle(fn));
 };
 
 

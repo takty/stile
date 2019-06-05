@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-05
+ * @version 2019-06-05
  *
  */
 
@@ -87,14 +87,8 @@ ST.addInitializer(4, function () {
 			cont.calcWidth = tab.offsetWidth;
 		}
 
-		let scrollSt = null, resizeSt = null;
-		window.addEventListener('scroll', () => {
-			if (scrollSt) clearTimeout(scrollSt);
-			scrollSt = setTimeout(() => {
-				for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]);
-				scrollSt = null;
-			}, 10);
-		});
+		ST.onScroll(() => { for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]); });
+		let resizeSt = null;
 		window.addEventListener('resize', () => {
 			if (resizeSt) clearTimeout(resizeSt);
 			resizeSt = setTimeout(() => {
@@ -107,7 +101,7 @@ ST.addInitializer(4, function () {
 	function initEvents(cont) {
 		const tab = cont.table;
 		let tableScrollChanged = false, barScrollChanged = false;
-		tab.addEventListener('scroll', () => {
+		tab.addEventListener('scroll', ST.throttle(() => {
 			tableScroll(cont);
 			if (tableScrollChanged) {
 				tableScrollChanged = false;
@@ -115,15 +109,15 @@ ST.addInitializer(4, function () {
 				cont.bar.scrollLeft = tab.scrollLeft;
 				barScrollChanged = true;
 			}
-		});
-		cont.barScrollListener = () => {
+		}));
+		cont.barScrollListener = ST.throttle(() => {
 			if (barScrollChanged) {
 				barScrollChanged = false;
 			} else {
 				tab.scrollLeft = cont.bar.scrollLeft;
 				tableScrollChanged = true;
 			}
-		};
+		});
 		initBarEvent(cont);
 		if (cont.etb) initEnlargerEvent(cont);
 	}

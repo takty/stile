@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-23
+ * @version 2019-06-05
  *
  */
 
@@ -43,9 +43,7 @@ ST.addInitializer(1, function () {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);
 		});
-		window.addEventListener('scroll', function () {
-			assignWidths(asw, stile);  // for Lazy Image Loading
-		});
+		ST.onScroll(() => { assignWidths(asw, stile); });  // for Lazy Image Loading
 		updateApplicableWidths(asw);
 		switchFloat(asw, stile);
 	}
