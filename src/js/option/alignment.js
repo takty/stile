@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-06
  *
  */
 
@@ -39,10 +39,6 @@ ST.addInitializer(1, function () {
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
 		assignWidths(asw, stile);
-		// window.addEventListener('resize', function () {
-		// 	updateApplicableWidths(asw);
-		// 	switchFloat(asw, stile);
-		// });
 		ST.onResize(() => {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);

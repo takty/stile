@@ -3,7 +3,7 @@
  * Anchor Scroll
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-04
+ * @version 2019-06-06
  *
  */
 
@@ -84,7 +84,6 @@ ST.addInitializer(4, function () {
 			at.id = '';
 			at.appendChild(pat);
 		}
-		// window.addEventListener('resize', () => { setAnchorOffset(ats); });
 		ST.onResize(() => { setAnchorOffset(ats); });
 		setTimeout(() => { setAnchorOffset(ats); }, 100);
 	}

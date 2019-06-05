@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-12
+ * @version 2019-06-06
  *
  */
 
@@ -26,7 +26,6 @@ ST.addInitializer(3, function () {
 		const tabPage = createTabPage(tps[i]);
 		if (tabPage) tabPages.push(tabPage);
 	}
-	// window.addEventListener('resize', function () { onResize(tabPages); });
 	ST.onResize(() => { onResize(tabPages); });
 	setTimeout(function () { onResize(tabPages) }, 200);  // Delay
 	initializeSmoothScroll();

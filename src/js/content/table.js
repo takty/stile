@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-06
  *
  */
 
@@ -89,14 +89,6 @@ ST.addInitializer(4, function () {
 
 		ST.onScroll(() => { for (let i = 0; i < tabs.length; i += 1) windowScroll(conts[i]); });
 		ST.onResize(() => { for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]); });
-		// let resizeSt = null;
-		// window.addEventListener('resize', () => {
-		// 	if (resizeSt) clearTimeout(resizeSt);
-		// 	resizeSt = setTimeout(() => {
-		// 		for (let i = 0; i < tabs.length; i += 1) windowResize(conts[i]);
-		// 		resizeSt = null;
-		// 	}, 10);
-		// });
 	}
 
 	function initEvents(cont) {
