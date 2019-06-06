@@ -1,9 +1,9 @@
 /**
  *
- * Query Functions for Responsive and Browsers
+ * Query Functions for Responsive and Browsers (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-06
  *
  */
 
@@ -11,39 +11,70 @@
 window.ST = window['ST'] || {};
 
 
-// -----------------------------------------------------------------------------
+(function (NS) {
+
+	// eslint-disable-next-line func-style
+	const assignScreenSize = () => {
+		const w = window.innerWidth;
+		if (w < 600) {
+			NS.SCREEN_WIDTH = 'phone';
+		} else if (w < 900) {
+			NS.SCREEN_WIDTH = 'tablet-portrait';
+		} else if (w < 1200) {
+			NS.SCREEN_WIDTH = 'tablet-landscape';
+		} else if (w < 1800) {
+			NS.SCREEN_WIDTH = 'desktop';
+		} else {
+			NS.SCREEN_WIDTH = 'big-desktop';
+		}
+		const h = window.innerHeight;
+		if (h < 600) {
+			NS.SCREEN_HEIGHT = 'tiny';
+		} else if (h < 950) {
+			NS.SCREEN_HEIGHT = 'small';
+		} else if (h < 1200) {
+			NS.SCREEN_HEIGHT = 'medium';
+		} else {
+			NS.SCREEN_HEIGHT = 'large';
+		}
+	};
+
+	assignScreenSize();
+	NS.onResize(assignScreenSize);
 
 
-(function () {
+	// -------------------------------------------------------------------------
+
+
 	const ua = window.navigator.userAgent.toLowerCase();
 	if (ua.indexOf('edge') !== -1) {
-		ST.BROWSER = 'edge';
+		NS.BROWSER = 'edge';
 	} else if (ua.indexOf('trident/7') !== -1) {
-		ST.BROWSER = 'ie11';
+		NS.BROWSER = 'ie11';
 	} else if (ua.indexOf('chrome') !== -1 && ua.indexOf('edge') === -1) {
-		ST.BROWSER = 'chrome';
+		NS.BROWSER = 'chrome';
 	} else if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
-		ST.BROWSER = 'safari';
+		NS.BROWSER = 'safari';
 	} else if (ua.indexOf('firefox') !== -1) {
-		ST.BROWSER = 'firefox';
+		NS.BROWSER = 'firefox';
 	}
-})();
 
-ST.addInitializer(0, () => {
-	const ua = window.navigator.userAgent.toLowerCase();
-	const cl = document.body.classList;
+	NS.addInitializer(0, () => {
+		const ua = window.navigator.userAgent.toLowerCase();
+		const cl = document.body.classList;
 
-	cl.add(ST.BROWSER);
-	if (ua.indexOf('iphone') !== -1) {
-		cl.add('iphone');
-		cl.add('ios');
-	}
-	if (ua.indexOf('ipad') !== -1) {
-		cl.add('ipad');
-		cl.add('ios');
-	}
-	if (ua.indexOf('android') !== -1) {
-		cl.add('android');
-	}
-});
+		cl.add(NS.BROWSER);
+		if (ua.indexOf('iphone') !== -1) {
+			cl.add('iphone');
+			cl.add('ios');
+		}
+		if (ua.indexOf('ipad') !== -1) {
+			cl.add('ipad');
+			cl.add('ios');
+		}
+		if (ua.indexOf('android') !== -1) {
+			cl.add('android');
+		}
+	});
 
+})(window.ST);
