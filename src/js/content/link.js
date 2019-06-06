@@ -24,7 +24,7 @@ window.ST = window['ST'] || {};
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
 
-	NS.addInitializer(2, function () {
+	NS.addInitializer(2, () => {
 		let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
 		modifyAnchorStyle(as);
 		as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');

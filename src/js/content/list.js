@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const TARGET_CLASS = 'stile';
 
 
-	NS.addInitializer(4, function () {
+	NS.addInitializer(4, () => {
 		setStyleForInsideOf(document.getElementsByClassName(TARGET_CLASS));
 		setStyleDirectlyFor(document.getElementsByTagName('ul'), TARGET_CLASS);
 		setStyleDirectlyFor(document.getElementsByTagName('ol'), TARGET_CLASS);
