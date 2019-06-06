@@ -3,7 +3,10 @@
  * Link Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-15
+ * @version 2019-06-06
+ *
+ * The function 'isExternalUrl' can be overwritten as follows:
+ * <script>ST.isExternalUrl = function (url) { return true; }</script>
  *
  */
 
@@ -11,7 +14,7 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(2, function () {
+(function (NS) {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
@@ -20,12 +23,15 @@ ST.addInitializer(2, function () {
 	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
-	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
-	modifyAnchorStyle(as);
-	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');
-	modifyAnchorStyle(as);
-	as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
-	modifyAnchorStyleExternal(as);
+
+	NS.addInitializer(2, function () {
+		let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
+		modifyAnchorStyle(as);
+		as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');
+		modifyAnchorStyle(as);
+		as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
+		modifyAnchorStyleExternal(as);
+	});
 
 
 	// -------------------------------------------------------------------------
@@ -35,24 +41,24 @@ ST.addInitializer(2, function () {
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (isImageLink(a)) {
-				ST.addStile(a, 'link-image');
+				NS.addStile(a, 'link-image');
 				continue;
 			}
 			if (isEmpty(a)) {
 				const url = a.getAttribute('href');
-				if (isExternal(url)) ST.addStile(a, 'link-external');
+				if (isExternal(url)) NS.addStile(a, 'link-external');
 				continue;
 			}
 			if (!isSimple(a)) continue;
-			ST.addStile(a, 'link-simple');
+			NS.addStile(a, 'link-simple');
 			const url = a.getAttribute('href');
 			if (isUrlLink(a, url)) {
-				ST.addStile(a, 'link-url');
+				NS.addStile(a, 'link-url');
 			}
 			if (isExternal(url)) {
-				ST.addStile(a, 'link-external');
+				NS.addStile(a, 'link-external');
 			} else if (isAnchor(url)) {
-				ST.addStile(a, 'link-anchor');
+				NS.addStile(a, 'link-anchor');
 			}
 			addFileType(a);
 		}
@@ -63,7 +69,7 @@ ST.addInitializer(2, function () {
 			const a = as[i];
 			const url = a.getAttribute('href');
 			if (isExternal(url)) {
-				ST.addStile(a, 'link-external');
+				NS.addStile(a, 'link-external');
 			}
 		}
 	}
@@ -78,14 +84,6 @@ ST.addInitializer(2, function () {
 		const id = url.substr(pos + 1);
 		const tar = document.getElementById(id);
 		return tar !== null;
-	}
-
-	function isExternal(url) {
-		if (url === null || url === '') return false;
-		if (url.indexOf(location.protocol + '//' + location.host) === 0) return false;
-		if (url.match(/^https?:\/\//)) return true;
-		if (url.match(/^\/\//)) return true;
-		return false;
 	}
 
 	function isSimple(a) {
@@ -146,6 +144,25 @@ ST.addInitializer(2, function () {
 	// -------------------------------------------------------------------------
 
 
+	// Private function
+	function isExternal(url) { return NS.isExternalUrl(url); }
+
+	// Exported function
+	function isExternalUrl(url) {
+		if (url === null || url === '') return false;
+		if (url.indexOf(location.protocol + '//' + location.host) === 0) return false;
+		if (url.match(/^https?:\/\//)) return true;
+		if (url.match(/^\/\//)) return true;
+		return false;
+	}
+
+	// Export the function
+	NS.isExternalUrl = isExternalUrl;
+
+
+	// -------------------------------------------------------------------------
+
+
 	function addFileType(a) {
 		let url = a.getAttribute('href');
 		if (url.length > 0 && url[url.length - 1] === '/') return;
@@ -161,9 +178,9 @@ ST.addInitializer(2, function () {
 
 		const type = EXT_TABLE[ext];
 		if (type) {
-			ST.addStile(a, 'link-file');
-			ST.addStile(a, 'link-file-' + type);
+			NS.addStile(a, 'link-file');
+			NS.addStile(a, 'link-file-' + type);
 		}
 	}
 
-});
+})(window.ST);
