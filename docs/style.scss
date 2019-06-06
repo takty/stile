@@ -60,7 +60,7 @@ body {
 	a:not([class])[data-stile ~= 'link-file-excel']::after { content: '\e5c3'; }
 	a:not([class])[data-stile ~= 'link-file-powerpoint']::after { content: '\e071'; }
 
-	@for $i from 0 through 6 {
+	@for $i from -1 through 6 {
 		.font-size-level-#{$i} { @include font-size-level($i); }
 	}
 
