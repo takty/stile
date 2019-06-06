@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-14
+ * @version 2019-06-06
  *
  */
 
@@ -11,13 +11,20 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(4, function () {
+(function (NS) {
 
 	const TARGET_CLASS = 'stile';
 
-	setStyleForInsideOf(document.getElementsByClassName(TARGET_CLASS));
-	setStyleDirectlyFor(document.getElementsByTagName('ul'), TARGET_CLASS);
-	setStyleDirectlyFor(document.getElementsByTagName('ol'), TARGET_CLASS);
+
+	NS.addInitializer(4, function () {
+		setStyleForInsideOf(document.getElementsByClassName(TARGET_CLASS));
+		setStyleDirectlyFor(document.getElementsByTagName('ul'), TARGET_CLASS);
+		setStyleDirectlyFor(document.getElementsByTagName('ol'), TARGET_CLASS);
+	});
+
+
+	// -------------------------------------------------------------------------
+
 
 	function setStyleForInsideOf(ts) {
 		for (let j = 0; j < ts.length; j += 1) {
@@ -40,7 +47,7 @@ ST.addInitializer(4, function () {
 			const t = ts[i];
 			if (!hasListStile(t) && t.classList.contains(tc)) {
 				setStyle(t);
-				if (t.tagName === 'OL') setCounterReset(ols[i]);
+				if (t.tagName === 'OL') setCounterReset(t);
 			}
 		}
 	}
@@ -60,7 +67,7 @@ ST.addInitializer(4, function () {
 		const type = t.style.listStyleType;
 		if (type !== '' && type !== 'none') {
 			t.style.listStyleType = '';
-			ST.addStile(t, 'list-' + type);
+			NS.addStile(t, 'list-' + type);
 		}
 	}
 
@@ -91,4 +98,4 @@ ST.addInitializer(4, function () {
 		}
 	}
 
-});
+})(window.ST);
