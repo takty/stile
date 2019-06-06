@@ -206,7 +206,7 @@ module.exports = {
         "object-curly-newline": "error",
         "object-curly-spacing": [
             "error",
-            "never"
+            "always"
         ],
         "object-shorthand": "off",
         "one-var": "off",
@@ -246,7 +246,7 @@ module.exports = {
         "sort-keys": "off",
         "sort-vars": "off",
         "space-before-blocks": "off",
-        "space-before-function-paren": 1,
+        "space-before-function-paren": "off",
         "space-in-parens": [
             "error",
             "never"
