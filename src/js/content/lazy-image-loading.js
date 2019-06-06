@@ -26,21 +26,25 @@ ST.addInitializer(5, function () {
 		const imgs = document.querySelectorAll(TARGET_SELECTOR + ' img');
 		const imgsInTbl = document.querySelectorAll(TARGET_SELECTOR + ' table img');
 
-		const winY = window.scrollY | window.pageYOffset;
+		// const winY = window.scrollY | window.pageYOffset;
+		const winY = window.pageYOffset;
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
-			if (ST.elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
+			// if (ST.elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
+			if (img.getBoundingClientRect().top + winY >= winY + window.innerHeight + OFFSET) hide(img);
 		}
 		ST.onScroll(onScroll);
 		onScroll();
 
 		function onScroll() {
-			const winY = window.scrollY | window.pageYOffset;
+			// const winY = window.scrollY | window.pageYOffset;
+			const winY = window.pageYOffset;
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				const imgY = ST.elementTopOnWindow(img);
+				// const imgY = ST.elementTopOnWindow(img);
+				const imgY = img.getBoundingClientRect().top + winY;
 				if (imgY < winY + window.innerHeight + OFFSET) show(img);
 			}
 		}

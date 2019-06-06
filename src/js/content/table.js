@@ -229,12 +229,15 @@ ST.addInitializer(4, function () {
 			windowResize(cont);
 		}
 		const tab = cont.table, head = cont.header, bar = cont.bar, cap = cont.cap;
-		const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
-		const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
+		// const winX = window.scrollX | window.pageXOffset, winY = window.scrollY | window.pageYOffset;
+		const winX = window.pageXOffset, winY = window.pageYOffset;
+		// const tabTop = ST.elementTopOnWindow(tab), tabBottom = tabTop + tab.offsetHeight;
+		const tabTop = tab.getBoundingClientRect().top + winY, tabBottom = tabTop + tab.offsetHeight;
 		const capH = cap ? cap.offsetHeight : 0;
 		const offset = getTableHeaderOffset() + ST.getWpAdminBarHeight() - capH;
 		const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
-		const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
+		// const tabLeft = (head || bar) ? ((ST.elementLeftOnWindow(tab) - winX) + 'px') : '';
+		const tabLeft = (head || bar) ? (tab.getBoundingClientRect().left + 'px') : '';
 
 		if (head) {
 			if (isInWin) {
@@ -341,7 +344,8 @@ ST.addInitializer(4, function () {
 	}
 
 	function windowResize_enlarger(tab) {
-		let left = ST.elementLeftOnWindow(tab);
+		// let left = ST.elementLeftOnWindow(tab);
+		let left = tab.getBoundingClientRect().left + window.pageXOffset;
 		const tbody = tab.tBodies[0];
 		const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 

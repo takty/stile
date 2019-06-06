@@ -61,8 +61,10 @@ ST.addInitializer(4, function () {
 		if (hash[0] === '#') hash = hash.substr(1);
 		const tar = document.getElementById(hash);
 		if (tar) {
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 200);
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 300);
+			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 200);
+			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 300);
+			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 200);
+			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 300);
 		}
 	}
 
@@ -161,7 +163,8 @@ ST.addInitializer(4, function () {
 
 	function jump(tar, duration) {
 		const start = window.pageYOffset;
-		let posY = ST.elementTopOnWindow(tar);
+		// let posY = ST.elementTopOnWindow(tar);
+		let posY = tar.getBoundingClientRect().top + window.pageYOffset;
 		let wh = document.documentElement.offsetHeight;
 		let timeStart, timeElapsed;
 
@@ -171,7 +174,8 @@ ST.addInitializer(4, function () {
 		function loop(time) {
 			if (!isJumping) return;
 			if (wh !== document.documentElement.offsetHeight) {  // for lazy image loading
-				posY = ST.elementTopOnWindow(tar);
+				// posY = ST.elementTopOnWindow(tar);
+				posY = tar.getBoundingClientRect().top + window.pageYOffset;
 				wh = document.documentElement.offsetHeight;
 			}
 			timeElapsed = time - timeStart;
@@ -180,8 +184,10 @@ ST.addInitializer(4, function () {
 			else end();
 		}
 		function end() {
-			window.scrollTo(0, ST.elementTopOnWindow(tar));
-			setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar));}, 50);
+			// window.scrollTo(0, ST.elementTopOnWindow(tar));
+			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar));}, 50);
+			window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset);
+			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 50);
 			if (tar !== document.documentElement) setFocus(tar);
 			isJumping = false;
 		}
