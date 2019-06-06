@@ -1,6 +1,6 @@
 /**
  *
- * Base Functions
+ * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
  * @version 2019-06-06
