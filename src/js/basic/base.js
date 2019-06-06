@@ -76,11 +76,10 @@ window.ST = window['ST'] || {};
 
 	NS.throttle = (fn) => {
 		let isRunning, that, args;
-		// eslint-disable-next-line func-style
-		const run = () => {
+		function run() {
 			isRunning = false;
 			fn.apply(that, args);
-		};
+		}
 		return (...origArgs) => {
 			that = this;
 			args = origArgs;
