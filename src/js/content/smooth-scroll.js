@@ -76,6 +76,8 @@ window.ST = window['ST'] || {};
 		e.preventDefault();
 		const dur = NS.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? SCROLL_DURATION_FAST : SCROLL_DURATION;
 		jump(tar, dur);
+
+		pushHistory(hash);
 	}
 
 	function jump(tar, duration) {
@@ -119,6 +121,19 @@ window.ST = window['ST'] || {};
 			tar.tabIndex = -1;
 		}
 		tar.focus();
+	}
+
+	function pushHistory(hash) {
+		if (NS.BROWSER === 'ie11') {
+			// eslint-disable-next-line func-style
+			const hashChanged = () => {
+				// eslint-disable-next-line no-self-assign
+				window.location = window.location;
+				window.removeEventListener('hashchange', hashChanged);
+			}
+			window.addEventListener('hashchange', hashChanged);
+		}
+		history.pushState(null, null, (hash === '#top' ? '' : hash));
 	}
 
 })(window.ST);
