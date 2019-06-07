@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  */
 
@@ -15,7 +15,7 @@ ST.addInitializer(4, function () {
 
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
-	const TARGET_SELECTOR    = '.stile';
+	const SEL_TARGET    = '.stile';
 
 	const ST_HEADER_CONTAINER = 'fixed-table-header-container';
 	const ST_HEADER_TABLE     = 'fixed-table-header-table';
@@ -37,7 +37,7 @@ ST.addInitializer(4, function () {
 	const MAX_ROW_COUNT = 200;
 
 	const getTableHeaderOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
-	const tabs = document.querySelectorAll(TARGET_SELECTOR + ' table:not([class])');
+	const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 	let scrollBarWidth;
 
 	function init(tabs) {

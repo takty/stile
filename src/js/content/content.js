@@ -3,7 +3,7 @@
  * Content Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  */
 
@@ -13,15 +13,15 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
+	const SEL_TARGET = '.stile';
 
 
 	NS.addInitializer(2, () => {
-		const spans = document.querySelectorAll(TARGET_SELECTOR + ' span');
+		const spans = document.querySelectorAll(SEL_TARGET + ' span');
 		modifySpanStyle(spans);
-		const fs = document.querySelectorAll(TARGET_SELECTOR + ' iframe');
+		const fs = document.querySelectorAll(SEL_TARGET + ' iframe');
 		modifyIframeStyle(fs);
-		const figs = document.querySelectorAll(TARGET_SELECTOR + ' figure');
+		const figs = document.querySelectorAll(SEL_TARGET + ' figure');
 		modifyFigureStyle(figs);
 	});
 

@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  */
 
@@ -13,38 +13,33 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
-	const OFFSET = 100;
+	const SEL_TARGET = '.stile';
+	const OFFSET     = 100;
 
 
-	NS.addInitializer(5, () => { initialize(); });
+	NS.addInitializer(5, initialize);
 
 
 	// -------------------------------------------------------------------------
 
 
 	function initialize() {
-		const imgs      = document.querySelectorAll(TARGET_SELECTOR + ' img');
-		const imgsInTbl = document.querySelectorAll(TARGET_SELECTOR + ' table img');
+		const imgs      = document.querySelectorAll(SEL_TARGET + ' img');
+		const imgsInTbl = document.querySelectorAll(SEL_TARGET + ' table img');
 
-		const winY = window.pageYOffset;
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
-			// if (ST.elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
-			if (img.getBoundingClientRect().top + winY >= winY + window.innerHeight + OFFSET) hide(img);
+			if (img.getBoundingClientRect().top >= window.innerHeight + OFFSET) hide(img);
 		}
 		NS.onScroll(onScroll);
 		onScroll();
 
 		function onScroll() {
-			const winY = window.pageYOffset;
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				// const imgY = ST.elementTopOnWindow(img);
-				const imgY = img.getBoundingClientRect().top + winY;
-				if (imgY < winY + window.innerHeight + OFFSET) show(img);
+				if (img.getBoundingClientRect().top < window.innerHeight + OFFSET) show(img);
 			}
 		}
 
@@ -81,7 +76,7 @@ window.ST = window['ST'] || {};
 		if (immediately) {
 			img.style.opacity = '';
 		} else {
-			setTimeout(() => {img.style.opacity = '';}, 200);
+			setTimeout(() => { img.style.opacity = ''; }, 200);
 		}
 	}
 
@@ -90,9 +85,7 @@ window.ST = window['ST'] || {};
 		if (forceMediaCheck || !('onbeforeprint' in window)) {
 			if (window.matchMedia) {
 				let mediaQueryList = window.matchMedia('print');
-				mediaQueryList.addListener(function (mql) {
-					if (mql.matches) func();
-				});
+				mediaQueryList.addListener((mql) => { if (mql.matches) func(); });
 			}
 		}
 	}

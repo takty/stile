@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-07
  *
  */
 
@@ -49,7 +49,7 @@ ST.addInitializer(3, function () {
 			container.insertBefore(tp.tabUl, hs[i]);
 			tabUls.push(tp.tabUl);
 		}
-		if (ST.initializeAnchorOffset) ST.initializeAnchorOffset(tabUls);
+		if (ST.assignAnchorOffset) ST.assignAnchorOffset(tabUls);
 		return tabUls;
 	}
 

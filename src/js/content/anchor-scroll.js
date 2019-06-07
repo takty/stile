@@ -1,9 +1,9 @@
 /**
  *
- * Anchor Scroll
+ * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  */
 
@@ -11,39 +11,50 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(4, function () {
+(function (NS) {
 
-	const CLS_STICKY_ELM     = 'st-sticky-header';
-	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+	const CLS_STICKY_ELM        = 'st-sticky-header';
+	const CLS_STICKY_ELM_TOP    = 'st-sticky-header-top';
 
-	const CLS_LINK_TARGET = 'stile-link-target';
-	const SELECTOR_TARGET = '.stile *[id]:not([class])';
+	const CLS_LINK_TARGET       = 'stile-link-target';
+	const SEL_TARGET            = '.stile *[id]:not([class])';
 
-	const SCROLL_DURATION = 400;
-	const ST_NO_ANCHOR_SCROLL = 'no-anchor-scroll';
+	const SCROLL_DURATION       = 400;
+	const ST_NO_ANCHOR_SCROLL   = 'no-anchor-scroll';
 	const ST_ANCHOR_SCROLL_FAST = 'anchor-scroll-fast';
 
-	let ADDITIONAL_OFFSET = 16;
-	if (typeof ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET !== 'undefined') ADDITIONAL_OFFSET = ST.ANCHOR_SCROLL_ADDITIONAL_OFFSET;
+	const ST_ANCHOR_OFFSET      = 'anchor-offset';
+	let ADDITIONAL_OFFSET       = 16;
+	if (NS.ANCHOR_SCROLL_ADDITIONAL_OFFSET !== undefined) ADDITIONAL_OFFSET = NS.ANCHOR_SCROLL_ADDITIONAL_OFFSET;
 
-	const as = document.getElementsByTagName('a');
-	initializeSmoothScroll(as);
+	NS.addInitializer(2, initializeAnchorOffset);
+	NS.addInitializer(4, initializeSmoothScroll);
 
+	// Export the function
+	NS.assignAnchorOffset = assignAnchorOffset;
+	NS.onClickAnchorLink  = onClickAnchorLink;
 
-	// -------------------------------------------------------------------------
-	// Anchor Offset
-
-
-	const getAnchorOffset = ST.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
-	if (ADDITIONAL_OFFSET + getAnchorOffset() !== 0) {
-		const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
-		const as2 = Array.prototype.slice.call(document.querySelectorAll(SELECTOR_TARGET));
-		const anchorTargets = as1.concat(filterTarget(as2));
-		initializeAnchorOffset(anchorTargets);
-
-		if (window.location.hash) hashChanged();
+	function scrollTo(tar) {
+		window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset);
 	}
-	window.addEventListener('hashchange', hashChanged);
+
+
+	// Anchor Offset -----------------------------------------------------------
+
+
+	const getAnchorOffset = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+
+	function initializeAnchorOffset() {
+		if (ADDITIONAL_OFFSET + getAnchorOffset() !== 0) {
+			const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
+			const as2 = Array.prototype.slice.call(document.querySelectorAll(SEL_TARGET));
+			const anchorTargets = as1.concat(filterTarget(as2));
+			assignAnchorOffset(anchorTargets);
+
+			if (window.location.hash) hashChanged();
+		}
+		window.addEventListener('hashchange', hashChanged);
+	}
 
 	function filterTarget(ts) {
 		const newTs = [];
@@ -61,38 +72,31 @@ ST.addInitializer(4, function () {
 		if (hash[0] === '#') hash = hash.substr(1);
 		const tar = document.getElementById(hash);
 		if (tar) {
-			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 200);
-			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar))}, 300);
-			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 200);
-			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 300);
+			setTimeout(() => { scrollTo(tar); }, 200);
+			setTimeout(() => { scrollTo(tar); }, 300);
 		}
 	}
 
-	function initializeAnchorOffset(ats) {
+	// Exported function
+	function assignAnchorOffset(ats) {
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
 			const pat = document.createElement('span');
-			pat.style.display = 'inline-block';
-			pat.style.position = 'absolute';
-			pat.style.zIndex = -9999;
-			pat.style.pointerEvents = 'none';
-			pat.style.left = 0;
-			pat.style.width = '100%';
-			pat.id = at.id;
-			pat.dataset['stile'] = 'anchor-offset';
+			pat.id               = at.id;
+			pat.dataset['stile'] = ST_ANCHOR_OFFSET;
 
 			at.style.position = 'relative';
-			at.dataset.id = at.id;
-			at.id = '';
+			at.dataset.id     = at.id;
+			at.id             = '';
 			at.appendChild(pat);
 		}
-		ST.onResize(() => { setAnchorOffset(ats); });
+		NS.onResize(() => { setAnchorOffset(ats); });
 		setTimeout(() => { setAnchorOffset(ats); }, 100);
 	}
 
 	function setAnchorOffset(ats) {
 		const offset = getAnchorOffset();
-		const wpabH = ST.getWpAdminBarHeight();
+		const wpabH = NS.getWpAdminBarHeight();
 		const off = offset + wpabH + ADDITIONAL_OFFSET;
 
 		for (let i = 0; i < ats.length; i += 1) {
@@ -103,20 +107,17 @@ ST.addInitializer(4, function () {
 		}
 	}
 
-	// Export
-	ST.initializeAnchorOffset = initializeAnchorOffset;
 
-
-	// -------------------------------------------------------------------------
-	// Smooth Scroll
+	// Smooth Scroll -----------------------------------------------------------
 
 
 	let isJumping = false;
 
-	function initializeSmoothScroll(as) {
+	function initializeSmoothScroll() {
+		const as = document.getElementsByTagName('a');
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
-			if (ST.containStile(a, ST_NO_ANCHOR_SCROLL)) continue;
+			if (NS.containStile(a, ST_NO_ANCHOR_SCROLL)) continue;
 
 			const cn = (a.className + '').trim();
 			if (cn !== '') continue;
@@ -135,6 +136,7 @@ ST.addInitializer(4, function () {
 		document.addEventListener('wheel', function () { isJumping = false; });
 	}
 
+	// Exported function
 	function onClickAnchorLink(e) {
 		let href = e.target.getAttribute('href');
 		if (href) {
@@ -143,9 +145,6 @@ ST.addInitializer(4, function () {
 			jumpToHash(e, href);
 		}
 	}
-
-	// Export
-	ST.onClickAnchorLink = onClickAnchorLink;
 
 	function jumpToHash(e, hash) {
 		let tar = false;
@@ -157,24 +156,22 @@ ST.addInitializer(4, function () {
 		if (!tar) return false;
 		e.stopPropagation();
 		e.preventDefault();
-		const sep = ST.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? 4 : 1;
+		const sep = NS.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? 4 : 1;
 		jump(tar, SCROLL_DURATION / sep);
 	}
 
 	function jump(tar, duration) {
 		const start = window.pageYOffset;
-		// let posY = ST.elementTopOnWindow(tar);
 		let posY = tar.getBoundingClientRect().top + window.pageYOffset;
 		let wh = document.documentElement.offsetHeight;
 		let timeStart, timeElapsed;
 
 		isJumping = true;
-		requestAnimationFrame(function (time) {timeStart = time; loop(time);});
+		requestAnimationFrame((time) => { timeStart = time; loop(time); });
 
 		function loop(time) {
 			if (!isJumping) return;
 			if (wh !== document.documentElement.offsetHeight) {  // for lazy image loading
-				// posY = ST.elementTopOnWindow(tar);
 				posY = tar.getBoundingClientRect().top + window.pageYOffset;
 				wh = document.documentElement.offsetHeight;
 			}
@@ -184,10 +181,8 @@ ST.addInitializer(4, function () {
 			else end();
 		}
 		function end() {
-			// window.scrollTo(0, ST.elementTopOnWindow(tar));
-			// setTimeout(function () {window.scrollTo(0, ST.elementTopOnWindow(tar));}, 50);
-			window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset);
-			setTimeout(function () { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }, 50);
+			scrollTo(tar);
+			setTimeout(() => { scrollTo(tar); }, 50);
 			if (tar !== document.documentElement) setFocus(tar);
 			isJumping = false;
 		}
@@ -201,7 +196,7 @@ ST.addInitializer(4, function () {
 
 	function setFocus(tar) {
 		if (!tar) return;
-		if (ST.containStile(tar, 'anchor-offset')) {
+		if (NS.containStile(tar, ST_ANCHOR_OFFSET)) {
 			tar = tar.parentElement;
 		}
 		if (!/^(?:a|select|input|button|textarea)$/i.test(tar.tagName)) {
@@ -210,4 +205,4 @@ ST.addInitializer(4, function () {
 		tar.focus();
 	}
 
-});
+})(window.ST);

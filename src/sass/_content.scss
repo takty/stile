@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2018-12-11
+ * @version 2019-06-07
  *
  */
 
@@ -40,6 +40,8 @@ $stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading !def
 @import 'content/list';
 @import 'content/table';
 @import 'content/print';
+
+@import 'content/anchor-scroll';
 
 
 @mixin stile-content($set-heading-design: true) {
