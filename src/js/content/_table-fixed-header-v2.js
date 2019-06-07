@@ -86,36 +86,37 @@ window.ST = window['ST'] || {};
 			}
 			const cont = document.createElement('div');
 			NS.addStile(cont, ST_HEADER_CONTAINER);
-			cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
-			cont.style.display = 'none';
-			cont.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+			// cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
+			// cont.style.display = 'none';
+			// cont.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
 			cont.style.marginTop = '0';  // for cancel 'stile-margin-basic'
 			this._table.parentNode.appendChild(cont);
 
 			const ptab = document.createElement('div');
 			NS.addStile(ptab, ST_HEADER_TABLE);
-			let w = thead.getBoundingClientRect().width;
-			if (NS.BROWSER === 'ie11') w = Math.ceil(w);
-			ptab.style.width = w + 'px';
+			// let w = thead.getBoundingClientRect().width;
+			// if (NS.BROWSER === 'ie11') w = Math.ceil(w);
+			// ptab.style.width = w + 'px';
 			cont.appendChild(ptab);
 
 			const clone = thead.cloneNode(true);
 			ptab.appendChild(clone);
 
-			const oTrs = thead.rows;
-			const cTrs = clone.rows;
-			for (let i = 0; i < oTrs.length; i += 1) {
-				copyWidth(oTrs[i], cTrs[i], 'td');
-				copyWidth(oTrs[i], cTrs[i], 'th');
-			}
-			function copyWidth(o, c, tag) {
-				const os = o.getElementsByTagName(tag);
-				const cs = c.getElementsByTagName(tag);
-				for (let i = 0; i < os.length; i += 1) {
-					cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
-				}
-			}
+			// const oTrs = thead.rows;
+			// const cTrs = clone.rows;
+			// for (let i = 0; i < oTrs.length; i += 1) {
+			// 	copyWidth(oTrs[i], cTrs[i], 'td');
+			// 	copyWidth(oTrs[i], cTrs[i], 'th');
+			// }
+			// function copyWidth(o, c, tag) {
+			// 	const os = o.getElementsByTagName(tag);
+			// 	const cs = c.getElementsByTagName(tag);
+			// 	for (let i = 0; i < os.length; i += 1) {
+			// 		cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
+			// 	}
+			// }
 			if (NS.containStile(this._table, ST_STATE_ENLARGED)) NS.addStile(cont, ST_STATE_ENLARGED);
+			this._updateHeaderSize(cont);
 			return cont;
 		}
 
@@ -153,7 +154,7 @@ window.ST = window['ST'] || {};
 			const spacer = document.createElement('div');
 			spacer.style.height = '1px';
 			bar.appendChild(spacer);
-			this._updateScrollBar(bar);
+			this._updateScrollBarSize(bar);
 			return bar;
 		}
 
@@ -214,17 +215,42 @@ window.ST = window['ST'] || {};
 				if (width < pwidth) left -= (pwidth - width) / 2;
 				this._table.style.marginLeft = -left + 'px';
 			}
-			if (head) {
-				if (head.parentNode) head.parentNode.removeChild(head);
-				this._head = this._createHeaderClone();
-			}
-			if (bar) this._updateScrollBar(bar);
+			if (head) this._updateHeaderSize(head);
+			if (bar)  this._updateScrollBarSize(bar);
 			this._calcWidth = this._table.offsetWidth;
-			if (this._head || this._bar) this.onWindowScroll();
+			if (head || bar) this.onWindowScroll();
 			this._onTableScroll();
 		}
 
-		_updateScrollBar(bar) {
+		_updateHeaderSize(cont) {
+			let thead = this._table.tHead;
+			cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
+			cont.style.display = 'none';
+			cont.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+
+			const ptab = cont.firstChild;
+			let w = thead.getBoundingClientRect().width;
+			if (NS.BROWSER === 'ie11') w = Math.ceil(w);
+			ptab.style.width = w + 'px';
+
+			const clone = ptab.firstChild;
+
+			const oTrs = thead.rows;
+			const cTrs = clone.rows;
+			for (let i = 0; i < oTrs.length; i += 1) {
+				copyWidth(oTrs[i], cTrs[i], 'td');
+				copyWidth(oTrs[i], cTrs[i], 'th');
+			}
+			function copyWidth(o, c, tag) {
+				const os = o.getElementsByTagName(tag);
+				const cs = c.getElementsByTagName(tag);
+				for (let i = 0; i < os.length; i += 1) {
+					cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
+				}
+			}
+		}
+
+		_updateScrollBarSize(bar) {
 			bar.style.maxWidth = this._table.clientWidth + 'px';
 			bar.style.display = 'none';
 			const h = parseInt(getScrollBarWidth());
@@ -276,6 +302,25 @@ window.ST = window['ST'] || {};
 			}
 		}
 
+		updateHeaderVisibility(tabTop, tabBottom, inView, tabLeft, offset) {
+			const tab = this._table, head = this._head;
+			if (inView) {
+				head.style.display = 'none';
+				if (this._etb) this.switchEnlargerToTable();
+			} else if (offset < tabTop || tabBottom - this._headerHeight < offset) {
+				head.style.display = 'none';
+				if (this._etb) this.switchEnlargerToTable();
+			} else if (tabTop < offset) {
+				head.style.display = 'block';
+				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
+				this._headerHeight = head.getBoundingClientRect().height;
+				if (this._etb) this.switchEnlargerToFloatingHeader();
+			}
+			head.style.left = tabLeft;
+			head.scrollLeft = tab.scrollLeft;
+		}
+
 		switchEnlargerToTable() {
 			this._etb.parentNode.removeChild(this._etb);
 			this._etb.style.top = this._cap ? (this._cap.offsetHeight + 'px') : 0;
@@ -286,6 +331,19 @@ window.ST = window['ST'] || {};
 			this._etb.parentNode.removeChild(this._etb);
 			this._etb.style.top = 0;
 			this._head.appendChild(this._etb);
+		}
+
+		updateScrollBarVisibility(tabTop, tabBottom, inView, tabLeft) {
+			const tab = this._table, bar = this._bar;
+			if (inView) {
+				bar.style.display = 'none';
+			} else if (window.innerHeight < tabTop || tabBottom < window.innerHeight) {
+				bar.style.display = 'none';
+			} else if (tab.scrollWidth - tab.clientWidth > 1) {  // for avoiding needless scrolling
+				bar.style.display = 'block';
+			}
+			bar.style.left = tabLeft;
+			bar.scrollLeft = tab.scrollLeft;
 		}
 
 
