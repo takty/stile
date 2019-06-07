@@ -41,7 +41,7 @@ $stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading !def
 @import 'content/table';
 @import 'content/print';
 
-@import 'content/anchor-scroll';
+@import 'content/anchor-offset';
 
 
 @mixin stile-content($set-heading-design: true) {

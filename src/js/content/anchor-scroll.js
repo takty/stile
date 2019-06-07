@@ -13,19 +13,17 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const SCROLL_DURATION       = 400;
-	const SCROLL_DURATION_FAST  = 100;
+	const DURATION      = 400;
+	const DURATION_FAST = 100;
+
 	const ST_NO_ANCHOR_SCROLL   = 'no-anchor-scroll';
 	const ST_ANCHOR_SCROLL_FAST = 'anchor-scroll-fast';
 	const ST_ANCHOR_OFFSET      = 'anchor-offset';
 
+	NS.onClickAnchorLink = onClickAnchorLink;  // Export the function
 	NS.addInitializer(4, initialize);
-	// Export the function
-	NS.onClickAnchorLink  = onClickAnchorLink;
 
-	function scrollTo(tar) {
-		window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset);
-	}
+	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 
 
 	// -------------------------------------------------------------------------
@@ -74,7 +72,7 @@ window.ST = window['ST'] || {};
 		if (!tar) return false;
 		e.stopPropagation();
 		e.preventDefault();
-		const dur = NS.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? SCROLL_DURATION_FAST : SCROLL_DURATION;
+		const dur = NS.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? DURATION_FAST : DURATION;
 		jump(tar, dur);
 
 		pushHistory(hash);

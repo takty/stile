@@ -13,32 +13,28 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const CLS_STICKY_ELM        = 'st-sticky-header';
-	const CLS_STICKY_ELM_TOP    = 'st-sticky-header-top';
+	const OFFSET = (NS.ANCHOR_OFFSET_ADDITIONAL !== undefined) ? NS.ANCHOR_OFFSET_ADDITIONAL : 16;
 
-	const CLS_LINK_TARGET       = 'stile-link-target';
-	const SEL_TARGET            = '.stile *[id]:not([class])';
+	const CLS_STICKY_ELM     = 'st-sticky-header';
+	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+	const CLS_LINK_TARGET    = 'stile-link-target';
+	const SEL_TARGET         = '.stile *[id]:not([class])';
 
-	const ST_ANCHOR_OFFSET      = 'anchor-offset';
-	let ADDITIONAL_OFFSET       = 16;
-	if (NS.ANCHOR_SCROLL_ADDITIONAL_OFFSET !== undefined) ADDITIONAL_OFFSET = NS.ANCHOR_SCROLL_ADDITIONAL_OFFSET;
+	const ST_ANCHOR_OFFSET   = 'anchor-offset';
 
+	NS.assignAnchorOffset = assignAnchorOffset;  // Export the function
 	NS.addInitializer(2, initializeAnchorOffset);
-	// Export the function
-	NS.assignAnchorOffset = assignAnchorOffset;
 
-	function scrollTo(tar) {
-		window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset);
-	}
+	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 
 
-	// Anchor Offset -----------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 
 	const getAnchorOffset = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 
 	function initializeAnchorOffset() {
-		if (ADDITIONAL_OFFSET + getAnchorOffset() !== 0) {
+		if (OFFSET + getAnchorOffset() !== 0) {
 			const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 			const as2 = Array.prototype.slice.call(document.querySelectorAll(SEL_TARGET));
 			const anchorTargets = as1.concat(filterTarget(as2));
@@ -90,7 +86,7 @@ window.ST = window['ST'] || {};
 	function setAnchorOffset(ats) {
 		const offset = getAnchorOffset();
 		const wpabH = NS.getWpAdminBarHeight();
-		const off = offset + wpabH + ADDITIONAL_OFFSET;
+		const off = offset + wpabH + OFFSET;
 
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
