@@ -9,7 +9,7 @@ gulp.task('js-with-option', () => gulp.src(['src/js/basic/*.js', 'src/js/content
 	.pipe($.plumber())
 	.pipe($.babel())
 	.pipe($.concat('stile-full.min.js'))
-	.pipe($.uglify())
+	// .pipe($.uglify())
 	.pipe(gulp.dest('./dist/js'))
 );
 
@@ -17,14 +17,14 @@ gulp.task('js-without-option', () => gulp.src(['src/js/basic/*.js', 'src/js/cont
 	.pipe($.plumber())
 	.pipe($.babel())
 	.pipe($.concat('stile.min.js'))
-	.pipe($.uglify())
+	// .pipe($.uglify())
 	.pipe(gulp.dest('./dist/js'))
 );
 
 gulp.task('js-each', () => gulp.src('src/js/**/*.js')
 	.pipe($.plumber())
 	.pipe($.babel())
-	.pipe($.uglify())
+	// .pipe($.uglify())
 	.pipe($.rename({ extname: '.min.js' }))
 	.pipe(gulp.dest('./dist/js'))
 );
