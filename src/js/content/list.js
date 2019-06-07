@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  */
 
@@ -13,13 +13,13 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_CLASS = 'stile';
+	const CLS_TARGET = 'stile';
 
 
 	NS.addInitializer(4, () => {
-		setStyleForInsideOf(document.getElementsByClassName(TARGET_CLASS));
-		setStyleDirectlyFor(document.getElementsByTagName('ul'), TARGET_CLASS);
-		setStyleDirectlyFor(document.getElementsByTagName('ol'), TARGET_CLASS);
+		setStyleForInsideOf(document.getElementsByClassName(CLS_TARGET));
+		setStyleDirectlyFor(document.getElementsByTagName('ul'), CLS_TARGET);
+		setStyleDirectlyFor(document.getElementsByTagName('ol'), CLS_TARGET);
 	});
 
 
