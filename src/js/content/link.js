@@ -16,8 +16,8 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const SEL_TARGET = '.stile';
-	const SEL_TARGET_ANCHOR = '.stile-anchor';
+	const SEL_TARGET                 = '.stile';
+	const SEL_TARGET_ANCHOR          = '.stile-anchor';
 	const SEL_TARGET_ANCHOR_EXTERNAL = '.stile-anchor-external';
 
 	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
