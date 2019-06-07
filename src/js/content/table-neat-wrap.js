@@ -38,6 +38,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < tabs.length; i += 1) {
 			if (!NS.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) tabsFlt.push(tabs[i]);
 		}
+		if (tabsFlt.length === 0) return;
 		const lt = tabsFlt[tabsFlt.length - 1];
 		const d = createDummyCell(lt);
 		for (let t of tabsFlt) apply(t, d);
