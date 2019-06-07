@@ -21,23 +21,39 @@ window.ST = window['ST'] || {};
 	const CELL_MIN_RATIO      = 2 / 3;  // width : height
 
 	const MAX_ROW_COUNT       = 200;
+	const IS_COMPAT_MODE      = (NS.BROWSER === 'ie11');
+
 
 	NS.addInitializer(4, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
-		const tabsFlt = [];
-		for (let i = 0; i < tabs.length; i += 1) {
-			if (!NS.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) tabsFlt.push(tabs[i]);
-		}
-		setTimeout(() => {
-			for (let i = 0; i < tabsFlt.length; i += 1) addWrapStyle(tabsFlt[i]);
-		}, 100);  // Delay for Chrome and Edge
+		setTimeout(() => { initialize(tabs); }, 0);
 	});
 
 
 	// -------------------------------------------------------------------------
 
 
-	function addWrapStyle(table) {
+	function initialize(tabs) {
+		const tabsFlt = [];
+		for (let i = 0; i < tabs.length; i += 1) {
+			if (!NS.containStile(tabs[i], ST_OPT_NO_NEAT_WRAP)) tabsFlt.push(tabs[i]);
+		}
+		const lt = tabsFlt[tabsFlt.length - 1];
+		const d = createDummyCell(lt);
+		for (let t of tabsFlt) apply(t, d);
+		lt.removeChild(d);
+	}
+
+	function createDummyCell(table) {
+		const dummy = document.createElement('td');
+		dummy.style.display    = 'inline-block';
+		dummy.style.position   = 'fixed';
+		dummy.style.visibility = 'hidden';
+		table.appendChild(dummy);
+		return dummy;
+	}
+
+	function apply(table, dummyCell) {
 		if (table.getAttribute('width') != null) table.setAttribute('width', '');
 		table.style.maxWidth = '';
 
@@ -52,10 +68,10 @@ window.ST = window['ST'] || {};
 		for (let x = 0; x < grid[0].length; x += 1) newWs.push(false);
 
 		const data = collectMetrix(table, grid);
-		if (isIE11orOldEdge()) {
-			calcNewWidthes_simply(table, grid, data, newWs);
+		if (IS_COMPAT_MODE) {
+			calcNewWidthes_simply(grid, data, newWs);
 		} else {
-			calcNewWidthes(table, grid, data, newWs);
+			calcNewWidthes(grid, data, newWs, dummyCell);
 		}
 		setCellWidth(grid, newWs);
 	}
@@ -86,20 +102,6 @@ window.ST = window['ST'] || {};
 		for (let x = 0; x < grid[0].length; x += 1) origCellWidths.push(grid[0][x].clientWidth);
 
 		return { padH, padV, lineHeight, origTableWidth, origCellWidths, cellMinWidth };
-	}
-
-	function isIE11orOldEdge() {
-		if (NS.BROWSER === 'ie11') return true;
-		if (getEdgeRev() < 16) return true;  // Before Fall Creators Update
-		return false;
-
-		function getEdgeRev() {
-			const ss = window.navigator.userAgent.toLowerCase().split(' ');
-			for (let i = 0; i < ss.length; i += 1) {
-				if (ss[i].indexOf('edge') === 0) return parseFloat(ss[i].split('/')[1]);
-			}
-			return Number.MAX_VALUE;
-		}
 	}
 
 	function setCellWidth(grid, ws) {
@@ -187,17 +189,17 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function calcNewWidthes_simply(table, tab, data, newWs) {
+	function calcNewWidthes_simply(grid, data, newWs) {
 		const origWs = [].concat(newWs);
-		for (let y = 0; y < tab.length; y += 1) {
-			const tabRow = tab[y];
+		for (let y = 0; y < grid.length; y += 1) {
+			const gridRow = grid[y];
 
-			for (let x = 0; x < tabRow.length; x += 1) {
+			for (let x = 0; x < gridRow.length; x += 1) {
 				if (newWs[x] !== false) continue;
 
-				const td = tabRow[x];
+				const td = gridRow[x];
 				if (td === null || typeof td === 'number') continue;
-				if (x < tabRow.length - 1 && typeof tabRow[x + 1] === 'number') continue;
+				if (x < gridRow.length - 1 && typeof gridRow[x + 1] === 'number') continue;
 
 				const aw = td.clientWidth - data.padH;
 				const l = td.getElementsByTagName('br').length + 1;
@@ -245,13 +247,7 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function calcNewWidthes(table, grid, data, newWs) {
-		const dummy = document.createElement('td');
-		dummy.style.display    = 'inline-block';
-		dummy.style.position   = 'fixed';
-		dummy.style.visibility = 'hidden';
-		table.appendChild(dummy);
-
+	function calcNewWidthes(grid, data, newWs, dummy) {
 		const wrapped = [];
 
 		for (let y = 0; y < grid.length; y += 1) {
@@ -279,7 +275,6 @@ window.ST = window['ST'] || {};
 				if (minW) newWs[x] = Math.max(newWs[x], minW);
 			}
 		}
-		table.removeChild(dummy);
 		widenTableWidth(newWs, wrapped, data);
 	}
 

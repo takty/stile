@@ -22,7 +22,6 @@ window.ST = window['ST'] || {};
 	const ST_SCROLL_BAR       = 'fixed-table-scroll-bar';
 	const ST_ENLARGER_BUTTON  = 'enlarger-button';
 	const ST_STATE_ENLARGED   = 'table-enlarged';
-
 	const ST_OPT_NO_ENLARGER  = 'no-enlarger';
 
 	const HEAD_BOTTOM_SHADOW = '0px 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5)';
@@ -33,18 +32,16 @@ window.ST = window['ST'] || {};
 	const getTableHeaderOffset = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
 	let scrollBarWidth;
 
-	NS.addInitializer(4, () => {
+	NS.addInitializer(5, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
-		setTimeout(() => {
-			setTimeout(() => { initFixedHeaderTable(tabs); }, 0);  // Delay for IE11
-		}, 100);  // Delay for Chrome and Edge
+		setTimeout(() => { initialize(tabs); }, 0);  // Delay for IE11
 	});
 
 
 	// -------------------------------------------------------------------------
 
 
-	function initFixedHeaderTable(tabs) {
+	function initialize(tabs) {
 		scrollBarWidth = parseInt(getScrollBarWidth());
 		const conts = [];
 
