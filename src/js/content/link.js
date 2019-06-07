@@ -3,7 +3,7 @@
  * Link Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-07
  *
  * The function 'isExternalUrl' can be overwritten as follows:
  * <script>ST.isExternalUrl = function (url) { return true; }</script>
@@ -16,20 +16,20 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
-	const TARGET_SELECTOR_ANCHOR = '.stile-anchor';
-	const TARGET_SELECTOR_ANCHOR_EXTERNAL = '.stile-anchor-external';
+	const SEL_TARGET = '.stile';
+	const SEL_TARGET_ANCHOR = '.stile-anchor';
+	const SEL_TARGET_ANCHOR_EXTERNAL = '.stile-anchor-external';
 
 	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
 
 	NS.addInitializer(2, () => {
-		let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
+		let as = document.querySelectorAll(SEL_TARGET + ' a');
 		modifyAnchorStyle(as);
-		as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR + ' a');
+		as = document.querySelectorAll(SEL_TARGET_ANCHOR + ' a');
 		modifyAnchorStyle(as);
-		as = document.querySelectorAll(TARGET_SELECTOR_ANCHOR_EXTERNAL + ' a');
+		as = document.querySelectorAll(SEL_TARGET_ANCHOR_EXTERNAL + ' a');
 		modifyAnchorStyleExternal(as);
 	});
 
@@ -49,18 +49,18 @@ window.ST = window['ST'] || {};
 				if (isExternal(url)) NS.addStile(a, 'link-external');
 				continue;
 			}
-			if (!isSimple(a)) continue;
-			NS.addStile(a, 'link-simple');
-			const url = a.getAttribute('href');
-			if (isUrlLink(a, url)) {
-				NS.addStile(a, 'link-url');
+			if (isSimple(a)) {
+				NS.addStile(a, 'link-simple');
+
+				const url = a.getAttribute('href');
+				if (isAnchor(url)) {
+					NS.addStile(a, 'link-anchor');
+				} else {
+					if (isUrlLink(a, url)) NS.addStile(a, 'link-url');
+					if (isExternal(url)) NS.addStile(a, 'link-external');
+				}
+				addFileType(a, url);
 			}
-			if (isExternal(url)) {
-				NS.addStile(a, 'link-external');
-			} else if (isAnchor(url)) {
-				NS.addStile(a, 'link-anchor');
-			}
-			addFileType(a);
 		}
 	}
 
@@ -77,47 +77,6 @@ window.ST = window['ST'] || {};
 
 	// -------------------------------------------------------------------------
 
-
-	function isAnchor(url) {
-		const pos = url.indexOf('#');
-		if (pos === -1) return false;
-		const id = url.substr(pos + 1);
-		const tar = document.getElementById(id);
-		return tar !== null;
-	}
-
-	function isSimple(a) {
-		if (a.className) return false;
-		const cs = a.childNodes;
-		if (cs.length === 0) return false;
-		for (let i = 0; i < cs.length; i += 1) {
-			if (cs[i].className) return false;
-		}
-		for (let i = 0; i < cs.length; i += 1) {
-			const tn = cs[i].tagName;
-			if (tn === 'BR') continue;
-			if (tn && isInlineElement(cs[i])) continue;
-			if (tn) return false;
-		}
-		return true;
-	}
-
-	function isEmpty(a) {
-		if (a.className) return false;
-		const cs = a.childNodes;
-		return (cs.length === 0);
-	}
-
-	function isInlineElement(elm) {
-		const d = getComputedStyle(elm).display;
-		return d.indexOf('inline') !== -1;
-	}
-
-	function isUrlLink(a, url) {
-		const cs = a.childNodes;
-		if (cs.length === 0) return false;
-		return a.innerHTML.trim() === url;
-	}
 
 	function isImageLink(a) {
 		if (a.className) {
@@ -138,6 +97,47 @@ window.ST = window['ST'] || {};
 			if (tn) return false;
 		}
 		return success;
+	}
+
+	function isEmpty(a) {
+		if (a.className) return false;
+		const cs = a.childNodes;
+		return (cs.length === 0);
+	}
+
+	function isSimple(a) {
+		if (a.className) return false;
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		for (let i = 0; i < cs.length; i += 1) {
+			if (cs[i].className) return false;
+		}
+		for (let i = 0; i < cs.length; i += 1) {
+			const tn = cs[i].tagName;
+			if (tn === 'BR') continue;
+			if (tn && isInlineElement(cs[i])) continue;
+			if (tn) return false;
+		}
+		return true;
+	}
+
+	function isAnchor(url) {
+		const pos = url.indexOf('#');
+		if (pos === -1) return false;
+		const id = url.substr(pos + 1);
+		const tar = document.getElementById(id);
+		return tar !== null;
+	}
+
+	function isUrlLink(a, url) {
+		const cs = a.childNodes;
+		if (cs.length === 0) return false;
+		return a.innerHTML.trim() === url;
+	}
+
+	function isInlineElement(elm) {
+		const d = getComputedStyle(elm).display;
+		return d.indexOf('inline') !== -1;
 	}
 
 
@@ -163,8 +163,7 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function addFileType(a) {
-		let url = a.getAttribute('href');
+	function addFileType(a, url) {
 		if (url.length > 0 && url[url.length - 1] === '/') return;
 		const dom = url.indexOf('//');
 		if (dom !== -1) {
