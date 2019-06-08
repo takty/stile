@@ -27,7 +27,7 @@ window.ST = window['ST'] || {};
 
 	const HEAD_BOTTOM_SHADOW = '0px 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5)';
 
-	const HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
+	const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
 	const getTableHeaderOffset = (function () {
@@ -35,6 +35,7 @@ window.ST = window['ST'] || {};
 		return () => f() + NS.getWpAdminBarHeight();
 	})();
 	let scrollBarWidth;
+	let windowWidth = window.innerWidth;
 
 	NS.addInitializer(5, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
@@ -51,6 +52,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
 		NS.onScroll(() => { for (let c of conts) c.onWindowScroll(); });
 		NS.onResize(() => { for (let c of conts) c.onWindowResize(); });
+		window.addEventListener('orientationchange', () => { for (let c of conts) c.onWindowResize(); });
 	}
 
 	class FixedHeaderTable {
@@ -211,6 +213,9 @@ window.ST = window['ST'] || {};
 
 
 		onWindowResize() {
+			if (windowWidth === window.innerWidth) return;
+			windowWidth = window.innerWidth;
+
 			if (this._ebtn && this._isEnlarged) {
 				this._toggleEnlarge();
 			} else {
@@ -284,7 +289,7 @@ window.ST = window['ST'] || {};
 			const offset = getTableHeaderOffset();
 			const capH   = this._capt ? this._capt.offsetHeight : 0;
 			const headH  = this._headerHeight;
-			const inView = tabBottom - tabTop - capH < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
+			const inView = tabBottom - tabTop - capH < CAPABLE_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
 
 			let headVisible = false;
 			if (inView) {  // do nothing
