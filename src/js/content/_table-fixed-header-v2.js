@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-09
  *
  */
 
@@ -30,7 +30,10 @@ window.ST = window['ST'] || {};
 	const HEADER_FLOATING_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	const getTableHeaderOffset = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const getTableHeaderOffset = (function () {
+		const f = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+		return () => f() + NS.getWpAdminBarHeight();
+	})();
 	let scrollBarWidth;
 
 	NS.addInitializer(5, () => {
@@ -46,35 +49,30 @@ window.ST = window['ST'] || {};
 		scrollBarWidth = parseInt(getScrollBarWidth());
 		const conts = [];
 		for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
-		NS.onScroll(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowScroll(); });
-		NS.onResize(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowResize(); });
+		NS.onScroll(() => { for (let c of conts) c.onWindowScroll(); });
+		NS.onResize(() => { for (let c of conts) c.onWindowResize(); });
 	}
 
 	class FixedHeaderTable {
 
 		constructor (tab) {
 			if (tab.style.height) tab.style.height = '';
-
 			this._table        = tab;
 			this._headerHeight = 0;
-			this._calcWidth    = 0;
 			this._isEnlarged   = false;
 			this._create();
-			this._initialize();
-
-			this.onWindowScroll();
-			this._onTableScroll();
+			setTimeout(() => { this._initialize(); }, 10);
 		}
 
 		_create() {
 			this._head = this._createHeaderClone();
-			this._bar  = this._createScrollBarClone();
-			this._etb  = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlarger();
+			this._sbar = this._createScrollBarClone();
+			this._ebtn = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlargerButton();
 
 			const caps = this._table.getElementsByTagName('caption');
-			this._cap = caps.length ? caps[0] : null;
-			if ((NS.BROWSER === 'ie11' || NS.BROWSER === 'edge') && this._head && this._cap) {
-				this._table.insertBefore(this._cap, this._table.firstChild);  // Replace the order of caption and header
+			this._capt = caps.length ? caps[0] : null;
+			if ((NS.BROWSER === 'ie11' || NS.BROWSER === 'edge') && this._head && this._capt) {
+				this._table.insertBefore(this._capt, this._table.firstChild);  // Replace the order of caption and header
 			}
 		}
 
@@ -83,40 +81,20 @@ window.ST = window['ST'] || {};
 			if (!thead) {
 				thead = this._createPseudoHeader();
 				if (!thead) return null;
+				this._table.tHead = thead;
 			}
 			const cont = document.createElement('div');
 			NS.addStile(cont, ST_HEADER_CONTAINER);
-			// cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
-			// cont.style.display = 'none';
-			// cont.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
-			cont.style.marginTop = '0';  // for cancel 'stile-margin-basic'
 			this._table.parentNode.appendChild(cont);
 
 			const ptab = document.createElement('div');
 			NS.addStile(ptab, ST_HEADER_TABLE);
-			// let w = thead.getBoundingClientRect().width;
-			// if (NS.BROWSER === 'ie11') w = Math.ceil(w);
-			// ptab.style.width = w + 'px';
 			cont.appendChild(ptab);
 
 			const clone = thead.cloneNode(true);
 			ptab.appendChild(clone);
 
-			// const oTrs = thead.rows;
-			// const cTrs = clone.rows;
-			// for (let i = 0; i < oTrs.length; i += 1) {
-			// 	copyWidth(oTrs[i], cTrs[i], 'td');
-			// 	copyWidth(oTrs[i], cTrs[i], 'th');
-			// }
-			// function copyWidth(o, c, tag) {
-			// 	const os = o.getElementsByTagName(tag);
-			// 	const cs = c.getElementsByTagName(tag);
-			// 	for (let i = 0; i < os.length; i += 1) {
-			// 		cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
-			// 	}
-			// }
 			if (NS.containStile(this._table, ST_STATE_ENLARGED)) NS.addStile(cont, ST_STATE_ENLARGED);
-			this._updateHeaderSize(cont);
 			return cont;
 		}
 
@@ -148,21 +126,19 @@ window.ST = window['ST'] || {};
 		}
 
 		_createScrollBarClone() {
-			const bar = document.createElement('div');
-			NS.addStile(bar, ST_SCROLL_BAR);
-			this._table.parentNode.appendChild(bar);
+			const sbar = document.createElement('div');
+			NS.addStile(sbar, ST_SCROLL_BAR);
+			this._table.parentNode.appendChild(sbar);
 			const spacer = document.createElement('div');
-			spacer.style.height = '1px';
-			bar.appendChild(spacer);
-			this._updateScrollBarSize(bar);
-			return bar;
+			sbar.appendChild(spacer);
+			return sbar;
 		}
 
-		_createEnlarger() {
-			const etb = document.createElement('div');
-			etb.dataset['stile'] = ST_ENLARGER_BUTTON;
-			this._table.appendChild(etb);
-			return etb;
+		_createEnlargerButton() {
+			const ebtn = document.createElement('div');
+			ebtn.dataset['stile'] = ST_ENLARGER_BUTTON;
+			this._table.appendChild(ebtn);
+			return ebtn;
 		}
 
 
@@ -171,34 +147,63 @@ window.ST = window['ST'] || {};
 
 		_initialize() {
 			this._initTableScroll();
-			if (this._etb) {
-				this._etb.addEventListener('click', () => {
-					this._toggleEnlarge();
-					this.onWindowResize();
-				});
-				if (!this._isEnlargable()) this._etb.style.display = 'none';
+			if (this._ebtn) {
+				this._ebtn.addEventListener('click', () => { this._toggleEnlarge(); });
+				if (!this._isEnlargable()) this._ebtn.style.display = 'none';
 			}
-			this._calcWidth = this._table.offsetWidth;
+			this._resize();
+		}
+
+		_initTableScroll() {
+			let tableScrollChanged = false;
+			let sbarScrollChanged  = false;
+			this._table.addEventListener('scroll', NS.throttle(() => {
+				if (tableScrollChanged) {
+					tableScrollChanged = false;
+				} else {
+					this._sbar.scrollLeft = this._table.scrollLeft;
+					sbarScrollChanged = true;
+				}
+				this._onTableScroll();
+			}));
+			this._sbar.addEventListener('scroll', NS.throttle(() => {
+				if (sbarScrollChanged) {
+					sbarScrollChanged = false;
+				} else {
+					this._table.scrollLeft = this._sbar.scrollLeft;
+					tableScrollChanged = true;
+				}
+			}));
+		}
+
+		_isScrollable() {
+			const t = this._table;
+			return (t.scrollWidth - t.clientWidth > 2);  // for avoiding needless scrolling
+		}
+
+		_isEnlargable() {
+			const t = this._table;
+			return (t.scrollWidth - t.offsetWidth > 1 && t.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth);  // for avoiding needless scrolling
 		}
 
 		_toggleEnlarge() {
-			const tab = this._table;
+			const tab = this._table, head = this._head;
 			if (this._isEnlarged) {
-				tab.style.marginLeft = '';
-				tab.style.zIndex = '';
 				tab.style.width = '';
-				tab.style.maxWidth = '';
+				tab.style.marginLeft = '';
 				NS.removeStile(tab, ST_STATE_ENLARGED);
+				NS.removeStile(head, ST_STATE_ENLARGED);
 				this._isEnlarged = false;
 			} else {
 				if (tab.scrollWidth - tab.offsetWidth <= 1) return;
-				tab.style.zIndex = '98';
 				tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
-				tab.style.maxWidth = '100vw';
 				tab.scrollLeft = 0;
 				NS.addStile(tab, ST_STATE_ENLARGED);
+				NS.addStile(head, ST_STATE_ENLARGED);
 				this._isEnlarged = true;
 			}
+			if (this._ebtn && this._isEnlarged) this._updateEnlagedTablePosition();
+			this._resize();
 		}
 
 
@@ -206,19 +211,17 @@ window.ST = window['ST'] || {};
 
 
 		onWindowResize() {
-			const head = this._head, bar = this._bar;
-			if (this._etb && this._isEnlarged) {
-				let left = this._table.getBoundingClientRect().left + window.pageXOffset;
-				const tbody = this._table.tBodies[0];
-				const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
-
-				if (width < pwidth) left -= (pwidth - width) / 2;
-				this._table.style.marginLeft = -left + 'px';
+			if (this._ebtn && this._isEnlarged) {
+				this._toggleEnlarge();
+			} else {
+				this._resize();
 			}
-			if (head) this._updateHeaderSize(head);
-			if (bar)  this._updateScrollBarSize(bar);
-			this._calcWidth = this._table.offsetWidth;
-			if (head || bar) this.onWindowScroll();
+		}
+
+		_resize() {
+			if (this._head) this._updateHeaderSize(this._head);
+			if (this._sbar) this._updateScrollBarSize(this._sbar);
+			if (this._head || this._sbar) this.onWindowScroll();
 			this._onTableScroll();
 		}
 
@@ -226,7 +229,7 @@ window.ST = window['ST'] || {};
 			let thead = this._table.tHead;
 			cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
 			cont.style.display = 'none';
-			cont.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+			cont.style.top = getTableHeaderOffset() + 'px';
 
 			const ptab = cont.firstChild;
 			let w = thead.getBoundingClientRect().width;
@@ -241,6 +244,7 @@ window.ST = window['ST'] || {};
 				copyWidth(oTrs[i], cTrs[i], 'td');
 				copyWidth(oTrs[i], cTrs[i], 'th');
 			}
+			this._headerHeight = thead.getBoundingClientRect().height;
 			function copyWidth(o, c, tag) {
 				const os = o.getElementsByTagName(tag);
 				const cs = c.getElementsByTagName(tag);
@@ -250,173 +254,130 @@ window.ST = window['ST'] || {};
 			}
 		}
 
-		_updateScrollBarSize(bar) {
-			bar.style.maxWidth = this._table.clientWidth + 'px';
-			bar.style.display = 'none';
+		_updateScrollBarSize(sbar) {
+			sbar.style.maxWidth = this._table.clientWidth + 'px';
+			sbar.style.display = 'none';
 			const h = parseInt(getScrollBarWidth());
-			if (0 < h) bar.style.height = (h + 2) + 'px';
+			if (0 < h) sbar.style.height = (h + 2) + 'px';
 
 			const tbody = this._table.tBodies[0];
-			const spacer = bar.firstChild;
+			const spacer = sbar.firstChild;
 			spacer.style.width = Math.ceil(tbody.clientWidth) + 'px';
 		}
 
-		onWindowScroll() {
-			if (this._calcWidth !== this._table.offsetWidth) this.onWindowResize();
+		_updateEnlagedTablePosition() {
+			let left = this._table.getBoundingClientRect().left + window.pageXOffset;
+			const tbody = this._table.tBodies[0];
+			const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
 
-			const tab = this._table, head = this._head, bar = this._bar, cap = this._cap;
-			const winY = window.pageYOffset;
-			const tabTop = tab.getBoundingClientRect().top + winY, tabBottom = tabTop + tab.offsetHeight;
-			const capH = cap ? cap.offsetHeight : 0;
-			const offset = getTableHeaderOffset() + NS.getWpAdminBarHeight() - capH;
-			const isInWin = tab.offsetHeight < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
-			const tabLeft = (head || bar) ? (tab.getBoundingClientRect().left + 'px') : '';
-
-			if (head) {
-				if (isInWin) {
-					head.style.display = 'none';
-					if (this._etb) this.switchEnlargerToTable();
-				} else if (winY + offset < tabTop || tabBottom - this._headerHeight < winY + offset) {
-					head.style.display = 'none';
-					if (this._etb) this.switchEnlargerToTable();
-				} else if (tabTop < winY + offset) {
-					head.style.display = 'block';
-					head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
-					head.style.boxShadow = HEAD_BOTTOM_SHADOW;
-					this._headerHeight = head.getBoundingClientRect().height;
-					if (this._etb) this.switchEnlargerToFloatingHeader();
-				}
-				head.style.left = tabLeft;
-				head.scrollLeft = tab.scrollLeft;
-			}
-			if (bar) {
-				if (isInWin) {
-					bar.style.display = 'none';
-				} else if (winY + window.innerHeight < tabTop || tabBottom < winY + window.innerHeight) {
-					bar.style.display = 'none';
-				} else if (tab.scrollWidth - tab.clientWidth > 1) {  // for avoiding needless scrolling
-					bar.style.display = 'block';
-				}
-				bar.style.left = tabLeft;
-				bar.scrollLeft = tab.scrollLeft;
-			}
-		}
-
-		updateHeaderVisibility(tabTop, tabBottom, inView, tabLeft, offset) {
-			const tab = this._table, head = this._head;
-			if (inView) {
-				head.style.display = 'none';
-				if (this._etb) this.switchEnlargerToTable();
-			} else if (offset < tabTop || tabBottom - this._headerHeight < offset) {
-				head.style.display = 'none';
-				if (this._etb) this.switchEnlargerToTable();
-			} else if (tabTop < offset) {
-				head.style.display = 'block';
-				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
-				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
-				this._headerHeight = head.getBoundingClientRect().height;
-				if (this._etb) this.switchEnlargerToFloatingHeader();
-			}
-			head.style.left = tabLeft;
-			head.scrollLeft = tab.scrollLeft;
-		}
-
-		switchEnlargerToTable() {
-			this._etb.parentNode.removeChild(this._etb);
-			this._etb.style.top = this._cap ? (this._cap.offsetHeight + 'px') : 0;
-			this._table.appendChild(this._etb);
-		}
-
-		switchEnlargerToFloatingHeader() {
-			this._etb.parentNode.removeChild(this._etb);
-			this._etb.style.top = 0;
-			this._head.appendChild(this._etb);
-		}
-
-		updateScrollBarVisibility(tabTop, tabBottom, inView, tabLeft) {
-			const tab = this._table, bar = this._bar;
-			if (inView) {
-				bar.style.display = 'none';
-			} else if (window.innerHeight < tabTop || tabBottom < window.innerHeight) {
-				bar.style.display = 'none';
-			} else if (tab.scrollWidth - tab.clientWidth > 1) {  // for avoiding needless scrolling
-				bar.style.display = 'block';
-			}
-			bar.style.left = tabLeft;
-			bar.scrollLeft = tab.scrollLeft;
+			if (width < pwidth) left -= (pwidth - width) / 2;
+			this._table.style.marginLeft = -left + 'px';
 		}
 
 
 		// ---------------------------------------------------------------------
 
 
-		_isScrollable() {
-			const t = this._table;
-			return (t.scrollWidth - t.clientWidth > 2);  // for avoiding needless scrolling
+		onWindowScroll() {
+			const tr     = this._table.getBoundingClientRect();
+			const tabTop = tr.top, tabBottom = tr.bottom;
+			const offset = getTableHeaderOffset();
+			const capH   = this._capt ? this._capt.offsetHeight : 0;
+			const headH  = this._headerHeight;
+			const inView = tabBottom - tabTop - capH < HEADER_FLOATING_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
+
+			let headVisible = false;
+			if (inView) {  // do nothing
+			} else if (offset < tabTop + capH) {  // do nothing
+			} else if (tabBottom - headH < offset) {  // do nothing
+			} else if (tabTop + capH < offset) {
+				headVisible = true;
+			}
+			let sbarVisible = false;
+			if (inView) {  // do nothing
+			} else if (window.innerHeight < tabTop + capH + headH) {  // do nothing
+			} else if (tabBottom < window.innerHeight) {  // do nothing
+			} else if (this._isScrollable()) {
+				sbarVisible = true;
+			}
+			if (this._head) this.updateHeaderVisibility(headVisible, tr.left);
+			if (this._sbar) this.updateScrollBarVisibility(sbarVisible, tr.left);
 		}
 
-		_isEnlargable() {
-			const t = this._table;
-			return (t.scrollWidth - t.offsetWidth > 1 && t.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth);  // for avoiding needless scrolling
+		updateHeaderVisibility(visible, tabLeft) {
+			const head = this._head;
+			if (visible) {
+				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
+				head.style.display = 'block';
+				if (this._ebtn) this.switchEnlargerToFloatingHeader();
+			} else {
+				head.style.display = 'none';
+				if (this._ebtn) this.switchEnlargerToTable();
+			}
+			head.style.left = tabLeft + 'px';
+			head.scrollLeft = this._table.scrollLeft;
 		}
 
-		_initTableScroll() {
-			let tableScrollChanged = false, barScrollChanged = false;
-			this._table.addEventListener('scroll', NS.throttle(() => {
-				if (tableScrollChanged) {
-					tableScrollChanged = false;
-				} else {
-					this._bar.scrollLeft = this._table.scrollLeft;
-					barScrollChanged = true;
-				}
-				this._onTableScroll();
-			}));
-			this._bar.addEventListener('scroll', NS.throttle(() => {
-				if (barScrollChanged) {
-					barScrollChanged = false;
-				} else {
-					this._table.scrollLeft = this._bar.scrollLeft;
-					tableScrollChanged = true;
-				}
-			}));
+		switchEnlargerToTable() {
+			this._ebtn.parentNode.removeChild(this._ebtn);
+			this._ebtn.style.top = this._capt ? (this._capt.offsetHeight + 'px') : 0;
+			this._table.appendChild(this._ebtn);
 		}
+
+		switchEnlargerToFloatingHeader() {
+			this._ebtn.parentNode.removeChild(this._ebtn);
+			this._ebtn.style.top = 0;
+			this._head.appendChild(this._ebtn);
+		}
+
+		updateScrollBarVisibility(visible, tabLeft) {
+			const sbar = this._sbar;
+			if (visible) {
+				sbar.style.display = 'block';
+			} else {
+				sbar.style.display = 'none';
+			}
+			sbar.style.left = tabLeft + 'px';
+			sbar.scrollLeft = this._table.scrollLeft;
+		}
+
+
+		// ---------------------------------------------------------------------
+
 
 		_onTableScroll() {
-			const tab = this._table, head = this._head, cap = this._cap, etb = this._etb;
-			if (head) head.scrollLeft = tab.scrollLeft;
-			if (cap) {
-				if (this._isScrollable()) {
-					cap.style.transform = 'translateX(' + tab.scrollLeft + 'px)';
-				} else {
-					cap.style.transform = null;
-				}
-			}
-			if (etb) {
-				NS.removeStile(etb, 'visible');
+			const tab = this._table, head = this._head, capt = this._capt, ebtn = this._ebtn;
+			const sL = tab.scrollLeft;
+			if (head) head.scrollLeft = sL;
+			if (capt) capt.style.transform = this._isScrollable() ? `translateX(${sL}px)` : null;
+			if (ebtn) {
+				NS.removeStile(ebtn, 'visible');
 				if (this._tse) clearTimeout(this._tse);
-				this._tse = setTimeout(() => { NS.addStile(etb, 'visible'); }, 200);
-
-				const bodyW = tab.tBodies[0].clientWidth;
-				if (this._isEnlargable()) {
-					const pos = Math.min(bodyW - tab.offsetWidth, tab.scrollLeft);  // for Mobile Safari
-					etb.style.right = (-pos) + 'px';
-					if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
-					etb.style.display = 'block';
-				} else if (this._isEnlarged) {
-					const diff = etb.parentElement.offsetWidth - bodyW;
-					if (0 < diff) {
-						etb.style.right = diff + 'px';
-					} else {
-						const pos = Math.min(bodyW - tab.offsetWidth, tab.scrollLeft);  // for Mobile Safari
-						etb.style.right = (-pos) + 'px';
-					}
-					if (etb.parentNode === tab) etb.style.top = cap ? (cap.offsetHeight + 'px') : 0;
-					etb.style.display = 'block';
-				} else {
-					etb.style.display = 'none';
-				}
+				this._tse = setTimeout(() => { NS.addStile(ebtn, 'visible'); }, 200);
+				this._updateEnlager();
 			}
 			this._updateShade();
+		}
+
+		_updateEnlager() {
+			const tab = this._table, capt = this._capt, ebtn = this._ebtn;
+			const sL = tab.scrollLeft;
+
+			const tbody = this._table.tBodies[0];
+			const scrW = tbody.clientWidth, cltW = tab.clientWidth;
+			if (this._isEnlargable() || this._isEnlarged) {
+				let etbRight = -Math.min(scrW - cltW, sL);  // for Mobile Safari
+				if (!this._isEnlargable() && this._isEnlarged) {
+					const diff = ebtn.parentElement.clientWidth - scrW;
+					if (0 < diff) etbRight = diff;
+				}
+				if (ebtn.parentNode === tab) ebtn.style.top = capt ? (capt.offsetHeight + 'px') : 0;
+				ebtn.style.right = etbRight + 'px';
+				ebtn.style.display = 'block';
+			} else {
+				ebtn.style.display = 'none';
+			}
 		}
 
 		_updateShade() {
