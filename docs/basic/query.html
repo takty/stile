@@ -11,8 +11,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 	function onResize() {
-		document.getElementById('sw').value = ST.SCREEN_WIDTH;
-		document.getElementById('sh').value = ST.SCREEN_HEIGHT;
+		document.getElementById('sw').value = ST.MEDIA_WIDTH;
+		document.getElementById('sh').value = ST.MEDIA_HEIGHT;
 	}
 	ST.onResize(onResize);
 	onResize();
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	<h2>Width Query</h2>
 
 	<div class="frame">
-		<div><label>ST.SCREEN_WIDTH = <input type="text" id="sw"></label></div>
+		<div><label>ST.MEDIA_WIDTH = <input type="text" id="sw"></label></div>
 	</div>
 	<div class="width-query phone-up">(Phone up)</div>
 	<div class="width-query phone-only">Phone only</div>
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	<h2>Height Query</h2>
 
 	<div class="frame">
-		<div><label>ST.SCREEN_HEIGHT = <input type="text" id="sh"></label></div>
+		<div><label>ST.MEDIA_HEIGHT = <input type="text" id="sh"></label></div>
 	</div>
 	<div class="height-query tiny-height-up">(Tiny height up)</div>
 	<div class="height-query tiny-height-only">Tiny height only</div>
