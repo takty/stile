@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-10
  *
  */
 
@@ -11,7 +11,7 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(3, function () {
+(function (NS) {
 
 	const SELECTOR_TARGET    = '.tab-page';
 	const CLS_TAB_LIST       = 'stile-tab-page-tab-list';
@@ -20,15 +20,17 @@ ST.addInitializer(3, function () {
 
 	const PAGE_HEIGHT_WINDOW_HEIGHT_RATIO = 0.8;
 
-	const tabPages = [];
-	const tps = document.querySelectorAll(SELECTOR_TARGET);
-	for (let i = 0; i < tps.length; i += 1) {
-		const tabPage = createTabPage(tps[i]);
-		if (tabPage) tabPages.push(tabPage);
-	}
-	ST.onResize(() => { onResize(tabPages); });
-	setTimeout(function () { onResize(tabPages) }, 200);  // Delay
-	initializeSmoothScroll();
+	NS.addInitializer(3, () => {
+		const tabPages = [];
+		const tps = document.querySelectorAll(SELECTOR_TARGET);
+		for (let i = 0; i < tps.length; i += 1) {
+			const tabPage = createTabPage(tps[i]);
+			if (tabPage) tabPages.push(tabPage);
+		}
+		NS.onResize(() => { onResize(tabPages); });
+		setTimeout(function () { onResize(tabPages) }, 200);  // Delay
+		initializeSmoothScroll();
+	});
 
 	function createTabPage(container) {
 		const fh = getFirstHeading(container);
@@ -52,7 +54,7 @@ ST.addInitializer(3, function () {
 		}
 		if (curPage) pages.push(curPage);
 
-		const tp = {pages, container, currentIdx: 0, isAccordion: false};
+		const tp = { pages, container, currentIdx: 0, isAccordion: false };
 		createTab(htmls, tp);
 
 		container.insertBefore(tp.tabUl, container.firstChild);
@@ -125,13 +127,13 @@ ST.addInitializer(3, function () {
 
 		for (let i = 0; i < ts.length; i += 1) {
 			if (i === idx) {
-				ST.addStile(ts[i], ST_STATE_CURRENT);
-				ST.addStile(ts2[i], ST_STATE_CURRENT);
-				ST.addStile(ps[i], ST_STATE_CURRENT);
+				NS.addStile(ts[i], ST_STATE_CURRENT);
+				NS.addStile(ts2[i], ST_STATE_CURRENT);
+				NS.addStile(ps[i], ST_STATE_CURRENT);
 			} else {
-				ST.removeStile(ts[i], ST_STATE_CURRENT);
-				ST.removeStile(ts2[i], ST_STATE_CURRENT);
-				ST.removeStile(ps[i], ST_STATE_CURRENT);
+				NS.removeStile(ts[i], ST_STATE_CURRENT);
+				NS.removeStile(ts2[i], ST_STATE_CURRENT);
+				NS.removeStile(ps[i], ST_STATE_CURRENT);
 			}
 			ts[i].className = '';
 			ts2[i].className = '';
@@ -258,4 +260,4 @@ ST.addInitializer(3, function () {
 		}
 	}
 
-});
+})(window.ST);

@@ -3,7 +3,7 @@
  * Container Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-06-10
  *
  */
 
@@ -11,18 +11,20 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(1, function () {
+(function (NS) {
 
 	const TARGET_SELECTOR = '.stile';
 
-	let cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-3');
-	for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 3);
-	cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-4');
-	for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 4);
+	NS.addInitializer(1, () => {
+		let cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-3');
+		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 3);
+		cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-4');
+		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 4);
+	});
 
 
-	// -------------------------------------------------------------------------
-	// Card
+	// Card --------------------------------------------------------------------
+
 
 	function modifyCardStyle(a, col) {
 		const cs = a.childNodes;
@@ -42,4 +44,4 @@ ST.addInitializer(1, function () {
 		return true;
 	}
 
-});
+})(window.ST);

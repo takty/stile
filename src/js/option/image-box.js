@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-04-03
+ * @version 2019-06-10
  *
  */
 
@@ -11,7 +11,7 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(7, function () {
+(function (NS) {
 
 	const WIN_SIZE_RESPONSIVE       = 600
 	const TARGET_SELECTOR           = '.stile';
@@ -21,10 +21,12 @@ ST.addInitializer(7, function () {
 	const STILE_STATE_VISIBLE       = 'visible';
 	const SIZE_BOX_PADDING          = '4rem';
 
-	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
-	modifyImageAnchorStyle(as);
-	as = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
-	modifyImageAnchorStyle(as);
+	NS.addInitializer(7, () => {
+		let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
+		modifyImageAnchorStyle(as);
+		as = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
+		modifyImageAnchorStyle(as);
+	});
 
 	function modifyImageAnchorStyle(as) {
 		const fas = filterImageLink(as);
@@ -37,7 +39,7 @@ ST.addInitializer(7, function () {
 		const ret = [];
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
-			if (!ST.containStile(a, 'link-image')) continue;
+			if (!NS.containStile(a, 'link-image')) continue;
 			const href = a.href;
 			if (!href || !isImageUrl(href)) continue;
 			const imgs = a.getElementsByTagName('img');
@@ -67,7 +69,7 @@ ST.addInitializer(7, function () {
 
 	function createBox(a) {
 		const frame = document.createElement('div');
-		ST.addStile(frame, STILE_CLS_IMAGE_BOX);
+		NS.addStile(frame, STILE_CLS_IMAGE_BOX);
 		const img = document.createElement('img');
 		img.src = a.href;
 		frame.appendChild(img);
@@ -86,7 +88,7 @@ ST.addInitializer(7, function () {
 
 	function onOpen(e, frame, img) {
 		e.preventDefault();
-		ST.addStile(frame, STILE_STATE_OPEN);
+		NS.addStile(frame, STILE_STATE_OPEN);
 		const isPhone = window.innerWidth < WIN_SIZE_RESPONSIVE;
 		if (checkLandscape(frame, img)) {
 			img.style.minWidth = '';
@@ -99,14 +101,14 @@ ST.addInitializer(7, function () {
 			img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
 		}
 		centeringImage(frame, img);
-		const delay = ST.BROWSER === 'ie11' ? 30 : 0;
-		setTimeout(function () { ST.addStile(frame, STILE_STATE_VISIBLE); }, delay);
+		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+		setTimeout(function () { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
 	}
 
 	function onClose(e, frame) {
 		e.preventDefault();
-		ST.removeStile(frame, STILE_STATE_VISIBLE);
-		setTimeout(function () { ST.removeStile(frame, STILE_STATE_OPEN); }, 200);
+		NS.removeStile(frame, STILE_STATE_VISIBLE);
+		setTimeout(function () { NS.removeStile(frame, STILE_STATE_OPEN); }, 200);
 	}
 
 	function enableTouchGesture(frame, img) {
@@ -199,4 +201,4 @@ ST.addInitializer(7, function () {
 		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 	}
 
-});
+})(window.ST);

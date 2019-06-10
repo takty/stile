@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-10
  *
  */
 
@@ -11,7 +11,7 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(3, function () {
+(function (NS) {
 
 	const SELECTOR_TARGET     = '.pseudo-tab-page';
 	const CLS_TAB_LIST        = 'stile-pseudo-tab-page-tab-list';
@@ -19,15 +19,17 @@ ST.addInitializer(3, function () {
 	const ST_STATE_CURRENT    = 'current';
 	const SINGLE_TAB          = true;
 
-	const tabUlss = [];
-	const tps = document.querySelectorAll(SELECTOR_TARGET);
-	for (let i = 0; i < tps.length; i += 1) {
-		const tabUls = createTabPage(tps[i], i);
-		if (tabUls !== false) tabUlss.push(tabUls);
-	}
-	if (SINGLE_TAB) initializeSingleTab();
+	NS.addInitializer(3, () => {
+		const tabUlss = [];
+		const tps = document.querySelectorAll(SELECTOR_TARGET);
+		for (let i = 0; i < tps.length; i += 1) {
+			const tabUls = createTabPage(tps[i], i, tabUlss);
+			if (tabUls !== false) tabUlss.push(tabUls);
+		}
+		if (SINGLE_TAB) initializeSingleTab(tabUlss);
+	});
 
-	function createTabPage(container, idx) {
+	function createTabPage(container, idx, tabUlss) {
 		const fh = getFirstHeading(container);
 		if (!fh) return false;
 		const tabH = fh.tagName;
@@ -45,15 +47,15 @@ ST.addInitializer(3, function () {
 		}
 		const tabUls = [];
 		for (let i = 0; i < hs.length; i += 1) {
-			const tp = createTab(htmls, i, idx, tabUls);
+			const tp = createTab(htmls, i, idx, tabUls, tabUlss);
 			container.insertBefore(tp.tabUl, hs[i]);
 			tabUls.push(tp.tabUl);
 		}
-		if (ST.assignAnchorOffset) ST.assignAnchorOffset(tabUls);
+		if (NS.assignAnchorOffset) NS.assignAnchorOffset(tabUls);
 		return tabUls;
 	}
 
-	function createTab(htmls, tabIdx, contIdx, tabUls) {
+	function createTab(htmls, tabIdx, contIdx, tabUls, tabUlss) {
 		const tp = {};
 		tp.tabUl = document.createElement('ul');
 		tp.tabUl.id = ID_TAB_LIST_ID_BASE + contIdx + '-' + tabIdx;
@@ -68,14 +70,14 @@ ST.addInitializer(3, function () {
 			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
 			tc.innerHTML = htmls[i];
 			tc.dataset['stile'] = ios ? 'no-anchor-scroll' : 'anchor-scroll-fast';
-			if (SINGLE_TAB) tc.addEventListener('click', () => { onTabClick(i, tabUls); });
+			if (SINGLE_TAB) tc.addEventListener('click', () => { onTabClick(i, tabUls, tabUlss); });
 			li.appendChild(tc);
 
 			tp.tabUl.appendChild(li);
 			tp.tabAs.push(tc);
 		}
-		ST.addStile(tp.tabUl.children[tabIdx], ST_STATE_CURRENT);
-		if (SINGLE_TAB) ST.addStile(tp.tabUl, 'hidden');
+		NS.addStile(tp.tabUl.children[tabIdx], ST_STATE_CURRENT);
+		if (SINGLE_TAB) NS.addStile(tp.tabUl, 'hidden');
 		return tp;
 	}
 
@@ -94,12 +96,12 @@ ST.addInitializer(3, function () {
 	// -------------------------------------------------------------------------
 
 
-	function initializeSingleTab() {
+	function initializeSingleTab(tabUlss) {
 		updateVisibility(tabUlss, true);
-		ST.onScroll(() => { updateVisibility(tabUlss); });
+		NS.onScroll(() => { updateVisibility(tabUlss); });
 	}
 
-	function onTabClick(idx, tabUls) {
+	function onTabClick(idx, tabUls, tabUlss) {
 		showImmediately(tabUls[idx]);
 		setTimeout(() => { updateVisibility(tabUlss, true); }, 10);
 	}
@@ -109,7 +111,7 @@ ST.addInitializer(3, function () {
 			for (let i = 0; i < tabUlss.length; i += 1) {
 				const tabUls = tabUlss[i];
 				for (let j = 0; j < tabUls.length; j += 1) {
-					ST.addStile(tabUls[j], 'immediately');
+					NS.addStile(tabUls[j], 'immediately');
 				}
 			}
 		}
@@ -121,9 +123,9 @@ ST.addInitializer(3, function () {
 				const y = tabUl.getBoundingClientRect().top;
 				if (0 < y && !shown) {
 					shown = true;
-					ST.removeStile(tabUl, 'hidden');
+					NS.removeStile(tabUl, 'hidden');
 				} else if (shown) {
-					ST.addStile(tabUl, 'hidden');
+					NS.addStile(tabUl, 'hidden');
 				}
 			}
 		}
@@ -132,7 +134,7 @@ ST.addInitializer(3, function () {
 				for (let i = 0; i < tabUlss.length; i += 1) {
 					const tabUls = tabUlss[i];
 					for (let j = 0; j < tabUls.length; j += 1) {
-						ST.removeStile(tabUls[j], 'immediately');
+						NS.removeStile(tabUls[j], 'immediately');
 					}
 				}
 			}, 1000);
@@ -140,9 +142,9 @@ ST.addInitializer(3, function () {
 	}
 
 	function showImmediately(tabUl) {
-		ST.addStile(tabUl, 'immediately');
-		ST.removeStile(tabUl, 'hidden');
-		setTimeout(() => { ST.removeStile(tabUl, 'immediately'); }, 1000);
+		NS.addStile(tabUl, 'immediately');
+		NS.removeStile(tabUl, 'hidden');
+		setTimeout(() => { NS.removeStile(tabUl, 'immediately'); }, 1000);
 	}
 
-});
+})(window.ST);

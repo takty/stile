@@ -1,9 +1,10 @@
+/* eslint-disable no-irregular-whitespace */
 /**
  *
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-29
+ * @version 2019-06-10
  *
  */
 
@@ -11,7 +12,7 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(7, function () {
+(function (NS) {
 
 	const TARGET_SELECTOR = '.stile';
 	const TARGET_SELECTOR_KERNING = '.stile-kerning';
@@ -44,10 +45,13 @@ ST.addInitializer(7, function () {
 	makeKerningSolos(kerningInfo,
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
-	let ts = document.querySelectorAll(TARGET_SELECTOR);
-	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
-	ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
-	for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
+
+	NS.addInitializer(7, function () {
+		let ts = document.querySelectorAll(TARGET_SELECTOR);
+		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
+		ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
+		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
+	});
 
 
 	// -------------------------------------------------------------------------
@@ -72,7 +76,7 @@ ST.addInitializer(7, function () {
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
 			if (c.nodeType === 1 /*ELEMENT_NODE*/) {
-				if (!ST.containStile(c, ST_NO_KERNING)) applyKerningToElement(c, ki);
+				if (!NS.containStile(c, ST_NO_KERNING)) applyKerningToElement(c, ki);
 			} else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				let text = c.textContent;
 				let prev = c.previousSibling;
@@ -132,6 +136,7 @@ ST.addInitializer(7, function () {
 
 		// White Space Character Class Excluding \u3000
 		// [ \f\n\r\t\v​\u00a0​\u180e\u2000​-\u200a​\u2028\u2029\u202f\u205f​\ufeff]
+		// eslint-disable-next-line no-control-regex
 		text = text.replace(/([^\x01-\x7E\xA1-\xDF]+)([\t\n]+|[ \f\n\r\t\v\u00a0\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\ufeff]{2})([^\x01-\x7E\xA1-\xDF]+)/g, function (match, g1, d, g2) {return g1 + g2;});
 
 		for (let i = 0, I = text.length; i < I; i += 1) {
@@ -163,4 +168,4 @@ ST.addInitializer(7, function () {
 		return res;
 	}
 
-});
+})(window.ST);

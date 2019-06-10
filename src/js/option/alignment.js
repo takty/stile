@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-10
  *
  */
 
@@ -11,26 +11,28 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(1, function () {
+(function (NS) {
 
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 240;  // px
 
 	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 
-	let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
-	let ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
-	const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
-	als = replaceAlignClass(als);
-	ars = replaceAlignClass(ars);
-	replaceAlignClass(acs);
+	NS.addInitializer(1, () => {
+		let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
+		let ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
+		const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
+		als = replaceAlignClass(als);
+		ars = replaceAlignClass(ars);
+		replaceAlignClass(acs);
 
-	if (ST.BROWSER === 'ie11') return;
+		if (NS.BROWSER === 'ie11') return;
 
-	setTimeout(() => {
-		modifyAlignmentStyle(als, 'alignleft');
-		modifyAlignmentStyle(ars, 'alignright');
-	}, 0);  // Delay
+		setTimeout(() => {
+			modifyAlignmentStyle(als, 'alignleft');
+			modifyAlignmentStyle(ars, 'alignright');
+		}, 0);  // Delay
+	});
 
 
 	// -------------------------------------------------------------------------
@@ -39,11 +41,11 @@ ST.addInitializer(1, function () {
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
 		assignWidths(asw, stile);
-		ST.onResize(() => {
+		NS.onResize(() => {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);
 		});
-		ST.onScroll(() => { assignWidths(asw, stile); });  // for Lazy Image Loading
+		NS.onScroll(() => { assignWidths(asw, stile); });  // for Lazy Image Loading
 		updateApplicableWidths(asw);
 		switchFloat(asw, stile);
 	}
@@ -58,9 +60,9 @@ ST.addInitializer(1, function () {
 		for (let i = 0; i < asw.length; i += 1) {
 			const a = asw[i][0], w = asw[i][1];
 			if (10 < w) continue;
-			ST.addStile(a, stile);
+			NS.addStile(a, stile);
 			const nw = a.getBoundingClientRect().width;
-			ST.removeStile(a, stile);
+			NS.removeStile(a, stile);
 			asw[i][1] = nw;
 		}
 		return asw;
@@ -80,11 +82,11 @@ ST.addInitializer(1, function () {
 			const a = asw[i][0], w = asw[i][1];
 			const pw = contentWidth(a.parentElement, true);
 			if (pw - w < WIDTH_MIN) {
-				ST.removeStile(a, stile);
-				ST.addStile(a, 'aligncenter');
+				NS.removeStile(a, stile);
+				NS.addStile(a, 'aligncenter');
 			} else {
-				ST.removeStile(a, 'aligncenter');
-				ST.addStile(a, stile);
+				NS.removeStile(a, 'aligncenter');
+				NS.addStile(a, stile);
 			}
 		}
 	}
@@ -146,4 +148,4 @@ ST.addInitializer(1, function () {
 		return success;
 	}
 
-});
+})(window.ST);
