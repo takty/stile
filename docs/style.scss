@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-10
  *
  */
 
@@ -77,12 +77,8 @@ body {
 			background-repeat: no-repeat;
 			background-position: left bottom;
 		}
-		> span {
-			background-image: linear-gradient(to right, red 0%, rgba(red, 0.5) 100%);
-		}
-		> * > span {
-			background-image: linear-gradient(to right, blue 0%, rgba(blue, 0.5) 100%);
-		}
+		> span { background-image: linear-gradient(to right, red 0%, rgba(red, 0.5) 100%); }
+		> * > span { background-image: linear-gradient(to right, blue 0%, rgba(blue, 0.5) 100%); }
 	}
 }
 
