@@ -87,6 +87,31 @@
 	@include for-size-up(1800px, 420) { @content; }
 }
 
+@mixin for-big-desktop-only {
+	@include for-big-desktop-up { @content; }
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin for-ph   { @include for-phone-up              { @content; } }
+@mixin for-ph-o { @include for-phone-only            { @content; } }
+@mixin for-pp   { @include for-phone-portrait-up     { @content; } }
+@mixin for-pp-o { @include for-phone-portrait-only   { @content; } }
+@mixin for-pl   { @include for-phone-landscape-up    { @content; } }
+@mixin for-pl-o { @include for-phone-landscape-only  { @content; } }
+@mixin for-ta   { @include for-tablet-up             { @content; } }
+@mixin for-ta-o { @include for-tablet-only           { @content; } }
+@mixin for-tp   { @include for-tablet-portrait-up    { @content; } }
+@mixin for-tp-o { @include for-tablet-portrait-only  { @content; } }
+@mixin for-tl   { @include for-tablet-landscape-up   { @content; } }
+@mixin for-tl-o { @include for-tablet-landscape-only { @content; } }
+@mixin for-de   { @include for-desktop-up            { @content; } }
+@mixin for-de-o { @include for-desktop-only          { @content; } }
+@mixin for-bd   { @include for-big-desktop-up        { @content; } }
+@mixin for-bd-o { @include for-big-desktop-only      { @content; } }
+
 
 // -----------------------------------------------------------------------------
 
@@ -108,6 +133,8 @@
 		@content;
 	}
 }
+
+@mixin for-tiny-height-up { @content; }
 
 @mixin for-tiny-height-only {
 	@include for-size-height-down(600px, 148) { @content; }
@@ -132,6 +159,23 @@
 @mixin for-large-height-up {
 	@include for-size-height-up(1200px, 297) { @content; }
 }
+
+@mixin for-large-height-only {
+	@include for-large-height-up { @content; }
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin for-tnh   { @include for-tiny-height-up     { @content; } }
+@mixin for-tnh-o { @include for-tiny-height-only   { @content; } }
+@mixin for-smh   { @include for-small-height-up    { @content; } }
+@mixin for-smh-o { @include for-small-height-only  { @content; } }
+@mixin for-mdh   { @include for-medium-height-up   { @content; } }
+@mixin for-mdh-o { @include for-medium-height-only { @content; } }
+@mixin for-lgh   { @include for-large-height-up    { @content; } }
+@mixin for-lgh-o { @include for-large-height-only  { @content; } }
 
 
 // -----------------------------------------------------------------------------
