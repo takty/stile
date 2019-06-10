@@ -64,6 +64,11 @@ body {
 		.font-size-level-#{$i} { @include font-size-level($i); }
 	}
 
+	.frame {
+		padding: base-vr(1);
+		background-color: $stile-content-color-background;
+	}
+
 	.kerning > span {
 		background: rgba(red, 0.5);
 	}
