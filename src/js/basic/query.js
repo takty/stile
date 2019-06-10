@@ -3,7 +3,7 @@
  * Query Functions for Responsive and Browsers (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-11
  *
  */
 
@@ -16,8 +16,10 @@ window.ST = window['ST'] || {};
 	// eslint-disable-next-line func-style
 	const assignScreenSize = () => {
 		const w = window.innerWidth;
-		if (w < 600) {
-			NS.SCREEN_WIDTH = 'phone';
+		if (w < 480) {
+			NS.SCREEN_WIDTH = 'phone-portrait';
+		} else if (w < 600) {
+			NS.SCREEN_WIDTH = 'phone-landscape';
 		} else if (w < 900) {
 			NS.SCREEN_WIDTH = 'tablet-portrait';
 		} else if (w < 1200) {
