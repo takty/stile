@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-09
+ * @version 2019-06-10
  *
  */
 
@@ -35,7 +35,6 @@ window.ST = window['ST'] || {};
 		return () => f() + NS.getWpAdminBarHeight();
 	})();
 	let scrollBarWidth;
-	let windowWidth = window.innerWidth;
 
 	NS.addInitializer(5, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
@@ -52,7 +51,6 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
 		NS.onScroll(() => { for (let c of conts) c.onWindowScroll(); });
 		NS.onResize(() => { for (let c of conts) c.onWindowResize(); });
-		window.addEventListener('orientationchange', () => { for (let c of conts) c.onWindowResize(); });
 	}
 
 	class FixedHeaderTable {
@@ -62,6 +60,7 @@ window.ST = window['ST'] || {};
 			this._table        = tab;
 			this._headerHeight = 0;
 			this._isEnlarged   = false;
+			this._windowWidth  = Math.min(window.outerWidth, window.innerWidth);  // for iOS
 			this._create();
 			setTimeout(() => { this._initialize(); }, 10);
 		}
@@ -150,7 +149,10 @@ window.ST = window['ST'] || {};
 		_initialize() {
 			this._initTableScroll();
 			if (this._ebtn) {
-				this._ebtn.addEventListener('click', () => { this._toggleEnlarge(); });
+				this._ebtn.addEventListener('click', () => {
+					if (this._isEnlarged) this._turnOffEnlarged();
+					else this._turnOnEnlarged();
+				});
 				if (!this._isEnlargable()) this._ebtn.style.display = 'none';
 			}
 			this._resize();
@@ -185,26 +187,38 @@ window.ST = window['ST'] || {};
 
 		_isEnlargable() {
 			const t = this._table;
-			return (t.scrollWidth - t.offsetWidth > 1 && t.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * window.innerWidth);  // for avoiding needless scrolling
+			const ww = Math.min(window.outerWidth, window.innerWidth);  // for iOS
+			return (t.scrollWidth - t.offsetWidth > 1 && t.offsetWidth < ENLARGER_WINDOW_WIDTH_RATIO * ww);  // for avoiding needless scrolling
 		}
 
-		_toggleEnlarge() {
-			const tab = this._table, head = this._head;
-			if (this._isEnlarged) {
-				tab.style.width = '';
-				tab.style.marginLeft = '';
-				NS.removeStile(tab, ST_STATE_ENLARGED);
-				NS.removeStile(head, ST_STATE_ENLARGED);
-				this._isEnlarged = false;
-			} else {
-				if (tab.scrollWidth - tab.offsetWidth <= 1) return;
-				tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
-				tab.scrollLeft = 0;
-				NS.addStile(tab, ST_STATE_ENLARGED);
-				NS.addStile(head, ST_STATE_ENLARGED);
-				this._isEnlarged = true;
-			}
-			if (this._ebtn && this._isEnlarged) this._updateEnlagedTablePosition();
+		_turnOnEnlarged() {
+			const tab = this._table;
+			if (tab.scrollWidth - tab.offsetWidth <= 1) return;
+
+			tab.scrollLeft  = 0;
+			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
+			NS.addStile(tab, ST_STATE_ENLARGED);
+			NS.addStile(this._head, ST_STATE_ENLARGED);
+			this._isEnlarged = true;
+
+			// Do this timing!
+			let left = tab.getBoundingClientRect().left + window.pageXOffset;
+			const tbody = tab.tBodies[0];
+			const width = tbody.clientWidth, pwidth = this._windowWidth - scrollBarWidth;
+			if (width < pwidth) left -= (pwidth - width) / 2;
+			tab.style.marginLeft = -left + 'px';
+
+			this._resize();
+		}
+
+		_turnOffEnlarged() {
+			const tab = this._table;
+			tab.style.marginLeft = '';
+			tab.style.width      = '';
+			tab.scrollLeft       = 0;
+			NS.removeStile(tab, ST_STATE_ENLARGED);
+			NS.removeStile(this._head, ST_STATE_ENLARGED);
+			this._isEnlarged = false;
 			this._resize();
 		}
 
@@ -213,11 +227,12 @@ window.ST = window['ST'] || {};
 
 
 		onWindowResize() {
-			if (windowWidth === window.innerWidth) return;
-			windowWidth = window.innerWidth;
+			const ww = Math.min(window.outerWidth, window.innerWidth);  // for iOS
+			if (this._windowWidth === ww) return;
+			this._windowWidth = ww;
 
-			if (this._ebtn && this._isEnlarged) {
-				this._toggleEnlarge();
+			if (this._isEnlarged) {
+				this._turnOffEnlarged();
 			} else {
 				this._resize();
 			}
@@ -231,14 +246,14 @@ window.ST = window['ST'] || {};
 		}
 
 		_updateHeaderSize(cont) {
-			let thead = this._table.tHead;
 			cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
 			cont.style.display = 'none';
 			cont.style.top = getTableHeaderOffset() + 'px';
 
-			const ptab = cont.firstChild;
+			const thead = this._table.tHead;
 			let w = thead.getBoundingClientRect().width;
 			if (NS.BROWSER === 'ie11') w = Math.ceil(w);
+			const ptab = cont.firstChild;
 			ptab.style.width = w + 'px';
 
 			const clone = ptab.firstChild;
@@ -268,15 +283,6 @@ window.ST = window['ST'] || {};
 			const tbody = this._table.tBodies[0];
 			const spacer = sbar.firstChild;
 			spacer.style.width = Math.ceil(tbody.clientWidth) + 'px';
-		}
-
-		_updateEnlagedTablePosition() {
-			let left = this._table.getBoundingClientRect().left + window.pageXOffset;
-			const tbody = this._table.tBodies[0];
-			const width = tbody.clientWidth, pwidth = window.innerWidth - scrollBarWidth;
-
-			if (width < pwidth) left -= (pwidth - width) / 2;
-			this._table.style.marginLeft = -left + 'px';
 		}
 
 
