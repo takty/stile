@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-11
  *
  */
 
@@ -13,7 +13,6 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const WIN_SIZE_RESPONSIVE       = 600
 	const TARGET_SELECTOR           = '.stile';
 	const TARGET_SELECTOR_IMAGE_BOX = '.stile-image-box';
 	const STILE_CLS_IMAGE_BOX       = 'image-box';
@@ -22,17 +21,15 @@ window.ST = window['ST'] || {};
 	const SIZE_BOX_PADDING          = '4rem';
 
 	NS.addInitializer(7, () => {
-		let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
-		modifyImageAnchorStyle(as);
-		as = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
-		modifyImageAnchorStyle(as);
+		const as1 = document.querySelectorAll(TARGET_SELECTOR + ' a');
+		modifyImageAnchorStyle(as1);
+		const as2 = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
+		modifyImageAnchorStyle(as2);
 	});
 
 	function modifyImageAnchorStyle(as) {
 		const fas = filterImageLink(as);
-		for (let i = 0; i < fas.length; i += 1) {
-			createBox(fas[i]);
-		}
+		for (let i = 0; i < fas.length; i += 1) createBox(fas[i]);
 	}
 
 	function filterImageLink(as) {
@@ -77,19 +74,19 @@ window.ST = window['ST'] || {};
 		frame.appendChild(closeBtn);
 		document.body.appendChild(frame);
 
-		a.addEventListener('click', function (e) { onOpen(e, frame, img); });
-		frame.addEventListener('click', function (e) { onClose(e, frame); });
+		a.addEventListener('click', (e) => { onOpen(e, frame, img); });
+		frame.addEventListener('click', (e) => { onClose(e, frame); });
 		enableTouchGesture(frame, img);
 
-		img.addEventListener('click', function (e) { e.stopPropagation(); });
-		frame.addEventListener('mousewheel', function (e) { e.preventDefault(); });
+		img.addEventListener('click', (e) => { e.stopPropagation(); });
+		frame.addEventListener('mousewheel', (e) => { e.preventDefault(); });
 		return frame;
 	}
 
 	function onOpen(e, frame, img) {
 		e.preventDefault();
 		NS.addStile(frame, STILE_STATE_OPEN);
-		const isPhone = window.innerWidth < WIN_SIZE_RESPONSIVE;
+		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 		if (checkLandscape(frame, img)) {
 			img.style.minWidth = '';
 			img.style.width = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
@@ -102,13 +99,13 @@ window.ST = window['ST'] || {};
 		}
 		centeringImage(frame, img);
 		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-		setTimeout(function () { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
+		setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
 	}
 
 	function onClose(e, frame) {
 		e.preventDefault();
 		NS.removeStile(frame, STILE_STATE_VISIBLE);
-		setTimeout(function () { NS.removeStile(frame, STILE_STATE_OPEN); }, 200);
+		setTimeout(() => { NS.removeStile(frame, STILE_STATE_OPEN); }, 200);
 	}
 
 	function enableTouchGesture(frame, img) {
@@ -119,7 +116,7 @@ window.ST = window['ST'] || {};
 		let xS = 0, yS = 0;
 		let isMoving = false;
 
-		frame.addEventListener('touchstart', function (e) {
+		frame.addEventListener('touchstart', (e) => {
 			isLandscape = checkLandscape(frame, img);
 			baseDist = 0;
 			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
@@ -129,7 +126,7 @@ window.ST = window['ST'] || {};
 				yS = e.touches[0].screenY + frame.scrollTop;
 			}
 		}, true);
-		frame.addEventListener('touchmove', function (e) {
+		frame.addEventListener('touchmove', (e) => {
 			e.stopPropagation();
 			e.preventDefault();
 
@@ -166,7 +163,7 @@ window.ST = window['ST'] || {};
 						frame.scrollLeft = imgCx * scale - scx;
 						frame.scrollTop  = imgCy * scale - scy;
 					}
-					tid = setTimeout(function () { baseDist = 0; }, 100);
+					tid = setTimeout(() => { baseDist = 0; }, 100);
 				} else {
 					baseDist = dist / scale;
 				}
