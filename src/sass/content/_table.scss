@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-09
+ * @version 2019-06-10
  *
  */
 
@@ -41,19 +41,30 @@ $stile-table-align-caption               : center !default;
 		vertical-align: top;
 		text-align: $stile-table-align-caption;  // for Caption
 
-		overflow-x: hidden;
+		overflow-x: auto;
 		overflow-y: auto;
-
 		-webkit-overflow-scrolling: touch;
 
 		caption {
 			position: relative;  // for Scrolling
+			will-change: transform;
+			transition: transform 0.2s ease;
+
 			display: inline-block;
 			padding-left: base-vr(1);
 			padding-right: base-vr(1);  // for Avoiding overwrapping with enlarger
 			max-width: #{$stile-table-size-caption-max-width + 2 * base-vr(1.5)};
 			@include font-size-level($stile-table-level-caption);
 			text-align: left;  // for left align of long caption
+		}
+		> div[data-stile ~= 'table-shade'] {
+			@include layout-fill-self;
+			pointer-events: none;
+			opacity: 0;
+			&[data-stile ~= 'visible'] {
+				opacity: 1;
+				transition: opacity 0.2s ease;
+			}
 		}
 	}
 	@include stile-table-design;
@@ -113,6 +124,7 @@ $stile-table-align-caption               : center !default;
 		margin: 0 !important;  // for cancel 'stile-margin-basic'
 		overflow-x: hidden;
 		background-color: $stile-table-color-header-background-base;
+		box-shadow: 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
 
 		display: none;
 		@media print { display: none !important; }
@@ -202,7 +214,7 @@ $stile-table-align-caption               : center !default;
 			opacity: 0;
 			&[data-stile ~= 'visible'] {
 				opacity: 1;
-				transition: opacity 0.2s;
+				transition: opacity 0.2s ease;
 			}
 		}
 		&[data-stile ~= 'table-enlarged'] {

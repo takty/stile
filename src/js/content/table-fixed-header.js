@@ -22,10 +22,9 @@ window.ST = window['ST'] || {};
 	const ST_HEADER_TABLE     = 'fixed-table-header-table';
 	const ST_SCROLL_BAR       = 'fixed-table-scroll-bar';
 	const ST_ENLARGER_BUTTON  = 'enlarger-button';
+	const ST_TABLE_SHADE      = 'table-shade';
 	const ST_STATE_ENLARGED   = 'table-enlarged';
 	const ST_OPT_NO_ENLARGER  = 'no-enlarger';
-
-	const HEAD_BOTTOM_SHADOW = '0px 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5)';
 
 	const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
@@ -46,7 +45,7 @@ window.ST = window['ST'] || {};
 
 
 	function initialize(tabs) {
-		scrollBarWidth = parseInt(getScrollBarWidth());
+		scrollBarWidth = parseInt(_getScrollBarWidth());
 		const conts = [];
 		for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
 		NS.onScroll(() => { for (let c of conts) c.onWindowScroll(); });
@@ -69,6 +68,7 @@ window.ST = window['ST'] || {};
 			this._head = this._createHeaderClone();
 			this._sbar = this._createScrollBarClone();
 			this._ebtn = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlargerButton();
+			this._shade = this._createShade();
 
 			const caps = this._table.getElementsByTagName('caption');
 			this._capt = caps.length ? caps[0] : null;
@@ -142,6 +142,13 @@ window.ST = window['ST'] || {};
 			return ebtn;
 		}
 
+		_createShade() {
+			const shade = document.createElement('div');
+			shade.dataset['stile'] = ST_TABLE_SHADE;
+			this._table.appendChild(shade);
+			return shade;
+		}
+
 
 		// ---------------------------------------------------------------------
 
@@ -208,6 +215,7 @@ window.ST = window['ST'] || {};
 			if (width < pwidth) left -= (pwidth - width) / 2;
 			tab.style.marginLeft = -left + 'px';
 
+			tab.style.background = null;
 			this._resize();
 		}
 
@@ -219,6 +227,9 @@ window.ST = window['ST'] || {};
 			NS.removeStile(tab, ST_STATE_ENLARGED);
 			NS.removeStile(this._head, ST_STATE_ENLARGED);
 			this._isEnlarged = false;
+
+			NS.removeStile(this._shade, 'visible');
+			this._shade.style.background = null;
 			this._resize();
 		}
 
@@ -277,7 +288,7 @@ window.ST = window['ST'] || {};
 		_updateScrollBarSize(sbar) {
 			sbar.style.maxWidth = this._table.clientWidth + 'px';
 			sbar.style.display = 'none';
-			const h = parseInt(getScrollBarWidth());
+			const h = parseInt(_getScrollBarWidth());
 			if (0 < h) sbar.style.height = (h + 2) + 'px';
 
 			const tbody = this._table.tBodies[0];
@@ -319,7 +330,6 @@ window.ST = window['ST'] || {};
 			const head = this._head;
 			if (visible) {
 				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
-				head.style.boxShadow = HEAD_BOTTOM_SHADOW;
 				head.style.display = 'block';
 				if (this._ebtn) this.switchEnlargerToFloatingHeader();
 			} else {
@@ -358,15 +368,33 @@ window.ST = window['ST'] || {};
 
 
 		_onTableScroll() {
-			const tab = this._table, head = this._head, capt = this._capt, ebtn = this._ebtn;
-			const sL = tab.scrollLeft;
+			const tab = this._table, head = this._head, capt = this._capt, ebtn = this._ebtn, shade = this._shade;
+			const sL = Math.max(0, Math.min(tab.scrollLeft, tab.scrollWidth - tab.offsetWidth));  // for iOS
 			if (head) head.scrollLeft = sL;
-			if (capt) capt.style.transform = this._isScrollable() ? `translateX(${sL}px)` : null;
+			if (capt) {
+				if (this._isScrollable()) {
+					if (this._stCapt) clearTimeout(this._stCapt);
+					this._stCapt = setTimeout(() => { capt.style.transform = `translateX(${sL}px)`; }, 20);
+				} else {
+					capt.style.transform = null;
+				}
+			}
 			if (ebtn) {
 				NS.removeStile(ebtn, 'visible');
-				if (this._tse) clearTimeout(this._tse);
-				this._tse = setTimeout(() => { NS.addStile(ebtn, 'visible'); }, 200);
+				if (this._stEbtn) clearTimeout(this._stEbtn);
+				this._stEbtn = setTimeout(() => { NS.addStile(ebtn, 'visible'); }, 100);
 				this._updateEnlager();
+			}
+
+			if (this._isEnlarged) {
+				NS.removeStile(shade, 'visible');
+				if (this._isScrollable() && this._isEnlarged) {
+					if (this._stShade) clearTimeout(this._stShade);
+					this._stShade = setTimeout(() => {
+						shade.style.transform = `translateX(${sL}px)`;
+						NS.addStile(shade, 'visible');
+					}, 100);
+				}
 			}
 			this._updateShade();
 		}
@@ -392,26 +420,29 @@ window.ST = window['ST'] || {};
 		}
 
 		_updateShade() {
-			const tab = this._table, head = this._head;
+			const tab = this._table, shade = this._shade;
 			if (this._isScrollable()) {
-				const shadow = this._calcShadeStyle();
-				tab.style.boxShadow = shadow;
-				tab.style.overflowX = 'auto';
-				if (head) head.style.boxShadow = shadow + ', ' + HEAD_BOTTOM_SHADOW;
+				const s = this._calcShadeStyle();
+				if (this._isEnlarged) {
+					shade.style.background = s;
+				} else {
+					tab.style.background = s;
+				}
 			} else {
-				tab.style.boxShadow = '';
-				tab.style.overflowX = '';
-				if (head) head.style.boxShadow = HEAD_BOTTOM_SHADOW;
+				tab.style.background = null;
 			}
 		}
 
 		_calcShadeStyle() {
 			const tab = this._table;
 			const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
-			let rl = 0.15, rr = 0.15;
+			let rl = 0.25, rr = 0.25;
 			if (r < 0.1) rl *= r / 0.1;
 			if (0.9 < r) rr *= (1 - r) / 0.1;
-			return '1.5rem 0 1.5rem -1rem rgba(0,0,0,' + rl + ') inset, -1.5rem 0 1.5rem -1rem rgba(0,0,0,' + rr + ') inset';
+			const ch = this._capt ? (this._capt.offsetHeight + 'px') : '0';
+			const sl = `linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,${rl}) 1.25rem) 0 ${ch} / 1.25rem 100% no-repeat scroll`;
+			const sr = `linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,${rr}) 1.25rem) right ${ch} / 1.25rem 100% no-repeat scroll`;
+			return sl + ',' + sr;
 		}
 
 	}
@@ -420,7 +451,7 @@ window.ST = window['ST'] || {};
 	// Utilities ---------------------------------------------------------------
 
 
-	function getScrollBarWidth() {
+	function _getScrollBarWidth() {
 		const dummy = document.createElement('div');
 		dummy.style.bottom = '100%';
 		dummy.style.height = '1px';
