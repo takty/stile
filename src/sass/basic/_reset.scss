@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-04
+ * @version 2019-06-11
  *
  * Based on:
  *  modern-normalize v0.4
@@ -161,9 +161,8 @@ input,
 select,
 textarea {
 	// Remove the default button styling in all browsers
-	background-color: transparent;
-	border          : 1px solid WindowFrame;
-	color           : inherit;
+	border: 1px solid WindowFrame;
+	color : inherit;
 }
 
 button,
