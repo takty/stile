@@ -94,8 +94,23 @@ body {
 }
 
 .width-query {
+	&.phone-up {
+		@include for-phone-up              { border: 2px solid red; }
+	}
 	&.phone-only {
 		@include for-phone-only            { border: 2px solid red; }
+	}
+	&.phone-portrait-up {
+		@include for-phone-portrait-up     { border: 2px solid red; }
+	}
+	&.phone-portrait-only {
+		@include for-phone-portrait-only   { border: 2px solid red; }
+	}
+	&.phone-landscape-up {
+		@include for-phone-landscape-up    { border: 2px solid red; }
+	}
+	&.phone-landscape-only {
+		@include for-phone-landscape-only  { border: 2px solid red; }
 	}
 	&.tablet-up {
 		@include for-tablet-up             { border: 2px solid red; }
@@ -124,9 +139,21 @@ body {
 	&.big-desktop-up {
 		@include for-big-desktop-up        { border: 2px solid red; }
 	}
+	&.big-desktop-only {
+		@include for-big-desktop-only      { border: 2px solid red; }
+	}
 }
 
 .height-query {
+	&.tiny-height-up {
+		@include for-tiny-height-up     { border: 2px solid red; }
+	}
+	&.tiny-height-only {
+		@include for-tiny-height-only   { border: 2px solid red; }
+	}
+	&.small-height-up {
+		@include for-small-height-up    { border: 2px solid red; }
+	}
 	&.small-height-only {
 		@include for-small-height-only  { border: 2px solid red; }
 	}
@@ -138,6 +165,9 @@ body {
 	}
 	&.large-height-up {
 		@include for-large-height-up    { border: 2px solid red; }
+	}
+	&.large-height-only {
+		@include for-large-height-only  { border: 2px solid red; }
 	}
 }
 
