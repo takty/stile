@@ -3,7 +3,7 @@
  * Query Mixins for Responsive and Browsers (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-10
  *
  * https://medium.freecodecamp.org/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
  *
@@ -14,13 +14,13 @@
 
 
 @mixin for-size-down($high-px, $high-mm) {
-	@media screen and (max-width: #{$high-px - 1}), print and (max-width: #{base-to-px($high-mm) - 1}) {
+	@media screen and (max-width: #{$high-px - 0.5}), print and (max-width: #{base-to-px($high-mm) - 0.5}) {
 		@content;
 	}
 }
 
 @mixin for-size-only($low-px, $high-px, $low-mm, $high-mm) {
-	@media screen and (min-width: $low-px) and (max-width: #{$high-px - 1}), print and (min-width: base-to-px($low-mm)) and (max-width: #{base-to-px($high-mm) - 1}) {
+	@media screen and (min-width: $low-px) and (max-width: #{$high-px - 0.5}), print and (min-width: base-to-px($low-mm)) and (max-width: #{base-to-px($high-mm) - 0.5}) {
 		@content;
 	}
 }
@@ -31,8 +31,24 @@
 	}
 }
 
+@mixin for-phone-up { @content; }
+
 @mixin for-phone-only {
 	@include for-size-down(600px, 148) { @content; }
+}
+
+@mixin for-phone-portrait-up { @content; }
+
+@mixin for-phone-portrait-only {
+	@include for-size-down(480px, 105) { @content; }
+}
+
+@mixin for-phone-landscape-up {
+	@include for-size-up(480px, 105) { @content; }
+}
+
+@mixin for-phone-landscape-only {
+	@include for-size-only(480px, 600px, 105, 148) { @content; }
 }
 
 @mixin for-tablet-up {
@@ -76,13 +92,13 @@
 
 
 @mixin for-size-height-down($high-px, $high-mm) {
-	@media screen and (max-height: #{$high-px - 1}), print and (max-height: #{base-to-px($high-mm) - 1}) {
+	@media screen and (max-height: #{$high-px - 0.5}), print and (max-height: #{base-to-px($high-mm) - 0.5}) {
 		@content;
 	}
 }
 
 @mixin for-size-height-only($low-px, $high-px, $low-mm, $high-mm) {
-	@media screen and (min-height: $low-px) and (max-height: #{$high-px - 1}), print and (min-height: base-to-px($low-mm)) and (max-height: #{base-to-px($high-mm) - 1}) {
+	@media screen and (min-height: $low-px) and (max-height: #{$high-px - 0.5}), print and (min-height: base-to-px($low-mm)) and (max-height: #{base-to-px($high-mm) - 0.5}) {
 		@content;
 	}
 }
