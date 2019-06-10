@@ -14,35 +14,35 @@ window.ST = window['ST'] || {};
 (function (NS) {
 
 	// eslint-disable-next-line func-style
-	const assignScreenSize = () => {
+	const assignWindowSize = () => {
 		const w = window.innerWidth;
 		if (w < 480) {
-			NS.SCREEN_WIDTH = 'phone-portrait';
+			NS.MEDIA_WIDTH = 'phone-portrait';
 		} else if (w < 600) {
-			NS.SCREEN_WIDTH = 'phone-landscape';
+			NS.MEDIA_WIDTH = 'phone-landscape';
 		} else if (w < 900) {
-			NS.SCREEN_WIDTH = 'tablet-portrait';
+			NS.MEDIA_WIDTH = 'tablet-portrait';
 		} else if (w < 1200) {
-			NS.SCREEN_WIDTH = 'tablet-landscape';
+			NS.MEDIA_WIDTH = 'tablet-landscape';
 		} else if (w < 1800) {
-			NS.SCREEN_WIDTH = 'desktop';
+			NS.MEDIA_WIDTH = 'desktop';
 		} else {
-			NS.SCREEN_WIDTH = 'big-desktop';
+			NS.MEDIA_WIDTH = 'big-desktop';
 		}
 		const h = window.innerHeight;
 		if (h < 600) {
-			NS.SCREEN_HEIGHT = 'tiny';
+			NS.MEDIA_HEIGHT = 'tiny';
 		} else if (h < 950) {
-			NS.SCREEN_HEIGHT = 'small';
+			NS.MEDIA_HEIGHT = 'small';
 		} else if (h < 1200) {
-			NS.SCREEN_HEIGHT = 'medium';
+			NS.MEDIA_HEIGHT = 'medium';
 		} else {
-			NS.SCREEN_HEIGHT = 'large';
+			NS.MEDIA_HEIGHT = 'large';
 		}
 	};
 
-	assignScreenSize();
-	NS.onResize(assignScreenSize);
+	assignWindowSize();
+	NS.onResize(assignWindowSize);
 
 
 	// -------------------------------------------------------------------------
