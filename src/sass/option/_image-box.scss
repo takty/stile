@@ -3,7 +3,7 @@
  * Image Box (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-11
+ * @version 2019-06-12
  *
  */
 
@@ -16,6 +16,7 @@ $stile-image-box-color-img-background   : rgba(#fff, 0.95) !default;
 $stile-image-box-color-closer-background: rgba(#000, 0.50) !default;
 $stile-image-box-color-closer-mark      : rgba(#fff, 0.75) !default;
 $stile-image-box-color-caption          : rgba(#fff, 1.00) !default;
+$stile-image-box-color-caption-shadow   : rgba(#000, 1.00) !default;
 $stile-image-box-time-fade              : 0.5s !default;
 
 
@@ -94,6 +95,8 @@ $stile-image-box-time-fade              : 0.5s !default;
 		@include font-visible-chrome-cancel;
 		@include font-size-level(1);
 		color: $stile-image-box-color-caption;
-		text-shadow: 0 0 0.15rem $stile-image-box-color-background;
+		text-shadow:
+			0 0 0.25rem $stile-image-box-color-caption-shadow,
+			0 0 0.25rem $stile-image-box-color-caption-shadow;
 	}
 }
