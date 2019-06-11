@@ -112,28 +112,36 @@ window.ST = window['ST'] || {};
 		let isLandscape = true;
 		let baseDist = 0;
 		let scale = 1;
-		let tid;
-		let xS = 0, yS = 0;
+		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 
-		frame.addEventListener('touchstart', (e) => {
-			const ts = e.touches;
-			isLandscape = checkLandscape(frame, img);
-			baseDist = 0;
-			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
-			if (ts.length === 1) {
+		let xS = 0, yS = 0;
+		let lastTouchCount = 0;
+
+		function updatePoint(ts) {
+			lastTouchCount = ts.length;
+			if (lastTouchCount === 1) {
 				xS = ts[0].pageX - window.pageXOffset;
 				yS = ts[0].pageY - window.pageYOffset;
-			} else if (ts.length === 2) {
+			} else if (lastTouchCount === 2) {
 				xS = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
 				yS = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
 			}
-		}, true);
-		frame.addEventListener('touchmove', (e) => {
-			e.stopPropagation();
-			e.preventDefault();
+		}
 
-			frame.style.overflow = 'scroll';
+		frame.addEventListener('touchstart', (e) => {
+			isLandscape = checkLandscape(frame, img);
+			baseDist = 0;
+			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
+
+			updatePoint(e.touches);
+		});
+		frame.addEventListener('touchmove', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			frame.style.overflow = 'hidden';
 			const ts = e.touches;
+			if (lastTouchCount !== ts.length) updatePoint(ts);
 
 			if (ts.length === 1) {
 				const cx = ts[0].pageX - window.pageXOffset;
@@ -155,28 +163,34 @@ window.ST = window['ST'] || {};
 
 				const imgCx = (scx + frame.scrollLeft) / scale;
 				const imgCy = (scy + frame.scrollTop)  / scale;
-				clearTimeout(tid);
 
 				if (baseDist) {
 					const s = dist / (baseDist * scale);
 					if (s && s !== Infinity) {
-						scale = Math.max(1, Math.min(4, scale * s));
-						if (isLandscape) {
-							img.style.minWidth = (baseSize * scale) + 'px';
-						} else {
-							img.style.minHeight = (baseSize * scale) + 'px';
-						}
+						scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
 						centeringImage(frame, img);
 
-						frame.scrollLeft = imgCx * scale - scx;
-						frame.scrollTop  = imgCy * scale - scy;
+						frame.scrollLeft = imgCx * scale - scx;// + dx;
+						frame.scrollTop  = imgCy * scale - scy;// + dy;
 					}
-					tid = setTimeout(() => { baseDist = 0; }, 100);
-				} else {
-					baseDist = dist / scale;
 				}
+				baseDist = dist / scale;
 			}
-		}, true);
+		}, { passive: false });
+
+		// for Android
+		preventWindowTouchMove(frame);
+	}
+
+	function preventWindowTouchMove(f) {
+		let isTouching = false;
+		window.addEventListener('touchmove', (e) => {
+			if (!isTouching) return;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+		}, { passive: false });
+		f.addEventListener('touchstart', () => { isTouching = true; });
+		f.addEventListener('touchend', () => { isTouching = false; });
 	}
 
 	function enableMouseGesture(frame, img) {
@@ -184,6 +198,7 @@ window.ST = window['ST'] || {};
 		let scale = 1;
 		let xS = 0, yS = 0;
 		let isMoving = false;
+		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 
 		frame.addEventListener('mousedown', (e) => {
 			xS = e.pageX - window.pageXOffset;
@@ -220,16 +235,11 @@ window.ST = window['ST'] || {};
 			const imgCy = (scy + frame.scrollTop) / scale;
 
 			const s = 0 > e.deltaY ? 1.1 : 0.9;
-			scale = Math.max(1, Math.min(4, scale * s));
-			if (isLandscape) {
-				img.style.minWidth = (baseSize * scale) + 'px';
-			} else {
-				img.style.minHeight = (baseSize * scale) + 'px';
-			}
+			scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
 			centeringImage(frame, img);
 
 			frame.scrollLeft = imgCx * scale - scx;
-			frame.scrollTop = imgCy * scale - scy;
+			frame.scrollTop  = imgCy * scale - scy;
 		}, true);
 	}
 
@@ -237,6 +247,19 @@ window.ST = window['ST'] || {};
 		const winAspect = frame.offsetWidth / frame.offsetHeight;
 		const imgAspect = img.offsetWidth / img.offsetHeight;
 		return (winAspect < imgAspect);
+	}
+
+	function setImageScale(img, baseSize, scale, isLandscape, isPhone) {
+		scale = Math.max(1, Math.min(4, scale));
+		let size = '';
+		if (isPhone) {
+			size = (baseSize * scale) + 'px';
+		} else {
+			size = 'calc(' + (baseSize * scale) + 'px - ' + SIZE_BOX_PADDING + ')';
+		}
+		if (isLandscape) img.style.minWidth = size;
+		else img.style.minHeight = size;
+		return scale;
 	}
 
 	function centeringImage(frame, img) {
