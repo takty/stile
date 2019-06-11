@@ -72,6 +72,16 @@ window.ST = window['ST'] || {};
 		frame.appendChild(img);
 		const closeBtn = document.createElement('span');
 		frame.appendChild(closeBtn);
+
+		if (a.parentNode.tagName === 'FIGURE') {
+			const cs = a.parentNode.getElementsByTagName('figcaption');
+			if (0 < cs.length) {
+				const captInner = cs[0].innerHTML;
+				const capt = document.createElement('div');
+				capt.innerHTML = captInner;
+				frame.appendChild(capt);
+			}
+		}
 		document.body.appendChild(frame);
 
 		a.addEventListener('click', (e) => { onOpen(e, frame, img); });
@@ -80,6 +90,8 @@ window.ST = window['ST'] || {};
 
 		img.addEventListener('click', (e) => { e.stopPropagation(); });
 		enableMouseGesture(frame, img);
+
+		NS.onResize(() => { setTimeout(() => { centeringImage(frame, img); }, 200); });
 		return frame;
 	}
 
