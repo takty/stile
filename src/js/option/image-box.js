@@ -79,7 +79,7 @@ window.ST = window['ST'] || {};
 		enableTouchGesture(frame, img);
 
 		img.addEventListener('click', (e) => { e.stopPropagation(); });
-		frame.addEventListener('mousewheel', (e) => { e.preventDefault(); });
+		enableMouseGesture(frame, img);
 		return frame;
 	}
 
@@ -114,16 +114,18 @@ window.ST = window['ST'] || {};
 		let scale = 1;
 		let tid;
 		let xS = 0, yS = 0;
-		let isMoving = false;
 
 		frame.addEventListener('touchstart', (e) => {
+			const ts = e.touches;
 			isLandscape = checkLandscape(frame, img);
 			baseDist = 0;
 			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
-			if (e.touches.length === 1) {
-				isMoving = true;
-				xS = e.touches[0].screenX + frame.scrollLeft;
-				yS = e.touches[0].screenY + frame.scrollTop;
+			if (ts.length === 1) {
+				xS = ts[0].pageX - window.pageXOffset;
+				yS = ts[0].pageY - window.pageYOffset;
+			} else if (ts.length === 2) {
+				xS = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+				yS = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
 			}
 		}, true);
 		frame.addEventListener('touchmove', (e) => {
@@ -131,28 +133,34 @@ window.ST = window['ST'] || {};
 			e.preventDefault();
 
 			frame.style.overflow = 'scroll';
-			const ts = e.changedTouches;
+			const ts = e.touches;
 
-			if (ts.length === 1 && isMoving) {
-				frame.scrollLeft = xS - ts[0].screenX;
-				frame.scrollTop  = yS - ts[0].screenY;
+			if (ts.length === 1) {
+				const cx = ts[0].pageX - window.pageXOffset;
+				const cy = ts[0].pageY - window.pageYOffset;
+				frame.scrollLeft += xS - cx;
+				frame.scrollTop  += yS - cy;
+				xS = cx;
+				yS = cy;
 			} else if (ts.length > 1) {
-				isMoving = false;
 				const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
 				const dist = touchDistance(ts);
-				const scx = (ts[0].screenX + ts[1].screenX) / 2;
-				const scy = (ts[0].screenY + ts[1].screenY) / 2;
+
+				const scx = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+				const scy = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
+				frame.scrollLeft += xS - scx;
+				frame.scrollTop  += yS - scy;
+				xS = scx;
+				yS = scy;
+
 				const imgCx = (scx + frame.scrollLeft) / scale;
 				const imgCy = (scy + frame.scrollTop)  / scale;
-
 				clearTimeout(tid);
 
 				if (baseDist) {
 					const s = dist / (baseDist * scale);
 					if (s && s !== Infinity) {
-						scale *= s;
-						scale = Math.min(4, scale);
-						scale = Math.max(1, scale);
+						scale = Math.max(1, Math.min(4, scale * s));
 						if (isLandscape) {
 							img.style.minWidth = (baseSize * scale) + 'px';
 						} else {
@@ -168,6 +176,60 @@ window.ST = window['ST'] || {};
 					baseDist = dist / scale;
 				}
 			}
+		}, true);
+	}
+
+	function enableMouseGesture(frame, img) {
+		let isLandscape = true;
+		let scale = 1;
+		let xS = 0, yS = 0;
+		let isMoving = false;
+
+		frame.addEventListener('mousedown', (e) => {
+			xS = e.pageX - window.pageXOffset;
+			yS = e.pageY - window.pageYOffset;
+			isMoving = true;
+		});
+		frame.addEventListener('mousemove', (e) => {
+			if (isMoving) {
+				e.stopPropagation();
+				e.preventDefault();
+				frame.style.overflow = 'hidden';
+				const cx = e.pageX - window.pageXOffset;
+				const cy = e.pageY - window.pageYOffset;
+				frame.scrollLeft += xS - cx;
+				frame.scrollTop  += yS - cy;
+				xS = cx;
+				yS = cy;
+			}
+		});
+		frame.addEventListener('mouseup', () => { isMoving = false; });
+
+		frame.addEventListener('mousewheel', (e) => {
+			e.stopPropagation();
+			e.preventDefault();
+
+			frame.style.overflow = 'hidden';
+			isLandscape = checkLandscape(frame, img);
+			const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
+			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
+
+			const scx = e.pageX - window.pageXOffset;
+			const scy = e.pageY - window.pageYOffset;
+			const imgCx = (scx + frame.scrollLeft) / scale;
+			const imgCy = (scy + frame.scrollTop) / scale;
+
+			const s = 0 > e.deltaY ? 1.1 : 0.9;
+			scale = Math.max(1, Math.min(4, scale * s));
+			if (isLandscape) {
+				img.style.minWidth = (baseSize * scale) + 'px';
+			} else {
+				img.style.minHeight = (baseSize * scale) + 'px';
+			}
+			centeringImage(frame, img);
+
+			frame.scrollLeft = imgCx * scale - scx;
+			frame.scrollTop = imgCy * scale - scy;
 		}, true);
 	}
 
