@@ -102,12 +102,14 @@ window.ST = window['ST'] || {};
 	function onOpen(e, frame, img, src) {
 		e.preventDefault();
 		NS.addStile(frame, STILE_STATE_OPEN);
-		img.style.opacity = '0';
-		img.src = src;
-		img.addEventListener('load', () => {
-			initImageSize(frame, img);
-			img.style.opacity = '1';
-		});
+		if (!img.src) {
+			img.style.opacity = '0';
+			img.src = src;
+			img.addEventListener('load', () => {
+				initImageSize(frame, img);
+				img.style.opacity = '1';
+			});
+		}
 		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
 		setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
 	}
