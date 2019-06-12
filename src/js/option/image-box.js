@@ -24,18 +24,25 @@ window.ST = window['ST'] || {};
 	const SIZE_BOX_PADDING            = '4rem';
 
 	NS.addInitializer(7, () => {
+		const objs = [];
+
 		const as1 = document.querySelectorAll(TARGET_SELECTOR + ' a');
-		modifyImageAnchorStyle(as1);
+		modifyImageAnchorStyle(as1, objs);
 		const as2 = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
-		modifyImageAnchorStyle(as2);
+		modifyImageAnchorStyle(as2, objs);
+
+		NS.onResize(() => {
+			for (let obj of objs) obj.setInitialSize();
+			setTimeout(() => {
+				for (let obj of objs) obj.setInitialSize();
+			}, 200);
+		});
 	});
 
-	function modifyImageAnchorStyle(as) {
+	function modifyImageAnchorStyle(as, objs) {
 		const fas = filterImageLink(as);
 		// for (let i = 0; i < fas.length; i += 1) createBox(fas[i]);
-		for (let i = 0; i < fas.length; i += 1) {
-			const ib = new ImageBox(fas[i]);
-		}
+		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i])); }
 	}
 
 	function filterImageLink(as) {
@@ -70,237 +77,241 @@ window.ST = window['ST'] || {};
 		return false;
 	}
 
-	function createBox(a) {
-		const frame = document.createElement('div');
-		NS.addStile(frame, STILE_CLS_IMAGE_BOX);
-		const img = document.createElement('img');
-		const src = a.href;
-		frame.appendChild(img);
-		const closeBtn = document.createElement('span');
-		NS.addStile(closeBtn, STILE_CLS_IMAGE_BOX_CLOSE);
-		frame.appendChild(closeBtn);
 
-		if (a.parentNode.tagName === 'FIGURE') {
-			const cs = a.parentNode.getElementsByTagName('figcaption');
-			if (0 < cs.length) {
-				const captInner = cs[0].innerHTML;
-				const capt = document.createElement('div');
-				capt.innerHTML = captInner;
-				NS.addStile(capt, STILE_CLS_IMAGE_BOX_CAPTION);
-				frame.appendChild(capt);
-			}
-		}
-		document.body.appendChild(frame);
+	// -------------------------------------------------------------------------
 
-		a.addEventListener('click', (e) => { onOpen(e, frame, img, src); });
-		frame.addEventListener('click', (e) => { onClose(e, frame); });
-		enableTouchGesture(frame, img);
 
-		img.addEventListener('click', (e) => { e.stopPropagation(); });
-		enableMouseGesture(frame, img);
+	// function createBox(a) {
+	// 	const frame = document.createElement('div');
+	// 	NS.addStile(frame, STILE_CLS_IMAGE_BOX);
+	// 	const img = document.createElement('img');
+	// 	const src = a.href;
+	// 	frame.appendChild(img);
+	// 	const closeBtn = document.createElement('span');
+	// 	NS.addStile(closeBtn, STILE_CLS_IMAGE_BOX_CLOSE);
+	// 	frame.appendChild(closeBtn);
 
-		NS.onResize(() => { setTimeout(() => { centeringImage(frame, img); }, 200); });
-		return frame;
-	}
+	// 	if (a.parentNode.tagName === 'FIGURE') {
+	// 		const cs = a.parentNode.getElementsByTagName('figcaption');
+	// 		if (0 < cs.length) {
+	// 			const captInner = cs[0].innerHTML;
+	// 			const capt = document.createElement('div');
+	// 			capt.innerHTML = captInner;
+	// 			NS.addStile(capt, STILE_CLS_IMAGE_BOX_CAPTION);
+	// 			frame.appendChild(capt);
+	// 		}
+	// 	}
+	// 	document.body.appendChild(frame);
 
-	function onOpen(e, frame, img, src) {
-		e.preventDefault();
-		NS.addStile(frame, STILE_STATE_OPEN);
-		if (!img.src) {
-			img.style.opacity = '0';
-			img.src = src;
-			img.addEventListener('load', () => {
-				initImageSize(frame, img);
-				img.style.opacity = '1';
-			});
-		}
-		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-		setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
-	}
+	// 	a.addEventListener('click', (e) => { onOpen(e, frame, img, src); });
+	// 	frame.addEventListener('click', (e) => { onClose(e, frame); });
+	// 	enableTouchGesture(frame, img);
 
-	function initImageSize(frame, img) {
-		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
-		if (checkLandscape(frame, img)) {
-			img.style.minWidth = '';
-			img.style.width = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
-			img.style.height = 'auto';
-		} else {
-			img.style.minHeight = '';
-			img.style.width = 'auto';
-			img.style.maxWidth = 'none';
-			img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
-		}
-		centeringImage(frame, img);
-	}
+	// 	img.addEventListener('click', (e) => { e.stopPropagation(); });
+	// 	enableMouseGesture(frame, img);
 
-	function onClose(e, frame) {
-		e.preventDefault();
-		NS.removeStile(frame, STILE_STATE_VISIBLE);
-		setTimeout(() => { NS.removeStile(frame, STILE_STATE_OPEN); }, 200);
-	}
+	// 	NS.onResize(() => { setTimeout(() => { centeringImage(frame, img); }, 200); });
+	// 	return frame;
+	// }
 
-	function enableTouchGesture(frame, img) {
-		let isLandscape = true;
-		let baseDist = 0;
-		let scale = 1;
-		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
+	// function onOpen(e, frame, img, src) {
+	// 	e.preventDefault();
+	// 	NS.addStile(frame, STILE_STATE_OPEN);
+	// 	if (!img.src) {
+	// 		img.style.opacity = '0';
+	// 		img.src = src;
+	// 		img.addEventListener('load', () => {
+	// 			initImageSize(frame, img);
+	// 			img.style.opacity = '1';
+	// 		});
+	// 	}
+	// 	const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+	// 	setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
+	// }
 
-		let xS = 0, yS = 0;
-		let lastTouchCount = 0;
+	// function initImageSize(frame, img) {
+	// 	const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
+	// 	if (checkLandscape(frame, img)) {
+	// 		img.style.minWidth = '';
+	// 		img.style.width = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
+	// 		img.style.height = 'auto';
+	// 	} else {
+	// 		img.style.minHeight = '';
+	// 		img.style.width = 'auto';
+	// 		img.style.maxWidth = 'none';
+	// 		img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
+	// 	}
+	// 	centeringImage(frame, img);
+	// }
 
-		function updatePoint(ts) {
-			lastTouchCount = ts.length;
-			if (lastTouchCount === 1) {
-				xS = ts[0].pageX - window.pageXOffset;
-				yS = ts[0].pageY - window.pageYOffset;
-			} else if (lastTouchCount === 2) {
-				xS = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
-				yS = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
-			}
-		}
+	// function onClose(e, frame) {
+	// 	e.preventDefault();
+	// 	NS.removeStile(frame, STILE_STATE_VISIBLE);
+	// 	setTimeout(() => { NS.removeStile(frame, STILE_STATE_OPEN); }, 200);
+	// }
 
-		frame.addEventListener('touchstart', (e) => {
-			isLandscape = checkLandscape(frame, img);
-			baseDist = 0;
-			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
+	// function enableTouchGesture(frame, img) {
+	// 	let isLandscape = true;
+	// 	let baseDist = 0;
+	// 	let scale = 1;
+	// 	const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 
-			updatePoint(e.touches);
-		});
-		frame.addEventListener('touchmove', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
+	// 	let xS = 0, yS = 0;
+	// 	let lastTouchCount = 0;
 
-			frame.style.overflow = 'hidden';
-			const ts = e.touches;
-			if (lastTouchCount !== ts.length) updatePoint(ts);
+	// 	function updatePoint(ts) {
+	// 		lastTouchCount = ts.length;
+	// 		if (lastTouchCount === 1) {
+	// 			xS = ts[0].pageX - window.pageXOffset;
+	// 			yS = ts[0].pageY - window.pageYOffset;
+	// 		} else if (lastTouchCount === 2) {
+	// 			xS = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+	// 			yS = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
+	// 		}
+	// 	}
 
-			if (ts.length === 1) {
-				const cx = ts[0].pageX - window.pageXOffset;
-				const cy = ts[0].pageY - window.pageYOffset;
-				frame.scrollLeft += xS - cx;
-				frame.scrollTop  += yS - cy;
-				xS = cx;
-				yS = cy;
-			} else if (ts.length > 1) {
-				const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
-				const dist = touchDistance(ts);
+	// 	frame.addEventListener('touchstart', (e) => {
+	// 		isLandscape = checkLandscape(frame, img);
+	// 		baseDist = 0;
+	// 		if (!img.style.minWidth && !img.style.minHeight) scale = 1;
 
-				const scx = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
-				const scy = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
-				frame.scrollLeft += xS - scx;
-				frame.scrollTop  += yS - scy;
-				xS = scx;
-				yS = scy;
+	// 		updatePoint(e.touches);
+	// 	});
+	// 	frame.addEventListener('touchmove', (e) => {
+	// 		e.preventDefault();
+	// 		e.stopPropagation();
 
-				const imgCx = (scx + frame.scrollLeft) / scale;
-				const imgCy = (scy + frame.scrollTop)  / scale;
+	// 		frame.style.overflow = 'hidden';
+	// 		const ts = e.touches;
+	// 		if (lastTouchCount !== ts.length) updatePoint(ts);
 
-				if (baseDist) {
-					const s = dist / (baseDist * scale);
-					if (s && s !== Infinity) {
-						scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
-						centeringImage(frame, img);
+	// 		if (ts.length === 1) {
+	// 			const cx = ts[0].pageX - window.pageXOffset;
+	// 			const cy = ts[0].pageY - window.pageYOffset;
+	// 			frame.scrollLeft += xS - cx;
+	// 			frame.scrollTop  += yS - cy;
+	// 			xS = cx;
+	// 			yS = cy;
+	// 		} else if (ts.length > 1) {
+	// 			const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
+	// 			const dist = touchDistance(ts);
 
-						frame.scrollLeft = imgCx * scale - scx;// + dx;
-						frame.scrollTop  = imgCy * scale - scy;// + dy;
-					}
-				}
-				baseDist = dist / scale;
-			}
-		}, { passive: false });
+	// 			const scx = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+	// 			const scy = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
+	// 			frame.scrollLeft += xS - scx;
+	// 			frame.scrollTop  += yS - scy;
+	// 			xS = scx;
+	// 			yS = scy;
 
-		// for Android
-		preventWindowTouchMove(frame);
-	}
+	// 			const imgCx = (scx + frame.scrollLeft) / scale;
+	// 			const imgCy = (scy + frame.scrollTop)  / scale;
 
-	function enableMouseGesture(frame, img) {
-		let isLandscape = true;
-		let scale = 1;
-		let xS = 0, yS = 0;
-		let isMoving = false;
-		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
+	// 			if (baseDist) {
+	// 				const s = dist / (baseDist * scale);
+	// 				if (s && s !== Infinity) {
+	// 					scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
+	// 					centeringImage(frame, img);
 
-		frame.addEventListener('mousedown', (e) => {
-			xS = e.pageX - window.pageXOffset;
-			yS = e.pageY - window.pageYOffset;
-			isMoving = true;
-			e.preventDefault();
-		});
-		frame.addEventListener('mousemove', (e) => {
-			if (isMoving) {
-				e.stopPropagation();
-				e.preventDefault();
-				frame.style.overflow = 'hidden';
-				const cx = e.pageX - window.pageXOffset;
-				const cy = e.pageY - window.pageYOffset;
-				frame.scrollLeft += xS - cx;
-				frame.scrollTop  += yS - cy;
-				xS = cx;
-				yS = cy;
-			}
-		});
-		frame.addEventListener('mousedrag', (e) => {  // for Firefox
-			if (isMoving) {
-				e.stopPropagation();
-				e.preventDefault();
-			}
-		});
-		frame.addEventListener('mouseup', () => { isMoving = false; });
+	// 					frame.scrollLeft = imgCx * scale - scx;// + dx;
+	// 					frame.scrollTop  = imgCy * scale - scy;// + dy;
+	// 				}
+	// 			}
+	// 			baseDist = dist / scale;
+	// 		}
+	// 	}, { passive: false });
 
-		frame.addEventListener('wheel', (e) => {
-			e.stopPropagation();
-			e.preventDefault();
+	// 	// for Android
+	// 	preventWindowTouchMove(frame);
+	// }
 
-			frame.style.overflow = 'hidden';
-			isLandscape = checkLandscape(frame, img);
-			const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
-			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
+	// function enableMouseGesture(frame, img) {
+	// 	let isLandscape = true;
+	// 	let scale = 1;
+	// 	let xS = 0, yS = 0;
+	// 	let isMoving = false;
+	// 	const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 
-			const scx = e.pageX - window.pageXOffset;
-			const scy = e.pageY - window.pageYOffset;
-			const imgCx = (scx + frame.scrollLeft) / scale;
-			const imgCy = (scy + frame.scrollTop) / scale;
+	// 	frame.addEventListener('mousedown', (e) => {
+	// 		xS = e.pageX - window.pageXOffset;
+	// 		yS = e.pageY - window.pageYOffset;
+	// 		isMoving = true;
+	// 		e.preventDefault();
+	// 	});
+	// 	frame.addEventListener('mousemove', (e) => {
+	// 		if (isMoving) {
+	// 			e.stopPropagation();
+	// 			e.preventDefault();
+	// 			frame.style.overflow = 'hidden';
+	// 			const cx = e.pageX - window.pageXOffset;
+	// 			const cy = e.pageY - window.pageYOffset;
+	// 			frame.scrollLeft += xS - cx;
+	// 			frame.scrollTop  += yS - cy;
+	// 			xS = cx;
+	// 			yS = cy;
+	// 		}
+	// 	});
+	// 	frame.addEventListener('mousedrag', (e) => {  // for Firefox
+	// 		if (isMoving) {
+	// 			e.stopPropagation();
+	// 			e.preventDefault();
+	// 		}
+	// 	});
+	// 	frame.addEventListener('mouseup', () => { isMoving = false; });
 
-			const s = 0 > e.deltaY ? 1.1 : 0.9;
-			scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
-			centeringImage(frame, img);
+	// 	frame.addEventListener('wheel', (e) => {
+	// 		e.stopPropagation();
+	// 		e.preventDefault();
 
-			frame.scrollLeft = imgCx * scale - scx;
-			frame.scrollTop  = imgCy * scale - scy;
-		}, true);
-	}
+	// 		frame.style.overflow = 'hidden';
+	// 		isLandscape = checkLandscape(frame, img);
+	// 		const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
+	// 		if (!img.style.minWidth && !img.style.minHeight) scale = 1;
 
-	function checkLandscape(frame, img) {
-		const winAspect = frame.offsetWidth / frame.offsetHeight;
-		const imgAspect = img.offsetWidth / img.offsetHeight;
-		return (winAspect < imgAspect);
-	}
+	// 		const scx = e.pageX - window.pageXOffset;
+	// 		const scy = e.pageY - window.pageYOffset;
+	// 		const imgCx = (scx + frame.scrollLeft) / scale;
+	// 		const imgCy = (scy + frame.scrollTop) / scale;
 
-	function setImageScale(img, baseSize, scale, isLandscape, isPhone) {
-		scale = Math.max(1, Math.min(4, scale));
-		let size = '';
-		if (isPhone) {
-			size = (baseSize * scale) + 'px';
-		} else {
-			size = 'calc(' + (baseSize * scale) + 'px - ' + SIZE_BOX_PADDING + ')';
-		}
-		if (isLandscape) img.style.minWidth = size;
-		else img.style.minHeight = size;
-		return scale;
-	}
+	// 		const s = 0 > e.deltaY ? 1.1 : 0.9;
+	// 		scale = setImageScale(img, baseSize, scale * s, isLandscape, isPhone);
+	// 		centeringImage(frame, img);
 
-	function centeringImage(frame, img) {
-		if (img.offsetWidth < frame.offsetWidth) {
-			img.style.left = ((frame.offsetWidth - img.offsetWidth) / 2) + 'px';
-		} else {
-			img.style.left = 0;
-		}
-		if (img.offsetHeight < frame.offsetHeight) {
-			img.style.top = ((frame.offsetHeight - img.offsetHeight) / 2) + 'px';
-		} else {
-			img.style.top = 0;
-		}
-	}
+	// 		frame.scrollLeft = imgCx * scale - scx;
+	// 		frame.scrollTop  = imgCy * scale - scy;
+	// 	}, true);
+	// }
+
+	// function checkLandscape(frame, img) {
+	// 	const winAspect = frame.offsetWidth / frame.offsetHeight;
+	// 	const imgAspect = img.offsetWidth / img.offsetHeight;
+	// 	return (winAspect < imgAspect);
+	// }
+
+	// function setImageScale(img, baseSize, scale, isLandscape, isPhone) {
+	// 	scale = Math.max(1, Math.min(4, scale));
+	// 	let size = '';
+	// 	if (isPhone) {
+	// 		size = (baseSize * scale) + 'px';
+	// 	} else {
+	// 		size = 'calc(' + (baseSize * scale) + 'px - ' + SIZE_BOX_PADDING + ')';
+	// 	}
+	// 	if (isLandscape) img.style.minWidth = size;
+	// 	else img.style.minHeight = size;
+	// 	return scale;
+	// }
+
+	// function centeringImage(frame, img) {
+	// 	if (img.offsetWidth < frame.offsetWidth) {
+	// 		img.style.left = ((frame.offsetWidth - img.offsetWidth) / 2) + 'px';
+	// 	} else {
+	// 		img.style.left = 0;
+	// 	}
+	// 	if (img.offsetHeight < frame.offsetHeight) {
+	// 		img.style.top = ((frame.offsetHeight - img.offsetHeight) / 2) + 'px';
+	// 	} else {
+	// 		img.style.top = 0;
+	// 	}
+	// }
 
 	function preventWindowTouchMove(f) {
 		let isTouching = false;
@@ -352,10 +363,10 @@ window.ST = window['ST'] || {};
 
 			this.enableMouseGesture();
 			this.enableTouchGesture();
-			NS.onResize(() => {
-				this.setInitialSize();
-				setTimeout(() => { this.setInitialSize(); }, 200);
-			});
+			// NS.onResize(() => {
+			// 	this.setInitialSize();
+			// 	setTimeout(() => { this.setInitialSize(); }, 200);
+			// });
 		}
 
 		onOpen(e) {
@@ -381,7 +392,7 @@ window.ST = window['ST'] || {};
 			setTimeout(() => { NS.removeStile(this._frm, STILE_STATE_OPEN); }, 200);
 		}
 
-		setInitialSize() {
+		setInitialSize() {  // Called also when 'onResize'
 			this._isPhone  = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 			this._baseSize = this._isLandscape ? this._frm.clientWidth : this._frm.clientHeight;
 			this._scale    = 1;
