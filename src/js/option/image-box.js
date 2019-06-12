@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-12
+ * @version 2019-06-13
  *
  */
 
