@@ -30,6 +30,7 @@ $stile-image-box-time-fade              : 0.5s !default;
 @mixin stile-image-box-inside {
 	display: none;
 	-webkit-overflow-scrolling: touch;
+	overflow: hidden;
 
 	background-color: $stile-image-box-color-background;
 	cursor: pointer;
@@ -41,8 +42,8 @@ $stile-image-box-time-fade              : 0.5s !default;
 		position: fixed;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100%;
+		right: 0;
+		bottom: 0;
 		z-index: 100000;  // Fixed Header is 99999
 	}
 	&[data-stile ~= 'visible'] {
