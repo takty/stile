@@ -3,7 +3,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-11
+ * @version 2019-06-12
  *
  */
 
@@ -13,12 +13,14 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR           = '.stile';
-	const TARGET_SELECTOR_IMAGE_BOX = '.stile-image-box';
-	const STILE_CLS_IMAGE_BOX       = 'image-box';
-	const STILE_STATE_OPEN          = 'open';
-	const STILE_STATE_VISIBLE       = 'visible';
-	const SIZE_BOX_PADDING          = '4rem';
+	const TARGET_SELECTOR             = '.stile';
+	const TARGET_SELECTOR_IMAGE_BOX   = '.stile-image-box';
+	const STILE_CLS_IMAGE_BOX         = 'image-box';
+	const STILE_CLS_IMAGE_BOX_CLOSE   = 'image-box-close';
+	const STILE_CLS_IMAGE_BOX_CAPTION = 'image-box-caption';
+	const STILE_STATE_OPEN            = 'open';
+	const STILE_STATE_VISIBLE         = 'visible';
+	const SIZE_BOX_PADDING            = '4rem';
 
 	NS.addInitializer(7, () => {
 		const as1 = document.querySelectorAll(TARGET_SELECTOR + ' a');
@@ -68,9 +70,10 @@ window.ST = window['ST'] || {};
 		const frame = document.createElement('div');
 		NS.addStile(frame, STILE_CLS_IMAGE_BOX);
 		const img = document.createElement('img');
-		img.src = a.href;
+		const src = a.href;
 		frame.appendChild(img);
 		const closeBtn = document.createElement('span');
+		NS.addStile(closeBtn, STILE_CLS_IMAGE_BOX_CLOSE);
 		frame.appendChild(closeBtn);
 
 		if (a.parentNode.tagName === 'FIGURE') {
@@ -79,12 +82,13 @@ window.ST = window['ST'] || {};
 				const captInner = cs[0].innerHTML;
 				const capt = document.createElement('div');
 				capt.innerHTML = captInner;
+				NS.addStile(capt, STILE_CLS_IMAGE_BOX_CAPTION);
 				frame.appendChild(capt);
 			}
 		}
 		document.body.appendChild(frame);
 
-		a.addEventListener('click', (e) => { onOpen(e, frame, img); });
+		a.addEventListener('click', (e) => { onOpen(e, frame, img, src); });
 		frame.addEventListener('click', (e) => { onClose(e, frame); });
 		enableTouchGesture(frame, img);
 
@@ -95,9 +99,20 @@ window.ST = window['ST'] || {};
 		return frame;
 	}
 
-	function onOpen(e, frame, img) {
+	function onOpen(e, frame, img, src) {
 		e.preventDefault();
 		NS.addStile(frame, STILE_STATE_OPEN);
+		img.style.opacity = '0';
+		img.src = src;
+		img.addEventListener('load', () => {
+			initImageSize(frame, img);
+			img.style.opacity = '1';
+		});
+		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+		setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
+	}
+
+	function initImageSize(frame, img) {
 		const isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
 		if (checkLandscape(frame, img)) {
 			img.style.minWidth = '';
@@ -110,8 +125,6 @@ window.ST = window['ST'] || {};
 			img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
 		}
 		centeringImage(frame, img);
-		const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-		setTimeout(() => { NS.addStile(frame, STILE_STATE_VISIBLE); }, delay);
 	}
 
 	function onClose(e, frame) {
@@ -216,6 +229,7 @@ window.ST = window['ST'] || {};
 			xS = e.pageX - window.pageXOffset;
 			yS = e.pageY - window.pageYOffset;
 			isMoving = true;
+			e.preventDefault();
 		});
 		frame.addEventListener('mousemove', (e) => {
 			if (isMoving) {
@@ -230,9 +244,15 @@ window.ST = window['ST'] || {};
 				yS = cy;
 			}
 		});
+		frame.addEventListener('mousedrag', (e) => {  // for Firefox
+			if (isMoving) {
+				e.stopPropagation();
+				e.preventDefault();
+			}
+		});
 		frame.addEventListener('mouseup', () => { isMoving = false; });
 
-		frame.addEventListener('mousewheel', (e) => {
+		frame.addEventListener('wheel', (e) => {
 			e.stopPropagation();
 			e.preventDefault();
 

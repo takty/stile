@@ -17,6 +17,7 @@ $stile-image-box-color-closer-background: rgba(#000, 0.50) !default;
 $stile-image-box-color-closer-mark      : rgba(#fff, 0.75) !default;
 $stile-image-box-color-caption          : rgba(#fff, 1.00) !default;
 $stile-image-box-color-caption-shadow   : rgba(#000, 1.00) !default;
+$stile-image-box-color-loader           : rgba(#fff, 0.95) !default;
 $stile-image-box-time-fade              : 0.5s !default;
 
 
@@ -48,14 +49,38 @@ $stile-image-box-time-fade              : 0.5s !default;
 		opacity: 1;
 		transition: opacity $stile-image-box-time-fade;
 	}
+
+	&::after {  // Loader
+		content: '';
+		position: fixed;
+		top: calc(50% - 46px / 2);
+		left: calc(50% - 46px / 2);
+		z-index: -1;
+
+		display: block;
+		width: 46px;
+		height: 46px;
+		margin: 1px;
+		border-radius: 50%;
+		border: 0.25rem solid $stile-image-box-color-loader;
+		border-color: $stile-image-box-color-loader transparent $stile-image-box-color-loader transparent;
+		animation: loader-kf 1.2s linear infinite;
+	}
+	@keyframes loader-kf {
+		0%   { transform: rotate(0deg);   }
+		100% { transform: rotate(360deg); }
+	}
+
 	> img {
 		position: absolute;
 		top: 0;
 		left: 0;
 		cursor: auto;
 		background-color: $stile-image-box-color-img-background;
+		transition: opacity $stile-image-box-time-fade;
 	}
-	> span {  // Close Button
+
+	> span[data-stile = 'image-box-close'] {
 		position: fixed;
 		top: 0.5rem;
 		right: 0.5rem;
@@ -83,7 +108,8 @@ $stile-image-box-time-fade              : 0.5s !default;
 		&::before { transform: translate(-50%, -50%) rotate( 45deg); }
 		&::after  { transform: translate(-50%, -50%) rotate(-45deg); }
 	}
-	> div {  // Caption
+
+	> div[data-stile = 'image-box-caption'] {
 		position: fixed;
 		left: 0;
 		right: 0;
