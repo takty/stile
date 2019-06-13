@@ -78,6 +78,24 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
+	function getTouchPoint(ts) {
+		let x = 0, y = 0;
+		if (ts.length === 1) {
+			x = ts[0].pageX - window.pageXOffset;
+			y = ts[0].pageY - window.pageYOffset;
+		} else if (2 <= ts.length) {
+			x = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+			y = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
+		}
+		return [x, y];
+	}
+
+	function touchDistance(ts) {
+		const x1 = ts[0].screenX, y1 = ts[0].screenY;
+		const x2 = ts[1].screenX, y2 = ts[1].screenY;
+		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	}
+
 	function preventWindowTouchMove(f) {
 		let isTouching = false;
 		window.addEventListener('touchmove', (e) => {
@@ -89,12 +107,8 @@ window.ST = window['ST'] || {};
 		f.addEventListener('touchend', () => { isTouching = false; });
 	}
 
-	function touchDistance(ts) {
-		const x1 = ts[0].screenX;
-		const y1 = ts[0].screenY;
-		const x2 = ts[1].screenX;
-		const y2 = ts[1].screenY;
-		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	function getCursorPoint(e) {
+		return [e.pageX - window.pageXOffset, e.pageY - window.pageYOffset];
 	}
 
 
@@ -215,17 +229,15 @@ window.ST = window['ST'] || {};
 
 			this._frm.addEventListener('mousedown', (e) => {
 				e.preventDefault();
-				xS = e.pageX - window.pageXOffset;
-				yS = e.pageY - window.pageYOffset;
+				[xS, yS] = getCursorPoint(e);
 				isMoving = true;
 			});
 			this._frm.addEventListener('mousemove', (e) => {
 				if (!isMoving) return;
 				e.stopPropagation();
 				e.preventDefault();
-				this._frm.style.overflow = 'hidden';
-				const cx = e.pageX - window.pageXOffset;
-				const cy = e.pageY - window.pageYOffset;
+
+				const [cx, cy] = getCursorPoint(e);
 				this._frm.scrollLeft += xS - cx;
 				this._frm.scrollTop  += yS - cy;
 				xS = cx;
@@ -242,16 +254,15 @@ window.ST = window['ST'] || {};
 				e.stopPropagation();
 				e.preventDefault();
 
-				const scx = e.pageX - window.pageXOffset;
-				const scy = e.pageY - window.pageYOffset;
-				const imgCx = (scx + this._frm.scrollLeft) / this._scale;
-				const imgCy = (scy + this._frm.scrollTop)  / this._scale;
+				const [cx, cy] = getCursorPoint(e);
+				const imgCx = (cx + this._frm.scrollLeft) / this._scale;
+				const imgCy = (cy + this._frm.scrollTop)  / this._scale;
 
 				const s = 0 > e.deltaY ? 1.1 : 0.9;
 				this.setScaledSize(this._scale * s);
 
-				this._frm.scrollLeft = imgCx * this._scale - scx;
-				this._frm.scrollTop  = imgCy * this._scale - scy;
+				this._frm.scrollLeft = imgCx * this._scale - cx;
+				this._frm.scrollTop  = imgCy * this._scale - cy;
 			}, true);
 		}
 
@@ -260,16 +271,7 @@ window.ST = window['ST'] || {};
 			let lastTouchCount = 0;
 			let baseDist = 0;
 
-			function updatePoint(ts) {
-				lastTouchCount = ts.length;
-				if (lastTouchCount === 1) {
-					xS = ts[0].pageX - window.pageXOffset;
-					yS = ts[0].pageY - window.pageYOffset;
-				} else if (lastTouchCount === 2) {
-					xS = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
-					yS = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
-				}
-			}
+			preventWindowTouchMove(this._frm);  // for Android
 
 			this._frm.addEventListener('touchstart', (e) => {
 				baseDist = 0;
@@ -282,41 +284,34 @@ window.ST = window['ST'] || {};
 				const ts = e.touches;
 				if (lastTouchCount !== ts.length) updatePoint(ts);
 
-				if (ts.length === 1) {
-					const cx = ts[0].pageX - window.pageXOffset;
-					const cy = ts[0].pageY - window.pageYOffset;
-					this._frm.scrollLeft += xS - cx;
-					this._frm.scrollTop += yS - cy;
-					xS = cx;
-					yS = cy;
-				} else if (ts.length > 1) {
+				const [cx, cy] = getTouchPoint(ts);
+				this._frm.scrollLeft += xS - cx;
+				this._frm.scrollTop  += yS - cy;
+				xS = cx;
+				yS = cy;
+
+				if (2 <= ts.length) {
+					const imgCx = (cx + this._frm.scrollLeft) / this._scale;
+					const imgCy = (cy + this._frm.scrollTop)  / this._scale;
 					const dist = touchDistance(ts);
-
-					const scx = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
-					const scy = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
-					this._frm.scrollLeft += xS - scx;
-					this._frm.scrollTop += yS - scy;
-					xS = scx;
-					yS = scy;
-
-					const imgCx = (scx + this._frm.scrollLeft) / this._scale;
-					const imgCy = (scy + this._frm.scrollTop)  / this._scale;
 
 					if (baseDist) {
 						const s = dist / (baseDist * this._scale);
 						if (s && s !== Infinity) {
 							this.setScaledSize(this._scale * s);
 
-							this._frm.scrollLeft = imgCx * this._scale - scx;
-							this._frm.scrollTop  = imgCy * this._scale - scy;
+							this._frm.scrollLeft = imgCx * this._scale - cx;
+							this._frm.scrollTop  = imgCy * this._scale - cy;
 						}
 					}
 					baseDist = dist / this._scale;
 				}
 			}, { passive: false });
 
-			// for Android
-			preventWindowTouchMove(this._frm);
+			function updatePoint(ts) {
+				lastTouchCount = ts.length;
+				[xS, yS] = getTouchPoint(ts);
+			}
 		}
 
 	}
