@@ -33,9 +33,7 @@ window.ST = window['ST'] || {};
 
 		NS.onResize(() => {
 			for (let obj of objs) obj.setInitialSize();
-			setTimeout(() => {
-				for (let obj of objs) obj.setInitialSize();
-			}, 200);
+			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
 		});
 	});
 
@@ -146,11 +144,12 @@ window.ST = window['ST'] || {};
 					this.setInitialSize();
 					this._img.style.opacity = '1';
 				});
-			} else {
-				this.setInitialSize();
 			}
 			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-			setTimeout(() => { NS.addStile(this._frm, STILE_STATE_VISIBLE); }, delay);
+			setTimeout(() => {
+				this.setInitialSize();
+				NS.addStile(this._frm, STILE_STATE_VISIBLE);
+			}, delay);
 		}
 
 		onClose(e) {
@@ -160,35 +159,35 @@ window.ST = window['ST'] || {};
 		}
 
 		setInitialSize() {  // Called also when 'onResize'
-			this._isPhone  = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
-			this._baseSize = this._isLandscape ? this._frm.clientWidth : this._frm.clientHeight;
-			this._scale    = 1;
+			this._isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
+			this._scale   = 1;
 
-			const winAs = this._frm.clientWidth / this._frm.clientHeight;
-			const imgAs = this._img.offsetWidth   / this._img.offsetHeight;
+			const winAs = this._frm.offsetWidth / this._frm.offsetHeight;
+			const imgAs = this._img.offsetWidth / this._img.offsetHeight;
 			this._isLandscape = (winAs < imgAs);
 
 			const size = this._isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
 			if (this._isLandscape) {
 				this._img.style.minWidth = '';  // To be assigned by setScale
+				this._img.style.minHeight = '';
 				this._img.style.width    = size;
 				this._img.style.height   = 'auto';
 			} else {
+				this._img.style.minWidth = '';
 				this._img.style.minHeight = '';  // To be assigned by setScale
 				this._img.style.width     = 'auto';
-				this._img.style.maxWidth  = 'none';
 				this._img.style.height    = size;
+				this._img.style.maxWidth  = 'none';
 			}
+			this._baseSize = this._isLandscape ? this._frm.clientWidth : this._frm.clientHeight;
 			this.doCenteringImage();
 		}
 
 		setScaledSize(scale) {
 			this._scale = Math.max(1, Math.min(4, scale));
-			let size = '';
-			if (this._isPhone) {
-				size = (this._baseSize * this._scale) + 'px';
-			} else {
-				size = 'calc(' + (this._baseSize * this._scale) + 'px - ' + SIZE_BOX_PADDING + ')';
+			let size = (this._baseSize * this._scale) + 'px';
+			if (!this._isPhone) {
+				size = `calc(${size} - ${SIZE_BOX_PADDING})`;
 			}
 			if (this._isLandscape) this._img.style.minWidth = size;
 			else this._img.style.minHeight = size;
