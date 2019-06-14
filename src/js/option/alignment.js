@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-14
  *
  */
 
@@ -15,8 +15,6 @@ window.ST = window['ST'] || {};
 
 	const TARGET_SELECTOR = '.stile';
 	const WIDTH_MIN = 240;  // px
-
-	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
 
 	NS.addInitializer(1, () => {
 		let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
@@ -108,7 +106,7 @@ window.ST = window['ST'] || {};
 			const c = ts[i];
 			const p = c.parentNode;
 			let replace = false;
-			if (p.tagName === 'A' && isImageLink(p)) {
+			if (p.tagName === 'A' && NS.isImageLink(p)) {
 				if (moveClass(c, p, 'alignleft'))   replace = true;
 				if (moveClass(c, p, 'aligncenter')) replace = true;
 				if (moveClass(c, p, 'alignright'))  replace = true;
@@ -125,27 +123,6 @@ window.ST = window['ST'] || {};
 			return true;
 		}
 		return false;
-	}
-
-	function isImageLink(a) {
-		if (a.className) {
-			const cs = a.className.split(' ');
-			for (let i = 0; i < cs.length; i += 1) {
-				if (PERMITTED_CLASSES.indexOf(cs[i]) === -1) return false;
-			}
-		}
-		const cs = a.childNodes;
-		if (cs.length === 0) return false;
-		let success = false;
-		for (let i = 0; i < cs.length; i += 1) {
-			const tn = cs[i].tagName;
-			if (success === false && tn === 'IMG') {
-				success = true;
-				continue;
-			}
-			if (tn) return false;
-		}
-		return success;
 	}
 
 })(window.ST);
