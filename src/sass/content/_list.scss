@@ -29,13 +29,13 @@ $stile-list-img-marks       : ()                     !default;
 
 
 $_stile-list-rate-marks: map-merge((
-	disc  : $stile-list-rate-mark-disc, 
-	square: $stile-list-rate-mark-square, 
+	disc  : $stile-list-rate-mark-disc,
+	square: $stile-list-rate-mark-square,
 	circle: $stile-list-rate-mark-circle
 ), $stile-list-rate-marks);
 $_stile-list-img-marks: map-merge((
-	disc  : $stile-list-img-mark-disc, 
-	square: $stile-list-img-mark-square, 
+	disc  : $stile-list-img-mark-disc,
+	square: $stile-list-img-mark-square,
 	circle: $stile-list-img-mark-circle
 ), $stile-list-img-marks);
 
@@ -57,6 +57,7 @@ $_stile-list-img-marks: map-merge((
 	ol:not([class]),
 	ol.stile {
 		@include stile-list-ol-inside;
+		@include stile-list-ol-inside-fallback;
 	}
 }
 
@@ -167,11 +168,11 @@ $_stile-list-img-marks: map-merge((
 	@include stile-list-ul-inside-style(square) {
 		border-radius: 10%;
 		background-color: $stile-list-color-mark-ul;
-	}	
+	}
 	@include stile-list-ul-inside-style(circle) {
 		border: 0.2rem solid $stile-list-color-mark-ul;
 		border-radius: 50%;
-	}	
+	}
 }
 
 
@@ -215,6 +216,21 @@ $_stile-list-img-marks: map-merge((
 	@include stile-list-ol-inside-style(lower-roman);
 	@include stile-list-ol-inside-style(upper-alpha);
 	@include stile-list-ol-inside-style(upper-roman);
+}
+
+@mixin stile-list-ol-inside-fallback {
+	&[reversed]:not([style *= 'counter-reset']),
+	&[start]:not([style *= 'counter-reset']) {
+		@include stile-list-indent(4, 3);
+		> li {
+			display: list-item;
+			line-height: base-vr(2);
+			&::before {
+				content: none;
+			}
+		}
+		> li + li { margin-top: base-vr(1); }
+	}
 }
 
 
