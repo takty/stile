@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-14
  *
  */
 
@@ -35,8 +35,8 @@ window.ST = window['ST'] || {};
 
 	function initializeAnchorOffset() {
 		if (OFFSET + getAnchorOffset() !== 0) {
-			const as1 = Array.prototype.slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
-			const as2 = Array.prototype.slice.call(document.querySelectorAll(SEL_TARGET));
+			const as1 = [].slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
+			const as2 = [].slice.call(document.querySelectorAll(SEL_TARGET));
 			const anchorTargets = as1.concat(filterTarget(as2));
 			assignAnchorOffset(anchorTargets);
 
@@ -49,9 +49,7 @@ window.ST = window['ST'] || {};
 		const newTs = [];
 		for (let i = 0; i < ts.length; i += 1) {
 			const t = ts[i];
-			const tn = t.tagName;
-			if (tn === 'INPUT' || tn === 'BUTTON' || tn === 'SELECT' || tn === 'TEXTAREA') continue;
-			newTs.push(t);
+			if (!/^(?:input|button|select|textarea)$/i.test(t.tagName)) newTs.push(t);
 		}
 		return newTs;
 	}

@@ -4,7 +4,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-14
  *
  */
 
@@ -71,7 +71,7 @@ window.ST = window['ST'] || {};
 	}
 
 	function applyKerningToElement(elm, ki) {
-		const cs = Array.prototype.slice.call(elm.childNodes, 0);
+		const cs = [].slice.call(elm.childNodes, 0);
 
 		for (let i = 0; i < cs.length; i += 1) {
 			const c = cs[i];
