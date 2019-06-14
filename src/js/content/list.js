@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-14
  *
  */
 
@@ -72,15 +72,10 @@ window.ST = window['ST'] || {};
 	}
 
 	function setCounterReset(t) {
-		const v = t.getAttribute('start');
-		if (v !== null && v !== '') {
-			const s = parseInt(v);
-			t.style.counterReset = 'li ' + (s + 1);
-		}
 		const cs = t.children;
 
 		let rev = false;
-		if (t.getAttribute('reversed') !== null) {
+		if (t.getAttribute('reversed') !== null || NS.containStile(t, 'reversed')) {
 			let size = 0;
 			for (let i = 0; i < cs.length; i += 1) {
 				if (cs[i].tagName === 'LI') size += 1;
@@ -88,6 +83,13 @@ window.ST = window['ST'] || {};
 			t.style.counterReset = 'li ' + (size + 1);
 			rev = true;
 		}
+
+		const v = t.getAttribute('start');
+		if (v !== null && v !== '') {
+			const s = parseInt(v);
+			t.style.counterReset = 'li ' + (s + 1);
+		}
+
 		for (let i = 0; i < cs.length; i += 1) {
 			if (cs[i].tagName !== 'LI') continue;
 			const v = cs[i].getAttribute('value');
