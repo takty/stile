@@ -1,9 +1,9 @@
 /**
  *
- * Smooth Scroll (JS)
+ * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-14
  *
  */
 
@@ -21,6 +21,7 @@ window.ST = window['ST'] || {};
 	const ST_ANCHOR_OFFSET      = 'anchor-offset';
 
 	NS.onClickAnchorLink = onClickAnchorLink;  // Export the function
+	NS.jumpToElement     = jumpToElement;      // Export the function
 	NS.addInitializer(4, initialize);
 
 	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
@@ -73,12 +74,12 @@ window.ST = window['ST'] || {};
 		e.stopPropagation();
 		e.preventDefault();
 		const dur = NS.containStile(e.target, ST_ANCHOR_SCROLL_FAST) ? DURATION_FAST : DURATION;
-		jump(tar, dur);
+		jumpToElement(tar, dur);
 
 		pushHistory(hash);
 	}
 
-	function jump(tar, duration) {
+	function jumpToElement(tar, duration, focus = true) {
 		const start = window.pageYOffset;
 		let posY = tar.getBoundingClientRect().top + window.pageYOffset;
 		let wh = document.documentElement.offsetHeight;
@@ -101,10 +102,10 @@ window.ST = window['ST'] || {};
 		function end() {
 			scrollTo(tar);
 			setTimeout(() => { scrollTo(tar); }, 50);
-			if (tar !== document.documentElement) setFocus(tar);
+			if (focus && tar !== document.documentElement) setFocus(tar);
 			isJumping = false;
 		}
-		function easing(t, b, c, d)  {
+		function easing(t, b, c, d) {
 			t /= d / 2;
 			if (t < 1) return (c - b) / 2 * t * t + b;
 			t--;
