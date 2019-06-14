@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-14
  *
  */
 
@@ -29,7 +29,6 @@ window.ST = window['ST'] || {};
 		}
 		NS.onResize(() => { onResize(tabPages); });
 		setTimeout(function () { onResize(tabPages) }, 200);  // Delay
-		initializeSmoothScroll();
 	});
 
 	function createTabPage(container) {
@@ -123,7 +122,6 @@ window.ST = window['ST'] || {};
 	function changeCurrentTab(tp, idx) {
 		const ts = tp.tabs, ts2 = tp.tabs2;
 		const ps = tp.pages;
-		const bcrOrig = tp.tabUl2.getBoundingClientRect();
 
 		for (let i = 0; i < ts.length; i += 1) {
 			if (i === idx) {
@@ -144,7 +142,7 @@ window.ST = window['ST'] || {};
 
 		setTimeout(() => {
 			const bcr = tp.tabUl2.getBoundingClientRect();
-			if (bcr.top < 0) jump(bcr.top - bcrOrig.top, 200);
+			if (bcr.top < 0) NS.jumpToElement(tp.tabUl, 200, false);
 		}, 10);
 	}
 
@@ -220,44 +218,6 @@ window.ST = window['ST'] || {};
 			height = Math.max(height, h);
 		}
 		return tabUl.offsetHeight + tabUl2.offsetHeight + marginBtm + marginTop + height;
-	}
-
-
-	// -------------------------------------------------------------------------
-
-
-	let isJumping = false;
-
-	function initializeSmoothScroll() {
-		document.addEventListener('wheel', () => { isJumping = false; });
-	}
-
-	function jump(offset, duration) {
-		const start = window.pageYOffset;
-		let posY = start + offset;
-		let timeStart, timeElapsed;
-
-		isJumping = true;
-		requestAnimationFrame((time) => { timeStart = time; loop(time); });
-
-		function loop(time) {
-			if (!isJumping) return;
-			timeElapsed = time - timeStart;
-			window.scrollTo(0, easing(timeElapsed, start, posY, duration));
-			if (timeElapsed < duration) requestAnimationFrame(loop)
-			else end();
-		}
-		function end() {
-			window.scrollTo(0, posY);
-			setTimeout(() => { window.scrollTo(0, posY); }, 50);
-			isJumping = false;
-		}
-		function easing(t, b, c, d) {
-			t /= d / 2;
-			if (t < 1) return (c - b) / 2 * t * t + b;
-			t--;
-			return -(c - b) / 2 * (t * (t - 2) - 1) + b;
-		}
 	}
 
 })(window.ST);
