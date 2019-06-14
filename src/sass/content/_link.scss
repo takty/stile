@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-01
+ * @version 2019-06-14
  *
  */
 
@@ -69,7 +69,7 @@ $stile-link-size-gap          : 0.2em !default;
 }
 
 @mixin stile-link {
-	> :not([class]) > a:not([class]):not([data-stile]) {  // Before the script loaded
+	:not([class]) > a:not([class]):not([data-stile]) {  // Before the script loaded
 		color: $stile-link-color-text;
 		&:visited { color: $stile-link-color-text-visited; }
 		text-decoration: underline;
