@@ -115,13 +115,13 @@ $stile-container-4-child-min-width: 10rem !default;
 	}
 	.card-3 {
 		> * {
-			flex-basis: calc(33% - #{$stile-container-card-gap});
+			flex-basis: calc(32% - #{$stile-container-card-gap} - 1px);
 			min-width: $stile-container-3-child-min-width;
 		}
 	}
 	.card-4 {
 		> * {
-			flex-basis: calc(25% - #{$stile-container-card-gap});
+			flex-basis: calc(24% - #{$stile-container-card-gap} - 1px);
 			min-width: $stile-container-4-child-min-width;
 		}
 	}
