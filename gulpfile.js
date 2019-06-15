@@ -7,16 +7,16 @@ const $ = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
 
 gulp.task('js-with-option', () => gulp.src(['src/js/basic/*.js', 'src/js/content/*.js', 'src/js/option/**/*.js'])
 	.pipe($.plumber())
-	.pipe($.babel())
 	.pipe($.concat('stile-full.min.js'))
+	.pipe($.babel())
 	.pipe($.uglify())
 	.pipe(gulp.dest('./dist/js'))
 );
 
 gulp.task('js-without-option', () => gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 	.pipe($.plumber())
-	.pipe($.babel())
 	.pipe($.concat('stile.min.js'))
+	.pipe($.babel())
 	.pipe($.uglify())
 	.pipe(gulp.dest('./dist/js'))
 );
