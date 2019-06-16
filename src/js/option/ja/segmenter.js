@@ -3,7 +3,7 @@
  * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -29,7 +29,7 @@ window.ST = window['ST'] || {};
 	const JOSHI_H = {};
 	for (let i = 0; i < JOSHI_A.length; i += 1) JOSHI_H[JOSHI_A[i]] = true;
 
-	NS.addInitializer(6, () => {
+	NS.addInit(6, () => {
 		for (let i = 1; i <= 6; i += 1) {
 			let ts = document.querySelectorAll(TARGET_SELECTOR + ' h' + i + ':not([class])');
 			for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);

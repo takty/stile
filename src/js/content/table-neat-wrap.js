@@ -3,7 +3,7 @@
  * Table Style - Neat Wrap (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-16
  *
  */
 
@@ -24,7 +24,7 @@ window.ST = window['ST'] || {};
 	const IS_COMPAT_MODE      = (NS.BROWSER === 'ie11');
 
 
-	NS.addInitializer(4, () => {
+	NS.addInit(4, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);
 	});

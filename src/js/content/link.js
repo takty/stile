@@ -3,7 +3,7 @@
  * Link Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  * The function 'isExternalUrl' can be overwritten as follows:
  * <script>ST.isExternalUrl = function (url) { return true; }</script>
@@ -24,7 +24,7 @@ window.ST = window['ST'] || {};
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
 	NS.isImageLink = isImageLink;  // Export the function
-	NS.addInitializer(2, () => {
+	NS.addInit(2, () => {
 		let as = document.querySelectorAll(SEL_TARGET + ' a');
 		modifyAnchorStyle(as);
 		as = document.querySelectorAll(SEL_TARGET_ANCHOR + ' a');

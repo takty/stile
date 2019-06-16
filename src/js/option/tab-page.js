@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -20,7 +20,7 @@ window.ST = window['ST'] || {};
 
 	const PAGE_HEIGHT_WINDOW_HEIGHT_RATIO = 0.8;
 
-	NS.addInitializer(3, () => {
+	NS.addInit(3, () => {
 		const tabPages = [];
 		const tps = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < tps.length; i += 1) {

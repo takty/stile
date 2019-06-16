@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-16
  *
  */
 
@@ -35,7 +35,7 @@ window.ST = window['ST'] || {};
 	})();
 	let scrollBarWidth;
 
-	NS.addInitializer(5, () => {
+	NS.addInit(5, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);  // Delay for IE11
 	});

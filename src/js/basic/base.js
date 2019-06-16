@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-06
+ * @version 2019-06-16
  *
  */
 
@@ -21,7 +21,7 @@ window.ST = window['ST'] || {};
 		}
 	});
 
-	NS.addInitializer = (level, fn) => { initLevels[level].push(fn); }
+	NS.addInit = (level, fn) => { initLevels[level].push(fn); }
 
 
 	// -------------------------------------------------------------------------

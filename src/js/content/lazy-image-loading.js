@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-16
  *
  */
 
@@ -17,7 +17,7 @@ window.ST = window['ST'] || {};
 	const OFFSET     = 100;
 
 
-	NS.addInitializer(5, initialize);
+	NS.addInit(5, initialize);
 
 
 	// -------------------------------------------------------------------------

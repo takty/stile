@@ -3,7 +3,7 @@
  * Block Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-16
  *
  */
 
@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET = '.stile';
 
 
-	NS.addInitializer(2, () => {
+	NS.addInit(2, () => {
 		const fs = document.querySelectorAll(SEL_TARGET + ' iframe');
 		modifyIframeStyle(fs);
 		const figs = document.querySelectorAll(SEL_TARGET + ' figure');

@@ -4,7 +4,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -46,7 +46,7 @@ window.ST = window['ST'] || {};
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
 
-	NS.addInitializer(7, function () {
+	NS.addInit(7, function () {
 		let ts = document.querySelectorAll(TARGET_SELECTOR);
 		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
 		ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);

@@ -3,7 +3,7 @@
  * Query Functions for Responsive and Browsers (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-11
+ * @version 2019-06-16
  *
  */
 
@@ -61,7 +61,7 @@ window.ST = window['ST'] || {};
 		NS.BROWSER = 'firefox';
 	}
 
-	NS.addInitializer(0, () => {
+	NS.addInit(0, () => {
 		const ua = window.navigator.userAgent.toLowerCase();
 		const cl = document.body.classList;
 

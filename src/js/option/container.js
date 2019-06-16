@@ -3,7 +3,7 @@
  * Container Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-10
+ * @version 2019-06-16
  *
  */
 
@@ -15,7 +15,7 @@ window.ST = window['ST'] || {};
 
 	const TARGET_SELECTOR = '.stile';
 
-	NS.addInitializer(1, () => {
+	NS.addInit(1, () => {
 		let cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-3');
 		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 3);
 		cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-4');

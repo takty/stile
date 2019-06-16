@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-13
+ * @version 2019-06-16
  *
  */
 
@@ -23,7 +23,7 @@ window.ST = window['ST'] || {};
 	const STILE_STATE_VISIBLE         = 'visible';
 	const SIZE_BOX_PADDING            = '4rem';
 
-	NS.addInitializer(7, () => {
+	NS.addInit(7, () => {
 		const objs = [];
 
 		const as1 = document.querySelectorAll(TARGET_SELECTOR + ' a');

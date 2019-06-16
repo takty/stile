@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const CLS_TARGET = 'stile';
 
 
-	NS.addInitializer(4, () => {
+	NS.addInit(4, () => {
 		setStyleForInsideOf(document.getElementsByClassName(CLS_TARGET));
 		setStyleDirectlyFor(document.getElementsByTagName('ul'), CLS_TARGET);
 		setStyleDirectlyFor(document.getElementsByTagName('ol'), CLS_TARGET);

@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -22,7 +22,7 @@ window.ST = window['ST'] || {};
 
 	NS.onClickAnchorLink = onClickAnchorLink;  // Export the function
 	NS.jumpToElement     = jumpToElement;      // Export the function
-	NS.addInitializer(4, initialize);
+	NS.addInit(4, initialize);
 
 	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 

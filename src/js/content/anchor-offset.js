@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-16
  *
  */
 
@@ -23,7 +23,7 @@ window.ST = window['ST'] || {};
 	const ST_ANCHOR_OFFSET   = 'anchor-offset';
 
 	NS.assignAnchorOffset = assignAnchorOffset;  // Export the function
-	NS.addInitializer(2, initializeAnchorOffset);
+	NS.addInit(2, initializeAnchorOffset);
 
 	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 
