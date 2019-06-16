@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-06-17
  *
  */
 
@@ -84,10 +84,7 @@ window.ST = window['ST'] || {};
 	function getFirstHeading(container) {
 		const cs = container.children;
 		for (let i = 0; i < cs.length; i += 1) {
-			const tn = cs[i].tagName;
-			if (tn[0] === 'H' && (tn[1] === '1' || tn[1] === '2' || tn[1] === '3' || tn[1] === '4' || tn[1] === '5' || tn[1] === '6')) {
-				return cs[i];
-			}
+			if (/^H[1-6]$/.test(cs[i].tagName)) return cs[i];
 		}
 		return null;
 	}

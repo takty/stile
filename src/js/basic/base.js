@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-06-17
  *
  */
 
@@ -13,7 +13,7 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const initLevels = [[], [], [], [], [], [], [], []];
+	const initLevels = [[], [], [], [], [], []];
 
 	document.addEventListener('DOMContentLoaded', () => {
 		for (let inits of initLevels) {
@@ -24,22 +24,12 @@ window.ST = window['ST'] || {};
 	NS.addInit = (level, fn) => { initLevels[level].push(fn); }
 
 
-	// Old
-	// 0: query
-	// 1: alignment, container
-	// 2: anchor-offset, block, inline, link
-	// 3: pseudo-tab-page, tab-page
-	// 4: anchor-scroll, list, table-neat-wrap
-	// 5: lazy-image-loading, table-fixed-header
-	// 6: segmenter
-	// 7: image-box, kerning
-
-	// New
 	// 0: query
 	// 1: inline, link, anchor-offset, segmenter
-	// 2: lazy-image-loading, image-box, anchor-scroll, kerning
+	// 2: lazy-image-loading, image-box, kerning
 	// 3: block, list, table-neat-wrap
 	// 4: alignment, container, pseudo-tab-page, tab-page, table-fixed-header
+	// 5: anchor-scroll
 
 
 	// -------------------------------------------------------------------------
