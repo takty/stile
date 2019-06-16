@@ -14,9 +14,7 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const CLS_STICKY_ELM     = 'st-sticky-header';
-	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
-	const SEL_TARGET         = '.stile';
+	const SEL_TARGET = '.stile';
 
 	const ST_HEADER_CONTAINER = 'fixed-table-header-container';
 	const ST_HEADER_TABLE     = 'fixed-table-header-table';
@@ -30,7 +28,7 @@ window.ST = window['ST'] || {};
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
 	const getTableHeaderOffset = (function () {
-		const f = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+		const f = NS.makeOffsetFunction();
 		return () => f() + NS.getWpAdminBarHeight();
 	})();
 	let scrollBarWidth;

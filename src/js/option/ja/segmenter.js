@@ -13,8 +13,8 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
-	const TARGET_SELECTOR_SEGMENTER = '.stile-segmenter';
+	const SEL_TARGET = '.stile';
+	const SEL_TARGET_SEGMENTER = '.stile-segmenter';
 
 	const CTYPES = ['S', 'E', 'I', 'K', 'H'];
 	const CPATS = {
@@ -31,10 +31,10 @@ window.ST = window['ST'] || {};
 
 	NS.addInit(6, () => {
 		for (let i = 1; i <= 6; i += 1) {
-			let ts = document.querySelectorAll(TARGET_SELECTOR + ' h' + i + ':not([class])');
+			let ts = document.querySelectorAll(SEL_TARGET + ' h' + i + ':not([class])');
 			for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);
 		}
-		let ts = document.querySelectorAll(TARGET_SELECTOR_SEGMENTER);
+		let ts = document.querySelectorAll(SEL_TARGET_SEGMENTER);
 		for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);
 	});
 

@@ -14,8 +14,8 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
-	const TARGET_SELECTOR_KERNING = '.stile-kerning';
+	const SEL_TARGET = '.stile';
+	const SEL_TARGET_KERNING = '.stile-kerning';
 	const ST_NO_KERNING = 'no-kerning';
 
 	const OFFSET_KERNING_PAIR = -0.4;
@@ -47,9 +47,9 @@ window.ST = window['ST'] || {};
 	);
 
 	NS.addInit(7, function () {
-		let ts = document.querySelectorAll(TARGET_SELECTOR);
+		let ts = document.querySelectorAll(SEL_TARGET);
 		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
-		ts = document.querySelectorAll(TARGET_SELECTOR_KERNING);
+		ts = document.querySelectorAll(SEL_TARGET_KERNING);
 		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
 	});
 

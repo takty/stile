@@ -14,21 +14,21 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR             = '.stile';
-	const TARGET_SELECTOR_IMAGE_BOX   = '.stile-image-box';
-	const STILE_CLS_IMAGE_BOX         = 'image-box';
-	const STILE_CLS_IMAGE_BOX_CLOSE   = 'image-box-close';
-	const STILE_CLS_IMAGE_BOX_CAPTION = 'image-box-caption';
-	const STILE_STATE_OPEN            = 'open';
-	const STILE_STATE_VISIBLE         = 'visible';
-	const SIZE_BOX_PADDING            = '4rem';
+	const SEL_TARGET           = '.stile';
+	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
+	const ST_IMAGE_BOX         = 'image-box';
+	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
+	const ST_IMAGE_BOX_CAPTION = 'image-box-caption';
+	const ST_STATE_OPEN        = 'open';
+	const ST_STATE_VISIBLE     = 'visible';
+	const SIZE_BOX_PADDING     = '4rem';
 
 	NS.addInit(7, () => {
 		const objs = [];
 
-		const as1 = document.querySelectorAll(TARGET_SELECTOR + ' a');
+		const as1 = document.querySelectorAll(SEL_TARGET + ' a');
 		modifyImageAnchorStyle(as1, objs);
-		const as2 = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
+		const as2 = document.querySelectorAll(SEL_TARGET_IMAGE_BOX + ' a');
 		modifyImageAnchorStyle(as2, objs);
 
 		NS.onResize(() => {
@@ -122,7 +122,7 @@ window.ST = window['ST'] || {};
 			a.addEventListener('click', (e) => { this.onOpen(e); });
 
 			this._frm = document.createElement('div');
-			NS.addStile(this._frm, STILE_CLS_IMAGE_BOX);
+			NS.addStile(this._frm, ST_IMAGE_BOX);
 			this._frm.addEventListener('click', (e) => { this.onClose(e); });
 
 			this._img = document.createElement('img');
@@ -130,7 +130,7 @@ window.ST = window['ST'] || {};
 			this._frm.appendChild(this._img);
 
 			const btn = document.createElement('span');
-			NS.addStile(btn, STILE_CLS_IMAGE_BOX_CLOSE);
+			NS.addStile(btn, ST_IMAGE_BOX_CLOSE);
 			this._frm.appendChild(btn);
 
 			if (a.parentNode.tagName === 'FIGURE') {
@@ -138,7 +138,7 @@ window.ST = window['ST'] || {};
 				if (0 < fcs.length) {
 					const cap = document.createElement('div');
 					cap.innerHTML = fcs[0].innerHTML;
-					NS.addStile(cap, STILE_CLS_IMAGE_BOX_CAPTION);
+					NS.addStile(cap, ST_IMAGE_BOX_CAPTION);
 					this._frm.appendChild(cap);
 				}
 			}
@@ -150,7 +150,7 @@ window.ST = window['ST'] || {};
 
 		onOpen(e) {
 			e.preventDefault();
-			NS.addStile(this._frm, STILE_STATE_OPEN);
+			NS.addStile(this._frm, ST_STATE_OPEN);
 			if (!this._img.src) {
 				this._img.style.opacity = '0';
 				this._img.src = this._src;
@@ -162,14 +162,14 @@ window.ST = window['ST'] || {};
 			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
 			setTimeout(() => {
 				this.setInitialSize();
-				NS.addStile(this._frm, STILE_STATE_VISIBLE);
+				NS.addStile(this._frm, ST_STATE_VISIBLE);
 			}, delay);
 		}
 
 		onClose(e) {
 			e.preventDefault();
-			NS.removeStile(this._frm, STILE_STATE_VISIBLE);
-			setTimeout(() => { NS.removeStile(this._frm, STILE_STATE_OPEN); }, 200);
+			NS.removeStile(this._frm, ST_STATE_VISIBLE);
+			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
 		}
 
 		setInitialSize() {  // Called also when 'onResize'

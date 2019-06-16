@@ -24,6 +24,16 @@ window.ST = window['ST'] || {};
 	NS.addInit = (level, fn) => { initLevels[level].push(fn); }
 
 
+	// 0: query
+	// 1: alignment, container
+	// 2: anchor-offset, block, inline, link
+	// 3: pseudo-tab-page, tab-page
+	// 4: anchor-scroll, list, table-neat-wrap
+	// 5: lazy-image-loading, table-fixed-header
+	// 6: segmenter
+	// 7: image-box, kerning
+
+
 	// -------------------------------------------------------------------------
 
 
@@ -93,11 +103,14 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	NS.makeOffsetFunction = (fixedElementClass, fixedTopClass) => {
-		let elmFixed = document.getElementsByClassName(fixedElementClass);
+	const CLS_STICKY_ELM     = 'st-sticky-header';
+	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+
+	NS.makeOffsetFunction = () => {
+		let elmFixed = document.getElementsByClassName(CLS_STICKY_ELM);
 		if (elmFixed && elmFixed.length > 0) {
 			elmFixed = elmFixed[0];
-			const elmTops = document.getElementsByClassName(fixedTopClass);
+			const elmTops = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
 			if (elmTops && elmTops.length > 0) {
 				return () => {
 					const pos = getComputedStyle(elmFixed).position;

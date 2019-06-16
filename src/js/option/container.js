@@ -13,12 +13,12 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
+	const SEL_TARGET = '.stile';
 
 	NS.addInit(1, () => {
-		let cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-3');
+		let cs = document.querySelectorAll(SEL_TARGET + ' .card-3');
 		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 3);
-		cs = document.querySelectorAll(TARGET_SELECTOR + ' .card-4');
+		cs = document.querySelectorAll(SEL_TARGET + ' .card-4');
 		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 4);
 	});
 

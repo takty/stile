@@ -13,13 +13,17 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
+	const SEL_TARGET = '.stile';
 	const WIDTH_MIN = 240;  // px
 
+	const CLS_AL = 'alignleft';
+	const CLS_AR = 'alignright';
+	const CLS_AC = 'aligncenter';
+
 	NS.addInit(1, () => {
-		let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
-		let ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
-		const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
+		let als = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AL);
+		let ars = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AR);
+		const acs = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AC);
 		als = replaceAlignClass(als);
 		ars = replaceAlignClass(ars);
 		replaceAlignClass(acs);
@@ -27,8 +31,8 @@ window.ST = window['ST'] || {};
 		if (NS.BROWSER === 'ie11') return;
 
 		setTimeout(() => {
-			modifyAlignmentStyle(als, 'alignleft');
-			modifyAlignmentStyle(ars, 'alignright');
+			modifyAlignmentStyle(als, CLS_AL);
+			modifyAlignmentStyle(ars, CLS_AR);
 		}, 0);  // Delay
 	});
 
@@ -81,9 +85,9 @@ window.ST = window['ST'] || {};
 			const pw = contentWidth(a.parentElement, true);
 			if (pw - w < WIDTH_MIN) {
 				NS.removeStile(a, stile);
-				NS.addStile(a, 'aligncenter');
+				NS.addStile(a, CLS_AC);
 			} else {
-				NS.removeStile(a, 'aligncenter');
+				NS.removeStile(a, CLS_AC);
 				NS.addStile(a, stile);
 			}
 		}
@@ -107,9 +111,9 @@ window.ST = window['ST'] || {};
 			const p = c.parentNode;
 			let replace = false;
 			if (p.tagName === 'A' && NS.isImageLink(p)) {
-				if (moveClass(c, p, 'alignleft'))   replace = true;
-				if (moveClass(c, p, 'aligncenter')) replace = true;
-				if (moveClass(c, p, 'alignright'))  replace = true;
+				if (moveClass(c, p, CLS_AL))   replace = true;
+				if (moveClass(c, p, CLS_AC)) replace = true;
+				if (moveClass(c, p, CLS_AR))  replace = true;
 			}
 			ret.push(replace ? p : c);
 		}

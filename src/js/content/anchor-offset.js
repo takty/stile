@@ -15,12 +15,9 @@ window.ST = window['ST'] || {};
 
 	const OFFSET = (NS.ANCHOR_OFFSET_ADDITIONAL !== undefined) ? NS.ANCHOR_OFFSET_ADDITIONAL : 16;
 
-	const CLS_STICKY_ELM     = 'st-sticky-header';
-	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
-	const CLS_LINK_TARGET    = 'stile-link-target';
-	const SEL_TARGET         = '.stile *[id]:not([class])';
-
-	const ST_ANCHOR_OFFSET   = 'anchor-offset';
+	const SEL_TARGET       = '.stile *[id]:not([class])';
+	const CLS_LINK_TARGET  = 'stile-link-target';
+	const ST_ANCHOR_OFFSET = 'anchor-offset';
 
 	NS.assignAnchorOffset = assignAnchorOffset;  // Export the function
 	NS.addInit(2, initializeAnchorOffset);
@@ -31,7 +28,7 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	const getAnchorOffset = NS.makeOffsetFunction(CLS_STICKY_ELM, CLS_STICKY_ELM_TOP);
+	const getAnchorOffset = NS.makeOffsetFunction();
 
 	function initializeAnchorOffset() {
 		if (OFFSET + getAnchorOffset() !== 0) {
