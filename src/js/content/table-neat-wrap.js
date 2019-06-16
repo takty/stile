@@ -24,7 +24,7 @@ window.ST = window['ST'] || {};
 	const IS_COMPAT_MODE      = (NS.BROWSER === 'ie11');
 
 
-	NS.addInit(4, () => {
+	NS.addInit(3, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);
 	});

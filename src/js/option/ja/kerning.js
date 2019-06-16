@@ -46,7 +46,7 @@ window.ST = window['ST'] || {};
 		['「', '『', '（', '［', '｛', '〈', '《', '【', '〔']
 	);
 
-	NS.addInit(7, function () {
+	NS.addInit(2, function () {
 		let ts = document.querySelectorAll(SEL_TARGET);
 		for (let i = 0; i < ts.length; i += 1) applyKerningToElement(ts[i], kerningInfo);
 		ts = document.querySelectorAll(SEL_TARGET_KERNING);

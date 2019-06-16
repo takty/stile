@@ -29,7 +29,7 @@ window.ST = window['ST'] || {};
 	const JOSHI_H = {};
 	for (let i = 0; i < JOSHI_A.length; i += 1) JOSHI_H[JOSHI_A[i]] = true;
 
-	NS.addInit(6, () => {
+	NS.addInit(1, () => {
 		for (let i = 1; i <= 6; i += 1) {
 			let ts = document.querySelectorAll(SEL_TARGET + ' h' + i + ':not([class])');
 			for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);

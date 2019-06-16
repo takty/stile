@@ -15,7 +15,7 @@ window.ST = window['ST'] || {};
 
 	const SEL_TARGET = '.stile';
 
-	NS.addInit(1, () => {
+	NS.addInit(4, () => {
 		let cs = document.querySelectorAll(SEL_TARGET + ' .card-3');
 		for (let i = 0; i < cs.length; i += 1) modifyCardStyle(cs[i], 3);
 		cs = document.querySelectorAll(SEL_TARGET + ' .card-4');

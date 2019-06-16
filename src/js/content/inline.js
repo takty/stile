@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET = '.stile';
 
 
-	NS.addInit(2, () => {
+	NS.addInit(1, () => {
 		const spans = document.querySelectorAll(SEL_TARGET + ' span');
 		modifySpanStyle(spans);
 	});

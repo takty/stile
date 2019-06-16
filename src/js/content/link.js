@@ -24,7 +24,7 @@ window.ST = window['ST'] || {};
 	const EXT_TABLE = { doc: 'word', docx: 'word', xls: 'excel', xlsx: 'excel', ppt: 'powerpoint', pptx: 'powerpoint', pdf: 'pdf' };
 
 	NS.isImageLink = isImageLink;  // Export the function
-	NS.addInit(2, () => {
+	NS.addInit(1, () => {
 		let as = document.querySelectorAll(SEL_TARGET + ' a');
 		modifyAnchorStyle(as);
 		as = document.querySelectorAll(SEL_TARGET_ANCHOR + ' a');

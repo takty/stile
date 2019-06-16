@@ -20,7 +20,7 @@ window.ST = window['ST'] || {};
 	const ST_ANCHOR_OFFSET = 'anchor-offset';
 
 	NS.assignAnchorOffset = assignAnchorOffset;  // Export the function
-	NS.addInit(2, initializeAnchorOffset);
+	NS.addInit(1, initializeAnchorOffset);
 
 	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 

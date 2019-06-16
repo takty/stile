@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET = '.stile';
 
 
-	NS.addInit(2, () => {
+	NS.addInit(3, () => {
 		const fs = document.querySelectorAll(SEL_TARGET + ' iframe');
 		modifyIframeStyle(fs);
 		const figs = document.querySelectorAll(SEL_TARGET + ' figure');

@@ -16,7 +16,7 @@ window.ST = window['ST'] || {};
 	const CLS_TARGET = 'stile';
 
 
-	NS.addInit(4, () => {
+	NS.addInit(3, () => {
 		setStyleForInsideOf(document.getElementsByClassName(CLS_TARGET));
 		setStyleDirectlyFor(document.getElementsByTagName('ul'), CLS_TARGET);
 		setStyleDirectlyFor(document.getElementsByTagName('ol'), CLS_TARGET);

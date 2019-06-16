@@ -17,7 +17,7 @@ window.ST = window['ST'] || {};
 	const OFFSET     = 100;
 
 
-	NS.addInit(5, initialize);
+	NS.addInit(2, initialize);
 
 
 	// -------------------------------------------------------------------------

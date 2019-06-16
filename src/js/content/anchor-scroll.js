@@ -22,7 +22,7 @@ window.ST = window['ST'] || {};
 
 	NS.onClickAnchorLink = onClickAnchorLink;  // Export the function
 	NS.jumpToElement     = jumpToElement;      // Export the function
-	NS.addInit(4, initialize);
+	NS.addInit(2, initialize);
 
 	function scrollTo(tar) { window.scrollTo(0, tar.getBoundingClientRect().top + window.pageYOffset); }
 

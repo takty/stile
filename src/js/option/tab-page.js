@@ -20,7 +20,7 @@ window.ST = window['ST'] || {};
 
 	const PAGE_HEIGHT_WINDOW_HEIGHT_RATIO = 0.8;
 
-	NS.addInit(3, () => {
+	NS.addInit(4, () => {
 		const tabPages = [];
 		const tps = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < tps.length; i += 1) {

@@ -23,7 +23,7 @@ window.ST = window['ST'] || {};
 	const ST_STATE_VISIBLE     = 'visible';
 	const SIZE_BOX_PADDING     = '4rem';
 
-	NS.addInit(7, () => {
+	NS.addInit(2, () => {
 		const objs = [];
 
 		const as1 = document.querySelectorAll(SEL_TARGET + ' a');

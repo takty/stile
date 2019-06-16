@@ -24,6 +24,7 @@ window.ST = window['ST'] || {};
 	NS.addInit = (level, fn) => { initLevels[level].push(fn); }
 
 
+	// Old
 	// 0: query
 	// 1: alignment, container
 	// 2: anchor-offset, block, inline, link
@@ -32,6 +33,13 @@ window.ST = window['ST'] || {};
 	// 5: lazy-image-loading, table-fixed-header
 	// 6: segmenter
 	// 7: image-box, kerning
+
+	// New
+	// 0: query
+	// 1: inline, link, anchor-offset, segmenter
+	// 2: lazy-image-loading, image-box, anchor-scroll, kerning
+	// 3: block, list, table-neat-wrap
+	// 4: alignment, container, pseudo-tab-page, tab-page, table-fixed-header
 
 
 	// -------------------------------------------------------------------------

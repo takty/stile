@@ -19,7 +19,7 @@ window.ST = window['ST'] || {};
 	const ST_STATE_CURRENT    = 'current';
 	const SINGLE_TAB          = true;
 
-	NS.addInit(3, () => {
+	NS.addInit(4, () => {
 		const tabUlss = [];
 		const tps = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < tps.length; i += 1) {

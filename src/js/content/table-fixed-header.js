@@ -33,7 +33,7 @@ window.ST = window['ST'] || {};
 	})();
 	let scrollBarWidth;
 
-	NS.addInit(5, () => {
+	NS.addInit(4, () => {
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);  // Delay for IE11
 	});

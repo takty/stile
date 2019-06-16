@@ -20,7 +20,7 @@ window.ST = window['ST'] || {};
 	const CLS_AR = 'alignright';
 	const CLS_AC = 'aligncenter';
 
-	NS.addInit(1, () => {
+	NS.addInit(4, () => {
 		let als = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AL);
 		let ars = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AR);
 		const acs = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AC);
