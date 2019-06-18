@@ -48,9 +48,10 @@ html {
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
 	box-sizing: inherit;
+	background-repeat: no-repeat;
 }
 
 main {
@@ -62,8 +63,8 @@ main {
 
 
 html {
-	-webkit-text-size-adjust: 100%;  // for iOS
 	line-height: 1;
+	-webkit-text-size-adjust: 100%;  // for iOS
 
 	-moz-tab-size: 4;
 	     tab-size: 4;
