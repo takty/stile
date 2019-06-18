@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-19
  *
  */
 
@@ -13,14 +13,14 @@
 	@if $side-margin != false {
 		$w: calc(100% - #{$side-margin * 2});
 	}
-	margin: { left: auto; right: auto; }
+	margin   : { left: auto; right: auto; }
 	max-width: $max-width;  // must be max-width for Android Chrome
 	width: $w;  // must be width for Android Chrome
 }
 
 @mixin layout-width-responsive($cont-width, $min-width, $max-width) {
 	min-width: $min-width;
-	width: calc((#{$cont-width} - 100%) * 1000);
+	width    : calc((#{$cont-width} - 100%) * 1000);
 	max-width: $max-width;
 }
 
@@ -37,8 +37,8 @@
 
 
 @mixin layout-centering($inline: false) {
-	display: if($inline == false, flex, inline-flex);
-	align-items: center;
+	display        : if($inline == false, flex, inline-flex);
+	align-items    : center;
 	justify-content: center;
 }
 
@@ -58,10 +58,10 @@
 
 @mixin layout-fill-self() {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	top     : 0;
+	left    : 0;
+	right   : 0;
+	bottom  : 0;
 }
 
 
@@ -78,8 +78,8 @@
 
 @mixin _layout-aspect-fixed($width, $height) {
 	&:before {
-		content: '';
-		display: block;
+		content    : '';
+		display    : block;
 		padding-top: percentage($height / $width);
 	}
 	position: relative;
@@ -93,7 +93,7 @@
 	}
 	&::before {
 		padding-top: percentage($height / $width);
-		float: right;
+		float      : right;
 	}
 	&::after { clear: both; }
 	> * {
@@ -110,9 +110,9 @@
 	> * {  // This must be 'replaced element'
 		margin: auto;
 
-		width: auto !important;
-		height: auto !important;
-		max-width: 100% !important;
+		width     : auto !important;
+		height    : auto !important;
+		max-width : 100% !important;
 		max-height: 100% !important;
 	}
 }
@@ -139,8 +139,8 @@
 }
 
 @mixin layout-wrap($gap: false, $align-left: true) {
-	display: flex;
-	flex-wrap: wrap;
+	display        : flex;
+	flex-wrap      : wrap;
 	justify-content: if($align-left, left, center);
 
 	@if $gap != false {
@@ -156,8 +156,8 @@
 	$gap_x: if(length($gap) == 2, nth($gap, 1), $gap);
 	$gap_y: if(length($gap) == 2, nth($gap, 2), $gap);
 
-	display: flex;
-	flex-flow: row wrap;
+	display        : flex;
+	flex-flow      : row wrap;
 	justify-content: space-between;
 
 	@if $gap_y != false {
@@ -179,15 +179,15 @@
 		$mw: calc(#{$mw} - #{$cg});
 	}
 	> * {
-		max-width: 100%;
+		max-width : 100%;
 		flex-basis: calc((#{$cont-width} - 100%) * 1000);
 		min-width: $mw;
 	}
 }
 
 @mixin _layout-wrap-responsive-ratio($cont-width, $rn, $gap_x: false) {
-	$n: length($rs);
-	$cg: if($gap_x == false, 0, $gap_x * ($n - 1) / $n);
+	$n  : length($rs);
+	$cg : if($gap_x == false, 0, $gap_x * ($n - 1) / $n);
 	$sum: 0;
 	@each $r in $rs { $sum: $sum + $r; }
 
@@ -201,7 +201,7 @@
 		}
 	}
 	> * {
-		max-width: 100%;
+		max-width : 100%;
 		flex-basis: calc((#{$cont-width} - 100%) * 1000);
 	}
 }
@@ -223,7 +223,7 @@
 }
 
 @mixin _layout-column-equal($n, $gap: false) {
-	flex-direction: row;
+	flex-direction : row;
 	justify-content: space-between;
 
 	$mw: 100% / $n;
@@ -232,22 +232,22 @@
 		$mw: calc(#{$mw} - #{$cg});
 	}
 	> * {
-		width: 100%;
-		max-width: $mw;
+		width     : 100%;
+		max-width : $mw;
 		margin-top: 0;  // For canceling _layout-column-cancel
 	}
 }
 
 @mixin _layout-column-ratio($rs, $gap: false) {
-	flex-direction: row;
+	flex-direction : row;
 	justify-content: space-between;
 
 	> * {
-		width: 100%;
+		width     : 100%;
 		margin-top: 0;  // For canceling _layout-column-cancel
 	}
-	$n: length($rs);
-	$cg: if($gap == false, 0, $gap * ($n - 1) / $n);
+	$n  : length($rs);
+	$cg : if($gap == false, 0, $gap * ($n - 1) / $n);
 	$sum: 0;
 	@each $r in $rs { $sum: $sum + $r; }
 
@@ -279,8 +279,8 @@
 	$gap_x: if(length($gap) == 2, nth($gap, 1), $gap);
 	$gap_y: if(length($gap) == 2, nth($gap, 2), $gap);
 
-	display: flex;
-	flex-flow: row wrap;
+	display        : flex;
+	flex-flow      : row wrap;
 	justify-content: space-between;
 
 	$mw: 100% / $n;
@@ -290,7 +290,7 @@
 	}
 
 	> * {
-		width: 100%;
+		width    : 100%;
 		max-width: $mw;
 
 		@if $gap != false {
@@ -334,11 +334,11 @@
 		$gap_y: nth($gap, 2);
 	}
 	column-count: $n;
-	column-gap: $gap_x;
+	column-gap  : $gap_x;
 
 	> * {
 		break-inside: avoid;
-		overflow: hidden;  // for removing spaces on the bottom on Chrome
+		overflow    : hidden;  // for removing spaces on the bottom on Chrome
 
 		// for removing spaces on the bottom on Edge and IE11
 		// border: { top: none; bottom: none !important; }
@@ -354,17 +354,17 @@
 @mixin _layout-masonry-alt($gap_y) {
 	line-height: 0;
 	> * {
-		display: inline-block;
-		width: 100%;
+		display    : inline-block;
+		width      : 100%;
 		line-height: 1;
 	}
 	@if $gap_y != false {
 		&::after {
-			content: '';
-			display: block;
-			width: 100%;
+			content      : '';
+			display      : block;
+			width        : 100%;
 			margin-bottom: - $gap_y;
-			column-span: all;
+			column-span  : all;
 		}
 		> * + * { margin-top: 0; }
 		> * { margin-bottom: $gap_y; }

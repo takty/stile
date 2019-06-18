@@ -3,7 +3,7 @@
  * Font Settings [JA]
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-19
  *
  */
 
@@ -26,37 +26,37 @@ $stile-font-monospace-ja-fallback : 'Osaka-Mono' !default;
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: 100;
-	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: 200;
-	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: 300;
-	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: 400;
-	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: normal;
-	src: local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGothic-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Gothic C';
 	font-weight: bold;
-	src: local('Yu Gothic Bold'), local('YuGothic-Bold');
+	src        : local('Yu Gothic Bold'), local('YuGothic-Bold');
 }
 
 
@@ -66,37 +66,37 @@ $stile-font-monospace-ja-fallback : 'Osaka-Mono' !default;
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 100;
-	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 200;
-	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 300;
-	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: 400;
-	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: normal;
-	src: local('Yu Mincho Regular'), local('YuMincho-Regular');
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
 }
 
 @font-face {
 	font-family: 'Yu Mincho';
 	font-weight: bold;
-	src: local('Yu Mincho Demibold'), local('YuMincho-Demibold');
+	src        : local('Yu Mincho Demibold'), local('YuMincho-Demibold');
 }
 
 
@@ -106,23 +106,23 @@ $stile-font-monospace-ja-fallback : 'Osaka-Mono' !default;
 @font-face {  // for Italic Japanese on IE11
 	font-family: Meiryo;
 	font-weight: normal;
-	src: local('Meiryo');
+	src        : local('Meiryo');
 }
 
 @font-face {  // for Bold Japanese on IE11
 	font-family: Meiryo;
 	font-weight: bold;
-	src: local('Meiryo Bold');
+	src        : local('Meiryo Bold');
 }
 
 @font-face {  // for Serif Japanese on IE11 but bad quality when small size
 	font-family: 'HG Mincho';
 	font-weight: normal;
-	src: local('HGMinchoB');
+	src        : local('HGMinchoB');
 }
 
 @font-face {  // for Serif Japanese on IE11 but bad quality when small size
 	font-family: 'HG Mincho';
 	font-weight: bold;
-	src: local('HGMinchoE');
+	src        : local('HGMinchoE');
 }

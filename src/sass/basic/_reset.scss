@@ -50,7 +50,7 @@ html {
 *,
 *::before,
 *::after {
-	box-sizing: inherit;
+	box-sizing       : inherit;
 	background-repeat: no-repeat;
 }
 
@@ -63,7 +63,7 @@ main {
 
 
 html {
-	line-height: 1;
+	line-height             : 1;
 	-webkit-text-size-adjust: 100%;  // for iOS
 
 	-moz-tab-size: 4;
@@ -78,17 +78,17 @@ html {
 
 a,
 a:visited {
-	color: inherit;
+	color          : inherit;
 	text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-size: 100%;
+	font-size  : 100%;
 	font-weight: normal;
 }
 
 mark {
-	color: inherit;
+	color           : inherit;
 	background-color: inherit;
 }
 
@@ -111,18 +111,18 @@ ul[class] {
 
 table {
 	border-collapse: collapse;
-	border-spacing: 0;
+	border-spacing : 0;
 }
 
 td, th {
-	padding: 0;
+	padding   : 0;
 	text-align: left;
 }
 
 img, iframe, embed, object, audio, video {
 	max-width: 100%;
-	height: auto;
-	border: none;
+	height   : auto;
+	border   : none;
 }
 
 

@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-03
+ * @version 2019-06-19
  *
  */
 
@@ -72,9 +72,9 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 	* + .pseudo-tab-page { margin-top: base-vr(6); }
 
 	.stile-pseudo-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
-		display: flex;
+		display        : flex;
 		justify-content: flex-start;
-		flex-wrap: wrap;
+		flex-wrap      : wrap;
 		@include layout-gap($stile-pseudo-tab-page-size-tab-margin, $stile-pseudo-tab-page-size-tab-margin);
 
 		clear: both;
@@ -86,12 +86,12 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 			overflow: hidden;
 
 			max-height: 50vh;
-			opacity: 1;
+			opacity   : 1;
 			&:not([data-stile ~= 'immediately']) { transition: max-height 2s, opacity 2s; }
 
 			&[data-stile ~= 'hidden'] {
 				max-height: 0;
-				opacity: 0;
+				opacity   : 0;
 				&:not([data-stile ~= 'immediately']) { transition: max-height 1s, opacity 1s; }
 			}
 			&:focus {
@@ -111,33 +111,33 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 	.stile-pseudo-tab-page-tab-list li {
 		@include layout-centering();
 
-		min-height: $stile-pseudo-tab-page-size-tab-height;
-		user-select: none;
+		min-height   : $stile-pseudo-tab-page-size-tab-height;
+		user-select  : none;
 		border-radius: 1px;
 
-		background-color: $stile-pseudo-tab-page-color-tab-background;
-		color: $stile-pseudo-tab-page-color-tab-text;
-		border: 1px solid $stile-pseudo-tab-page-color-tab-rule;
+		background-color  : $stile-pseudo-tab-page-color-tab-background;
+		color             : $stile-pseudo-tab-page-color-tab-text;
+		border            : 1px solid $stile-pseudo-tab-page-color-tab-rule;
 		border-right-color: transparent;
 
 		&:not([data-stile ~= 'current']) > a:hover {
 			background-color: $stile-pseudo-tab-page-color-tab-background-hover;
-			color: $stile-pseudo-tab-page-color-tab-text-hover;
+			color           : $stile-pseudo-tab-page-color-tab-text-hover;
 		}
 		&[data-stile ~= 'current'] {
-			background-color: $stile-pseudo-tab-page-color-tab-current-background;
-			color: $stile-pseudo-tab-page-color-tab-text-current;
-			border: 1px solid $stile-pseudo-tab-page-color-tab-current-rule;
+			background-color  : $stile-pseudo-tab-page-color-tab-current-background;
+			color             : $stile-pseudo-tab-page-color-tab-text-current;
+			border            : 1px solid $stile-pseudo-tab-page-color-tab-current-rule;
 			border-right-color: transparent;
-			border-left: $stile-pseudo-tab-page-size-tab-current-top solid $stile-pseudo-tab-page-color-tab-current-top;
+			border-left       : $stile-pseudo-tab-page-size-tab-current-top solid $stile-pseudo-tab-page-color-tab-current-top;
 		}
 		@if $stile-pseudo-tab-page-visible-tab-separator == true {
 			&:not(:last-of-type)::after {
-				content: '';
-				width: 2px;
-				height: 1rem;
+				content    : '';
+				width      : 2px;
+				height     : 1rem;
 				border-left: 1px solid $stile-pseudo-tab-page-color-rule-vertical;
-				margin: 0 1rem;
+				margin     : 0 1rem;
 			}
 		}
 		a {

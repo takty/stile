@@ -66,7 +66,6 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		text-decoration    : none;
 		background-image   : linear-gradient(to right, $stile-inline-color-underline 0%, transparentize($stile-inline-color-underline, 0.25) 100%);
 		background-size    : 100% $stile-inline-width-underline;
-		background-repeat  : no-repeat;
 		background-position: left bottom;
 	}
 	span:not([data-stile]) {  // Before the script loaded
@@ -79,14 +78,12 @@ $stile-inline-size-font-monospace: 0.95em !default;
 		text-decoration    : none;
 		background-image   : linear-gradient(to right, $stile-inline-color-mark 0%, transparentize($stile-inline-color-mark, 0.45) 100%);
 		background-size    : 100% $stile-inline-width-mark;
-		background-repeat  : no-repeat;
 		background-position: left center;
 	}
 	del {
 		text-decoration    : none;
 		background-image   : linear-gradient(to right, $stile-inline-color-del 0%, transparentize($stile-inline-color-del, 0.25) 100%);
 		background-size    : 100% $stile-inline-width-del;
-		background-repeat  : no-repeat;
 		background-position: left 55%;
 	}
 	small {

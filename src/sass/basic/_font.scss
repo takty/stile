@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-05
+ * @version 2019-06-19
  *
  */
 
@@ -111,8 +111,8 @@ $stile-font-serif-android     : $stile-font-serif-laten-fallback,           seri
 
 @mixin font-smoothing {
 	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing : antialiased;
+	text-rendering         : optimizeLegibility;
 }
 
 @mixin font-visible-chrome {
@@ -175,9 +175,9 @@ $stile-font-serif-android     : $stile-font-serif-laten-fallback,           seri
 		$fs: map-get($sizes, $level);
 	} @else {
 		$level_c: ceil($level);
-		$fs_f: map-get($sizes, $level_f);
-		$fs_c: map-get($sizes, $level_c);
-		$fs: $fs_f * ($level_c - $level) + $fs_c * ($level - $level_f);
+		$fs_f   : map-get($sizes, $level_f);
+		$fs_c   : map-get($sizes, $level_c);
+		$fs     : $fs_f * ($level_c - $level) + $fs_c * ($level - $level_f);
 	}
 	font-size: $fs;
 

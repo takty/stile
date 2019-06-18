@@ -3,7 +3,7 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-20
+ * @version 2019-06-19
  *
  */
 
@@ -131,7 +131,7 @@ $_stile-list-img-marks: map-merge((
 		transform: translateY(-0.5em) scale(#{map-get($_stile-list-rate-marks, $style)});
 		@if map-get($_stile-list-img-marks, $style) != false {
 			background-image: map-get($_stile-list-img-marks, $style);
-			background-size: contain;
+			background-size : contain;
 		} @else {
 			@content;
 		}
@@ -148,29 +148,29 @@ $_stile-list-img-marks: map-merge((
 	list-style: none;
 
 	> li {
-		position: relative;
+		position   : relative;
 		line-height: base-vr(2);
 
 		&::before {
-			content: '';
+			content : '';
 			position: absolute;
-			display: block;
-			top: base-vr(1);
-			left: - base-vr(2);
-			width: 1em;
-			height: 1em;
+			display : block;
+			top     : base-vr(1);
+			left    : - base-vr(2);
+			width   : 1em;
+			height  : 1em;
 		}
 	}
 	@include stile-list-ul-inside-style(disc, true) {
-		border-radius: 50%;
+		border-radius   : 50%;
 		background-color: $stile-list-color-mark-ul;
 	}
 	@include stile-list-ul-inside-style(square) {
-		border-radius: 10%;
+		border-radius   : 10%;
 		background-color: $stile-list-color-mark-ul;
 	}
 	@include stile-list-ul-inside-style(circle) {
-		border: 0.2rem solid $stile-list-color-mark-ul;
+		border       : 0.2rem solid $stile-list-color-mark-ul;
 		border-radius: 50%;
 	}
 }
@@ -191,17 +191,17 @@ $_stile-list-img-marks: map-merge((
 
 	> li {
 		counter-increment: li;
-		display: table-row;
-		line-height: base-vr(2);
+		display          : table-row;
+		line-height      : base-vr(2);
 
 		&::before {
-			content: counter(li) '.';
-			display: table-cell;
-			min-width: base-vr(3);
+			content      : counter(li) '.';
+			display      : table-cell;
+			min-width    : base-vr(3);
 			padding-right: base-vr(1);
-			text-align: right;
+			text-align   : right;
+			color        : $stile-list-color-mark-ol;
 			@include font-bold;
-			color: $stile-list-color-mark-ol;
 		}
 	}
 	&[reversed],
@@ -223,11 +223,9 @@ $_stile-list-img-marks: map-merge((
 	&[start]:not([style *= 'counter-reset']) {
 		@include stile-list-indent(4, 3);
 		> li {
-			display: list-item;
+			display    : list-item;
 			line-height: base-vr(2);
-			&::before {
-				content: none;
-			}
+			&::before { content: none; }
 		}
 		> li + li { margin-top: base-vr(1); }
 	}

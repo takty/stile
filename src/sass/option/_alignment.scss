@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-07
+ * @version 2019-06-19
  *
  */
 
@@ -79,19 +79,19 @@ $stile-alignment-size-width         : 72rem !default;
 
 	*[data-stile ~= 'alignleft'],
 	*[data-stile ~= 'alignright'] {
-		margin-top: 0;
+		margin-top   : 0;
 		margin-bottom: base-vr(1);
-		transform: translateY(#{(base-vr(2) - 1rem) / 2});
-		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
+		transform    : translateY(#{(base-vr(2) - 1rem) / 2});
+		max-width    : calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'alignleft'] {
-		float: left;
-		margin-left: auto;
+		float       : left;
+		margin-left : auto;
 		margin-right: base-vr(2);
 	}
 	*[data-stile ~= 'alignright'] {
-		float: right;
-		margin-left: base-vr(2);
+		float       : right;
+		margin-left : base-vr(2);
 		margin-right: auto;
 	}
 	*[data-stile ~= 'aligncenter'] {
@@ -106,32 +106,32 @@ $stile-alignment-size-width         : 72rem !default;
 }
 
 @mixin stile-alignment-center {
-	display: block;
-	float: none;
-	margin: base-vr(2) auto;
-	transform: initial;
+	display   : block;
+	float     : none;
+	margin    : base-vr(2) auto;
+	transform : initial;
 	text-align: center;
-	clear: both;
+	clear     : both;
 }
 
 @mixin stile-alignment-float($max-width: false) {
 	&.alignleft,
 	&.alignright {
-		margin-top: 0;
+		margin-top   : 0;
 		margin-bottom: base-vr(1);
-		transform: translateY(#{(base-vr(2) - 1rem) / 2});
-		clear: none;
+		transform    : translateY(#{(base-vr(2) - 1rem) / 2});
+		clear        : none;
 		@if $max-width == false {
 			$max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 		}
 		max-width: $max-width;
 	}
 	&.alignleft {
-		float: left;
+		float       : left;
 		margin-right: base-vr(2);
 	}
 	&.alignright {
-		float: right;
+		float      : right;
 		margin-left: base-vr(2);
 	}
 }
@@ -162,8 +162,8 @@ $stile-alignment-size-width         : 72rem !default;
 		}
 		figure.alignleft,
 		figure.alignright {
-			&:not([data-stile ~= 'aligncenter']) > figcaption { 
-				padding-bottom: base-vr(1); 
+			&:not([data-stile ~= 'aligncenter']) > figcaption {
+				padding-bottom: base-vr(1);
 			}
 		}
 	}
@@ -193,28 +193,28 @@ $stile-alignment-size-width         : 72rem !default;
 @mixin stile-alignment-size {
 	.size-thumbnail {
 		max-width: 10rem;
-		width: 50%;  // Can be the half size
+		width    : 50%;  // Can be the half size
 	}
 	.size-small {
 		max-width: 10rem;
-		width: 100%;
+		width    : 100%;
 	}
 	.size-medium-small {
 		max-width: 15rem;
-		width: 100%;
+		width    : 100%;
 	}
 	.size-medium {
 		max-width: 20rem;
-		width: 100%;
+		width    : 100%;
 	}
 	.size-medium_large,  // For compatibility with WordPress-embed image size name
 	.size-medium-large {
 		max-width: 30rem;
-		width: 100%;
+		width    : 100%;
 	}
 	.size-large {
 		max-width: 40rem;
-		width: 100%;
+		width    : 100%;
 	}
 	td, th {
 		.size-thumbnail    { min-width: 5rem; }
@@ -235,14 +235,14 @@ $stile-alignment-size-width         : 72rem !default;
 	.alignfull,
 	.alignwide {
 		@include layout-full-width;
-		width: 100vw;
+		width    : 100vw;
 		max-width: initial;
 	}
 	.alignwide {
 		@media screen and (min-width: $wide-width) {
-			margin-left: #{($wide-width - $text-width) / -2};
+			margin-left : #{($wide-width - $text-width) / -2};
 			margin-right: #{($wide-width - $text-width) / -2};
-			max-width: $wide-width;
+			max-width   : $wide-width;
 		}
 	}
 }

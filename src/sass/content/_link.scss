@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-14
+ * @version 2019-06-19
  *
  */
 
@@ -26,29 +26,28 @@ $stile-link-size-gap          : 0.2em !default;
 
 
 @mixin stile-link-img($url) {
-	content: '';
-	display: inline-block;
+	content    : '';
+	display    : inline-block;
 	margin-left: $stile-link-size-gap;
 
-	width: 1em;
-	height: 1em;
+	width           : 1em;
+	height          : 1em;
 	background-image: #{$url};
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-size : contain;
 
 	transform: translateY(0.1em);
 }
 
 @mixin stile-link-mark {
-	display: inline-block;
+	display    : inline-block;
 	margin-left: $stile-link-size-gap;
 
 	font-family: 'Material Icons';
-	font-style: normal;
+	font-style : normal;
 	line-height: 1;
 	@include font-bold-cancel;
 
-	overflow: hidden;  // for removing underline on IE11
+	overflow : hidden;  // for removing underline on IE11
 	transform: translateY(0.125em);
 	@include for-firefox { transform: translateY(0.2em); }
 }
@@ -100,9 +99,9 @@ $stile-link-size-gap          : 0.2em !default;
 
 		// Show URL instead of empty text
 		&[href ^= 'http']:empty::before {
-			content: attr(href);
+			content   : attr(href);
 			word-break: break-all;
-			display: inline;
+			display   : inline;
 		}
 	}
 	a[data-stile ~= 'link-image'] {
@@ -112,18 +111,18 @@ $stile-link-size-gap          : 0.2em !default;
 
 @mixin stile-link-inside {
 	text-decoration: none;
-	color: $stile-link-color-text;
-	word-wrap: break-word;  // for URL in text
+	color          : $stile-link-color-text;
+	word-wrap      : break-word;  // for URL in text
 
-	margin-left: 0.075rem;
+	margin-left : 0.075rem;
 	margin-right: 0.075rem;
 
-	padding: 0.1rem 0.35rem;
+	padding         : 0.1rem 0.35rem;
 	background-color: $stile-link-color-background;
-	border-radius: 0.25rem;
+	border-radius   : 0.25rem;
 
 	&:hover {
-		color: $stile-link-color-text;
+		color          : $stile-link-color-text;
 		text-decoration: underline;
 		&::after { text-decoration: none; }
 	}
