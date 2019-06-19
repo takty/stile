@@ -114,9 +114,7 @@ $stile-link-size-gap          : 0.2em !default;
 	color          : $stile-link-color-text;
 	word-wrap      : break-word;  // for URL in text
 
-	margin-left : 0.075rem;
-	margin-right: 0.075rem;
-
+	margin          : { left: 0.075rem; right: 0.075rem; }
 	padding         : 0.1rem 0.35rem;
 	background-color: $stile-link-color-background;
 	border-radius   : 0.25rem;

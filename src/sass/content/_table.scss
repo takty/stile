@@ -32,10 +32,9 @@ $stile-table-align-caption               : center !default;
 
 @mixin stile-table {
 	table {
-		position    : relative;
-		display     : inline-block;
-		margin-left : auto;
-		margin-right: auto;
+		position: relative;
+		display : inline-block;
+		margin  : { left : auto; right: auto; }
 
 		max-width     : 100%;
 		vertical-align: top;

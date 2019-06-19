@@ -111,10 +111,9 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	}
 	code, var, samp, kbd {
 		@include font-family-monospace;
-		margin-left : 0.075rem;
-		margin-right: 0.075rem;
-		white-space : pre-wrap;
-		font-size   : $stile-inline-size-font-monospace;
+		margin     : { left: 0.075rem; right: 0.075rem; }
+		white-space: pre-wrap;
+		font-size  : $stile-inline-size-font-monospace;
 	}
 	*[data-stile ~= 'iframe-wrapper'] {
 		display : inline-block;

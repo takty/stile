@@ -79,20 +79,17 @@ $stile-alignment-size-width         : 72rem !default;
 
 	*[data-stile ~= 'alignleft'],
 	*[data-stile ~= 'alignright'] {
-		margin-top   : 0;
-		margin-bottom: base-vr(1);
-		transform    : translateY(#{(base-vr(2) - 1rem) / 2});
-		max-width    : calc(100% - #{$stile-alignment-size-min-text-width});
+		margin   : { top: 0; bottom: base-vr(1); }
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
+		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
 	*[data-stile ~= 'alignleft'] {
-		float       : left;
-		margin-left : auto;
-		margin-right: base-vr(2);
+		float : left;
+		margin: { left: auto; right: base-vr(2); }
 	}
 	*[data-stile ~= 'alignright'] {
-		float       : right;
-		margin-left : base-vr(2);
-		margin-right: auto;
+		float : right;
+		margin: { left: base-vr(2); right: auto; }
 	}
 	*[data-stile ~= 'aligncenter'] {
 		&.alignleft,
@@ -117,10 +114,9 @@ $stile-alignment-size-width         : 72rem !default;
 @mixin stile-alignment-float($max-width: false) {
 	&.alignleft,
 	&.alignright {
-		margin-top   : 0;
-		margin-bottom: base-vr(1);
-		transform    : translateY(#{(base-vr(2) - 1rem) / 2});
-		clear        : none;
+		margin   : { top: 0; bottom: base-vr(1); }
+		transform: translateY(#{(base-vr(2) - 1rem) / 2});
+		clear    : none;
 		@if $max-width == false {
 			$max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 		}
@@ -240,9 +236,9 @@ $stile-alignment-size-width         : 72rem !default;
 	}
 	.alignwide {
 		@media screen and (min-width: $wide-width) {
-			margin-left : #{($wide-width - $text-width) / -2};
-			margin-right: #{($wide-width - $text-width) / -2};
-			max-width   : $wide-width;
+			$m: #{($wide-width - $text-width) / -2};
+			margin   : { left: $m; right: $m; }
+			max-width: $wide-width;
 		}
 	}
 }

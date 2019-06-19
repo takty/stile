@@ -91,10 +91,9 @@ $stile-block-level-blockquote-cite: 0 !default;
 	figure:not([class]) { max-width: 100%; }
 
 	figure img {
-		display     : block;
-		margin-left : auto;
-		margin-right: auto;
-		max-height  : 100vh;
+		display   : block;
+		margin    : { left: auto; right: auto; }
+		max-height: 100vh;
 
 		// for broken images (does not work on IE11 and Edge)
 		&[alt]::after { width: 100%; }
