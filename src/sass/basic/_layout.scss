@@ -15,7 +15,7 @@
 	}
 	margin   : { left: auto; right: auto; }
 	max-width: $max-width;  // must be max-width for Android Chrome
-	width: $w;  // must be width for Android Chrome
+	width    : $w;          // must be width for Android Chrome
 }
 
 @mixin layout-width-responsive($cont-width, $min-width, $max-width) {
