@@ -29,27 +29,11 @@ $stile-inline-size-font-monospace: 0.95em !default;
 
 @mixin stile-inline {
 	img {
-		max-width: 100%;
-		height: auto;
-
-		// for broken images (does not work on IE11 and Edge)
-		&[alt]::after {
-			content: attr(src);
-			@include layout-centering(true);
-
-			padding   : base-vr(0.5) base-vr(1);
-			border    : 1px dashed $stile-inline-color-broken-image;
-			min-height: base-vr(2);
-
-			color          : $stile-inline-color-broken-image;
-			font-size      : 0.85em;
-			line-height    : 1.35em;
-			word-break     : break-all;
-			text-decoration: line-through;
-
-			vertical-align: text-bottom;
-		}
+		max-width : 100%;
+		height    : auto;
 		transition: opacity 0.2s;  // for lazy loading
+
+		@include stile-inline-broke-image;
 	}
 	strong, b {
 		@include font-bold;
@@ -126,5 +110,44 @@ $stile-inline-size-font-monospace: 0.95em !default;
 			width   : 100%     !important;
 			height  : 100%     !important;
 		}
+	}
+}
+
+// Broken images (does not work on Safari, IE11 and Edge)
+@mixin stile-inline-broke-image {
+	animation: show-alt 0s both 5s;  // for avoiding unexpected shown on Firefox
+	@keyframes show-alt {
+		  0% { font-size: inherit; }
+		100% { font-size: 0; }
+	}
+	&::after {
+		content: attr(src);
+		@include layout-centering(true);
+
+		color          : $stile-inline-color-broken-image;
+		line-height    : 1.35rem;
+		word-break     : break-all;
+		text-decoration: line-through;
+		vertical-align : text-bottom;
+
+		animation: show-src 0s both 5s;  // for avoiding unexpected shown on Firefox
+		@keyframes show-src {
+			0% {
+				max-width: 0;
+				font-size: 0;
+			}
+			100% {
+				padding         : base-vr(0.5) base-vr(1);
+				border          : 1px dashed $stile-inline-color-broken-image;
+				min-height      : base-vr(2);
+				background-color: #fff;
+
+				max-width: initial;
+				font-size: 0.85rem;
+			}
+		}
+	}
+	&:not([alt = ''])::after {
+		@include for-chrome { margin-left: -16px; }
 	}
 }
