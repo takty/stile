@@ -370,3 +370,22 @@
 		> * { margin-bottom: $gap_y; }
 	}
 }
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin layout-minimum-aspect($width, $height) {
+	@warn '\'layout-minimum-aspect\' is deprecated. Use instead \'layout-aspect($width, $height, true)\'.';
+	@include layout-aspect($width, $height, true);
+}
+
+@mixin layout-responsive-column($cont-width, $n, $gap: false) {
+	@warn '\'layout-responsive-column\' is deprecated. Use instead \'layout-wrap-responsive($cont-width, $n, $gap)\'.';
+	@include layout-wrap-responsive($cont-width, $n, $gap);
+}
+
+@mixin layout-column-cancel($gap: false) {
+	@warn '\'layout-column-cancel\' is deprecated. Use instead \'layout-column(1, $gap)\'.';
+	@include layout-column(1, $gap);
+}
