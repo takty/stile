@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-06-23
  *
  */
 
@@ -22,6 +22,8 @@ window.ST = window['ST'] || {};
 	const ST_STATE_OPEN        = 'open';
 	const ST_STATE_VISIBLE     = 'visible';
 	const SIZE_BOX_PADDING     = '4rem';
+	const ZOOM_RATE_MAX        = 5;
+
 
 	NS.addInit(2, () => {
 		const objs = [];
@@ -198,7 +200,7 @@ window.ST = window['ST'] || {};
 		}
 
 		setScaledSize(scale) {
-			this._scale = Math.max(1, Math.min(4, scale));
+			this._scale = Math.max(1, Math.min(ZOOM_RATE_MAX, scale));
 			let size = (this._baseSize * this._scale) + 'px';
 			if (!this._isPhone) {
 				size = `calc(${size} - ${SIZE_BOX_PADDING})`;
