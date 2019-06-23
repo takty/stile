@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-06-23
  *
  */
 
@@ -31,15 +31,15 @@ $stile-font-monospace-laten          : Consolas, Monaco, 'Courier New', Courier 
 
 $stile-font-sans-serif:
 	$stile-font-sans-serif-laten,
-	if(variable-exists('stile-font-sans-serif-ja'), $stile-font-sans-serif-ja, null),
 	$stile-font-sans-serif-laten-fallback,
+	if(variable-exists('stile-font-sans-serif-ja'), $stile-font-sans-serif-ja, null),
 	if(variable-exists('stile-font-sans-serif-ja-fallback'), $stile-font-sans-serif-ja-fallback, null),
 	sans-serif !default;
 
 $stile-font-serif:
 	$stile-font-serif-laten,
-	if(variable-exists('stile-font-serif-ja'), $stile-font-serif-ja, null),
 	$stile-font-serif-laten-fallback,
+	if(variable-exists('stile-font-serif-ja'), $stile-font-serif-ja, null),
 	if(variable-exists('stile-font-serif-ja-fallback'), $stile-font-serif-ja-fallback, null),
 	serif !default;
 
@@ -51,20 +51,20 @@ $stile-font-monospace:
 
 $stile-font-sans-serif-ie:
 	$stile-font-sans-serif-laten,
-	if(variable-exists('stile-font-sans-serif-ja-ie'), $stile-font-sans-serif-ja-ie, null),
 	$stile-font-sans-serif-laten-fallback,
+	if(variable-exists('stile-font-sans-serif-ja-ie'), $stile-font-sans-serif-ja-ie, null),
 	if(variable-exists('stile-font-sans-serif-ja-fallback'), $stile-font-sans-serif-ja-fallback, null),
 	sans-serif !default;
 
 $stile-font-serif-ie:
 	$stile-font-serif-laten,
-	if(variable-exists('stile-font-serif-ja-ie'), $stile-font-serif-ja-ie, null),
 	$stile-font-serif-laten-fallback,
+	if(variable-exists('stile-font-serif-ja-ie'), $stile-font-serif-ja-ie, null),
 	if(variable-exists('stile-font-serif-ja-fallback'), $stile-font-serif-ja-fallback, null),
 	serif !default;
 
-$stile-font-sans-serif-ios: -apple-system, sans-serif !default;
-$stile-font-serif-ios     :                     serif !default;
+$stile-font-sans-serif-ios: 'Helvetica Neue', sans-serif !default;  // Do not use -apple-system for avoiding garbled Japanese symbols
+$stile-font-serif-ios     :                        serif !default;
 
 $stile-font-sans-serif-android: $stile-font-sans-serif-laten-fallback, sans-serif !default;
 $stile-font-serif-android     : $stile-font-serif-laten-fallback,           serif !default;
@@ -81,7 +81,7 @@ $stile-font-serif-android     : $stile-font-serif-laten-fallback,           seri
 		font-family: $stile-font-sans-serif;
 		@include for-ie { font-family: $stile-font-sans-serif-ie; }
 	}
-	// Need to use user-agent.js
+	// Need to use query.js
 	&.ios, .ios &         { font-family: $stile-font-sans-serif-ios; }
 	&.android, .android & { font-family: $stile-font-sans-serif-android; }
 }
@@ -94,7 +94,7 @@ $stile-font-serif-android     : $stile-font-serif-laten-fallback,           seri
 		font-family: $stile-font-serif;
 		@include for-ie { font-family: $stile-font-serif-ie; }
 	}
-	// need to use user-agent.js
+	// need to use query.js
 	&.ios, .ios &         { font-family: $stile-font-serif-ios; }
 	&.android, .android & { font-family: $stile-font-serif-android; }
 }
