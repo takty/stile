@@ -3,7 +3,7 @@
  * Content Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-07
+ * @version 2019-06-24
  *
  */
 
@@ -33,10 +33,10 @@ $stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading !def
 
 
 @import 'content/margin';
+@import 'content/inline';
+@import 'content/link';
 @import 'content/block';
 @import 'content/heading';
-@import 'content/link';
-@import 'content/inline';
 @import 'content/list';
 @import 'content/table';
 @import 'content/print';
@@ -47,10 +47,10 @@ $stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading !def
 @mixin stile-content($set-heading-design: true) {
 	@include stile-margin;
 
-	@include stile-block;
-	@include stile-heading($set-heading-design);
 	@include stile-inline;
 	@include stile-link;
+	@include stile-block;
+	@include stile-heading($set-heading-design);
 	@include stile-list;
 	@include stile-table;
 
