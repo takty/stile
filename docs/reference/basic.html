@@ -20,15 +20,15 @@
 		<a href="../index.html">Go Back</a>
 	</nav>
 
-	<h2>Mixins</h2>
-
 	<div class="pseudo-tab-page">
 
-		<h3>Base</h3>
-		<ul data-stile="list-square">
-			<li><code>$stile-size-unit: 0.9rem</code></li>
-			<li><code>$stile-print-margin: 80 (The sum of the side margins of papers (mm))</code></li>
-		</ul>
+		<h2>Base</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-size-unit   : 0.9rem</code></li>
+				<li><code>$stile-print-margin: 80 (The sum of the side margins of papers (mm))</code></li>
+			</ul>
+		</div>
 		<ul>
 			<li><code>base-vr($val)</code></li>
 			<li><code>base-strip-unit($value)</code></li>
@@ -38,29 +38,29 @@
 			<li><code>base-responsive-size($property, $min-vw, $max-vw, $min-size, $max-size)</code></li>
 		</ul>
 
-		<h3>Query</h3>
+		<h2>Query</h2>
 		<ul>
 			<li><code>for-size-down($high_px, $high_mm)</code></li>
 			<li><code>for-size-only($low_px, $high_px, $low_mm, $high_mm)</code></li>
 			<li><code>for-size-up($low_px, $low_mm)</code></li>
 		</ul>
 		<ul>
-			<li><code>for-phone-up</code></li>
-			<li><code>for-phone-only</code></li>
-			<li><code>for-phone-portrait-up</code></li>
-			<li><code>for-phone-portrait-only</code></li>
-			<li><code>for-phone-landscape-up</code></li>
-			<li><code>for-phone-landscape-only</code></li>
-			<li><code>for-tablet-up</code></li>
-			<li><code>for-tablet-only</code></li>
-			<li><code>for-tablet-portrait-up</code></li>
-			<li><code>for-tablet-portrait-only</code></li>
-			<li><code>for-tablet-landscape-up</code></li>
-			<li><code>for-tablet-landscape-only</code></li>
-			<li><code>for-desktop-up</code></li>
-			<li><code>for-desktop-only</code></li>
-			<li><code>for-big-desktop-up</code></li>
-			<li><code>for-big-desktop-only</code></li>
+			<li><code>for-phone-up() {...}</code></li>
+			<li><code>for-phone-only() {...}</code></li>
+			<li><code>for-phone-portrait-up() {...}</code></li>
+			<li><code>for-phone-portrait-only() {...}</code></li>
+			<li><code>for-phone-landscape-up() {...}</code></li>
+			<li><code>for-phone-landscape-only() {...}</code></li>
+			<li><code>for-tablet-up() {...}</code></li>
+			<li><code>for-tablet-only() {...}</code></li>
+			<li><code>for-tablet-portrait-up() {...}</code></li>
+			<li><code>for-tablet-portrait-only() {...}</code></li>
+			<li><code>for-tablet-landscape-up() {...}</code></li>
+			<li><code>for-tablet-landscape-only() {...}</code></li>
+			<li><code>for-desktop-up() {...}</code></li>
+			<li><code>for-desktop-only() {...}</code></li>
+			<li><code>for-big-desktop-up() {...}</code></li>
+			<li><code>for-big-desktop-only() {...}</code></li>
 		</ul>
 		<ul>
 			<li><code>for-size-height-down($high_px, $high_mm)</code></li>
@@ -68,42 +68,44 @@
 			<li><code>for-size-height-up($low_px, $low_mm)</code></li>
 		</ul>
 		<ul>
-			<li><code>for-tiny-height-up</code></li>
-			<li><code>for-tiny-height-only</code></li>
-			<li><code>for-small-height-up</code></li>
-			<li><code>for-small-height-only</code></li>
-			<li><code>for-medium-height-up</code></li>
-			<li><code>for-medium-height-only</code></li>
-			<li><code>for-large-height-up</code></li>
-			<li><code>for-large-height-only</code></li>
+			<li><code>for-tiny-height-up() {...}</code></li>
+			<li><code>for-tiny-height-only() {...}</code></li>
+			<li><code>for-small-height-up() {...}</code></li>
+			<li><code>for-small-height-only() {...}</code></li>
+			<li><code>for-medium-height-up() {...}</code></li>
+			<li><code>for-medium-height-only() {...}</code></li>
+			<li><code>for-large-height-up() {...}</code></li>
+			<li><code>for-large-height-only() {...}</code></li>
 		</ul>
 		<ul>
-			<li><code>for-chrome</code></li>
-			<li><code>for-firefox</code></li>
-			<li><code>for-safari</code></li>
-			<li><code>for-edge</code></li>
-			<li><code>for-ie</code></li>
+			<li><code>for-chrome() {...}</code></li>
+			<li><code>for-firefox() {...}</code></li>
+			<li><code>for-safari() {...}</code></li>
+			<li><code>for-edge() {...}</code></li>
+			<li><code>for-ie() {...}</code></li>
 		</ul>
 
-		<h3>Font</h3>
-		<ul data-stile="list-square">
-			<li><code>$stile-font-chrome-text-stroke-width: 0.28px</code></li>
-			<li><code>$stile-font-sans-serif-laten: 'Open Sans'</code></li>
-			<li><code>$stile-font-sans-serif-laten-fallback: Verdana</code></li>
-			<li><code>$stile-font-serif-laten: 'Spectral'</code></li>
-			<li><code>$stile-font-serif-laten-fallback: Georgia</code></li>
-			<li><code>$stile-font-monospace-laten: Consolas, Monaco, 'Courier New', Courier</code></li>
-		</ul>
+		<h2>Font</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-font-chrome-text-stroke-width : 0.28px</code></li>
+				<li><code>$stile-font-sans-serif-laten         : 'Open Sans'</code></li>
+				<li><code>$stile-font-sans-serif-laten-fallback: Verdana</code></li>
+				<li><code>$stile-font-serif-laten              : 'Spectral'</code></li>
+				<li><code>$stile-font-serif-laten-fallback     : Georgia</code></li>
+				<li><code>$stile-font-monospace-laten          : Consolas, Monaco, 'Courier New', Courier</code></li>
+			</ul>
+		</div>
 		<ul>
 			<li><code>font-family($pc-specific: false)</code></li>
 			<li><code>font-family-serif($pc-specific: false)</code></li>
-			<li><code>font-family-monospace</code></li>
-			<li><code>font-proportional</code></li>
-			<li><code>font-smoothing</code></li>
-			<li><code>font-visible-chrome</code></li>
-			<li><code>font-visible-chrome-cancel</code></li>
-			<li><code>font-bold</code></li>
-			<li><code>font-bold-cancel</code></li>
+			<li><code>font-family-monospace()</code></li>
+			<li><code>font-proportional()</code></li>
+			<li><code>font-smoothing()</code></li>
+			<li><code>font-visible-chrome()</code></li>
+			<li><code>font-visible-chrome-cancel()</code></li>
+			<li><code>font-bold()</code></li>
+			<li><code>font-bold-cancel()</code></li>
 		</ul>
 		<ul>
 			<li><code>font-responsive-size($min-vw, $max-vw, $min-value, $max-value)</code></li>
@@ -112,7 +114,7 @@
 			<li><code>font-line-height($font-size, $line-height-unit)</code></li>
 		</ul>
 
-		<h3>Layout</h3>
+		<h2>Layout</h2>
 		<ul>
 			<li><code>layout-side-margin($max_width, $side_margin: false)</code></li>
 			<li><code>layout-width-responsive($cont-width, $min-width, $max-width)</code></li>
@@ -121,7 +123,7 @@
 		<ul>
 			<li><code>layout-centering($inline: false)</code></li>
 			<li><code>layout-centering-self($horizontal: true, $vertical: true, $position: absolute)</code></li>
-			<li><code>layout-fill-self</code></li>
+			<li><code>layout-fill-self()</code></li>
 		</ul>
 		<ul>
 			<li><code>layout-aspect($width, $height, $expandable: false)</code></li>
@@ -136,11 +138,7 @@
 		</ul>
 		<ul>
 			<li><code>layout-column($n, $gap: false)</code></li>
-		</ul>
-		<ul>
 			<li><code>layout-card($n, $gap: false, $align-left: true)</code></li>
-		</ul>
-		<ul>
 			<li><code>layout-masonry($n, $gap: false)</code></li>
 		</ul>
 

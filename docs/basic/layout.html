@@ -17,200 +17,222 @@
 		<a href="../index.html">Go Back</a>
 	</nav>
 
-	<div style="border-left:1px dashed gray;border-right:1px dashed gray;">
+	<div class="pseudo-tab-page">
 
-		<h2>Side Margin</h2>
-		<div class="layout-side-margin">
-			@include layout-side-margin(40rem, 1rem);
+		<h2>Width</h2>
+
+		<div class="border">
+
+			<h3>Side Margin</h3>
+			<div class="layout-side-margin">
+				@include layout-side-margin(40rem, 1rem);
+			</div>
+
+			<h3>Width Responsive</h3>
+			<div class="layout-width-responsive">
+				<div>@include layout-width-responsive(32rem, 40%, 100%);</div>
+			</div>
+
+			<h3>Full Width</h3>
+			<div class="layout-full-width">
+				@include layout-full-width(1rem);
+			</div>
+
 		</div>
 
-		<h2>Width Responsive</h2>
-		<div class="layout-width-responsive">
-			<div>@include layout-width-responsive(32rem, 40%, 100%);</div>
-		</div>
+		<h2>Centering and Fill</h2>
 
-		<h2>Full Width</h2>
-		<div class="layout-full-width">
-			@include layout-full-width(1rem);
-		</div>
+		<div class="border">
 
-		<hr><!-- --------------------------------------------------------------- -->
-
-		<h2>Centering</h2>
-		<div>@include layout-centering();</div>
-		<div class="layout-centering">
-			<div>Content</div>
-		</div>
-
-		<h2>Centering Self</h2>
-		<div class="layout-centering-self">
-			<div>@include layout-centering-self(true, true);</div>
-		</div>
-
-		<h2>Fill Self</h2>
-		<div class="layout-fill-self">
-			<div>@include layout-fill-self();</div>
-		</div>
-
-		<hr><!-- --------------------------------------------------------------- -->
-
-		<h2>Aspect</h2>
-		<div>@include layout-aspect(3, 1);</div>
-		<div class="col-2">
-			<div class="layout-aspect">
+			<h3>Centering</h3>
+			<div>@include layout-centering();</div>
+			<div class="layout-centering">
 				<div>Content</div>
 			</div>
-			<div class="layout-aspect">
+
+			<h3>Centering Self</h3>
+			<div class="layout-centering-self">
+				<div>@include layout-centering-self(true, true);</div>
+			</div>
+
+			<h3>Fill Self</h3>
+			<div class="layout-fill-self">
+				<div>@include layout-fill-self();</div>
+			</div>
+		</div>
+
+		<h2>Aspect Ratio</h2>
+
+		<div class="border">
+
+			<h3>Aspect</h3>
+			<div>@include layout-aspect(3, 1);</div>
+			<div class="col-2">
+				<div class="layout-aspect">
+					<div>Content</div>
+				</div>
+				<div class="layout-aspect">
+					<div>
+						<p>Very long long long long long long long long long long
+							long long long long long long long long long long long
+							long long long long long long long long long long long
+							long long long long long long long long long long long text.</p>
+					</div>
+				</div>
+			</div>
+
+			<div>@include layout-aspect(3, 1, true);</div>
+			<div class="col-2">
+				<div class="layout-aspect-expandable">
+					<div>Content</div>
+				</div>
+				<div class="layout-aspect-expandable">
+					<div>
+						<p>Very long long long long long long long long long long
+							long long long long long long long long long long long
+							long long long long long long long long long long long
+							long long long long long long long long long long long text.</p>
+					</div>
+				</div>
+			</div>
+
+			<h3>Frame Contain</h3>
+			<div>@include layout-frame-contain(3, 2);</div>
+			<div class="col-2">
 				<div>
-					<p>Very long long long long long long long long long long
-						long long long long long long long long long long long
-						long long long long long long long long long long long
-						long long long long long long long long long long long text.</p>
+					<a href="https://via.placeholder.com/1600x400.png" data-stile="layout-frame-contain">
+						<img width="800" height="200" src="https://via.placeholder.com/800x200.png" class="size-medium" alt="">
+					</a>
 				</div>
-			</div>
-		</div>
-
-		<div>@include layout-aspect(3, 1, true);</div>
-		<div class="col-2">
-			<div class="layout-aspect-expandable">
-				<div>Content</div>
-			</div>
-			<div class="layout-aspect-expandable">
 				<div>
-					<p>Very long long long long long long long long long long
-						long long long long long long long long long long long
-						long long long long long long long long long long long
-						long long long long long long long long long long long text.</p>
+					<div data-stile="layout-frame-contain">
+						<img width="200" height="800" src="https://via.placeholder.com/200x800.png" class="size-medium" alt="">
+					</div>
 				</div>
 			</div>
+
 		</div>
 
-		<h2>Frame Contain</h2>
-		<div>@include layout-frame-contain(3, 2);</div>
-		<div class="col-2">
-			<div>
-				<a href="https://via.placeholder.com/1600x400.png" data-stile="layout-frame-contain">
-					<img width="800" height="200" src="https://via.placeholder.com/800x200.png" class="size-medium" alt="">
-				</a>
+		<h2>Wrap</h2>
+
+		<div class="border">
+
+			<h3>Gap and Wrap</h3>
+
+			<div>@include layout-wrap((1rem 2rem));</div>
+			<div class="layout-wrap">
+				<div>Element 1</div>
+				<div>Element 2</div>
+				<div>Element 3</div>
+				<div>Element 4</div>
+				<div>Element 5</div>
+				<div>Element 6</div>
+				<div>Element 7</div>
+				<div>Element 8</div>
+				<div>Element 9</div>
 			</div>
-			<div>
-				<div data-stile="layout-frame-contain">
-					<img width="200" height="800" src="https://via.placeholder.com/200x800.png" class="size-medium" alt="">
-				</div>
+
+		</div>
+
+		<div class="border">
+
+			<h3>Wrap Responsive</h3>
+			<div>@include layout-wrap-responsive(36rem, 2, 2rem);</div>
+			<div class="layout-wrap-responsive-2">
+				<div>Column 1</div>
+				<div>Column 2</div>
 			</div>
+			<div>@include layout-wrap-responsive(36rem, 3, 2rem);</div>
+			<div class="layout-wrap-responsive-3">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+			</div>
+			<div>@include layout-wrap-responsive(36rem, 4, 2rem);</div>
+			<div class="layout-wrap-responsive-4">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+			</div>
+
 		</div>
 
-		<hr><!-- --------------------------------------------------------------- -->
+		<h2>Container</h2>
 
-		<h2>Gap and Wrap</h2>
+		<h3>Column</h3>
 
-		<div>@include layout-wrap((1rem 2rem));</div>
-		<div class="layout-wrap">
-			<div>Element 1</div>
-			<div>Element 2</div>
-			<div>Element 3</div>
-			<div>Element 4</div>
-			<div>Element 5</div>
-			<div>Element 6</div>
-			<div>Element 7</div>
-			<div>Element 8</div>
-			<div>Element 9</div>
-		</div>
+		<div class="border">
 
-		<hr><!-- --------------------------------------------------------------- -->
+			<div>@include layout-column(2, 2rem);</div>
+			<div class="layout-column-2">
+				<div>Column 1</div>
+				<div>Column 2</div>
+			</div>
+			<div>@include layout-column(3, 2rem);</div>
+			<div class="layout-column-3">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+			</div>
+			<div>@include layout-column(4, 2rem);</div>
+			<div class="layout-column-4">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+			</div>
 
-		<h2>Wrap Responsive</h2>
-		<div>@include layout-wrap-responsive(36rem, 2, 2rem);</div>
-		<div class="layout-wrap-responsive-2">
-			<div>Column 1</div>
-			<div>Column 2</div>
-		</div>
-		<div>@include layout-wrap-responsive(36rem, 3, 2rem);</div>
-		<div class="layout-wrap-responsive-3">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-		</div>
-		<div>@include layout-wrap-responsive(36rem, 4, 2rem);</div>
-		<div class="layout-wrap-responsive-4">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-		</div>
+			<h3>Card</h3>
 
-		<hr><!-- --------------------------------------------------------------- -->
+			<div>@include layout-card(2, 2rem);</div>
+			<div class="layout-card-2">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+			</div>
+			<div>@include layout-card(3, 2rem);</div>
+			<div class="layout-card-3">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+			</div>
+			<div>@include layout-card(4, 2rem);</div>
+			<div class="layout-card-4">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+				<div>Column 5</div>
+				<div>Column 6</div>
+			</div>
 
-		<h2>Column</h2>
-		<div>@include layout-column(2, 2rem);</div>
-		<div class="layout-column-2">
-			<div>Column 1</div>
-			<div>Column 2</div>
-		</div>
-		<div>@include layout-column(3, 2rem);</div>
-		<div class="layout-column-3">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-		</div>
-		<div>@include layout-column(4, 2rem);</div>
-		<div class="layout-column-4">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-		</div>
+			<h3>Masonry</h3>
 
-		<hr><!-- --------------------------------------------------------------- -->
+			<div>@include layout-masonry(2, 2rem);</div>
+			<div class="layout-masonry-2">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+			</div>
+			<div>@include layout-masonry(3, 2rem);</div>
+			<div class="layout-masonry-3">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+			</div>
+			<div>@include layout-masonry(4, 2rem);</div>
+			<div class="layout-masonry-4">
+				<div>Column 1</div>
+				<div>Column 2</div>
+				<div>Column 3</div>
+				<div>Column 4</div>
+				<div>Column 5</div>
+				<div>Column 6</div>
+			</div>
 
-		<h2>Card</h2>
-		<div>@include layout-card(2, 2rem);</div>
-		<div class="layout-card-2">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-		</div>
-		<div>@include layout-card(3, 2rem);</div>
-		<div class="layout-card-3">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-		</div>
-		<div>@include layout-card(4, 2rem);</div>
-		<div class="layout-card-4">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-			<div>Column 5</div>
-			<div>Column 6</div>
-		</div>
-
-		<hr><!-- --------------------------------------------------------------- -->
-
-		<h2>Masonry</h2>
-		<div>@include layout-masonry(2, 2rem);</div>
-		<div class="layout-masonry-2">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-		</div>
-		<div>@include layout-masonry(3, 2rem);</div>
-		<div class="layout-masonry-3">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-		</div>
-		<div>@include layout-masonry(4, 2rem);</div>
-		<div class="layout-masonry-4">
-			<div>Column 1</div>
-			<div>Column 2</div>
-			<div>Column 3</div>
-			<div>Column 4</div>
-			<div>Column 5</div>
-			<div>Column 6</div>
 		</div>
 
 	</div>

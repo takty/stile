@@ -65,6 +65,7 @@ body {
 	}
 
 	.frame {
+		@include stile-margin;
 		padding: base-vr(1);
 		background-color: $stile-content-color-background;
 	}
@@ -204,6 +205,11 @@ body {
 
 // -----------------------------------------------------------------------------
 
+
+.border {
+	border-left:1px dashed gray;
+	border-right:1px dashed gray;
+}
 
 *[class ^='layout-'] {
 	border: 1px dashed blue;
