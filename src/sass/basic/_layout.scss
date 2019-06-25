@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-06-25
  *
  */
 
@@ -267,8 +267,11 @@
 
 	> * { max-width: 100%; }
 	@if $gap != false {
-		> * + * { margin-top: $gap; }
+		// for overriding other layout-card
+		> *:not(:first-child) { margin-top: $gap; }
 	}
+	// for overriding other layout-card
+	> *:not(:first-child) { margin-left: 0; }
 }
 
 
@@ -300,6 +303,9 @@
 			&:nth-child(n + #{$n + 1}) {
 				margin-top: $gap_y;
 			}
+			// for overriding other layout-card
+			&:nth-child(#{$n}n + 1)          { margin-left: 0; }
+			&:not(:nth-child(n + #{$n + 1})) { margin-top : 0; }
 		}
 	}
 	@if $align-left and 1 < $n {
@@ -319,6 +325,8 @@
 				margin-right: calc((#{$cw} - #{$cg} + #{$gap}) * #{$n - $i});
 			}
 		}
+		// for overriding other layout-card
+		> *:nth-child(#{$n}n):last-child { margin-right: 0; }
 	}
 }
 
