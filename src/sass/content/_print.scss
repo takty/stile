@@ -3,7 +3,7 @@
  * Print Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-06-25
  *
  */
 
@@ -12,6 +12,7 @@ $stile-print-enabled-link-url: true !default;
 
 
 @mixin stile-print {
+	-webkit-print-color-adjust: exact;
 	font-size: 10.5pt !important;
 
 	@if $stile-print-enabled-link-url == true {
