@@ -53,7 +53,7 @@ gulp.task('docs-sass', gulp.series('sass', () => gulp.src(['docs/style.scss', 'd
 	.pipe($.plumber())
 	.pipe($.sourcemaps.init())
 	.pipe($.sass({ outputStyle: 'compressed' }))
-	.pipe($.autoprefixer({ browsers: ['ie >= 11'], remove: false }))
+	.pipe($.autoprefixer({ remove: false }))
 	.pipe($.rename({ extname: '.min.css' }))
 	.pipe($.sourcemaps.write('.'))
 	.pipe(gulp.dest('./docs/css')))
