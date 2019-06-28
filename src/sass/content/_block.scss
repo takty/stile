@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-06-28
  *
  */
 
@@ -113,10 +113,6 @@ $stile-block-level-blockquote-cite: 0 !default;
 			&.alignleft, &.alignright {
 				display: table;
 
-				img {
-					display: table-row;
-					width  : auto;
-				}
 				figcaption {
 					min-width   : $stile-block-size-min-width;
 					display     : table-caption;
