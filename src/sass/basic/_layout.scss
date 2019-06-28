@@ -290,7 +290,7 @@
 
 	$mw: 100% / $n;
 	@if $gap != false and 1 < $n {
-		$cg: $gap * ($n - 1) / $n;
+		$cg: $gap_x * ($n - 1) / $n;
 		$mw: calc(#{$mw} - #{$cg});
 	}
 
