@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-25
+ * @version 2019-06-28
  *
  */
 
@@ -260,6 +260,8 @@
 			max-width: $mw;
 		}
 	}
+	// for overriding other layout-card and _layout-column-cancel
+	> *:not(:first-child) { margin-top: 0; }
 }
 
 @mixin _layout-column-cancel($gap: false) {
