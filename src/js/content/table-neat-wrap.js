@@ -3,7 +3,7 @@
  * Table Style - Neat Wrap (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-07-04
  *
  */
 
@@ -56,6 +56,7 @@ window.ST = window['ST'] || {};
 
 	function apply(table, dummyCell) {
 		if (table.getAttribute('width') != null) table.setAttribute('width', '');
+		table.style.width    = '';
 		table.style.maxWidth = '';
 
 		const tbody = table.tBodies[0];
