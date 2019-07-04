@@ -3,7 +3,7 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-04
  *
  */
 
@@ -38,33 +38,26 @@ $stile-link-size-gap          : 0.2em !default;
 	transform: translateY(0.1em);
 }
 
-@mixin stile-link-mark {
-	display    : inline-block;
+@mixin stile-link-mark($code) {
+	@include font-icon('Material Icons', $code);
+
 	margin-left: $stile-link-size-gap;
+	overflow   : hidden;  // for removing underline on IE11
 
-	font-family: 'Material Icons';
-	font-style : normal;
-	line-height: 1;
-	@include font-bold-cancel;
-
-	overflow : hidden;  // for removing underline on IE11
 	transform: translateY(0.125em);
 	@include for-firefox { transform: translateY(0.2em); }
 }
 
 @mixin stile-link-mark-anchor {
-	content: $stile-link-icon-anchor;
-	@include stile-link-mark;
+	@include stile-link-mark($stile-link-icon-anchor);
 }
 
 @mixin stile-link-mark-external {
-	content: $stile-link-icon-external;
-	@include stile-link-mark;
+	@include stile-link-mark($stile-link-icon-external);
 }
 
 @mixin stile-link-mark-file {
-	content: $stile-link-icon-file;
-	@include stile-link-mark;
+	@include stile-link-mark($stile-link-icon-file);
 }
 
 @mixin stile-link {
