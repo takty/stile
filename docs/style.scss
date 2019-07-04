@@ -207,6 +207,7 @@ body {
 
 
 .border {
+	@include stile-margin;
 	border-left: 1px dashed gray;
 	border-right: 1px dashed gray;
 }
