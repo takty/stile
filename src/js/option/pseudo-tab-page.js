@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-17
+ * @version 2019-07-04
  *
  */
 
@@ -18,6 +18,8 @@ window.ST = window['ST'] || {};
 	const ID_TAB_LIST_ID_BASE = '';
 	const ST_STATE_CURRENT    = 'current';
 	const SINGLE_TAB          = true;
+
+	let focused = null;
 
 	NS.addInit(4, () => {
 		const tabUlss = [];
@@ -99,7 +101,7 @@ window.ST = window['ST'] || {};
 	}
 
 	function onTabClick(idx, tabUls, tabUlss) {
-		showImmediately(tabUls[idx]);
+		focused = tabUls[idx];
 		setTimeout(() => { updateVisibility(tabUlss, true); }, 10);
 	}
 
@@ -113,18 +115,7 @@ window.ST = window['ST'] || {};
 			}
 		}
 		for (let i = 0; i < tabUlss.length; i += 1) {
-			const tabUls = tabUlss[i];
-			let shown = false;
-			for (let j = 0; j < tabUls.length; j += 1) {
-				const tabUl = tabUls[j];
-				const y = tabUl.getBoundingClientRect().top;
-				if (0 < y && !shown) {
-					shown = true;
-					NS.removeStile(tabUl, 'hidden');
-				} else if (shown) {
-					NS.addStile(tabUl, 'hidden');
-				}
-			}
+			updateVisibilityOne(tabUlss[i]);
 		}
 		if (immediately) {
 			setTimeout(() => {
@@ -134,14 +125,34 @@ window.ST = window['ST'] || {};
 						NS.removeStile(tabUls[j], 'immediately');
 					}
 				}
+				focused = null;
 			}, 1000);
 		}
 	}
 
-	function showImmediately(tabUl) {
-		NS.addStile(tabUl, 'immediately');
-		NS.removeStile(tabUl, 'hidden');
-		setTimeout(() => { NS.removeStile(tabUl, 'immediately'); }, 1000);
+	function updateVisibilityOne(tabUls) {
+		if (focused && tabUls.indexOf(focused) !== -1) {
+			for (let i = 0; i < tabUls.length; i += 1) {
+				const tabUl = tabUls[i];
+				if (tabUl === focused) {
+					NS.removeStile(tabUl, 'hidden');
+				} else {
+					NS.addStile(tabUl, 'hidden');
+				}
+			}
+			return;
+		}
+		let shown = false;
+		for (let i = 0; i < tabUls.length; i += 1) {
+			const tabUl = tabUls[i];
+			const y = tabUl.getBoundingClientRect().top;
+			if (0 < y && !shown) {
+				shown = true;
+				NS.removeStile(tabUl, 'hidden');
+			} else if (shown) {
+				NS.addStile(tabUl, 'hidden');
+			}
+		}
 	}
 
 })(window.ST);
