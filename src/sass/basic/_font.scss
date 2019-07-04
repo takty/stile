@@ -3,7 +3,7 @@
  * Font Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-23
+ * @version 2019-07-04
  *
  */
 
@@ -195,4 +195,17 @@ $stile-font-serif-android     : $stile-font-serif-laten-fallback,           seri
 @function font-line-height($font-size, $line-height-unit) {
 	$vr: ceil($font-size / $line-height-unit + 0.5);
 	@return $vr * $line-height-unit;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin font-icon($font-family, $code) {
+	content    : $code;
+	display    : inline-block;
+	font-family: $font-family;
+	font-style : normal;
+	line-height: 1;
+	@include font-bold-cancel;
 }
