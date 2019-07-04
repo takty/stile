@@ -68,7 +68,7 @@ gulp.task('docs-js', gulp.series('js-with-option', () => gulp.src(['dist/js/stil
 gulp.task('docs-watch', () => {
 	gulp.watch('src/js/**/*.js',     gulp.series('docs-js'));
 	gulp.watch('src/sass/**/*.scss', gulp.series('docs-sass'));
-	gulp.watch('docs/*.scss',    gulp.series('docs-sass'));
+	gulp.watch('docs/*.scss',        gulp.series('docs-sass'));
 });
 
 gulp.task('docs-build', gulp.parallel('docs-js', 'docs-sass'));
