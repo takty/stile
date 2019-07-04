@@ -60,7 +60,7 @@ window.ST = window['ST'] || {};
 	function createTab(htmls, tabIdx, contIdx, tabUls, tabUlss) {
 		const tp = {};
 		tp.tabUl = document.createElement('ul');
-		tp.tabUl.id = ID_TAB_LIST_ID_BASE + contIdx + '-' + tabIdx;
+		tp.tabUl.id = ID_TAB_LIST_ID_BASE + (contIdx + 1) + '-' + (tabIdx + 1);
 		tp.tabUl.className = CLS_TAB_LIST;
 		tp.tabUl.classList.add('stile-link-target');
 		tp.tabAs = [];
@@ -69,7 +69,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
 			const tc = document.createElement('a');
-			tc.href = '#' + ID_TAB_LIST_ID_BASE + contIdx + '-' + i;
+			tc.href = '#' + ID_TAB_LIST_ID_BASE + (contIdx + 1) + '-' + (i + 1);
 			tc.innerHTML = htmls[i];
 			tc.dataset['stile'] = ios ? 'no-anchor-scroll' : 'anchor-scroll-fast';
 			if (SINGLE_TAB) tc.addEventListener('click', () => { onTabClick(i, tabUls, tabUlss); });
