@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-28
+ * @version 2019-07-04
  *
  */
 
@@ -18,6 +18,7 @@ $stile-block-color-background     : rgba($stile-block-color-rule, 0.1) !default;
 $stile-block-size-rule-width      : 2px !default;
 $stile-block-size-max-width       : 36rem !default;
 $stile-block-size-min-width       : 4rem !default;
+$stile-block-size-rule-style      : solid !default;
 $stile-block-level-figcaption     : 0 !default;
 $stile-block-level-blockquote-cite: 0 !default;
 
@@ -42,7 +43,7 @@ $stile-block-level-blockquote-cite: 0 !default;
 	hr {
 		height    : calc(#{$stile-block-size-rule-width} + 0.5px);
 		border    : none;
-		border-top: $stile-block-size-rule-width solid $stile-block-color-rule;
+		border-top: $stile-block-size-rule-width $stile-block-size-rule-style $stile-block-color-rule;
 	}
 	blockquote {
 		padding-left: base-vr(4);
