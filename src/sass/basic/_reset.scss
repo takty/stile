@@ -66,6 +66,9 @@ $stile-reset-include: true !default;
 		line-height             : 1;
 		-webkit-text-size-adjust: 100%;  // for iOS
 
+		    word-wrap: break-word;  // for IE11
+		overflow-wrap: break-word;
+
 		-moz-tab-size: 4;
 			 tab-size: 4;
 	}
