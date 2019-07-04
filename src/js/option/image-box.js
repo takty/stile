@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-23
+ * @version 2019-07-04
  *
  */
 
@@ -25,6 +25,10 @@ window.ST = window['ST'] || {};
 	const ZOOM_RATE_MAX        = 5;
 
 
+	const histryApiEnabled = (history.pushState && history.state !== undefined);
+	let currentId = null;
+
+
 	NS.addInit(2, () => {
 		const objs = [];
 
@@ -37,11 +41,20 @@ window.ST = window['ST'] || {};
 			for (let obj of objs) obj.setInitialSize();
 			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
 		});
+		if (histryApiEnabled) {
+			window.addEventListener('popstate', (e) => {
+				if (e.state && e.state['name'] === 'stile-image-box' && e.state['id'] !== undefined) {
+					objs[e.state['id']].doOpen();
+				} else if (currentId !== null) {
+					objs[currentId].doClose();
+				}
+			});
+		}
 	});
 
 	function modifyImageAnchorStyle(as, objs) {
 		const fas = filterImageLink(as);
-		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i])); }
+		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i], objs.length)); }
 	}
 
 	function filterImageLink(as) {
@@ -119,7 +132,8 @@ window.ST = window['ST'] || {};
 
 	class ImageBox {
 
-		constructor(a) {
+		constructor(a, id) {
+			this._id  = id;
 			this._src = a.href;
 			a.addEventListener('click', (e) => { this.onOpen(e); });
 
@@ -152,13 +166,19 @@ window.ST = window['ST'] || {};
 
 		onOpen(e) {
 			e.preventDefault();
+			this.doOpen();
+			if (histryApiEnabled) history.pushState({ name: 'stile-image-box', id: this._id }, null, '#');
+		}
+
+		doOpen() {
 			NS.addStile(this._frm, ST_STATE_OPEN);
-			if (!this._img.src) {
-				this._img.style.opacity = '0';
-				this._img.src = this._src;
-				this._img.addEventListener('load', () => {
+			const img = this._img;
+			if (!img.src) {
+				img.style.opacity = '0';
+				img.src = this._src;
+				img.addEventListener('load', () => {
 					this.setInitialSize();
-					this._img.style.opacity = '1';
+					img.style.opacity = '1';
 				});
 			}
 			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
@@ -166,12 +186,20 @@ window.ST = window['ST'] || {};
 				this.setInitialSize();
 				NS.addStile(this._frm, ST_STATE_VISIBLE);
 			}, delay);
+			currentId = this._id;
 		}
 
+		/* eslint-disable class-methods-use-this */
 		onClose(e) {
 			e.preventDefault();
+			if (histryApiEnabled) history.back();
+			else this.doClose();
+		}
+
+		doClose() {
 			NS.removeStile(this._frm, ST_STATE_VISIBLE);
 			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
+			currentId = null;
 		}
 
 		setInitialSize() {  // Called also when 'onResize'
@@ -183,17 +211,16 @@ window.ST = window['ST'] || {};
 			this._isLandscape = (winAs < imgAs);
 
 			const size = this._isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
+			const s = this._img.style;
+			s.minWidth  = '';
+			s.minHeight = '';
 			if (this._isLandscape) {
-				this._img.style.minWidth = '';  // To be assigned by setScale
-				this._img.style.minHeight = '';
-				this._img.style.width    = size;
-				this._img.style.height   = 'auto';
+				s.width    = size;
+				s.height   = 'auto';
 			} else {
-				this._img.style.minWidth = '';
-				this._img.style.minHeight = '';  // To be assigned by setScale
-				this._img.style.width     = 'auto';
-				this._img.style.height    = size;
-				this._img.style.maxWidth  = 'none';
+				s.width    = 'auto';
+				s.height   = size;
+				s.maxWidth = 'none';
 			}
 			this._baseSize = this._isLandscape ? this._frm.clientWidth : this._frm.clientHeight;
 			this.doCenteringImage();
@@ -213,16 +240,9 @@ window.ST = window['ST'] || {};
 		doCenteringImage() {
 			const imgW = this._img.offsetWidth, imgH = this._img.offsetHeight;
 			const frmW = this._frm.clientWidth, frmH = this._frm.clientHeight;
-			if (imgW < frmW) {
-				this._img.style.left = ((frmW - imgW) / 2) + 'px';
-			} else {
-				this._img.style.left = 0;
-			}
-			if (imgH < frmH) {
-				this._img.style.top = ((frmH - imgH) / 2) + 'px';
-			} else {
-				this._img.style.top = 0;
-			}
+			const s = this._img.style;
+			s.left = (imgW < frmW) ? (((frmW - imgW) / 2) + 'px') : 0;
+			s.top  = (imgH < frmH) ? (((frmH - imgH) / 2) + 'px') : 0;
 		}
 
 		enableMouseGesture() {
@@ -230,6 +250,7 @@ window.ST = window['ST'] || {};
 			let isMoving = false;
 
 			this._frm.addEventListener('mousedown', (e) => {
+				if (e.button) return;  // when button is not left
 				e.preventDefault();
 				[xS, yS] = getCursorPoint(e);
 				isMoving = true;
