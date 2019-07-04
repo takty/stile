@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-07-04
  *
  */
 
@@ -43,7 +43,7 @@ window.ST = window['ST'] || {};
 			}
 		}
 
-		doBeforePrint(onPrint);
+		NS.onBeforePrint(onPrint);
 		function onPrint() {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
@@ -77,16 +77,6 @@ window.ST = window['ST'] || {};
 			img.style.opacity = '';
 		} else {
 			setTimeout(() => { img.style.opacity = ''; }, 200);
-		}
-	}
-
-	function doBeforePrint(func, forceMediaCheck = true) {
-		window.addEventListener('beforeprint', func, false);
-		if (forceMediaCheck || !('onbeforeprint' in window)) {
-			if (window.matchMedia) {
-				let mediaQueryList = window.matchMedia('print');
-				mediaQueryList.addListener((mql) => { if (mql.matches) func(); });
-			}
 		}
 	}
 

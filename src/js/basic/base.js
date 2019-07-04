@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-17
+ * @version 2019-07-04
  *
  */
 
@@ -95,6 +95,16 @@ window.ST = window['ST'] || {};
 			isRunning = true;
 			requestAnimationFrame(run);
 		};
+	};
+
+	NS.onBeforePrint = (fn, forceMediaCheck = true) => {
+		window.addEventListener('beforeprint', fn, false);
+		if (forceMediaCheck || !('onbeforeprint' in window)) {
+			if (window.matchMedia) {
+				let mediaQueryList = window.matchMedia('print');
+				mediaQueryList.addListener((mql) => { if (mql.matches) fn(); });
+			}
+		}
 	};
 
 
