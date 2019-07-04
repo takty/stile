@@ -38,7 +38,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
 			if (NS.containStile(a, ST_NO_ANCHOR_SCROLL)) continue;
-			if (!NS.containStile(a, ST_ANCHOR_SCROLL)) {
+			if (!NS.containStile(a, ST_ANCHOR_SCROLL) && !NS.containStile(a.parentElement, ST_ANCHOR_SCROLL)) {
 				if ((a.className + '').trim() !== '') continue;
 			}
 			const href = a.getAttribute('href');
