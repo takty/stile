@@ -77,6 +77,8 @@ window.ST = window['ST'] || {};
 		NS.onResize(() => { setAnchorOffset(ats); });
 		setTimeout(() => { setAnchorOffset(ats); }, 200);
 		setTimeout(() => { setAnchorOffset(ats); }, 300);
+		setTimeout(() => { setAnchorOffset(ats); }, 400);
+		setTimeout(() => { setAnchorOffset(ats); }, 500);
 	}
 
 	function setAnchorOffset(ats) {
