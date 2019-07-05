@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-07-05
  *
  */
 
@@ -75,7 +75,8 @@ window.ST = window['ST'] || {};
 			at.appendChild(pat);
 		}
 		NS.onResize(() => { setAnchorOffset(ats); });
-		setTimeout(() => { setAnchorOffset(ats); }, 100);
+		setTimeout(() => { setAnchorOffset(ats); }, 200);
+		setTimeout(() => { setAnchorOffset(ats); }, 300);
 	}
 
 	function setAnchorOffset(ats) {
