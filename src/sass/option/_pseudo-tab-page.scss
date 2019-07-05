@@ -141,6 +141,7 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 		}
 		a {
 			@include layout-centering();
+			min-width: 2rem;
 			padding: $stile-pseudo-tab-page-size-tab-padding-phone;
 			@include for-tablet-landscape-up { padding: $stile-pseudo-tab-page-size-tab-padding; }
 
