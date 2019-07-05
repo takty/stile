@@ -75,10 +75,17 @@ window.ST = window['ST'] || {};
 			at.appendChild(pat);
 		}
 		NS.onResize(() => { setAnchorOffset(ats); });
-		setTimeout(() => { setAnchorOffset(ats); }, 200);
-		setTimeout(() => { setAnchorOffset(ats); }, 300);
-		setTimeout(() => { setAnchorOffset(ats); }, 400);
-		setTimeout(() => { setAnchorOffset(ats); }, 500);
+		setTimeout(() => { repeatSettingAnchorOffset(ats); }, 100);
+	}
+
+	let lastOffset = 0;
+
+	function repeatSettingAnchorOffset(ats) {
+		let o = setAnchorOffset(ats);
+		if (lastOffset !== o) {
+			lastOffset = o;
+			setTimeout(() => { repeatSettingAnchorOffset(ats); }, 100);
+		}
 	}
 
 	function setAnchorOffset(ats) {
@@ -89,9 +96,9 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
 			const pat = document.getElementById(at.dataset.id);
-			const newTop = -off;
-			pat.style.top = newTop + 'px';
+			pat.style.top = -off + 'px';
 		}
+		return off;
 	}
 
 })(window.ST);
