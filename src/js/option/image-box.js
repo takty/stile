@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-05
  *
  */
 
@@ -23,9 +23,9 @@ window.ST = window['ST'] || {};
 	const ST_STATE_VISIBLE     = 'visible';
 	const SIZE_BOX_PADDING     = '4rem';
 	const ZOOM_RATE_MAX        = 5;
+	const HASH_PREFIX          = 'image:';
 
 
-	const histryApiEnabled = (history.pushState && history.state !== undefined);
 	let currentId = null;
 
 
@@ -41,16 +41,29 @@ window.ST = window['ST'] || {};
 			for (let obj of objs) obj.setInitialSize();
 			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
 		});
-		if (histryApiEnabled) {
-			window.addEventListener('popstate', (e) => {
-				if (e.state && e.state['name'] === 'stile-image-box' && e.state['id'] !== undefined) {
-					objs[e.state['id']].doOpen();
-				} else if (currentId !== null) {
-					objs[currentId].doClose();
-				}
-			});
-		}
+
+		window.addEventListener('popstate', (e) => {
+			if (currentId !== null) objs[currentId].doClose();
+			if (e.state && e.state['name'] === 'stile-image-box' && e.state['id'] !== undefined) {
+				objs[e.state['id']].doOpen();
+			}
+		});
+		checkHash(location.hash, objs);
+		window.addEventListener('hashchange', () => { checkHash(location.hash, objs) });
 	});
+
+	function checkHash(hash, objs) {
+		if (location.hash.indexOf('#' + HASH_PREFIX) !== 0) return;
+		const ih = hash.replace('#' + HASH_PREFIX, '');
+		if (!ih) return;
+		for (let i = 0; i < objs.length; i += 1) {
+			if (objs[i]._hash === ih) {
+				if (currentId !== null && currentId !== i) objs[currentId].doClose();
+				if (currentId === null || currentId !== i) objs[i].doOpen();
+				break;
+			}
+		}
+	}
 
 	function modifyImageAnchorStyle(as, objs) {
 		const fas = filterImageLink(as);
@@ -133,8 +146,10 @@ window.ST = window['ST'] || {};
 	class ImageBox {
 
 		constructor(a, id) {
-			this._id  = id;
-			this._src = a.href;
+			this._id   = id;
+			this._src  = a.href;
+			this._hash = calcHash(this._src);
+
 			a.addEventListener('click', (e) => { this.onOpen(e); });
 
 			this._frm = document.createElement('div');
@@ -165,9 +180,11 @@ window.ST = window['ST'] || {};
 		}
 
 		onOpen(e) {
-			e.preventDefault();
+			if (e) e.preventDefault();
 			this.doOpen();
-			if (histryApiEnabled) history.pushState({ name: 'stile-image-box', id: this._id }, null, '#');
+
+			const hash = '#' + HASH_PREFIX + this._hash;
+			history.pushState({ name: 'stile-image-box', id: this._id }, null, hash);
 		}
 
 		doOpen() {
@@ -192,8 +209,7 @@ window.ST = window['ST'] || {};
 		/* eslint-disable class-methods-use-this */
 		onClose(e) {
 			e.preventDefault();
-			if (histryApiEnabled) history.back();
-			else this.doClose();
+			history.back();
 		}
 
 		doClose() {
@@ -337,6 +353,16 @@ window.ST = window['ST'] || {};
 			}
 		}
 
+	}
+
+	function calcHash(str, asHex = true) {
+		let h = 0x811c9dc5;
+		for (let i = 0; i < str.length; i += 1) {
+			h ^= str.charCodeAt(i);
+			h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+		}
+		if (asHex) return ('0000000' + (h >>> 0).toString(16)).substr(-8);
+		return h >>> 0;
 	}
 
 })(window.ST);
