@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-05
  *
  */
 
@@ -16,7 +16,6 @@ window.ST = window['ST'] || {};
 	const DURATION      = 400;
 	const DURATION_FAST = 100;
 
-	// const ST_ANCHOR_SCROLL      = 'anchor-scroll';
 	const ST_NO_ANCHOR_SCROLL   = 'no-anchor-scroll';
 	const ST_ANCHOR_SCROLL_FAST = 'anchor-scroll-fast';
 	const ST_ANCHOR_OFFSET      = 'anchor-offset';
