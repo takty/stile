@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-06
  *
  */
 
@@ -113,6 +113,7 @@ $stile-table-align-caption               : center !default;
 	td p:not([class]) {
 		text-align: initial;
 	}
+	td { vertical-align: top; }
 }
 
 @mixin stile-table-fixed-header {
