@@ -161,6 +161,7 @@ window.ST = window['ST'] || {};
 				if (!this._isEnlargable()) this._ebtn.style.display = 'none';
 			}
 			this._resize();
+			this._adjustUnexpectedScrollBar()
 		}
 
 		_initTableScroll() {
@@ -236,6 +237,7 @@ window.ST = window['ST'] || {};
 
 
 		onWindowResize() {
+			this._adjustUnexpectedScrollBar();
 			const ww = Math.min(window.outerWidth, window.innerWidth);  // for iOS
 			if (this._windowWidth === ww) return;
 			this._windowWidth = ww;
@@ -245,6 +247,11 @@ window.ST = window['ST'] || {};
 			} else {
 				this._resize();
 			}
+		}
+
+		_adjustUnexpectedScrollBar() {
+			const t = this._table;
+			t.style.overflowX = (t.scrollWidth < t.clientWidth + 2) ? 'hidden' : '';
 		}
 
 		_resize() {
