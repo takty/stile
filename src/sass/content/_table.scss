@@ -47,7 +47,7 @@ $stile-table-align-caption               : center !default;
 		caption {
 			position   : relative;  // for Scrolling
 			will-change: transform;
-			transition : transform 0.2s ease;
+			transition : transform 0.1s ease;
 
 			display      : inline-block;
 			padding-left : base-vr(1);
