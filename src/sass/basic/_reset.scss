@@ -3,7 +3,7 @@
  * Reset Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-06
  *
  * Based on:
  *  modern-normalize v0.4
@@ -116,7 +116,6 @@ $stile-reset-include: true !default;
 	}
 
 	td, th {
-		padding   : 0;
 		text-align: left;
 	}
 
