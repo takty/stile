@@ -65,7 +65,8 @@ window.ST = window['ST'] || {};
 		_create() {
 			this._head = this._createHeaderClone();
 			this._sbar = this._createScrollBarClone();
-			this._ebtn = (!this._head || NS.containStile(this._table, ST_OPT_NO_ENLARGER)) ? null : this._createEnlargerButton();
+			// this._ebtn = (!this._head || NS.containStile(this._table, ST_OPT_NO_ENLARGER)) ? null : this._createEnlargerButton();
+			this._ebtn = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlargerButton();
 			this._shade = this._createShade();
 
 			const caps = this._table.getElementsByTagName('caption');
@@ -204,7 +205,7 @@ window.ST = window['ST'] || {};
 			tab.scrollLeft  = 0;
 			tab.style.width = 'calc(100vw - ' + scrollBarWidth + 'px)';
 			NS.addStile(tab, ST_STATE_ENLARGED);
-			NS.addStile(this._head, ST_STATE_ENLARGED);
+			if (this._head) NS.addStile(this._head, ST_STATE_ENLARGED);
 			this._isEnlarged = true;
 
 			// Do this timing!
@@ -224,7 +225,7 @@ window.ST = window['ST'] || {};
 			tab.style.width      = '';
 			tab.scrollLeft       = 0;
 			NS.removeStile(tab, ST_STATE_ENLARGED);
-			NS.removeStile(this._head, ST_STATE_ENLARGED);
+			if (this._head) NS.removeStile(this._head, ST_STATE_ENLARGED);
 			this._isEnlarged = false;
 
 			NS.removeStile(this._shade, 'visible');
@@ -336,10 +337,10 @@ window.ST = window['ST'] || {};
 			if (visible) {
 				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
 				head.style.display = 'block';
-				if (this._ebtn) this.switchEnlargerToFloatingHeader();
+				if (this._ebtn && head) this.switchEnlargerToFloatingHeader();
 			} else {
 				head.style.display = 'none';
-				if (this._ebtn) this.switchEnlargerToTable();
+				if (this._ebtn && head) this.switchEnlargerToTable();
 			}
 			head.style.left = tabLeft + 'px';
 			head.scrollLeft = this._table.scrollLeft;
