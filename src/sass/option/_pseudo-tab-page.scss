@@ -102,7 +102,7 @@ $stile-pseudo-tab-page-border-style-second            : dashed 1px $stile-pseudo
 		border-bottom: $stile-pseudo-tab-page-border-style;
 	}
 	.pseudo-tab-page .pseudo-tab-page > .stile-pseudo-tab-page-tab-list {
-		border-bottom: dashed 1px $stile-pseudo-tab-page-border-style-second;
+		border-bottom: $stile-pseudo-tab-page-border-style-second;
 	}
 
 	.stile-pseudo-tab-page-tab-list li {
