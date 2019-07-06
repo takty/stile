@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-06
  *
  */
 
@@ -14,8 +14,10 @@
 @import '../basic/layout';
 
 
-$stile-tab-page-color-background              : #fff !default;
 $stile-tab-page-color-rule                    : rgba(#777, 0.35) !default;
+$stile-tab-page-color-text                    : rgba(#000, 0.95) !default;
+$stile-tab-page-color-background              : #fff !default;
+
 $stile-tab-page-color-rule-vertical           : false !default;
 $stile-tab-page-color-tab-background          : transparent !default;
 $stile-tab-page-color-tab-rule                : transparent !default;
@@ -28,9 +30,9 @@ $stile-tab-page-color-tab-current-top         : $stile-tab-page-color-rule !defa
 $stile-tab-page-color-tab-accordion-background: $stile-tab-page-color-tab-current-background !default;
 $stile-tab-page-color-tab-accordion-rule      : $stile-tab-page-color-rule !default;
 
-$stile-tab-page-color-tab-text-current        : rgba(#000, 0.95) !default;
-$stile-tab-page-color-tab-text                : rgba($stile-tab-page-color-tab-text-current, 0.50) !default;
-$stile-tab-page-color-tab-text-hover          : $stile-tab-page-color-tab-text-current !default;
+$stile-tab-page-color-tab-text-current        : $stile-tab-page-color-text !default;
+$stile-tab-page-color-tab-text                : rgba($stile-tab-page-color-text, 0.50) !default;
+$stile-tab-page-color-tab-text-hover          : $stile-tab-page-color-text !default;
 
 $stile-tab-page-size-tab-current-top          : 2px !default;
 $stile-tab-page-size-tab-margin               : 0.25rem !default;
