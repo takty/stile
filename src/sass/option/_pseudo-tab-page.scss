@@ -14,49 +14,57 @@
 @import '../basic/layout';
 
 
-$stile-pseudo-tab-page-color-rule                  : transparent !default;
-$stile-pseudo-tab-page-color-rule-vertical         : rgba(#777, 0.35) !default;
-$stile-pseudo-tab-page-color-tab-background        : transparent !default;
-$stile-pseudo-tab-page-color-tab-rule              : transparent !default;
-$stile-pseudo-tab-page-color-tab-background-hover  : transparent !default;
+$stile-pseudo-tab-page-color-rule                     : transparent !default;
+$stile-pseudo-tab-page-color-text                     : rgba(#000, 0.95) !default;
 
-$stile-pseudo-tab-page-color-tab-current-background: transparent !default;
-$stile-pseudo-tab-page-color-tab-current-rule      : transparent !default;
-$stile-pseudo-tab-page-color-tab-current-top       : transparent !default;
+$stile-pseudo-tab-page-color-tab-rule                 : transparent !default;
+$stile-pseudo-tab-page-color-tab-rule-vertical        : $stile-pseudo-tab-page-color-rule !default;
+$stile-pseudo-tab-page-color-tab-background           : transparent !default;
+$stile-pseudo-tab-page-color-tab-background-hover     : transparent !default;
 
-$stile-pseudo-tab-page-color-tab-text-current      : rgba(#000, 0.95) !default;
-$stile-pseudo-tab-page-color-tab-text              : rgba($stile-pseudo-tab-page-color-tab-text-current, 0.50) !default;
-$stile-pseudo-tab-page-color-tab-text-hover        : $stile-pseudo-tab-page-color-tab-text-current !default;
+$stile-pseudo-tab-page-color-tab-current-rule         : transparent !default;
+$stile-pseudo-tab-page-color-tab-current-rule-vertical: $stile-pseudo-tab-page-color-rule !default;
+$stile-pseudo-tab-page-color-tab-current-background   : transparent !default;
+$stile-pseudo-tab-page-color-tab-current-top          : transparent !default;
 
-$stile-pseudo-tab-page-color-tab-focus-outline     : false !default;
-$stile-pseudo-tab-page-color-tab-focus-background  : false !default;
+$stile-pseudo-tab-page-color-tab-text-current         : $stile-pseudo-tab-page-color-text !default;
+$stile-pseudo-tab-page-color-tab-text                 : rgba($stile-pseudo-tab-page-color-text, 0.50) !default;
+$stile-pseudo-tab-page-color-tab-text-hover           : $stile-pseudo-tab-page-color-text !default;
 
-$stile-pseudo-tab-page-size-tab-height             : 2.5rem !default;
-$stile-pseudo-tab-page-size-tab-padding            : 0 !default;
-$stile-pseudo-tab-page-size-tab-padding-phone      : 0 !default;
-$stile-pseudo-tab-page-size-tab-current-top        : 0 !default;
-$stile-pseudo-tab-page-size-tab-margin             : 0 !default;
-$stile-pseudo-tab-page-level-font                  : 1 !default;
+$stile-pseudo-tab-page-color-tab-focus-outline        : false !default;
+$stile-pseudo-tab-page-color-tab-focus-background     : false !default;
 
-$stile-pseudo-tab-page-visible-tab-separator       : true !default;
-$stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
+$stile-pseudo-tab-page-size-tab-height                : 2.5rem !default;
+$stile-pseudo-tab-page-size-tab-padding               : 0 !default;
+$stile-pseudo-tab-page-size-tab-padding-phone         : 0 !default;
+$stile-pseudo-tab-page-size-tab-current-top           : 0 !default;
+$stile-pseudo-tab-page-size-tab-margin                : 0 !default;
+$stile-pseudo-tab-page-level-font                     : 1 !default;
+
+$stile-pseudo-tab-page-visible-tab-separator          : true !default;
+$stile-pseudo-tab-page-hidden-redundant-tab           : true !default;
+$stile-pseudo-tab-page-border-style                   : double 3.5px $stile-pseudo-tab-page-color-rule !default;
+$stile-pseudo-tab-page-border-style-second            : dashed 1px $stile-pseudo-tab-page-color-rule !default;
 
 
 @mixin stile-pseudo-tab-page-variable-alt {
-	$stile-pseudo-tab-page-color-rule            : rgba(#777, 0.35) !global;
-	$stile-pseudo-tab-page-color-rule-vertical   : false !global;
-	$stile-pseudo-tab-page-color-tab-rule        : rgba(#777, 0.35) !global;
+	$stile-pseudo-tab-page-color-rule             : rgba(#777, 0.35) !global;
 
-	$stile-pseudo-tab-page-color-tab-current-rule: $stile-pseudo-tab-page-color-rule !global;
-	$stile-pseudo-tab-page-color-tab-current-top : $stile-pseudo-tab-page-color-rule !global;
+	$stile-pseudo-tab-page-color-tab-rule         : $stile-pseudo-tab-page-color-rule !global;
+	$stile-pseudo-tab-page-color-tab-rule-vertical: false !global;
 
-	$stile-pseudo-tab-page-size-tab-height       : 3rem !global;
-	$stile-pseudo-tab-page-size-tab-padding      : base-vr(0.5) base-vr(2) !global;
-	$stile-pseudo-tab-page-size-tab-padding-phone: base-vr(0.5) base-vr(1) !global;
-	$stile-pseudo-tab-page-size-tab-current-top  : 2px !global;
-	$stile-pseudo-tab-page-size-tab-margin       : 0.5rem !global;
+	$stile-pseudo-tab-page-color-tab-current-rule : $stile-pseudo-tab-page-color-tab-rule !global;
+	$stile-pseudo-tab-page-color-tab-current-top  : $stile-pseudo-tab-page-color-tab-rule !global;
 
-	$stile-pseudo-tab-page-visible-tab-separator : false !global;
+	$stile-pseudo-tab-page-size-tab-height        : 3rem !global;
+	$stile-pseudo-tab-page-size-tab-padding       : base-vr(0.5) base-vr(2) !global;
+	$stile-pseudo-tab-page-size-tab-padding-phone : base-vr(0.5) base-vr(1) !global;
+	$stile-pseudo-tab-page-size-tab-current-top   : 2px !global;
+	$stile-pseudo-tab-page-size-tab-margin        : 0.5rem !global;
+
+	$stile-pseudo-tab-page-visible-tab-separator  : false !global;
+	$stile-pseudo-tab-page-border-style           : solid 1px $stile-pseudo-tab-page-color-rule !global;
+	$stile-pseudo-tab-page-border-style-second    : dashed 1px $stile-pseudo-tab-page-color-rule !global;
 }
 
 
@@ -108,6 +116,14 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 			}
 		}
 	}
+
+	.stile-pseudo-tab-page-tab-list {
+		border-bottom: $stile-pseudo-tab-page-border-style;
+	}
+	.pseudo-tab-page .pseudo-tab-page > .stile-pseudo-tab-page-tab-list {
+		border-bottom: dashed 1px $stile-pseudo-tab-page-border-style-second;
+	}
+
 	.stile-pseudo-tab-page-tab-list li {
 		@include layout-centering();
 
@@ -135,7 +151,7 @@ $stile-pseudo-tab-page-hidden-redundant-tab        : true !default;
 				content    : '';
 				width      : 2px;
 				height     : 1rem;
-				border-left: 1px solid $stile-pseudo-tab-page-color-rule-vertical;
+				border-left: 1px solid $stile-pseudo-tab-page-color-tab-rule-vertical;
 				margin     : 0 1rem;
 			}
 		}
