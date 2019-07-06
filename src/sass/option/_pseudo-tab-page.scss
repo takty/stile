@@ -45,7 +45,7 @@ $stile-pseudo-tab-page-level-font                     : 1 !default;
 
 $stile-pseudo-tab-page-visible-tab-separator          : if($stile-pseudo-tab-page-alt, false, true) !default;
 $stile-pseudo-tab-page-hidden-redundant-tab           : true !default;
-$stile-pseudo-tab-page-border-style                   : if($stile-pseudo-tab-page-alt, solid 1px $stile-pseudo-tab-page-color-rule, double 3.5px $stile-pseudo-tab-page-color-rule) !default;
+$stile-pseudo-tab-page-border-style                   : solid 1px $stile-pseudo-tab-page-color-rule !default;
 $stile-pseudo-tab-page-border-style-second            : dashed 1px $stile-pseudo-tab-page-color-rule !default;
 
 
