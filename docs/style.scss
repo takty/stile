@@ -20,12 +20,12 @@ $stile-table-align-caption       : left;
 $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
 
+// $stile-pseudo-tab-page-alt: true;
+
 
 @import '../dist/sass/basic';
 @import '../dist/sass/content';
 @import '../dist/sass/option';
-
-// @include stile-pseudo-tab-page-variable-alt;
 
 
 :root {
