@@ -3,13 +3,13 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-07
+ *
+ * @import '../basic/base';
+ * @import '../basic/query';
+ * @import '../basic/layout';
  *
  */
-
-
-@import '../basic/query';
-@import '../basic/layout';
 
 
 $stile-container-margin           : base-vr(4) !default;

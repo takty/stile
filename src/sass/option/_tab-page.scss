@@ -3,15 +3,14 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-06
+ * @version 2019-07-07
+ *
+ * @import '../basic/base';
+ * @import '../basic/query';
+ * @import '../basic/font';
+ * @import '../basic/layout';
  *
  */
-
-
-@import '../basic/base';
-@import '../basic/query';
-@import '../basic/font';
-@import '../basic/layout';
 
 
 $stile-tab-page-color-rule                    : rgba(#777, 0.35) !default;

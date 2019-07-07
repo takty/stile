@@ -3,13 +3,12 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-07
+ *
+ * @import '../basic/base';
+ * @import '../basic/font';
  *
  */
-
-
-@import '../basic/base';
-@import '../basic/font';
 
 
 $stile-list-color-mark      : rgba(#777, 0.9)      !default;

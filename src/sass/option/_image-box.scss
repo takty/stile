@@ -3,12 +3,13 @@
  * Image Box (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-07-07
+ *
+ * @import '../basic/base';
+ * @import '../basic/query';
+ * @import '../basic/font';
  *
  */
-
-
-@import '../basic/query';
 
 
 $stile-image-box-color-background       : rgba(#000, 0.75) !default;

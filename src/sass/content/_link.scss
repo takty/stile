@@ -3,14 +3,12 @@
  * Link Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-07
+ *
+ * @import '../basic/query';
+ * @import '../basic/font';
  *
  */
-
-
-@import '../basic/base';
-@import '../basic/query';
-@import '../basic/font';
 
 
 $stile-link-color-text        : rgba(#12f, 0.9) !default;
