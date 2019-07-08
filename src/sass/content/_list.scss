@@ -3,7 +3,7 @@
  * List Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-07-08
  *
  * @import '../basic/base';
  * @import '../basic/font';
@@ -64,33 +64,6 @@ $_stile-list-img-marks: map-merge((
 	dl:not([class]),
 	dl.stile {
 		@include stile-list-dl-inside;
-	}
-}
-
-@mixin stile-list-margin {
-	ul:not([class]),
-	ul.stile {
-		> li + li { margin-top: base-vr(1); }
-	}
-	ul[data-stile~='compact'] > li + li { margin-top: 0; }
-
-	ol:not([class]),
-	ol.stile {
-		// Must use 'padding-top' instead of 'margin-top' because ol's 'display' is 'table'.
-		> li + li::before { padding-top: base-vr(1); }
-	}
-	ol[data-stile~='compact'] > li + li::before { padding-top: 0; }
-
-	dl:not([class]),
-	dl.stile {
-		> * + dt { margin-top: base-vr(1); }
-	}
-	dl[data-stile~='compact'] > * + dt { margin-top: 0; }
-
-	li, dd {  // For nesting Lists
-		> ul, > ol, > dl {
-			margin-top: base-vr(1);
-		}
 	}
 }
 

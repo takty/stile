@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-07-08
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -18,7 +18,6 @@ $stile-alignment-size-width         : 72rem !default;
 
 @mixin stile-alignment {
 	@include stile-alignment-main;
-	@include stile-alignment-margin;
 	@include stile-alignment-size;
 	@include stile-alignment-option($stile-alignment-size-text-width, $stile-alignment-size-width);
 }
@@ -128,56 +127,6 @@ $stile-alignment-size-width         : 72rem !default;
 	&.alignright {
 		float      : right;
 		margin-left: base-vr(2);
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin stile-alignment-margin {
-	*:not(.alignleft) + .alignleft,
-	*:not(.alignright) + .alignright,
-	.alignleft + *:not(.alignleft),
-	.alignright + *:not(.alignright) {
-		margin-top: base-vr(1);
-	}
-	* + figure.alignleft,
-	* + figure.alignright,
-	figure.alignleft + *,
-	figure.alignright + * {
-		margin-top: base-vr(4);  // for Centering View
-	}
-	@include for-tablet-up {
-		* + figure.alignleft,
-		* + figure.alignright,
-		figure.alignleft + *,
-		figure.alignright + * {
-			margin-top: base-vr(1);  // for Actual Floating View
-		}
-		figure.alignleft,
-		figure.alignright {
-			&:not([data-stile ~= 'aligncenter']) > figcaption {
-				padding-bottom: base-vr(1);
-			}
-		}
-	}
-	@include stile-alignment-define-figure-margin(h6, nth($stile-margin-heading, 6));
-	@include stile-alignment-define-figure-margin(h5, nth($stile-margin-heading, 5));
-	@include stile-alignment-define-figure-margin(h4, nth($stile-margin-heading, 4));
-	@include stile-alignment-define-figure-margin(h3, nth($stile-margin-heading, 3));
-	@include stile-alignment-define-figure-margin(h2, nth($stile-margin-heading, 2));
-	@include stile-alignment-define-figure-margin(h1, nth($stile-margin-heading, 1));
-}
-
-@mixin stile-alignment-define-figure-margin($tag, $top-bottom) {
-	$bottom: nth($top-bottom, 2);
-	#{$tag} {
-		// The following selectors are redundant for override existing styles by specificity
-		& + figure.alignright:not(.alignleft),
-		& + figure.alignleft:not(.alignright) {
-			margin-top: base-vr($bottom);
-		}
 	}
 }
 
