@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-09
  *
  */
 
@@ -115,16 +115,16 @@ window.ST = window['ST'] || {};
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 
 	NS.makeOffsetFunction = () => {
-		let elmFixed = document.getElementsByClassName(CLS_STICKY_ELM);
-		if (elmFixed && elmFixed.length > 0) {
-			elmFixed = elmFixed[0];
-			const elmTops = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
-			if (elmTops && elmTops.length > 0) {
+		const elmsFixed = document.getElementsByClassName(CLS_STICKY_ELM);
+		if (elmsFixed && elmsFixed.length > 0) {
+			const elmFixed = elmsFixed[0];
+			const elmsTop = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
+			if (elmsTop && elmsTop.length > 0) {
 				return () => {
 					const pos = getComputedStyle(elmFixed).position;
 					if (pos === 'fixed') {
 						let height = 0;
-						for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
+						for (let i = 0; i < elmsTop.length; i += 1) height += elmsTop[i].offsetHeight;
 						return height;
 					}
 					return 0;

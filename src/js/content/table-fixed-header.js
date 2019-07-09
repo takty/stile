@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-06
+ * @version 2019-07-09
  *
  */
 
@@ -27,13 +27,13 @@ window.ST = window['ST'] || {};
 	const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	const getTableHeaderOffset = (function () {
-		const f = NS.makeOffsetFunction();
-		return () => f() + NS.getWpAdminBarHeight();
-	})();
+	let getTableHeaderOffset;
 	let scrollBarWidth;
 
 	NS.addInit(4, () => {
+		const f = NS.makeOffsetFunction();  // Initialize here
+		getTableHeaderOffset = () => f() + NS.getWpAdminBarHeight();
+
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);  // Delay for IE11
 	});
@@ -334,7 +334,7 @@ window.ST = window['ST'] || {};
 		updateHeaderVisibility(visible, tabLeft) {
 			const head = this._head;
 			if (visible) {
-				head.style.top = (getTableHeaderOffset() + NS.getWpAdminBarHeight()) + 'px';
+				head.style.top     = getTableHeaderOffset() + 'px';
 				head.style.display = 'block';
 				if (this._ebtn && head) this.switchEnlargerToFloatingHeader();
 			} else {
