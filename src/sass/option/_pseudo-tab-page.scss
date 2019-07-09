@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-08
+ * @version 2019-07-09
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -49,12 +49,6 @@ $stile-pseudo-tab-page-border-style-second            : dashed 1px $stile-pseudo
 
 
 @mixin stile-pseudo-tab-page {
-	.pseudo-tab-page {
-		@include stile-margin;
-		* + & { margin-top: base-vr(6); }
-		.stile-pseudo-tab-page-tab-list + * { margin-top: base-vr(2); }
-	}
-
 	.stile-pseudo-tab-page-tab-list {  // Must be a class for avoiding auto formating of list style
 		&:not(:first-child) { margin-top: base-vr(6); }
 		@include layout-wrap(($stile-pseudo-tab-page-size-tab-margin, $stile-pseudo-tab-page-size-tab-margin));

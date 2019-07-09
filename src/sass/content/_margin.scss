@@ -3,7 +3,7 @@
  * Margin Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-08
+ * @version 2019-07-09
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -23,6 +23,10 @@ $stile-margin-heading:
 
 @mixin stile-margin {
 	@extend %stile-margin;
+}
+
+@mixin stile-margin-inside {
+	@extend %stile-margin-inside;
 }
 
 
@@ -65,6 +69,37 @@ $stile-margin-heading:
 	}
 }
 
+
+// -----------------------------------------------------------------------------
+
+
+@mixin stile-margin-block {
+	* + blockquote,
+		blockquote + *,
+	* + nav,
+		nav + *,
+	* + pre,
+		pre + *   { margin-top: base-vr(2); }
+	* + table,
+	    table + *,
+	* + hr,
+	    hr + *    { margin-top: base-vr(4); }
+	p + p         { margin-top: base-vr(1); }
+}
+
+@mixin stile-margin-list {
+	* + ul,
+		ul + *,
+	* + ol,
+		ol + *,
+	* + dl,
+		dl + * { margin-top: base-vr(2); }
+}
+
+
+// -----------------------------------------------------------------------------
+
+
 @mixin stile-margin-alignment {
 	* + figure,
 	    figure + *,
@@ -106,12 +141,64 @@ $stile-margin-heading:
 	}
 }
 
+@mixin stile-margin-container {
+	* + .column-2,
+		.column-2 + *,
+	* + .column-3,
+		.column-3 + *,
+	* + .column-4,
+		.column-4 + *,
+	* + .card-2,
+		.card-2 + *,
+	* + .card-3,
+		.card-3 + *,
+	* + .card-4,
+		.card-4 + *
+	{ margin-top: base-vr(4); }
+
+	.column-2,
+	.column-3,
+	.column-4,
+	.card-2,
+	.card-3,
+	.card-4 {
+		> * {
+			@include stile-margin-inside;
+		}
+	}
+}
+
+@mixin stile-margin-option {
+	* + .tab-page,
+		.tab-page + *,
+	* + .pseudo-tab-page,
+		.pseudo-tab-page + *
+	{ margin-top: base-vr(4); }
+
+	.tab-page > div,
+	.pseudo-tab-page
+	{ @include stile-margin-inside; }
+
+	.stile-tab-page-tab-list + *,
+	* + .stile-tab-page-tab-list-below
+	{ margin-top: 0; }
+
+	.pseudo-tab-page .stile-pseudo-tab-page-tab-list + *
+	{ margin-top: base-vr(2); }
+}
+
+
+// -----------------------------------------------------------------------------
+
+
 @mixin stile-margin-heading($tag, $top-bottom) {
 	$top: nth($top-bottom, 1);
 	$btm: nth($top-bottom, 2);
 
 	* + #{$tag}     { margin-top: base-vr($top); }
 		#{$tag} + * { margin-top: base-vr($btm); }
+	*[class] + #{$tag}            { margin-top: base-vr($top); }
+	           #{$tag} + *[class] { margin-top: base-vr($btm); }
 
 	#{$tag} {
 		& + figure.alignright,
@@ -126,22 +213,26 @@ $stile-margin-heading:
 // -----------------------------------------------------------------------------
 
 
+%stile-margin-inside {
+	> div + div { margin-top: base-vr(2); }
+}
+
 %stile-margin {
 	@if $stile-margin-align-table == center {
 		text-align: center;        // for table on IE11
 		> * { text-align: left; }  // for table on IE11
 	}
+	> div + div { margin-top: base-vr(2); }
+
 	@include stile-margin-block-inside;
 	@include stile-margin-list-inside;
 
-	> * + *       { margin-top: base-vr(2); }
-	* + table     { margin-top: base-vr(4); }
-	    table + * { margin-top: base-vr(4); }
-	* + hr        { margin-top: base-vr(4); }
-	    hr + *    { margin-top: base-vr(4); }
-	p + p         { margin-top: base-vr(1); }
+	@include stile-margin-block;
+	@include stile-margin-list;
 
 	@include stile-margin-alignment;
+	@include stile-margin-container;
+	@include stile-margin-option;
 
 	@for $i from 6 through 1 {  // The order below has meaning!
 		@include stile-margin-heading(h#{$i}, nth($stile-margin-heading, $i));

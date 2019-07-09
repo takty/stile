@@ -3,7 +3,7 @@
  * Table Style (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-07-09
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -120,7 +120,7 @@ $stile-table-align-caption               : center !default;
 		position        : fixed;
 		top             : 0;
 		z-index         : 99;
-		margin          : 0 !important;  // for cancel 'stile-margin-basic'
+		margin          : 0 !important;  // for cancel 'stile-margin-inside'
 		overflow-x      : hidden;
 		background-color: $stile-table-color-header-background-base;
 		box-shadow      : 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);

@@ -3,7 +3,7 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-08
+ * @version 2019-07-09
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -12,7 +12,6 @@
  */
 
 
-$stile-container-margin           : base-vr(4) !default;
 $stile-container-column-gap       : base-vr(2) !default;
 $stile-container-column-gap-v     : base-vr(4) !default;
 $stile-container-card-gap         : base-vr(2) !default;
@@ -35,10 +34,8 @@ $stile-container-4-child-min-width: 10rem !default;
 		display  : flex;
 		flex-wrap: wrap;
 
-		> * {  // One of Columns
-			@include stile-margin;
-			flex-grow: 1;
-		}
+		// One of Columns
+		> * { flex-grow: 1; }
 	}
 	.column-2 {
 		> * {
@@ -66,18 +63,6 @@ $stile-container-4-child-min-width: 10rem !default;
 			}
 		}
 	}
-	*:not([class]) + .column-2,
-	                 .column-2 + *:not([class]),
-	*:not([class]) + .column-3,
-	                 .column-3 + *:not([class]),
-	*:not([class]) + .column-4,
-	                 .column-4 + *:not([class]) { margin-top: $stile-container-margin; }
-
-	.column-2, .column-3, .column-4 {
-		& + .column-2, & + .column-3, & + .column-4 {
-			margin-top: $stile-container-margin;
-		}
-	}
 }
 
 @mixin stile-container-card {
@@ -89,13 +74,9 @@ $stile-container-4-child-min-width: 10rem !default;
 		flex-wrap      : wrap;
 		justify-content: space-between;
 
-		> * {  // One of Cards
-			@include stile-margin;
-			flex-grow: 1;
-		}
-		> *:empty {
-			margin-right: $stile-container-card-gap;
-		}
+		// One of Cards
+		> * { flex-grow: 1; }
+		> *:empty { margin-right: $stile-container-card-gap; }
 	}
 	.card-2 {
 		> * {
@@ -125,10 +106,4 @@ $stile-container-4-child-min-width: 10rem !default;
 			min-width : $stile-container-4-child-min-width;
 		}
 	}
-	*:not([class]) + .card-2,
-	.card-2 + *:not([class]),
-	*:not([class]) + .card-3,
-	.card-3 + *:not([class]),
-	*:not([class]) + .card-4,
-	.card-4 + *:not([class]) { margin-top: $stile-container-margin; }
 }
