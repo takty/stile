@@ -39,9 +39,7 @@ $stile-margin-heading:
 	blockquote {
 		@include stile-margin-inside;
 	}
-}
 
-@mixin stile-margin-list-inside {
 	ul:not([class]),
 	ul.stile {
 		> li + li { margin-top: base-vr(1); }
@@ -68,10 +66,6 @@ $stile-margin-heading:
 	}
 }
 
-
-// -----------------------------------------------------------------------------
-
-
 @mixin stile-margin-block {
 	* + blockquote,
 		blockquote + *,
@@ -79,6 +73,12 @@ $stile-margin-heading:
 		nav + *,
 	* + pre,
 		pre + *,
+	* + ul,
+		ul + *,
+	* + ol,
+		ol + *,
+	* + dl,
+		dl + *,
 	* + p,
 		p + *     { margin-top: base-vr(2); }
 	* + table,
@@ -86,15 +86,6 @@ $stile-margin-heading:
 	* + hr,
 	    hr + *    { margin-top: base-vr(4); }
 	p + p         { margin-top: base-vr(1); }
-}
-
-@mixin stile-margin-list {
-	* + ul,
-		ul + *,
-	* + ol,
-		ol + *,
-	* + dl,
-		dl + * { margin-top: base-vr(2); }
 }
 
 
@@ -226,10 +217,7 @@ $stile-margin-heading:
 	> div + div { margin-top: base-vr(2); }
 
 	@include stile-margin-block-inside;
-	@include stile-margin-list-inside;
-
 	@include stile-margin-block;
-	@include stile-margin-list;
 
 	@include stile-margin-alignment;
 	@include stile-margin-container;
