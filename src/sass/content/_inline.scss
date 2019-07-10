@@ -3,7 +3,7 @@
  * Inline Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-07-10
  *
  * @import '../basic/base';
  * @import '../basic/font';
@@ -75,7 +75,7 @@ $stile-inline-size-font-monospace: 0.95em !default;
 	sub, sup {
 		position      : relative;
 		display       : inline-block;  // for neat line height
-		vertical-align: inherit;
+		vertical-align: baseline;
 		line-height   : 1;
 		margin-right  : 0.1em;
 		font-size     : $stile-inline-size-font-subscript;
