@@ -78,7 +78,9 @@ $stile-margin-heading:
 	* + nav,
 		nav + *,
 	* + pre,
-		pre + *   { margin-top: base-vr(2); }
+		pre + *,
+	* + p,
+		p + *     { margin-top: base-vr(2); }
 	* + table,
 	    table + *,
 	* + hr,
