@@ -99,7 +99,7 @@ window.ST = window['ST'] || {};
 		updateVisibilityImmediately(tabUlss);
 		NS.onScroll(() => {
 			updateVisibility(tabUlss);
-			setTimeout(() => { focused = null; }, 100);
+			setTimeout(() => { focused = null; }, 200);
 		});
 	}
 
