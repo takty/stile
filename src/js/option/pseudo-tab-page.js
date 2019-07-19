@@ -3,7 +3,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-04
+ * @version 2019-07-19
  *
  */
 
@@ -96,37 +96,37 @@ window.ST = window['ST'] || {};
 
 
 	function initializeSingleTab(tabUlss) {
-		updateVisibility(tabUlss, true);
+		updateVisibilityImmediately(tabUlss);
 		NS.onScroll(() => { updateVisibility(tabUlss); });
 	}
 
 	function onTabClick(idx, tabUls, tabUlss) {
 		focused = tabUls[idx];
-		setTimeout(() => { updateVisibility(tabUlss, true); }, 10);
+		updateVisibilityImmediately(tabUlss);
 	}
 
-	function updateVisibility(tabUlss, immediately = false) {
-		if (immediately) {
+	function updateVisibilityImmediately(tabUlss) {
+		for (let i = 0; i < tabUlss.length; i += 1) {
+			const tabUls = tabUlss[i];
+			for (let j = 0; j < tabUls.length; j += 1) {
+				NS.addStile(tabUls[j], 'immediately');
+			}
+		}
+		setTimeout(() => { updateVisibility(tabUlss) }, 10);
+		setTimeout(() => {
 			for (let i = 0; i < tabUlss.length; i += 1) {
 				const tabUls = tabUlss[i];
 				for (let j = 0; j < tabUls.length; j += 1) {
-					NS.addStile(tabUls[j], 'immediately');
+					NS.removeStile(tabUls[j], 'immediately');
 				}
 			}
-		}
+			focused = null;
+		}, 1000);
+	}
+
+	function updateVisibility(tabUlss) {
 		for (let i = 0; i < tabUlss.length; i += 1) {
 			updateVisibilityOne(tabUlss[i]);
-		}
-		if (immediately) {
-			setTimeout(() => {
-				for (let i = 0; i < tabUlss.length; i += 1) {
-					const tabUls = tabUlss[i];
-					for (let j = 0; j < tabUls.length; j += 1) {
-						NS.removeStile(tabUls[j], 'immediately');
-					}
-				}
-				focused = null;
-			}, 1000);
 		}
 	}
 
