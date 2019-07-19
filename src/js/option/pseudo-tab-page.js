@@ -97,12 +97,7 @@ window.ST = window['ST'] || {};
 
 	function initializeSingleTab(tabUlss) {
 		updateVisibilityImmediately(tabUlss);
-		let st = null;
-		NS.onScroll(() => {
-			updateVisibility(tabUlss);
-			if (st) clearTimeout(st);
-			st = setTimeout(() => { focused = null; }, 200);
-		});
+		NS.onScroll(() => { updateVisibility(tabUlss); });
 	}
 
 	function onTabClick(idx, tabUls, tabUlss) {
@@ -125,7 +120,11 @@ window.ST = window['ST'] || {};
 					NS.removeStile(tabUls[j], 'immediately');
 				}
 			}
-			focused = null;
+			if (focused) {
+				const y = focused.getBoundingClientRect().top;
+				focused = null;
+				if (window.innerHeight < y) updateVisibility(tabUlss);
+			}
 		}, 1000);
 	}
 
