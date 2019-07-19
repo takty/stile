@@ -3,7 +3,7 @@
  * Query Functions for Responsive and Browsers (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-07-19
  *
  */
 
@@ -41,8 +41,7 @@ window.ST = window['ST'] || {};
 		}
 	};
 
-	assignWindowSize();
-	NS.onResize(assignWindowSize);
+	NS.onResize(assignWindowSize, true);
 
 
 	// -------------------------------------------------------------------------

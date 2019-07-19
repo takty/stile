@@ -70,14 +70,11 @@ window.ST = window['ST'] || {};
 
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
-		assignWidths(asw, stile);
+		NS.onScroll(() => { assignWidths(asw, stile); }, true);  // for Lazy Image Loading
 		NS.onResize(() => {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);
-		});
-		NS.onScroll(() => { assignWidths(asw, stile); });  // for Lazy Image Loading
-		updateApplicableWidths(asw);
-		switchFloat(asw, stile);
+		}, true);
 	}
 
 	function initTargets(as) {

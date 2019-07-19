@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-09
+ * @version 2019-07-19
  *
  */
 
@@ -74,23 +74,26 @@ window.ST = window['ST'] || {};
 	const scrollListeners = [];
 
 	document.addEventListener('DOMContentLoaded', () => {
-		window.addEventListener('resize', () => { for (let l of resizeListeners) l(); });
-		window.addEventListener('scroll', () => { for (let l of scrollListeners) l(); });
+		const opt = (NS.BROWSER === 'ie11') ? false : { passive: true };
+		window.addEventListener('resize', () => { for (let l of resizeListeners) l(); }, opt);
+		window.addEventListener('scroll', () => { for (let l of scrollListeners) l(); }, opt);
 	});
 
-	NS.onResize = (fn) => { resizeListeners.push(NS.throttle(fn)); };
-
-	NS.onScroll = (fn) => { scrollListeners.push(NS.throttle(fn)); };
-
+	NS.onResize = (fn, doFirst = false) => {
+		if (doFirst) fn();
+		resizeListeners.push(NS.throttle(fn));
+	};
+	NS.onScroll = (fn, doFirst = false) => {
+		if (doFirst) fn();
+		scrollListeners.push(NS.throttle(fn));
+	};
 	NS.throttle = (fn) => {
-		let isRunning, that, args;
+		let isRunning;
 		function run() {
 			isRunning = false;
-			fn.apply(that, args);
+			fn();
 		}
-		return (...origArgs) => {
-			that = this;
-			args = origArgs;
+		return () => {
 			if (isRunning) return;
 			isRunning = true;
 			requestAnimationFrame(run);

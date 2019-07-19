@@ -3,7 +3,7 @@
  * Container Query (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-24
+ * @version 2019-07-19
  *
  */
 
@@ -19,8 +19,7 @@ window.ST = window['ST'] || {};
 
 	NS.addInit(5, () => {
 		items = init(document.querySelectorAll(SEL_TARGET));
-		NS.onResize(onResize);
-		onResize();
+		NS.onResize(onResize, true);
 	});
 
 
