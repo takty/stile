@@ -1,125 +1,146 @@
 /**
  *
- * Base Functions
+ * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-13
+ * @version 2019-07-09
  *
  */
 
 
 window.ST = window['ST'] || {};
 
-(function () {
-	const ua = window.navigator.userAgent.toLowerCase();
-	if (ua.indexOf('edge') !== -1) {
-		ST.BROWSER = 'edge';
-	} else if (ua.indexOf('trident/7') !== -1) {
-		ST.BROWSER = 'ie11';
-	} else if (ua.indexOf('chrome') !== -1 && ua.indexOf('edge') === -1) {
-		ST.BROWSER = 'chrome';
-	} else if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
-		ST.BROWSER = 'safari';
-	} else if (ua.indexOf('opera') !== -1) {
-		ST.BROWSER = 'opera';
-	} else if (ua.indexOf('firefox') !== -1) {
-		ST.BROWSER = 'firefox';
-	}
-})();
+
+(function (NS) {
+
+	const initLevels = [[], [], [], [], [], []];
+
+	document.addEventListener('DOMContentLoaded', () => {
+		for (let inits of initLevels) {
+			for (let i = 0; i < inits.length; i += 1) inits[i]();  // Do not use 'for-of' here for IE
+		}
+	});
+
+	NS.addInit = (level, fn) => { initLevels[level].push(fn); }
 
 
-// -----------------------------------------------------------------------------
+	// 0: query
+	// 1: inline, link, anchor-offset, segmenter
+	// 2: lazy-image-loading, image-box, kerning
+	// 3: block, list, table-neat-wrap
+	// 4: alignment, container, pseudo-tab-page, tab-page, table-fixed-header
+	// 5: anchor-scroll
 
 
-const _initializer = [[], [], [], [], [], [], [], []];
-
-document.addEventListener('DOMContentLoaded', function () {
-	for (let i = 0; i < _initializer.length; i += 1) {
-		const is = _initializer[i];
-		for (let j = 0; j < is.length; j += 1) is[j]();
-	}
-});
-
-ST.addInitializer = function (level, fn) {
-	_initializer[level].push(fn);
-}
+	// -------------------------------------------------------------------------
 
 
-// -----------------------------------------------------------------------------
+	NS.addStile = (elm, style) => {
+		if (elm.dataset.stile) {
+			const ssl = ' ' + elm.dataset.stile + ' ';
+			const sbb = ' ' + style + ' ';
+			if (ssl.indexOf(sbb) !== -1) return;
+			elm.dataset.stile = elm.dataset.stile + ' ' + style;
+		} else {
+			elm.dataset.stile = style;
+		}
+		// eslint-disable-next-line no-self-assign
+		elm.className = elm.className;  // Hack for IE11
+		if (!elm.className) elm.removeAttribute('class');
+	};
 
-
-ST.addStile = function (elm, style) {
-	if (elm.dataset.stile) {
+	NS.containStile = (elm, style) => {
+		if (!elm.dataset.stile) return false;
 		const ssl = ' ' + elm.dataset.stile + ' ';
 		const sbb = ' ' + style + ' ';
-		if (ssl.indexOf(sbb) !== -1) return;
-		elm.dataset.stile = elm.dataset.stile + ' ' + style;
-	} else {
-		elm.dataset.stile = style;
-	}
-	elm.className = elm.className;  // Hack for IE11
-	if (!elm.className) elm.removeAttribute('class');
-};
+		return (ssl.indexOf(sbb) !== -1);
+	};
 
-ST.containStile = function (elm, style) {
-	if (!elm.dataset.stile) return false;
-	const ssl = ' ' + elm.dataset.stile + ' ';
-	const sbb = ' ' + style + ' ';
-	return (ssl.indexOf(sbb) !== -1);
-};
-
-ST.removeStile = function (elm, style) {
-	if (!elm.dataset.stile) return;
-	const ssl = ' ' + elm.dataset.stile + ' ';
-	const sbb = ' ' + style + ' ';
-	elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
-	elm.className = elm.className;  // Hack for IE11
-	if (!elm.className) elm.removeAttribute('class');
-};
+	NS.removeStile = (elm, style) => {
+		if (!elm.dataset.stile) return;
+		const ssl = ' ' + elm.dataset.stile + ' ';
+		const sbb = ' ' + style + ' ';
+		elm.dataset.stile = (ssl.replace(sbb, ' ')).trim();
+		// eslint-disable-next-line no-self-assign
+		elm.className = elm.className;  // Hack for IE11
+		if (!elm.className) elm.removeAttribute('class');
+	};
 
 
-// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 
-ST.elementTopOnWindow = function (elm) {
-	const br = elm.getBoundingClientRect();
-	return br.top + window.pageYOffset;
-};
+	const resizeListeners = [];
+	const scrollListeners = [];
 
-ST.elementLeftOnWindow = function (elm) {
-	const br = elm.getBoundingClientRect();
-	return br.left + window.pageXOffset;
-};
+	document.addEventListener('DOMContentLoaded', () => {
+		window.addEventListener('resize', () => { for (let l of resizeListeners) l(); });
+		window.addEventListener('scroll', () => { for (let l of scrollListeners) l(); });
+	});
+
+	NS.onResize = (fn) => { resizeListeners.push(NS.throttle(fn)); };
+
+	NS.onScroll = (fn) => { scrollListeners.push(NS.throttle(fn)); };
+
+	NS.throttle = (fn) => {
+		let isRunning, that, args;
+		function run() {
+			isRunning = false;
+			fn.apply(that, args);
+		}
+		return (...origArgs) => {
+			that = this;
+			args = origArgs;
+			if (isRunning) return;
+			isRunning = true;
+			requestAnimationFrame(run);
+		};
+	};
+
+	NS.onBeforePrint = (fn, forceMediaCheck = true) => {
+		window.addEventListener('beforeprint', fn, false);
+		if (forceMediaCheck || !('onbeforeprint' in window)) {
+			if (window.matchMedia) {
+				let mediaQueryList = window.matchMedia('print');
+				mediaQueryList.addListener((mql) => { if (mql.matches) fn(); });
+			}
+		}
+	};
 
 
-// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 
-ST.makeOffsetFunction = function (fixedElementClass, fixedTopClass) {
-	let elmFixed = document.getElementsByClassName(fixedElementClass);
-	if (elmFixed && elmFixed.length > 0) {
-		elmFixed = elmFixed[0];
-		const elmTops = document.getElementsByClassName(fixedTopClass);
-		if (elmTops && elmTops.length > 0) {
-			return function () {
+	const CLS_STICKY_ELM     = 'st-sticky-header';
+	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+
+	NS.makeOffsetFunction = () => {
+		const elmsFixed = document.getElementsByClassName(CLS_STICKY_ELM);
+		if (elmsFixed && elmsFixed.length > 0) {
+			const elmFixed = elmsFixed[0];
+			const elmsTop = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
+			if (elmsTop && elmsTop.length > 0) {
+				return () => {
+					const pos = getComputedStyle(elmFixed).position;
+					if (pos === 'fixed') {
+						let height = 0;
+						for (let i = 0; i < elmsTop.length; i += 1) height += elmsTop[i].offsetHeight;
+						return height;
+					}
+					return 0;
+				};
+			}
+			return () => {
 				const pos = getComputedStyle(elmFixed).position;
-				if (pos === 'fixed') {
-					let height = 0;
-					for (let i = 0; i < elmTops.length; i += 1) height += elmTops[i].offsetHeight;
-					return height;
-				}
-				return 0;
+				return pos === 'fixed' ? elmFixed.offsetHeight : 0;
 			};
 		}
-		return function () {
-			const pos = getComputedStyle(elmFixed).position;
-			return pos === 'fixed' ? elmFixed.offsetHeight : 0;
-		};
-	}
-	return function () { return 0; }
-};
+		return () => 0;
+	};
 
-ST.getWpAdminBarHeight = function () {
-	const wpab = document.getElementById('wpadminbar');
-	return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
-};
+	NS.getWpAdminBarHeight = () => {
+		const wpab = document.getElementById('wpadminbar');
+		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
+	};
+
+})(window.ST);

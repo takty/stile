@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-02
+ * @version 2019-07-04
  *
  */
 
@@ -11,41 +11,39 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(5, function () {
+(function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
+	const SEL_TARGET = '.stile';
+	const OFFSET     = 100;
 
-	initializeLazyImageLoading();
+
+	NS.addInit(2, initialize);
 
 
 	// -------------------------------------------------------------------------
-	// Lazy Image Loading
 
-	function initializeLazyImageLoading() {
-		const OFFSET = 100;
-		const imgs = document.querySelectorAll(TARGET_SELECTOR + ' img');
-		const imgsInTbl = document.querySelectorAll(TARGET_SELECTOR + ' table img');
 
-		const winY = window.scrollY | window.pageYOffset;
+	function initialize() {
+		const imgs      = document.querySelectorAll(SEL_TARGET + ' img');
+		const imgsInTbl = document.querySelectorAll(SEL_TARGET + ' table img');
+
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
-			if (ST.elementTopOnWindow(img) >= winY + window.innerHeight + OFFSET) hide(img);
+			if (img.getBoundingClientRect().top >= window.innerHeight + OFFSET) hide(img);
 		}
-		window.addEventListener('scroll', onScroll);
+		NS.onScroll(onScroll);
 		onScroll();
 
 		function onScroll() {
-			const winY = window.scrollY | window.pageYOffset;
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				const imgY = ST.elementTopOnWindow(img);
-				if (imgY < winY + window.innerHeight + OFFSET) show(img);
+				if (img.getBoundingClientRect().top < window.innerHeight + OFFSET) show(img);
 			}
 		}
 
-		doBeforePrint(onPrint);
+		NS.onBeforePrint(onPrint);
 		function onPrint() {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
@@ -78,20 +76,8 @@ ST.addInitializer(5, function () {
 		if (immediately) {
 			img.style.opacity = '';
 		} else {
-			setTimeout(function () {img.style.opacity = '';}, 200);
+			setTimeout(() => { img.style.opacity = ''; }, 200);
 		}
 	}
 
-	function doBeforePrint(func, forceMediaCheck = true) {
-		window.addEventListener('beforeprint', func, false);
-		if (forceMediaCheck || !('onbeforeprint' in window)) {
-			if (window.matchMedia) {
-				let mediaQueryList = window.matchMedia('print');
-				mediaQueryList.addListener(function (mql) {
-					if (mql.matches) func();
-				});
-			}
-		}
-	}
-
-});
+})(window.ST);

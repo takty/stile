@@ -20,119 +20,227 @@
 		<a href="../index.html">Go Back</a>
 	</nav>
 
-	<h2>Mixins</h2>
+	<div class="frame">
+		<ul>
+			<li><code>$stile-content-color-rule      : rgba(#777, 0.35);</code></li>
+			<li><code>$stile-content-color-accent    : rgba(#777, 0.90);</code></li>
+			<li><code>$stile-content-color-heading   : rgba(#000, 0.95);</code></li>
+			<li><code>$stile-content-color-background: rgba(#777, 0.10);</code></li>
+		</ul>
+		<ul>
+			<li><code>$stile-block-color-rule                      : $stile-content-color-accent;</code></li>
+			<li><code>$stile-block-color-background                : $stile-content-color-background;</code></li>
+			<li><code>$stile-heading-color-text                    : $stile-content-color-heading;</code></li>
+			<li><code>$stile-list-color-mark                       : $stile-content-color-accent;</code></li>
+			<li><code>$stile-table-color-rule                      : $stile-content-color-rule;</code></li>
+			<li><code>$stile-table-color-header-text               : $stile-content-color-heading;</code></li>
+			<li><code>$stile-table-color-header-background         : $stile-content-color-background;</code></li>
+			<li><code>$stile-tab-page-color-rule                   : $stile-content-color-rule;</code></li>
+			<li><code>$stile-tab-page-color-tab-current-top        : $stile-content-color-accent;</code></li>
+			<li><code>$stile-tab-page-color-tab-text-current       : $stile-content-color-heading;</code></li>
+			<li><code>$stile-pseudo-tab-page-color-rule            : $stile-content-color-rule;</code></li>
+			<li><code>$stile-pseudo-tab-page-color-tab-current-top : $stile-content-color-accent;</code></li>
+			<li><code>$stile-pseudo-tab-page-color-tab-text-current: $stile-content-color-heading;</code></li>
+		</ul>
+	</div>
 	<ul>
 		<li><code>stile-content($set-heading-design: true)</code></li>
-		<li><code>stile-margin</code></li>
-		<li><code>stile-margin-basic</code></li>
-		<li><code>stile-margin-advanced</code></li>
-		<li><code>stile-margin-heading($tag, $top, $bottom)</code></li>
 	</ul>
 
-	<h3>Block</h3>
-	<ul>
-		<li><code>stile-block</code></li>
-		<li><code>stile-block-main</code></li>
-		<li><code>stile-block-figure</code></li>
-	</ul>
-
-	<h3>Heading</h3>
-	<ul>
-		<li><code>stile-heading($set-design: true)</code></li>
-	</ul>
-
-	<h3>Link</h3>
-	<ul>
-		<li><code>stile-link-mark</code></li>
-		<li><code>stile-link-mark-anchor</code></li>
-		<li><code>stile-link-mark-external</code></li>
-		<li><code>stile-link</code></li>
-	</ul>
-
-	<h3>Inline</h3>
-	<ul>
-		<li><code>stile-inline</code></li>
-	</ul>
-
-	<h3>List</h3>
-	<ul>
-		<li><code>stile-list</code>
+	<div class="pseudo-tab-page">
+		<h2>Margin</h2>
+		<div class="frame">
 			<ul>
-				<li><code>stile-list-ul</code></li>
-				<li><code>stile-list-ol</code></li>
-				<li><code>stile-list-dl</code></li>
+				<li><code>$stile-margin-align-table: center;</code></li>
+				<li><code>$stile-margin-heading:
+				/* H1 */ (6, 6),
+				/* H2 */ (6, 5),
+				/* H3 */ (6, 4),
+				/* H4 */ (5, 3),
+				/* H5 */ (4, 2),
+				/* H6 */ (3, 1);</code></li>
 			</ul>
-		</li>
-	</ul>
+		</div>
+		<ul>
+			<li><code>stile-margin()</code>
+			<li><code>stile-margin-inside()</code></li>
+		</ul>
 
-	<h3>Table</h3>
-	<ul>
-		<li><code>stile-table</code></li>
-	</ul>
+		<h2>Inline</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-inline-color-strong       : rgba(#000, 0.95);</code></li>
+				<li><code>$stile-inline-color-underline    : rgba(#fd0, 0.90);</code></li>
+				<li><code>$stile-inline-color-mark         : rgba(#fe0, 0.90);</code></li>
+				<li><code>$stile-inline-color-del          : rgba(#f40, 0.90);</code></li>
+				<li><code>$stile-inline-color-abbr         : rgba(#12f, 0.90);</code></li>
+				<li><code>$stile-inline-color-broken-image : $stile-inline-color-del;</code></li>
+				<li><code>$stile-inline-width-underline    : 0.4em;</code></li>
+				<li><code>$stile-inline-width-mark         : 1.0em;</code></li>
+				<li><code>$stile-inline-width-del          : 0.15em;</code></li>
+				<li><code>$stile-inline-size-font-small    : 0.85em;</code></li>
+				<li><code>$stile-inline-size-font-subscript: 0.75em;</code></li>
+				<li><code>$stile-inline-size-font-monospace: 0.95em;</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-inline()</code>
+				<ul><li><code>stile-inline-broke-image()</code></li></ul>
+			</li>
+		</ul>
 
-	<h3>Print</h3>
-	<ul>
-		<li><code>stile-print</code></li>
-	</ul>
+		<h2>Link</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-link-color-text        : rgba(#12f, 0.9);</code></li>
+				<li><code>$stile-link-color-text-visited: rgba(#609, 0.9);</code></li>
+				<li><code>$stile-link-color-background  : rgba($stile-link-color-text, 0.05);</code></li>
+				<li><code>$stile-link-icon-anchor       : '\e5db';</code></li>
+				<li><code>$stile-link-icon-external     : '\e0b2'</code>
+					<ul><li>Another choice is <code>'\e89e'</code>.</li></ul>
+				</li>
+				<li><code>$stile-link-icon-file         : false;</code></li>
+				<li><code>$stile-link-img-anchor        : false;</code></li>
+				<li><code>$stile-link-img-external      : false;</code></li>
+				<li><code>$stile-link-img-file          : false;</code></li>
+				<li><code>$stile-link-size-gap          : 0.2em;</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-link()</code>
+				<ul>
+					<li><code>stile-link-img($url)</code></li>
+					<li><code>stile-link-mark($code)</code></li>
+					<li><code>stile-link-mark-anchor()</code></li>
+					<li><code>stile-link-mark-external()</code></li>
+					<li><code>stile-link-mark-file()</code></li>
+					<li><code>stile-link-inside()</code></li>
+				</ul>
+			</li>
+		</ul>
 
-	<hr>
+		<h2>Block</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-block-color-rule           : rgba(#777, 0.9);</code></li>
+				<li><code>$stile-block-color-background     : rgba($stile-block-color-rule, 0.1);</code></li>
+				<li><code>$stile-block-size-rule-width      : 2px;</code></li>
+				<li><code>$stile-block-size-max-width       : 36rem;</code></li>
+				<li><code>$stile-block-size-min-width       : 4rem;</code></li>
+				<li><code>$stile-block-level-figcaption     : 0;</code></li>
+				<li><code>$stile-block-level-blockquote-cite: 0;</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-block</code>
+				<ul>
+					<li><code>stile-block-main</code></li>
+					<li><code>stile-block-figure</code></li>
+				</ul>
+			</li>
+		</ul>
 
-	<h2>Variables</h2>
+		<h2>Heading</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-heading-color-text: rgba(#000, 0.95);</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-heading($set-design: true)</code></li>
+		</ul>
 
-	<h3>Block</h3>
-	<ul>
-		<li><code>$stile-block-color-rule: rgba(#777, 0.9);</code></li>
-		<li><code>$stile-block-color-background: rgba($stile-block-color-rule, 0.1);</code></li>
-		<li><code>$stile-block-size-rule-width: 2px;</code></li>
-		<li><code>$stile-block-size-max-width: 36rem;</code></li>
-		<li><code>$stile-block-level-figcaption: 0;</code></li>
-	</ul>
 
-	<h3>Heading</h3>
-	<ul>
-		<li><code>$stile-heading-color-text: rgba(#000, 0.95);</code></li>
-	</ul>
+		<h2>List</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-list-color-mark      : rgba(#777, 0.9);</code></li>
+				<li><code>$stile-list-color-mark-ul   : $stile-list-color-mark;</code></li>
+				<li><code>$stile-list-color-mark-ol   : $stile-list-color-mark;</code></li>
+				<li><code>$stile-list-color-mark-dl   : $stile-list-color-mark;</code></li>
+				<li><code>$stile-list-rate-mark       : 0.45;</code></li>
+				<li><code>$stile-list-rate-mark-disc  : $stile-list-rate-mark;</code></li>
+				<li><code>$stile-list-rate-mark-square: 0.44;</code></li>
+				<li><code>$stile-list-rate-mark-circle: 0.45;</code></li>
+				<li><code>$stile-list-rate-marks      : ();</code></li>
+				<li><code>$stile-list-img-mark        : false;</code></li>
+				<li><code>$stile-list-img-mark-disc   : $stile-list-img-mark;</code></li>
+				<li><code>$stile-list-img-mark-square : false;</code></li>
+				<li><code>$stile-list-img-mark-circle : false;</code></li>
+				<li><code>$stile-list-img-marks       : ();</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-list</code>
+				<ul>
+					<li><code>stile-list-ul</code>
+						<ul>
+							<li><code>stile-list-ul-inside</code>
+						</ul>
+					</li>
+					<li><code>stile-list-ol</code>
+						<ul>
+							<li><code>stile-list-ol-inside</code>
+							<li><code>stile-list-ol-inside-fallback</code>
+						</ul>
+					</li>
+					<li><code>stile-list-dl</code>
+						<ul>
+							<li><code>stile-list-dl-inside</code>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li><code>stile-list-margin</code></li>
+		</ul>
 
-	<h3>Link</h3>
-	<ul>
-		<li><code>$stile-link-color-text: rgba(#12f, 0.9);</code></li>
-		<li><code>$stile-link-color-text-visited: rgba(#609, 0.9);</code></li>
-		<li><code>$stile-link-color-background: rgba($stile-link-color-text, 0.05);</code></li>
-	</ul>
+		<h2>Table</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-table-color-rule                  : rgba(#777, 0.35);</code></li>
+				<li><code>$stile-table-color-rule-edge             : $stile-table-color-rule;</code></li>
+				<li><code>$stile-table-color-rule-vertical         : rgba($stile-table-color-rule, 0.1);</code></li>
+				<li><code>$stile-table-color-header-text           : rgba(#000, 0.95);</code></li>
+				<li><code>$stile-table-color-header-background     : rgba(#eee, 0.75);</code>
+					<ul><li>Must have transparency for scroll shadow.</li></ul>
+				</li>
+				<li><code>$stile-table-color-header-background-base: rgba(#fff, 0.75);</code>
+					<ul><li>Must have transparency for scroll shadow.</li></ul>
+				</li>
+				<li><code>$stile-table-color-scrollbar-thumb       : $stile-table-color-rule;</code></li>
+				<li><code>$stile-table-color-scrollbar-background  : $stile-table-color-header-background;</code></li>
+				<li><code>$stile-table-color-enlarger              : rgba($stile-table-color-rule, 0.5);</code></li>
+				<li><code>$stile-table-color-enlarger-opened       : rgba($stile-table-color-rule, 0.25);</code></li>
+				<li><code>$stile-table-color-background-enlarged   : #fff;</code></li>
+				<li><code>$stile-table-size-rule-edge              : 2px;</code></li>
+				<li><code>$stile-table-size-caption-max-width      : 36rem;</code></li>
+				<li><code>$stile-table-level-caption               : 1;</code></li>
+				<li><code>$stile-table-align-caption               : center;</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-table</code>
+				<ul>
+					<li><code>stile-table-design</code></li>
+					<li><code>stile-table-fixed-header</code></li>
+					<li><code>stile-table-pseudo-scroll-bar</code></li>
+					<li><code>stile-table-scroll-bar-design</code></li>
+					<li><code>stile-table-enlarger</code></li>
+				</ul>
+			</li>
+		</ul>
 
-	<h3>Inline</h3>
-	<ul>
-		<li><code>$stile-inline-color-strong: rgba(#000, 0.95);</code></li>
-		<li><code>$stile-inline-color-underline: rgba(#fd0, 0.9);</code></li>
-		<li><code>$stile-inline-color-del: rgba(#f40, 0.9);</code></li>
-		<li><code>$stile-inline-color-abbr: rgba(#12f, 0.9);</code></li>
-		<li><code>$stile-inline-color-broken-image: $stile-inline-color-del;</code></li>
-		<li><code>$stile-inline-size-font-small: 0.85em;</code></li>
-		<li><code>$stile-inline-size-font-subscript: 0.75em;</code></li>
-		<li><code>$stile-inline-size-font-monospace: 0.95em;</code></li>
-	</ul>
+		<h2>Print</h2>
+		<div class="frame">
+			<ul>
+				<li><code>$stile-print-enabled-link-url: true;</code></li>
+			</ul>
+		</div>
+		<ul>
+			<li><code>stile-print</code></li>
+		</ul>
 
-	<h3>List</h3>
-	<ul>
-		<li><code>$stile-list-color-mark: rgba(#777, 0.9);</code></li>
-		<li><code>$stile-list-rate-mark: 0.45;</code></li>
-		<li><code>$stile-list-rate-square-mark: 0.44;</code></li>
-	</ul>
-
-	<h3>Table</h3>
-	<ul>
-		<li><code>$stile-table-color-rule: rgba(#777, 0.35);</code></li>
-		<li><code>$stile-table-color-rule-edge: $stile-table-color-rule;</code></li>
-		<li><code>$stile-table-color-rule-vertical: rgba($stile-table-color-rule, 0.1);</code></li>
-		<li><code>$stile-table-color-header-text: rgba(#000, 0.95);</code></li>
-		<li><code>$stile-table-color-header-background: rgba(#eee, 0.75); // Must have transparency for scroll shadow.</code></li>
-		<li><code>$stile-table-color-scrollbar-thumb: $stile-table-color-rule;</code></li>
-		<li><code>$stile-table-color-scrollbar-background: $stile-table-color-header-background;</code></li>
-		<li><code>$stile-table-color-enlarger: rgba($stile-table-color-rule, 0.5);</code></li>
-		<li><code>$stile-table-color-enlarger-opened: rgba($stile-table-color-rule, 0.25);</code></li>
-		<li><code>$stile-table-color-background-enlarged: #fff;</code></li>
-		<li><code>$stile-table-size-rule-edge: 2px;</code></li>
-	</ul>
+	</div>
 
 </div>
 </body>

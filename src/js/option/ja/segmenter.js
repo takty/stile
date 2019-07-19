@@ -3,7 +3,7 @@
  * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-03-05
+ * @version 2019-06-16
  *
  */
 
@@ -11,10 +11,10 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(6, function () {
+(function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
-	const TARGET_SELECTOR_SEGMENTER = '.stile-segmenter';
+	const SEL_TARGET = '.stile';
+	const SEL_TARGET_SEGMENTER = '.stile-segmenter';
 
 	const CTYPES = ['S', 'E', 'I', 'K', 'H'];
 	const CPATS = {
@@ -24,24 +24,26 @@ ST.addInitializer(6, function () {
 		K: /[ァ-ヴーｱ-ﾝﾞｰ]/u,
 		H: /[一-龠々〆ヵヶ]/u
 	};
-	const PAIRS = {'S*': 1, '*E': 1, 'II': 1, 'KK': 1, 'HH': 1, 'HI': 1};
+	const PAIRS = { 'S*': 1, '*E': 1, 'II': 1, 'KK': 1, 'HH': 1, 'HI': 1 };
 	const JOSHI_A = 'でなければ|について|かしら|くらい|けれど|なのか|ばかり|ながら|ことよ|こそ|こと|さえ|しか|した|たり|だけ|だに|だの|つつ|ても|てよ|でも|とも|から|など|なり|ので|のに|ほど|まで|もの|やら|より|って|で|と|な|に|ね|の|も|は|ば|へ|や|わ|を|か|が|さ|し|ぞ|て'.split('|');
 	const JOSHI_H = {};
 	for (let i = 0; i < JOSHI_A.length; i += 1) JOSHI_H[JOSHI_A[i]] = true;
 
-	for (let i = 1; i <= 6; i += 1) {
-		let ts = document.querySelectorAll(TARGET_SELECTOR + ' h' + i + ':not([class])');
+	NS.addInit(1, () => {
+		for (let i = 1; i <= 6; i += 1) {
+			let ts = document.querySelectorAll(SEL_TARGET + ' h' + i + ':not([class])');
+			for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);
+		}
+		let ts = document.querySelectorAll(SEL_TARGET_SEGMENTER);
 		for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);
-	}
-	let ts = document.querySelectorAll(TARGET_SELECTOR_SEGMENTER);
-	for (let i = 0; i < ts.length; i += 1) applySeparaterToElement(ts[i]);
+	});
 
 
 	// -------------------------------------------------------------------------
 
 
 	function applySeparaterToElement(elm) {
-		const cs = Array.prototype.slice.call(elm.childNodes, 0);
+		const cs = [].slice.call(elm.childNodes, 0);
 		const tn = elm.tagName;
 		const fs = [];
 
@@ -129,6 +131,6 @@ ST.addInitializer(6, function () {
 	// -------------------------------------------------------------------------
 
 
-	ST['segmenter'] = { applySeparaterToElement, separateTextAndMakeSpans };
+	NS['segmenter'] = { applySeparaterToElement, separateTextAndMakeSpans };
 
-});
+})(window.ST);

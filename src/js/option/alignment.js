@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-05-23
+ * @version 2019-07-19
  *
  */
 
@@ -11,26 +11,58 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(1, function () {
+(function (NS) {
 
-	const TARGET_SELECTOR = '.stile';
+	const SEL_TARGET = '.stile';
 	const WIDTH_MIN = 240;  // px
 
-	const PERMITTED_CLASSES = ['alignleft', 'aligncenter', 'alignright', 'size-thumbnail', 'size-small', 'size-medium-small', 'size-medium', 'size-medium-large', 'size-medium_large', 'size-large', 'size-full'];
+	const CLS_AL = 'alignleft';
+	const CLS_AR = 'alignright';
+	const CLS_AC = 'aligncenter';
 
-	let als = document.querySelectorAll(TARGET_SELECTOR + ' .alignleft');
-	let ars = document.querySelectorAll(TARGET_SELECTOR + ' .alignright');
-	const acs = document.querySelectorAll(TARGET_SELECTOR + ' .aligncenter');
-	als = replaceAlignClass(als);
-	ars = replaceAlignClass(ars);
-	replaceAlignClass(acs);
+	NS.addInit(4, () => {
+		let als = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AL);
+		let ars = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AR);
+		const acs = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AC);
 
-	if (ST.BROWSER === 'ie11') return;
+		addOnlyChildElementClass(als);
+		addOnlyChildElementClass(ars);
+		addOnlyChildElementClass(acs);
 
-	setTimeout(() => {
-		modifyAlignmentStyle(als, 'alignleft');
-		modifyAlignmentStyle(ars, 'alignright');
-	}, 0);  // Delay
+		als = replaceAlignClass(als);
+		ars = replaceAlignClass(ars);
+		replaceAlignClass(acs);
+
+		if (NS.BROWSER === 'ie11') return;
+
+		setTimeout(() => {
+			modifyAlignmentStyle(als, CLS_AL);
+			modifyAlignmentStyle(ars, CLS_AR);
+		}, 0);  // Delay
+	});
+
+
+	// -------------------------------------------------------------------------
+
+
+	function addOnlyChildElementClass(as) {
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
+			const cs = a.parentElement.childNodes;
+			let isOnlyChildElement = true;
+			for (let j = 0; j < cs.length; j += 1) {
+				const c = cs[j];
+				if (c.nodeType === 3 /*TEXT_NODE*/ && c.textContent.trim() !== '') {
+					isOnlyChildElement = false;
+					break;
+				} else if (c.nodeType === 1 /*ELEMENT_NODE*/ && c !== a) {
+					isOnlyChildElement = false;
+					break;
+				}
+			}
+			if (isOnlyChildElement) NS.addStile(a, 'only-child-element');
+		}
+	}
 
 
 	// -------------------------------------------------------------------------
@@ -39,13 +71,11 @@ ST.addInitializer(1, function () {
 	function modifyAlignmentStyle(as, stile) {
 		const asw = initTargets(as);
 		assignWidths(asw, stile);
-		window.addEventListener('resize', function () {
+		NS.onResize(() => {
 			updateApplicableWidths(asw);
 			switchFloat(asw, stile);
 		});
-		window.addEventListener('scroll', function () {
-			assignWidths(asw, stile);  // for Lazy Image Loading
-		});
+		NS.onScroll(() => { assignWidths(asw, stile); });  // for Lazy Image Loading
 		updateApplicableWidths(asw);
 		switchFloat(asw, stile);
 	}
@@ -60,9 +90,9 @@ ST.addInitializer(1, function () {
 		for (let i = 0; i < asw.length; i += 1) {
 			const a = asw[i][0], w = asw[i][1];
 			if (10 < w) continue;
-			ST.addStile(a, stile);
+			NS.addStile(a, stile);
 			const nw = a.getBoundingClientRect().width;
-			ST.removeStile(a, stile);
+			NS.removeStile(a, stile);
 			asw[i][1] = nw;
 		}
 		return asw;
@@ -82,11 +112,11 @@ ST.addInitializer(1, function () {
 			const a = asw[i][0], w = asw[i][1];
 			const pw = contentWidth(a.parentElement, true);
 			if (pw - w < WIDTH_MIN) {
-				ST.removeStile(a, stile);
-				ST.addStile(a, 'aligncenter');
+				NS.removeStile(a, stile);
+				NS.addStile(a, CLS_AC);
 			} else {
-				ST.removeStile(a, 'aligncenter');
-				ST.addStile(a, stile);
+				NS.removeStile(a, CLS_AC);
+				NS.addStile(a, stile);
 			}
 		}
 	}
@@ -108,10 +138,10 @@ ST.addInitializer(1, function () {
 			const c = ts[i];
 			const p = c.parentNode;
 			let replace = false;
-			if (p.tagName === 'A' && isImageLink(p)) {
-				if (moveClass(c, p, 'alignleft'))   replace = true;
-				if (moveClass(c, p, 'aligncenter')) replace = true;
-				if (moveClass(c, p, 'alignright'))  replace = true;
+			if (p.tagName === 'A' && NS.isImageLink(p)) {
+				if (moveClass(c, p, CLS_AL)) replace = true;
+				if (moveClass(c, p, CLS_AC)) replace = true;
+				if (moveClass(c, p, CLS_AR)) replace = true;
 			}
 			ret.push(replace ? p : c);
 		}
@@ -127,25 +157,4 @@ ST.addInitializer(1, function () {
 		return false;
 	}
 
-	function isImageLink(a) {
-		if (a.className) {
-			const cs = a.className.split(' ');
-			for (let i = 0; i < cs.length; i += 1) {
-				if (PERMITTED_CLASSES.indexOf(cs[i]) === -1) return false;
-			}
-		}
-		const cs = a.childNodes;
-		if (cs.length === 0) return false;
-		let success = false;
-		for (let i = 0; i < cs.length; i += 1) {
-			const tn = cs[i].tagName;
-			if (success === false && tn === 'IMG') {
-				success = true;
-				continue;
-			}
-			if (tn) return false;
-		}
-		return success;
-	}
-
-});
+})(window.ST);

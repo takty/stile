@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 /**
  *
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-04-03
+ * @version 2019-07-05
  *
  */
 
@@ -11,33 +12,69 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(7, function () {
+(function (NS) {
 
-	const WIN_SIZE_RESPONSIVE       = 600
-	const TARGET_SELECTOR           = '.stile';
-	const TARGET_SELECTOR_IMAGE_BOX = '.stile-image-box';
-	const STILE_CLS_IMAGE_BOX       = 'image-box';
-	const STILE_STATE_OPEN          = 'open';
-	const STILE_STATE_VISIBLE       = 'visible';
-	const SIZE_BOX_PADDING          = '4rem';
+	const SEL_TARGET           = '.stile';
+	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
+	const ST_IMAGE_BOX         = 'image-box';
+	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
+	const ST_IMAGE_BOX_CAPTION = 'image-box-caption';
+	const ST_STATE_OPEN        = 'open';
+	const ST_STATE_VISIBLE     = 'visible';
+	const SIZE_BOX_PADDING     = '4rem';
+	const ZOOM_RATE_MAX        = 5;
+	const HASH_PREFIX          = 'image:';
 
-	let as = document.querySelectorAll(TARGET_SELECTOR + ' a');
-	modifyImageAnchorStyle(as);
-	as = document.querySelectorAll(TARGET_SELECTOR_IMAGE_BOX + ' a');
-	modifyImageAnchorStyle(as);
 
-	function modifyImageAnchorStyle(as) {
-		const fas = filterImageLink(as);
-		for (let i = 0; i < fas.length; i += 1) {
-			createBox(fas[i]);
+	let currentId = null;
+
+
+	NS.addInit(2, () => {
+		const objs = [];
+
+		const as1 = document.querySelectorAll(SEL_TARGET + ' a');
+		modifyImageAnchorStyle(as1, objs);
+		const as2 = document.querySelectorAll(SEL_TARGET_IMAGE_BOX + ' a');
+		modifyImageAnchorStyle(as2, objs);
+
+		NS.onResize(() => {
+			for (let obj of objs) obj.setInitialSize();
+			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
+		});
+
+		window.addEventListener('popstate', (e) => {
+			if (currentId !== null) objs[currentId].doClose();
+			if (e.state && e.state['name'] === 'stile-image-box' && e.state['id'] !== undefined) {
+				objs[e.state['id']].doOpen();
+			}
+		});
+		checkHash(location.hash, objs);
+		window.addEventListener('hashchange', () => { checkHash(location.hash, objs) });
+	});
+
+	function checkHash(hash, objs) {
+		if (location.hash.indexOf('#' + HASH_PREFIX) !== 0) return;
+		const ih = hash.replace('#' + HASH_PREFIX, '');
+		if (!ih) return;
+		for (let i = 0; i < objs.length; i += 1) {
+			if (objs[i]._hash === ih) {
+				if (currentId !== null && currentId !== i) objs[currentId].doClose();
+				if (currentId === null || currentId !== i) objs[i].doOpen();
+				break;
+			}
 		}
+	}
+
+	function modifyImageAnchorStyle(as, objs) {
+		const fas = filterImageLink(as);
+		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i], objs.length)); }
 	}
 
 	function filterImageLink(as) {
 		const ret = [];
 		for (let i = 0; i < as.length; i += 1) {
 			const a = as[i];
-			if (!ST.containStile(a, 'link-image')) continue;
+			if (!NS.containStile(a, 'link-image')) continue;
 			const href = a.href;
 			if (!href || !isImageUrl(href)) continue;
 			const imgs = a.getElementsByTagName('img');
@@ -65,138 +102,267 @@ ST.addInitializer(7, function () {
 		return false;
 	}
 
-	function createBox(a) {
-		const frame = document.createElement('div');
-		ST.addStile(frame, STILE_CLS_IMAGE_BOX);
-		const img = document.createElement('img');
-		img.src = a.href;
-		frame.appendChild(img);
-		const closeBtn = document.createElement('span');
-		frame.appendChild(closeBtn);
-		document.body.appendChild(frame);
 
-		a.addEventListener('click', function (e) { onOpen(e, frame, img); });
-		frame.addEventListener('click', function (e) { onClose(e, frame); });
-		enableTouchGesture(frame, img);
+	// -------------------------------------------------------------------------
 
-		img.addEventListener('click', function (e) { e.stopPropagation(); });
-		frame.addEventListener('mousewheel', function (e) { e.preventDefault(); });
-		return frame;
-	}
 
-	function onOpen(e, frame, img) {
-		e.preventDefault();
-		ST.addStile(frame, STILE_STATE_OPEN);
-		const isPhone = window.innerWidth < WIN_SIZE_RESPONSIVE;
-		if (checkLandscape(frame, img)) {
-			img.style.minWidth = '';
-			img.style.width = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
-			img.style.height = 'auto';
-		} else {
-			img.style.minHeight = '';
-			img.style.width = 'auto';
-			img.style.maxWidth = 'none';
-			img.style.height = isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
+	function getTouchPoint(ts) {
+		let x = 0, y = 0;
+		if (ts.length === 1) {
+			x = ts[0].pageX - window.pageXOffset;
+			y = ts[0].pageY - window.pageYOffset;
+		} else if (2 <= ts.length) {
+			x = (ts[0].pageX + ts[1].pageX) / 2 - window.pageXOffset;
+			y = (ts[0].pageY + ts[1].pageY) / 2 - window.pageYOffset;
 		}
-		centeringImage(frame, img);
-		const delay = ST.BROWSER === 'ie11' ? 30 : 0;
-		setTimeout(function () { ST.addStile(frame, STILE_STATE_VISIBLE); }, delay);
-	}
-
-	function onClose(e, frame) {
-		e.preventDefault();
-		ST.removeStile(frame, STILE_STATE_VISIBLE);
-		setTimeout(function () { ST.removeStile(frame, STILE_STATE_OPEN); }, 200);
-	}
-
-	function enableTouchGesture(frame, img) {
-		let isLandscape = true;
-		let baseDist = 0;
-		let scale = 1;
-		let tid;
-		let xS = 0, yS = 0;
-		let isMoving = false;
-
-		frame.addEventListener('touchstart', function (e) {
-			isLandscape = checkLandscape(frame, img);
-			baseDist = 0;
-			if (!img.style.minWidth && !img.style.minHeight) scale = 1;
-			if (e.touches.length === 1) {
-				isMoving = true;
-				xS = e.touches[0].screenX + frame.scrollLeft;
-				yS = e.touches[0].screenY + frame.scrollTop;
-			}
-		}, true);
-		frame.addEventListener('touchmove', function (e) {
-			e.stopPropagation();
-			e.preventDefault();
-
-			frame.style.overflow = 'scroll';
-			const ts = e.changedTouches;
-
-			if (ts.length === 1 && isMoving) {
-				frame.scrollLeft = xS - ts[0].screenX;
-				frame.scrollTop  = yS - ts[0].screenY;
-			} else if (ts.length > 1) {
-				isMoving = false;
-				const baseSize = isLandscape ? frame.clientWidth : frame.clientHeight;
-				const dist = touchDistance(ts);
-				const scx = (ts[0].screenX + ts[1].screenX) / 2;
-				const scy = (ts[0].screenY + ts[1].screenY) / 2;
-				const imgCx = (scx + frame.scrollLeft) / scale;
-				const imgCy = (scy + frame.scrollTop)  / scale;
-
-				clearTimeout(tid);
-
-				if (baseDist) {
-					const s = dist / (baseDist * scale);
-					if (s && s !== Infinity) {
-						scale *= s;
-						scale = Math.min(4, scale);
-						scale = Math.max(1, scale);
-						if (isLandscape) {
-							img.style.minWidth = (baseSize * scale) + 'px';
-						} else {
-							img.style.minHeight = (baseSize * scale) + 'px';
-						}
-						centeringImage(frame, img);
-
-						frame.scrollLeft = imgCx * scale - scx;
-						frame.scrollTop  = imgCy * scale - scy;
-					}
-					tid = setTimeout(function () { baseDist = 0; }, 100);
-				} else {
-					baseDist = dist / scale;
-				}
-			}
-		}, true);
-	}
-
-	function checkLandscape(frame, img) {
-		const winAspect = frame.offsetWidth / frame.offsetHeight;
-		const imgAspect = img.offsetWidth / img.offsetHeight;
-		return (winAspect < imgAspect);
-	}
-
-	function centeringImage(frame, img) {
-		if (img.offsetWidth < frame.offsetWidth) {
-			img.style.left = ((frame.offsetWidth - img.offsetWidth) / 2) + 'px';
-		} else {
-			img.style.left = 0;
-		}
-		if (img.offsetHeight < frame.offsetHeight) {
-			img.style.top = ((frame.offsetHeight - img.offsetHeight) / 2) + 'px';
-		} else {
-			img.style.top = 0;
-		}
+		return [x, y];
 	}
 
 	function touchDistance(ts) {
-		const x1 = ts[0].screenX;
-		const y1 = ts[0].screenY;
-		const x2 = ts[1].screenX;
-		const y2 = ts[1].screenY;
+		const x1 = ts[0].screenX, y1 = ts[0].screenY;
+		const x2 = ts[1].screenX, y2 = ts[1].screenY;
 		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 	}
 
-});
+	function preventWindowTouchMove(f) {
+		let isTouching = false;
+		window.addEventListener('touchmove', (e) => {
+			if (!isTouching) return;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+		}, { passive: false });
+		f.addEventListener('touchstart', () => { isTouching = true; });
+		f.addEventListener('touchend', () => { isTouching = false; });
+	}
+
+	function getCursorPoint(e) {
+		return [e.pageX - window.pageXOffset, e.pageY - window.pageYOffset];
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	class ImageBox {
+
+		constructor(a, id) {
+			this._id   = id;
+			this._src  = a.href;
+			this._hash = calcHash(this._src);
+
+			a.addEventListener('click', (e) => { this.onOpen(e); });
+
+			this._frm = document.createElement('div');
+			NS.addStile(this._frm, ST_IMAGE_BOX);
+			this._frm.addEventListener('click', (e) => { this.onClose(e); });
+
+			this._img = document.createElement('img');
+			this._img.addEventListener('click', (e) => { e.stopPropagation(); });
+			this._frm.appendChild(this._img);
+
+			const btn = document.createElement('span');
+			NS.addStile(btn, ST_IMAGE_BOX_CLOSE);
+			this._frm.appendChild(btn);
+
+			if (a.parentNode.tagName === 'FIGURE') {
+				const fcs = a.parentNode.getElementsByTagName('figcaption');
+				if (0 < fcs.length) {
+					const cap = document.createElement('div');
+					cap.innerHTML = fcs[0].innerHTML;
+					NS.addStile(cap, ST_IMAGE_BOX_CAPTION);
+					this._frm.appendChild(cap);
+				}
+			}
+			document.body.appendChild(this._frm);
+
+			this.enableMouseGesture();
+			this.enableTouchGesture();
+		}
+
+		onOpen(e) {
+			if (e) e.preventDefault();
+			this.doOpen();
+
+			const hash = '#' + HASH_PREFIX + this._hash;
+			history.pushState({ name: 'stile-image-box', id: this._id }, null, hash);
+		}
+
+		doOpen() {
+			NS.addStile(this._frm, ST_STATE_OPEN);
+			const img = this._img;
+			if (!img.src) {
+				img.style.opacity = '0';
+				img.src = this._src;
+				img.addEventListener('load', () => {
+					this.setInitialSize();
+					img.style.opacity = '1';
+				});
+			}
+			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+			setTimeout(() => {
+				this.setInitialSize();
+				NS.addStile(this._frm, ST_STATE_VISIBLE);
+			}, delay);
+			currentId = this._id;
+		}
+
+		/* eslint-disable class-methods-use-this */
+		onClose(e) {
+			e.preventDefault();
+			history.back();
+		}
+
+		doClose() {
+			NS.removeStile(this._frm, ST_STATE_VISIBLE);
+			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
+			currentId = null;
+		}
+
+		setInitialSize() {  // Called also when 'onResize'
+			this._isPhone = NS.MEDIA_WIDTH.indexOf('phone') !== -1;
+			this._scale   = 1;
+
+			const winAs = this._frm.offsetWidth / this._frm.offsetHeight;
+			const imgAs = this._img.offsetWidth / this._img.offsetHeight;
+			this._isLandscape = (winAs < imgAs);
+
+			const size = this._isPhone ? '100%' : 'calc(100% - ' + SIZE_BOX_PADDING + ')';
+			const s = this._img.style;
+			s.minWidth  = '';
+			s.minHeight = '';
+			if (this._isLandscape) {
+				s.width    = size;
+				s.height   = 'auto';
+			} else {
+				s.width    = 'auto';
+				s.height   = size;
+				s.maxWidth = 'none';
+			}
+			this._baseSize = this._isLandscape ? this._frm.clientWidth : this._frm.clientHeight;
+			this.doCenteringImage();
+		}
+
+		setScaledSize(scale) {
+			this._scale = Math.max(1, Math.min(ZOOM_RATE_MAX, scale));
+			let size = (this._baseSize * this._scale) + 'px';
+			if (!this._isPhone) {
+				size = `calc(${size} - ${SIZE_BOX_PADDING})`;
+			}
+			if (this._isLandscape) this._img.style.minWidth = size;
+			else this._img.style.minHeight = size;
+			this.doCenteringImage();
+		}
+
+		doCenteringImage() {
+			const imgW = this._img.offsetWidth, imgH = this._img.offsetHeight;
+			const frmW = this._frm.clientWidth, frmH = this._frm.clientHeight;
+			const s = this._img.style;
+			s.left = (imgW < frmW) ? (((frmW - imgW) / 2) + 'px') : 0;
+			s.top  = (imgH < frmH) ? (((frmH - imgH) / 2) + 'px') : 0;
+		}
+
+		enableMouseGesture() {
+			let xS = 0, yS = 0;
+			let isMoving = false;
+
+			this._frm.addEventListener('mousedown', (e) => {
+				if (e.button) return;  // when button is not left
+				e.preventDefault();
+				[xS, yS] = getCursorPoint(e);
+				isMoving = true;
+			});
+			this._frm.addEventListener('mousemove', (e) => {
+				if (!isMoving) return;
+				e.stopPropagation();
+				e.preventDefault();
+
+				const [cx, cy] = getCursorPoint(e);
+				this._frm.scrollLeft += xS - cx;
+				this._frm.scrollTop  += yS - cy;
+				xS = cx;
+				yS = cy;
+			});
+			this._frm.addEventListener('mousedrag', (e) => {
+				if (!isMoving) return;
+				e.stopPropagation();
+				e.preventDefault();
+			});
+			this._frm.addEventListener('mouseup', () => { isMoving = false; });
+
+			this._frm.addEventListener('wheel', (e) => {
+				e.stopPropagation();
+				e.preventDefault();
+
+				const [cx, cy] = getCursorPoint(e);
+				const imgCx = (cx + this._frm.scrollLeft) / this._scale;
+				const imgCy = (cy + this._frm.scrollTop)  / this._scale;
+
+				const s = 0 > e.deltaY ? 1.1 : 0.9;
+				this.setScaledSize(this._scale * s);
+
+				this._frm.scrollLeft = imgCx * this._scale - cx;
+				this._frm.scrollTop  = imgCy * this._scale - cy;
+			}, true);
+		}
+
+		enableTouchGesture() {
+			let xS = 0, yS = 0;
+			let lastTouchCount = 0;
+			let baseDist = 0;
+
+			preventWindowTouchMove(this._frm);  // for Android
+
+			this._frm.addEventListener('touchstart', (e) => {
+				baseDist = 0;
+				updatePoint(e.touches);
+			});
+			this._frm.addEventListener('touchmove', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				const ts = e.touches;
+				if (lastTouchCount !== ts.length) updatePoint(ts);
+
+				const [cx, cy] = getTouchPoint(ts);
+				this._frm.scrollLeft += xS - cx;
+				this._frm.scrollTop  += yS - cy;
+				xS = cx;
+				yS = cy;
+
+				if (2 <= ts.length) {
+					const imgCx = (cx + this._frm.scrollLeft) / this._scale;
+					const imgCy = (cy + this._frm.scrollTop)  / this._scale;
+					const dist = touchDistance(ts);
+
+					if (baseDist) {
+						const s = dist / (baseDist * this._scale);
+						if (s && s !== Infinity) {
+							this.setScaledSize(this._scale * s);
+
+							this._frm.scrollLeft = imgCx * this._scale - cx;
+							this._frm.scrollTop  = imgCy * this._scale - cy;
+						}
+					}
+					baseDist = dist / this._scale;
+				}
+			}, { passive: false });
+
+			function updatePoint(ts) {
+				lastTouchCount = ts.length;
+				[xS, yS] = getTouchPoint(ts);
+			}
+		}
+
+	}
+
+	function calcHash(str, asHex = true) {
+		let h = 0x811c9dc5;
+		for (let i = 0; i < str.length; i += 1) {
+			h ^= str.charCodeAt(i);
+			h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+		}
+		if (asHex) return ('0000000' + (h >>> 0).toString(16)).substr(-8);
+		return h >>> 0;
+	}
+
+})(window.ST);

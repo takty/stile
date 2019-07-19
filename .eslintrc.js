@@ -206,7 +206,7 @@ module.exports = {
         "object-curly-newline": "error",
         "object-curly-spacing": [
             "error",
-            "never"
+            "always"
         ],
         "object-shorthand": "off",
         "one-var": "off",
@@ -246,7 +246,7 @@ module.exports = {
         "sort-keys": "off",
         "sort-vars": "off",
         "space-before-blocks": "off",
-        "space-before-function-paren": "on",
+        "space-before-function-paren": "off",
         "space-in-parens": [
             "error",
             "never"
@@ -256,7 +256,7 @@ module.exports = {
         "spaced-comment": "off",
         "strict": "off",
         "switch-colon-spacing": [
-            "error",
+            "off",
             {
                 "after": false,
                 "before": false

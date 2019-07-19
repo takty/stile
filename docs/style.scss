@@ -3,9 +3,14 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
+<<<<<<< HEAD
  * @version 2019-06-05
+=======
+ * @version 2019-07-09
+>>>>>>> dev
  *
  */
+
 
 @charset 'utf-8';
 
@@ -18,14 +23,11 @@ $stile-margin-align-table        : left;
 $stile-table-align-caption       : left;
 $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
-// $stile-pseudo-tab-page-hidden-redundant-tab: false;
-// $stile-print-enabled-link-url: false;
 
-@import '../dist/sass/basic';
-@import '../dist/sass/content';
-@import '../dist/sass/option';
+// $stile-pseudo-tab-page-alt: true;
 
-@include stile-pseudo-tab-page-variable-simple;
+
+@import '../dist/sass/all';
 
 
 :root {
@@ -53,15 +55,19 @@ body {
 	@include stile-option(true);
 	color: hsla(0, 0, 0, 0.75);
 
-	> div:not([class]) { @include stile-margin; }
-
 	a:not([class])[data-stile ~= 'link-file-pdf']::after { content: '\e0e0'; }
 	a:not([class])[data-stile ~= 'link-file-word']::after { content: '\e873'; }
 	a:not([class])[data-stile ~= 'link-file-excel']::after { content: '\e5c3'; }
 	a:not([class])[data-stile ~= 'link-file-powerpoint']::after { content: '\e071'; }
 
-	@for $i from 0 through 6 {
+	@for $i from -1 through 6 {
 		.font-size-level-#{$i} { @include font-size-level($i); }
+	}
+
+	.frame {
+		@include stile-margin-inside;
+		padding: base-vr(1);
+		background-color: $stile-content-color-background;
 	}
 
 	.kerning > span {
@@ -74,14 +80,17 @@ body {
 			display: inline-block;
 			margin: 0 0.25rem;
 			background-size: 100% 0.25rem;
-			background-repeat: no-repeat;
 			background-position: left bottom;
 		}
-		> span {
-			background-image: linear-gradient(to right, red 0%, rgba(red, 0.5) 100%);
-		}
-		> * > span {
-			background-image: linear-gradient(to right, blue 0%, rgba(blue, 0.5) 100%);
+		> span { background-image: linear-gradient(to right, red 0%, rgba(red, 0.5) 100%); }
+		> * > span { background-image: linear-gradient(to right, blue 0%, rgba(blue, 0.5) 100%); }
+	}
+
+	.column-2, .column-3, .column-4,
+	.card-2, .card-3, .card-4 {
+		> *:not(:empty) {
+			background-color: rgba(red, 0.5);
+			border: 4px solid pink;
 		}
 	}
 }
@@ -98,8 +107,23 @@ body {
 }
 
 .width-query {
+	&.phone-up {
+		@include for-phone-up              { border: 2px solid red; }
+	}
 	&.phone-only {
 		@include for-phone-only            { border: 2px solid red; }
+	}
+	&.phone-portrait-up {
+		@include for-phone-portrait-up     { border: 2px solid red; }
+	}
+	&.phone-portrait-only {
+		@include for-phone-portrait-only   { border: 2px solid red; }
+	}
+	&.phone-landscape-up {
+		@include for-phone-landscape-up    { border: 2px solid red; }
+	}
+	&.phone-landscape-only {
+		@include for-phone-landscape-only  { border: 2px solid red; }
 	}
 	&.tablet-up {
 		@include for-tablet-up             { border: 2px solid red; }
@@ -128,9 +152,21 @@ body {
 	&.big-desktop-up {
 		@include for-big-desktop-up        { border: 2px solid red; }
 	}
+	&.big-desktop-only {
+		@include for-big-desktop-only      { border: 2px solid red; }
+	}
 }
 
 .height-query {
+	&.tiny-height-up {
+		@include for-tiny-height-up     { border: 2px solid red; }
+	}
+	&.tiny-height-only {
+		@include for-tiny-height-only   { border: 2px solid red; }
+	}
+	&.small-height-up {
+		@include for-small-height-up    { border: 2px solid red; }
+	}
 	&.small-height-only {
 		@include for-small-height-only  { border: 2px solid red; }
 	}
@@ -142,6 +178,9 @@ body {
 	}
 	&.large-height-up {
 		@include for-large-height-up    { border: 2px solid red; }
+	}
+	&.large-height-only {
+		@include for-large-height-only  { border: 2px solid red; }
 	}
 }
 
@@ -167,104 +206,128 @@ body {
 // -----------------------------------------------------------------------------
 
 
-.layout-side-margin {
-	background-color: rgba(red, 0.5);
-	@include layout-side-margin(32rem, 1rem);
+.border {
+	@include stile-margin-inside;
+	border-left: 1px dashed gray;
+	border-right: 1px dashed gray;
 }
-.layout-width-breakpoint {
-	background-color: rgba(red, 0.5);
-	@include layout-width-breakpoint(40%, 32rem, 100%);
-}
-.layout-full-width {
-	background-color: rgba(red, 0.5);
-	@include layout-full-width(1rem);
-}
-.layout-centering {
-	background-color: rgba(red, 0.5);
-	height: 6rem;
-	@include layout-centering(false);
+<<<<<<< HEAD
+=======
+
+*[class ^='layout-'] {
+	border: 1px dashed blue;
 	> div {
-		display: inline-block;
-		border: 1px solid blue;
+		background-color: rgba(red, 0.5);
+		border: 4px solid pink;
 	}
 }
+
+.col-2 {
+	@include layout-wrap-responsive(24rem, 2, 2rem);
+	align-items: flex-start;
+}
+
+.layout-side-margin {
+	@include layout-side-margin(40rem, 1rem);
+}
+
+.layout-width-responsive {
+	> div {
+		@include layout-width-responsive(32rem, 40%, 100%);
+	}
+}
+
+.layout-full-width {
+	@include layout-full-width(1rem);
+}
+
+.layout-centering {
+	height: 6rem;
+	@include layout-centering(false);
+	> div { display: inline-block; }
+}
+
 .layout-centering-self {
-	border: 1px solid blue;
 	height: 6rem;
 	> div {
 		display: inline-block;
-		background-color: rgba(red, 0.5);
 		@include layout-centering-self(true, true, relative);
 	}
 }
+
 .layout-fill-self {
 	position: relative;
-	border: 1px solid blue;
 	height: 6rem;
-	> div {
-		@include layout-fill-self(absolute, false);
-		background-color: rgba(red, 0.5);
-	}
+	> div { @include layout-fill-self; }
 }
+
 .layout-aspect {
-	@include layout-aspect(2, 1, false);
 	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
+	@include layout-aspect(3, 1);
+}
+
+.layout-aspect-expandable {
+	width: 20rem;
+	@include layout-aspect(3, 1, true);
+}
+
+*[data-stile ~= 'layout-frame-contain'] {
+	@include layout-frame-contain(3, 2);
+	display: block;
+	border: 1px dashed blue;
+}
+
+.layout-wrap {
+	@include layout-wrap((1rem 2rem));
+}
+
+@for $i from 2 through 4 {
+	.layout-wrap-responsive-#{$i} {
+		@include layout-wrap-responsive(36rem, $i, 2rem);
 	}
 }
-.layout-aspect-gold {
-	@include layout-aspect-gold();
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-.layout-minimum-aspect {
-	@include layout-minimum-aspect(2, 1);
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
-.layout-minimum-aspect-gold {
-	@include layout-minimum-aspect-gold();
-	width: 20rem;
-	background-color: rgba(red, 0.5);
-	> div {
-		@include layout-fill-self();
-	}
-}
+
 @for $i from 2 through 4 {
 	.layout-column-#{$i} {
-		border: 1px solid blue;
 		@include layout-column($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
-@for $i from 2 through 4 {
+
+@for $i from 1 through 4 {
 	.layout-card-#{$i} {
-		border: 1px solid blue;
 		@include layout-card($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-			border: 0.5rem solid green;
-		}
 	}
 }
+
 @for $i from 2 through 4 {
 	.layout-masonry-#{$i} {
-		margin-top: 1rem;
-		border: 1px solid blue;
-		@include layout-masonry($i, 2rem);
-		> div {
-			background-color: rgba(red, 0.5);
-		}
+		@include layout-masonry($i, (2rem, 2rem));
 	}
 }
+
+
+// -----------------------------------------------------------------------------
+
+
+.half-width {
+	width: 50%;
+	padding: base-vr(2);
+	border: 1px dashed gray;
+
+	> div {
+		border: 4px solid pink;
+	}
+}
+
+.cq-cls1 {
+	background-color: rgba(red, 0.5);
+}
+
+.cq-cls2 {
+	background-color: rgba(green, 0.5);
+}
+
+.cq-cls3 {
+	background-color: rgba(blue, 0.5);
+}
+>>>>>>> dev

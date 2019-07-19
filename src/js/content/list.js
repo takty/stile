@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-02-14
+ * @version 2019-06-16
  *
  */
 
@@ -11,13 +11,20 @@
 window.ST = window['ST'] || {};
 
 
-ST.addInitializer(4, function () {
+(function (NS) {
 
-	const TARGET_CLASS = 'stile';
+	const CLS_TARGET = 'stile';
 
-	setStyleForInsideOf(document.getElementsByClassName(TARGET_CLASS));
-	setStyleDirectlyFor(document.getElementsByTagName('ul'), TARGET_CLASS);
-	setStyleDirectlyFor(document.getElementsByTagName('ol'), TARGET_CLASS);
+
+	NS.addInit(3, () => {
+		setStyleForInsideOf(document.getElementsByClassName(CLS_TARGET));
+		setStyleDirectlyFor(document.getElementsByTagName('ul'), CLS_TARGET);
+		setStyleDirectlyFor(document.getElementsByTagName('ol'), CLS_TARGET);
+	});
+
+
+	// -------------------------------------------------------------------------
+
 
 	function setStyleForInsideOf(ts) {
 		for (let j = 0; j < ts.length; j += 1) {
@@ -40,7 +47,7 @@ ST.addInitializer(4, function () {
 			const t = ts[i];
 			if (!hasListStile(t) && t.classList.contains(tc)) {
 				setStyle(t);
-				if (t.tagName === 'OL') setCounterReset(ols[i]);
+				if (t.tagName === 'OL') setCounterReset(t);
 			}
 		}
 	}
@@ -60,20 +67,15 @@ ST.addInitializer(4, function () {
 		const type = t.style.listStyleType;
 		if (type !== '' && type !== 'none') {
 			t.style.listStyleType = '';
-			ST.addStile(t, 'list-' + type);
+			NS.addStile(t, 'list-' + type);
 		}
 	}
 
 	function setCounterReset(t) {
-		const v = t.getAttribute('start');
-		if (v !== null && v !== '') {
-			const s = parseInt(v);
-			t.style.counterReset = 'li ' + (s + 1);
-		}
 		const cs = t.children;
 
 		let rev = false;
-		if (t.getAttribute('reversed') !== null) {
+		if (t.getAttribute('reversed') !== null || NS.containStile(t, 'reversed')) {
 			let size = 0;
 			for (let i = 0; i < cs.length; i += 1) {
 				if (cs[i].tagName === 'LI') size += 1;
@@ -81,6 +83,13 @@ ST.addInitializer(4, function () {
 			t.style.counterReset = 'li ' + (size + 1);
 			rev = true;
 		}
+
+		const v = t.getAttribute('start');
+		if (v !== null && v !== '') {
+			const s = parseInt(v);
+			t.style.counterReset = 'li ' + (s + 1);
+		}
+
 		for (let i = 0; i < cs.length; i += 1) {
 			if (cs[i].tagName !== 'LI') continue;
 			const v = cs[i].getAttribute('value');
@@ -91,4 +100,4 @@ ST.addInitializer(4, function () {
 		}
 	}
 
-});
+})(window.ST);
