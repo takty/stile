@@ -32,6 +32,15 @@ $stile-alignment-size-width         : 72rem !default;
 	.aligncenter {
 		@include stile-alignment-center;
 	}
+	*:first-child {
+		.aligncenter,
+		.alignleft [data-stile ~= 'aligncenter'],
+		.alignright[data-stile ~= 'aligncenter'] {
+			&[data-stile ~= 'only-child-element'] {
+				margin-top: 0;
+			}
+		}
+	}
 
 	// Without Size Classes ----------------------------------------------------
 
@@ -107,10 +116,6 @@ $stile-alignment-size-width         : 72rem !default;
 	transform : initial;
 	text-align: center;
 	clear     : both;
-
-	&[data-stile ~= 'only-child-element'] {
-		margin: { top: 0; bottom: 0; }
-	}
 }
 
 @mixin stile-alignment-float($max-width: false) {
