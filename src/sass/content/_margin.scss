@@ -169,7 +169,14 @@ $stile-margin-heading:
 
 	.tab-page > div,
 	.pseudo-tab-page
-	{ @include stile-margin-inside; }
+	{
+		@include stile-margin-inside;
+		* + .tab-page,
+			.tab-page + *,
+		* + .pseudo-tab-page,
+			.pseudo-tab-page + *
+		{ margin-top: base-vr(4); }
+	}
 
 	.stile-tab-page-tab-list + *,
 	* + .stile-tab-page-tab-list-below
