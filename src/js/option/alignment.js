@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-07-19
  *
  */
 
@@ -24,6 +24,11 @@ window.ST = window['ST'] || {};
 		let als = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AL);
 		let ars = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AR);
 		const acs = document.querySelectorAll(SEL_TARGET + ' .' + CLS_AC);
+
+		addOnlyChildElementClass(als);
+		addOnlyChildElementClass(ars);
+		addOnlyChildElementClass(acs);
+
 		als = replaceAlignClass(als);
 		ars = replaceAlignClass(ars);
 		replaceAlignClass(acs);
@@ -35,6 +40,29 @@ window.ST = window['ST'] || {};
 			modifyAlignmentStyle(ars, CLS_AR);
 		}, 0);  // Delay
 	});
+
+
+	// -------------------------------------------------------------------------
+
+
+	function addOnlyChildElementClass(as) {
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
+			const cs = a.parentElement.childNodes;
+			let isOnlyChildElement = true;
+			for (let j = 0; j < cs.length; j += 1) {
+				const c = cs[j];
+				if (c.nodeType === 3 /*TEXT_NODE*/ && c.textContent.trim() !== '') {
+					isOnlyChildElement = false;
+					break;
+				} else if (c.nodeType === 1 /*ELEMENT_NODE*/ && c !== a) {
+					isOnlyChildElement = false;
+					break;
+				}
+			}
+			if (isOnlyChildElement) NS.addStile(a, 'only-child-element');
+		}
+	}
 
 
 	// -------------------------------------------------------------------------
@@ -111,9 +139,9 @@ window.ST = window['ST'] || {};
 			const p = c.parentNode;
 			let replace = false;
 			if (p.tagName === 'A' && NS.isImageLink(p)) {
-				if (moveClass(c, p, CLS_AL))   replace = true;
+				if (moveClass(c, p, CLS_AL)) replace = true;
 				if (moveClass(c, p, CLS_AC)) replace = true;
-				if (moveClass(c, p, CLS_AR))  replace = true;
+				if (moveClass(c, p, CLS_AR)) replace = true;
 			}
 			ret.push(replace ? p : c);
 		}

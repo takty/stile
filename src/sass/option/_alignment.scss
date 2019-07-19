@@ -108,7 +108,7 @@ $stile-alignment-size-width         : 72rem !default;
 	text-align: center;
 	clear     : both;
 
-	&:only-child {
+	&[data-stile ~= 'only-child-element'] {
 		margin: { top: 0; bottom: 0; }
 	}
 }
