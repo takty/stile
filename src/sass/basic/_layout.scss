@@ -237,8 +237,10 @@
 		width    : 100%;
 		max-width: $mw;
 	}
-	// for overriding other layout-card and _layout-column-cancel
-	> *:not(:first-child) { margin-top: 0; }
+	> *:not(:first-child) {
+		margin-top : 0;  // for overriding other layout-card and _layout-column-cancel
+		margin-left: if($gap != false, $gap, 0);
+	}
 }
 
 @mixin _layout-column-ratio($rs, $gap: false) {
@@ -261,20 +263,21 @@
 			max-width: $mw;
 		}
 	}
-	// for overriding other layout-card and _layout-column-cancel
-	> *:not(:first-child) { margin-top: 0; }
+	> *:not(:first-child) {
+		margin-top : 0;  // for overriding other layout-card and _layout-column-cancel
+		margin-left: if($gap != false, $gap, 0);
+	}
 }
 
 @mixin _layout-column-cancel($gap: false) {
 	flex-direction: column;
 
 	> * { max-width: 100%; }
-	@if $gap != false {
-		// for overriding other layout-card
-		> *:not(:first-child) { margin-top: $gap; }
-	}
 	// for overriding other layout-card
-	> *:not(:first-child) { margin-left: 0; }
+	> *:not(:first-child) {
+		margin-top : if($gap != false, $gap, 0);
+		margin-left: 0;
+	}
 }
 
 
