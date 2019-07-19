@@ -3,7 +3,7 @@
  * Margin Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-10
+ * @version 2019-07-19
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -207,6 +207,10 @@ $stile-margin-heading:
 
 %stile-margin-inside {
 	> div + div { margin-top: base-vr(2); }
+	> *:first-child.alignleft,
+	> *:first-child.alignright {
+		& + *:not([class]) { margin-top: 0; }
+	}
 }
 
 %stile-margin {
