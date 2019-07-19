@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-08
+ * @version 2019-07-19
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -107,6 +107,10 @@ $stile-alignment-size-width         : 72rem !default;
 	transform : initial;
 	text-align: center;
 	clear     : both;
+
+	&:only-child {
+		margin: { top: 0; bottom: 0; }
+	}
 }
 
 @mixin stile-alignment-float($max-width: false) {
