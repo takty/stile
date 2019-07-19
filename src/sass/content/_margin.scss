@@ -225,11 +225,7 @@ $stile-margin-heading:
 		text-align: center;        // for table on IE11
 		> * { text-align: left; }  // for table on IE11
 	}
-	> div + div { margin-top: base-vr(2); }
-	> *:first-child.alignleft,
-	> *:first-child.alignright {
-		& + *:not([class]) { margin-top: 0; }
-	}
+	@extend %stile-margin-inside;
 
 	@include stile-margin-block-inside;
 	@include stile-margin-block;
