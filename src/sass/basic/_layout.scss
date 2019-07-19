@@ -234,20 +234,19 @@
 		$mw: calc(#{$mw} - #{$cg});
 	}
 	> * {
-		width     : 100%;
-		max-width : $mw;
-		margin-top: 0;  // For canceling _layout-column-cancel
+		width    : 100%;
+		max-width: $mw;
 	}
+	// for overriding other layout-card and _layout-column-cancel
+	> *:not(:first-child) { margin-top: 0; }
 }
 
 @mixin _layout-column-ratio($rs, $gap: false) {
 	flex-direction : row;
 	justify-content: space-between;
 
-	> * {
-		width     : 100%;
-		margin-top: 0;  // For canceling _layout-column-cancel
-	}
+	> * { width: 100%; }
+
 	$n  : length($rs);
 	$cg : if($gap == false, 0, $gap * ($n - 1) / $n);
 	$sum: 0;
