@@ -97,7 +97,10 @@ window.ST = window['ST'] || {};
 
 	function initializeSingleTab(tabUlss) {
 		updateVisibilityImmediately(tabUlss);
-		NS.onScroll(() => { updateVisibility(tabUlss); });
+		NS.onScroll(() => {
+			updateVisibility(tabUlss);
+			setTimeout(() => { focused = null; }, 100);
+		});
 	}
 
 	function onTabClick(idx, tabUls, tabUlss) {
