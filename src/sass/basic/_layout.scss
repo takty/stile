@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-07-19
  *
  * @import 'query';
  *
@@ -58,8 +58,8 @@
 	}
 }
 
-@mixin layout-fill-self() {
-	position: absolute;
+@mixin layout-fill-self($position: absolute) {
+	position: $position;
 	top     : 0;
 	left    : 0;
 	right   : 0;
