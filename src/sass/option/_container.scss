@@ -37,7 +37,8 @@ $stile-container-4-child-min-width: 10rem !default;
 		// One of Columns
 		> * {
 			flex-grow: 1;
-			> *:first-child { margin-top: 0; }
+			> *:first-child { margin-top:    0; }
+			> *:last-child  { margin-bottom: 0; }
 		}
 	}
 	.column-2 {
