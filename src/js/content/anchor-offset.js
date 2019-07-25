@@ -13,7 +13,7 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const OFFSET = (NS.ANCHOR_OFFSET_ADDITIONAL !== undefined) ? NS.ANCHOR_OFFSET_ADDITIONAL : 16;
+	const OFFSET = (NS.ANCHOR_OFFSET_ADDITIONAL !== undefined) ? NS.ANCHOR_OFFSET_ADDITIONAL : 32;
 
 	const SEL_TARGET       = '.stile *[id]:not([class])';
 	const CLS_LINK_TARGET  = 'stile-link-target';
