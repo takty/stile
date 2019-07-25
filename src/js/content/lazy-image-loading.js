@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-07-25
  *
  */
 
@@ -15,6 +15,7 @@ window.ST = window['ST'] || {};
 
 	const SEL_TARGET = '.stile';
 	const OFFSET     = 100;
+	const BLANK_IMG  = 'data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=';
 
 
 	NS.addInit(2, initialize);
@@ -30,7 +31,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < imgs.length; i += 1) {
 			const img = imgs[i];
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
-			if (img.getBoundingClientRect().top >= window.innerHeight + OFFSET) hide(img);
+			hide(img);
 		}
 		NS.onScroll(onScroll, true);
 
@@ -53,30 +54,41 @@ window.ST = window['ST'] || {};
 	}
 
 	function hide(img) {
-		img.dataset['src'] = img.src;
-		img.src = 'data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=';
-		if (img.srcset) {
-			img.dataset['srcset'] = img.srcset;
-			img.srcset = '';
-		}
+		saveSrc(img);
 		img.style.opacity = 0;
 		const h = img.getAttribute('height');
 		if (h) img.style.minHeight = h + 'px';
 	}
 
 	function show(img, immediately = false) {
+		if (immediately) {
+			img.style.minHeight = '';
+			img.style.opacity   = '';
+		} else {
+			img.addEventListener('load', () => {
+				img.style.minHeight = '';
+				img.style.opacity   = '';
+			});
+		}
+		restoreSrc(img);
+	}
+
+	function saveSrc(img) {
+		img.dataset['src'] = img.src;
+		img.src = BLANK_IMG;
+		if (img.srcset) {
+			img.dataset['srcset'] = img.srcset;
+			img.srcset = '';
+		}
+	}
+
+	function restoreSrc(img) {
 		if (img.dataset.srcset) {
 			img.srcset = img.dataset.srcset;
 			img.dataset.srcset = '';
 		}
 		img.src = img.dataset.src;
 		img.dataset.src = '';
-		img.style.minHeight = '';
-		if (immediately) {
-			img.style.opacity = '';
-		} else {
-			setTimeout(() => { img.style.opacity = ''; }, 200);
-		}
 	}
 
 })(window.ST);

@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-07-25
  *
  */
 
@@ -29,7 +29,7 @@ window.ST = window['ST'] || {};
 	// 2: lazy-image-loading, image-box, kerning
 	// 3: block, list, table-neat-wrap
 	// 4: alignment, container, pseudo-tab-page, tab-page, table-fixed-header
-	// 5: anchor-scroll
+	// 5: anchor-scroll, anchor-offset (scroll to hash)
 
 
 	// -------------------------------------------------------------------------
