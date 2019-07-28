@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-07-28
  *
  */
 
@@ -88,11 +88,9 @@ window.ST = window['ST'] || {};
 			const a = asw[i][0], w = asw[i][1];
 			if (10 < w) continue;
 			NS.addStile(a, stile);
-			const nw = a.getBoundingClientRect().width;
+			asw[i][1] = a.getBoundingClientRect().width;
 			NS.removeStile(a, stile);
-			asw[i][1] = nw;
 		}
-		return asw;
 	}
 
 	function updateApplicableWidths(asw) {
