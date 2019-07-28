@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-07-29
  *
  */
 
@@ -83,10 +83,12 @@ window.ST = window['ST'] || {};
 		if (doFirst) fn();
 		resizeListeners.push(NS.throttle(fn));
 	};
+
 	NS.onScroll = (fn, doFirst = false) => {
 		if (doFirst) fn();
 		scrollListeners.push(NS.throttle(fn));
 	};
+
 	NS.throttle = (fn) => {
 		let isRunning;
 		function run() {
@@ -109,6 +111,57 @@ window.ST = window['ST'] || {};
 			}
 		}
 	};
+
+
+	// -------------------------------------------------------------------------
+
+
+	NS.onIntersect = (fn, doFirst = false, opts = {}) => {
+		if (opts.targets      === undefined) opts.targets      = [];
+		if (opts.marginTop    === undefined) opts.marginTop    = 0;
+		if (opts.marginBottom === undefined) opts.marginBottom = 0;
+		if (opts.threshold    === undefined) opts.threshold    = 1;
+		const ts = [].slice.call(opts.targets);
+
+		if ('IntersectionObserver' in window) {
+			observeIntersection(fn, opts, ts);
+		} else {
+			observeIntersection_compat(fn, opts, ts, doFirst);
+		}
+	};
+
+	function observeIntersection(fn, os, ts) {
+		let prevVs = Array(ts.length).fill(false);
+		const io = new IntersectionObserver((es) => {
+			const vs = Array.from(prevVs);
+			for (let i = 0; i < es.length; i += 1) vs[ts.indexOf(es[i].target)] = es[i].isIntersecting;
+			if (!isMatch(vs, prevVs)) fn(vs);
+			prevVs = vs;
+		}, { rootMargin: os.marginTop + 'px 0px ' + os.marginBottom + 'px 0px', threshold: os.threshold });
+		for (let i = 0; i < ts.length; i += 1) io.observe(ts[i]);
+	}
+
+	function observeIntersection_compat(fn, os, ts, doFirst) {
+		let prevVs = [];
+		NS.onScroll(() => {
+			const wh = window.innerHeight;
+			const vs = [];
+			for (let i = 0; i < ts.length; i += 1) {
+				const r = ts[i].getBoundingClientRect();
+				vs.push((r.top + r.height * os.threshold < wh - os.marginBottom) && (os.marginTop < r.bottom - r.height * os.threshold));
+			}
+			if (!isMatch(vs, prevVs)) fn(vs);
+			prevVs = vs;
+		}, doFirst);
+	}
+
+	function isMatch(vs0, vs1) {
+		if (vs1.length !== vs0.length) return false;
+		for (let i = 0; i < vs0.length; i += 1) {
+			if (vs0[i] !== vs1[i]) return false;
+		}
+		return true;
+	}
 
 
 	// -------------------------------------------------------------------------
