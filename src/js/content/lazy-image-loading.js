@@ -3,7 +3,7 @@
  * Lazy Image Loading
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-07-28
  *
  */
 
@@ -32,13 +32,12 @@ window.ST = window['ST'] || {};
 			if ([].indexOf.call(imgsInTbl, img) !== -1) continue;
 			if (img.getBoundingClientRect().top >= window.innerHeight + OFFSET) hide(img);
 		}
-		NS.onScroll(onScroll, true);
-
-		function onScroll() {
+		NS.onIntersect(onIntersect, true, { targets: imgs, marginBottom: -OFFSET, threshold: 0 });
+		function onIntersect(vs) {
 			for (let i = 0; i < imgs.length; i += 1) {
 				const img = imgs[i];
 				if (!img.dataset.src) continue;
-				if (img.getBoundingClientRect().top < window.innerHeight + OFFSET) show(img);
+				if (vs[i]) show(img);
 			}
 		}
 
