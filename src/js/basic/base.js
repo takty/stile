@@ -131,24 +131,50 @@ window.ST = window['ST'] || {};
 	};
 
 	function observeIntersection(fn, os, ts) {
+		function init() {
+			const io = new IntersectionObserver((es) => {
+				const vs = Array.from(prevVs);
+				for (let i = 0; i < es.length; i += 1) vs[ts.indexOf(es[i].target)] = es[i].isIntersecting;
+				if (!isMatch(vs, prevVs)) fn(vs);
+				prevVs = vs;
+			}, { rootMargin: mt + 'px 0px ' + os.marginBottom + 'px 0px', threshold: os.threshold });
+			for (let i = 0; i < ts.length; i += 1) io.observe(ts[i]);
+			return io;
+		}
 		let prevVs = Array(ts.length).fill(false);
-		const io = new IntersectionObserver((es) => {
-			const vs = Array.from(prevVs);
-			for (let i = 0; i < es.length; i += 1) vs[ts.indexOf(es[i].target)] = es[i].isIntersecting;
-			if (!isMatch(vs, prevVs)) fn(vs);
-			prevVs = vs;
-		}, { rootMargin: os.marginTop + 'px 0px ' + os.marginBottom + 'px 0px', threshold: os.threshold });
-		for (let i = 0; i < ts.length; i += 1) io.observe(ts[i]);
+		let mt = os.marginTop;
+		if (mt !== 'OFFSET') {
+			init();
+			return;
+		}
+		let io = null;
+		let st = null;
+		NS.onResize(() => {
+			const f = NS.makeOffsetFunction();  // Initialize here
+			mt = -(f() + NS.getWpAdminBarHeight());
+			if (st) clearTimeout(st);
+			st = setTimeout(() => {
+				if (io) io.disconnect();
+				io = init();
+			}, 100);
+		}, true);
 	}
 
 	function observeIntersection_compat(fn, os, ts, doFirst) {
 		let prevVs = [];
+		let mt = os.marginTop;
+		if (mt === 'OFFSET') {
+			NS.onResize(() => {
+				const f = NS.makeOffsetFunction();  // Initialize here
+				mt = -(f() + NS.getWpAdminBarHeight());
+			}, true);
+		}
 		NS.onScroll(() => {
 			const wh = window.innerHeight;
 			const vs = [];
 			for (let i = 0; i < ts.length; i += 1) {
 				const r = ts[i].getBoundingClientRect();
-				vs.push((r.top + r.height * os.threshold < wh - os.marginBottom) && (os.marginTop < r.bottom - r.height * os.threshold));
+				vs.push((r.top + r.height * os.threshold < wh + os.marginBottom) && (-mt < r.bottom - r.height * os.threshold));
 			}
 			if (!isMatch(vs, prevVs)) fn(vs);
 			prevVs = vs;
