@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-29
+ * @version 2019-07-30
  *
  */
 
@@ -97,6 +97,7 @@ body {
 	left    : 0;
 	width   : 100%;
 	height  : 4rem;
+	z-index : 1;
 
 	display        : flex;
 	align-items    : center;
