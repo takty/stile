@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-09
+ * @version 2019-07-31
  *
  */
 
@@ -27,12 +27,11 @@ window.ST = window['ST'] || {};
 	const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
 	const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-	let getTableHeaderOffset;
+	let getOffset;
 	let scrollBarWidth;
 
 	NS.addInit(4, () => {
-		const f = NS.makeOffsetFunction();  // Initialize here
-		getTableHeaderOffset = () => f() + NS.getWpAdminBarHeight();
+		getOffset = NS.makeOffsetFunction(true);  // Initialize here
 
 		const tabs = document.querySelectorAll(SEL_TARGET + ' table:not([class])');
 		setTimeout(() => { initialize(tabs); }, 0);  // Delay for IE11
@@ -264,7 +263,7 @@ window.ST = window['ST'] || {};
 		_updateHeaderSize(cont) {
 			cont.style.maxWidth = this._table.getBoundingClientRect().width + 'px';
 			cont.style.display = 'none';
-			cont.style.top = getTableHeaderOffset() + 'px';
+			cont.style.top = getOffset() + 'px';
 
 			const thead = this._table.tHead;
 			let w = thead.getBoundingClientRect().width;
@@ -308,7 +307,7 @@ window.ST = window['ST'] || {};
 		onWindowScroll() {
 			const tr     = this._table.getBoundingClientRect();
 			const tabTop = tr.top, tabBottom = tr.bottom;
-			const offset = getTableHeaderOffset();
+			const offset = getOffset();
 			const capH   = this._capt ? this._capt.offsetHeight : 0;
 			const headH  = this._headerHeight;
 			const inView = tabBottom - tabTop - capH < CAPABLE_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
@@ -334,7 +333,7 @@ window.ST = window['ST'] || {};
 		updateHeaderVisibility(visible, tabLeft) {
 			const head = this._head;
 			if (visible) {
-				head.style.top     = getTableHeaderOffset() + 'px';
+				head.style.top     = getOffset() + 'px';
 				head.style.display = 'block';
 				if (this._ebtn && head) this.switchEnlargerToFloatingHeader();
 			} else {

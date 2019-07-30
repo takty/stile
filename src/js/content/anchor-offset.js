@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-09
+ * @version 2019-07-31
  *
  */
 
@@ -19,7 +19,7 @@ window.ST = window['ST'] || {};
 	const CLS_LINK_TARGET  = 'stile-link-target';
 	const ST_ANCHOR_OFFSET = 'anchor-offset';
 
-	let getAnchorOffset;
+	let getOffset;
 
 	NS.assignAnchorOffset = assignAnchorOffset;  // Export the function
 	NS.addInit(1, initializeAnchorOffset);
@@ -31,9 +31,9 @@ window.ST = window['ST'] || {};
 
 
 	function initializeAnchorOffset() {
-		getAnchorOffset = NS.makeOffsetFunction();  // Initialize here
+		getOffset = NS.makeOffsetFunction(true);  // Initialize here
 
-		if (OFFSET + getAnchorOffset() !== 0) {
+		if (OFFSET + getOffset() !== 0) {
 			const as1 = [].slice.call(document.getElementsByClassName(CLS_LINK_TARGET));
 			const as2 = [].slice.call(document.querySelectorAll(SEL_TARGET));
 			const anchorTargets = as1.concat(filterTarget(as2));
@@ -91,8 +91,7 @@ window.ST = window['ST'] || {};
 	}
 
 	function setAnchorOffset(ats) {
-		const offset = getAnchorOffset() + NS.getWpAdminBarHeight();
-		const off = offset + OFFSET;
+		const off = OFFSET + getOffset();
 
 		for (let i = 0; i < ats.length; i += 1) {
 			const at = ats[i];
