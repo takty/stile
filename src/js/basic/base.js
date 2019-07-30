@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-30
+ * @version 2019-07-31
  *
  */
 
@@ -152,9 +152,9 @@ window.ST = window['ST'] || {};
 		}
 		let io = null;
 		let st = null;
+		const off = NS.makeOffsetFunction(true);  // Initialize here
 		NS.onResize(() => {
-			const f = NS.makeOffsetFunction();  // Initialize here
-			mt = -(f() + NS.getWpAdminBarHeight());
+			mt = -off();
 			if (st) clearTimeout(st);
 			st = setTimeout(() => {
 				if (io) io.disconnect();
@@ -167,10 +167,8 @@ window.ST = window['ST'] || {};
 		let prevVs = [];
 		let mt = os.marginTop;
 		if (mt === 'OFFSET') {
-			NS.onResize(() => {
-				const f = NS.makeOffsetFunction();  // Initialize here
-				mt = -(f() + NS.getWpAdminBarHeight());
-			}, true);
+			const off = NS.makeOffsetFunction(true);  // Initialize here
+			NS.onResize(() => { mt = -off(); }, true);
 		}
 		NS.onScroll(() => {
 			const wh = window.innerHeight;
@@ -199,33 +197,34 @@ window.ST = window['ST'] || {};
 	const CLS_STICKY_ELM     = 'st-sticky-header';
 	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
 
-	NS.makeOffsetFunction = () => {
-		const elmsFixed = document.getElementsByClassName(CLS_STICKY_ELM);
-		if (elmsFixed && elmsFixed.length > 0) {
-			const elmFixed = elmsFixed[0];
-			const elmsTop = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
-			if (elmsTop && elmsTop.length > 0) {
-				return () => {
-					const pos = getComputedStyle(elmFixed).position;
-					if (pos === 'fixed') {
-						let height = 0;
-						for (let i = 0; i < elmsTop.length; i += 1) height += elmsTop[i].offsetHeight;
-						return height;
-					}
-					return 0;
-				};
-			}
-			return () => {
-				const pos = getComputedStyle(elmFixed).position;
-				return pos === 'fixed' ? elmFixed.offsetHeight : 0;
-			};
-		}
-		return () => 0;
+	NS.makeOffsetFunction = (addWpAdminBarHeight = false) => {
+		const f = makeOffsetFunction();
+		if (addWpAdminBarHeight) return () => (f() + NS.getWpAdminBarHeight());
+		return f;
 	};
 
+	function makeOffsetFunction() {
+		const esFix = document.getElementsByClassName(CLS_STICKY_ELM);
+		if (!esFix || esFix.length === 0) return () => 0;
+		const eFix = esFix[0];
+
+		const esTop = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
+		if (!esTop || esTop.length === 0) {
+			return () => (getComputedStyle(eFix).position === 'fixed' ? eFix.offsetHeight : 0);
+		}
+		return () => {
+			if (getComputedStyle(eFix).position === 'fixed') {
+				let h = 0;
+				for (let i = 0; i < esTop.length; i += 1) h += esTop[i].offsetHeight;
+				return h;
+			}
+			return 0;
+		};
+	}
+
 	NS.getWpAdminBarHeight = () => {
-		const wpab = document.getElementById('wpadminbar');
-		return (wpab && getComputedStyle(wpab).position === 'fixed') ? wpab.offsetHeight : 0;
+		const e = document.getElementById('wpadminbar');
+		return (e && getComputedStyle(e).position === 'fixed') ? e.offsetHeight : 0;
 	};
 
 })(window.ST);
