@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-29
+ * @version 2019-07-30
  *
  */
 
@@ -132,12 +132,15 @@ window.ST = window['ST'] || {};
 
 	function observeIntersection(fn, os, ts) {
 		function init() {
+			// for workaround of rootMargin bug on Android Chrome
+			const r = (document.body.classList.contains('android') && NS.BROWSER === 'chrome') ? window.devicePixelRatio : 1;
+			const rootMargin = (mt * r) + 'px 0px ' + (os.marginBottom * r) + 'px 0px';
 			const io = new IntersectionObserver((es) => {
 				const vs = Array.from(prevVs);
 				for (let i = 0; i < es.length; i += 1) vs[ts.indexOf(es[i].target)] = es[i].isIntersecting;
 				if (!isMatch(vs, prevVs)) fn(vs);
 				prevVs = vs;
-			}, { rootMargin: mt + 'px 0px ' + os.marginBottom + 'px 0px', threshold: os.threshold });
+			}, { rootMargin: rootMargin, threshold: os.threshold });
 			for (let i = 0; i < ts.length; i += 1) io.observe(ts[i]);
 			return io;
 		}
