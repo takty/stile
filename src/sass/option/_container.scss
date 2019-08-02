@@ -3,7 +3,7 @@
  * Container Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-09
+ * @version 2019-07-24
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -35,7 +35,11 @@ $stile-container-4-child-min-width: 10rem !default;
 		flex-wrap: wrap;
 
 		// One of Columns
-		> * { flex-grow: 1; }
+		> * {
+			flex-grow: 1;
+			> *:first-child { margin-top:    0; }
+			> *:last-child  { margin-bottom: 0; }
+		}
 	}
 	.column-2 {
 		> * {
