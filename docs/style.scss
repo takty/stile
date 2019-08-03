@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-30
+ * @version 2019-08-04
  *
  */
 
@@ -296,15 +296,46 @@ body {
 	}
 }
 
-@for $i from 2 through 4 {
+@for $i from 1 through 4 {
 	.layout-column-#{$i} {
 		@include layout-column($i, 2rem);
+	}
+	.layout-column-#{$i}-cancel {
+		@include layout-column($i, 2rem);
+		@include for-tablet-up {
+			@include layout-column(1, 2rem);
+		}
+	}
+	.layout-column-cancel-#{$i} {
+		@include layout-column(1, 2rem);
+		@include for-tablet-up {
+			@include layout-column($i, 2rem);
+		}
+	}
+}
+
+.layout-column-23-cancel {
+	@include layout-column((2 3), 2rem);
+	@include for-tablet-up {
+		@include layout-column(1, 2rem);
 	}
 }
 
 @for $i from 1 through 4 {
 	.layout-card-#{$i} {
 		@include layout-card($i, 2rem);
+	}
+	.layout-card-#{$i}-cancel {
+		@include layout-card($i, 2rem);
+		@include for-tablet-up {
+			@include layout-card(1, 2rem);
+		}
+	}
+	.layout-card-cancel-#{$i} {
+		@include layout-card(1, 2rem);
+		@include for-tablet-up {
+			@include layout-card($i, 2rem);
+		}
 	}
 }
 
