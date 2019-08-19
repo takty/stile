@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-08-19
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -91,9 +91,8 @@ $stile-block-level-blockquote-cite: 0 !default;
 	figure:not([class]) { max-width: 100%; }
 
 	figure img {
-		display   : block;
-		margin    : { left: auto; right: auto; }
-		max-height: 100vh;
+		display: block;
+		margin : { left: auto; right: auto; }
 
 		// for broken images (does not work on IE11 and Edge)
 		&[alt]::after { width: 100%; }
