@@ -7,25 +7,31 @@ const $ = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
 
 gulp.task('js-with-option', () => gulp.src(['src/js/basic/*.js', 'src/js/content/*.js', 'src/js/option/**/*.js'])
 	.pipe($.plumber())
+	.pipe($.sourcemaps.init())
 	.pipe($.concat('stile-full.min.js'))
 	.pipe($.babel())
 	.pipe($.terser())
+	.pipe($.sourcemaps.write('.'))
 	.pipe(gulp.dest('./dist/js'))
 );
 
 gulp.task('js-without-option', () => gulp.src(['src/js/basic/*.js', 'src/js/content/*.js'])
 	.pipe($.plumber())
+	.pipe($.sourcemaps.init())
 	.pipe($.concat('stile.min.js'))
 	.pipe($.babel())
 	.pipe($.terser())
+	.pipe($.sourcemaps.write('.'))
 	.pipe(gulp.dest('./dist/js'))
 );
 
 gulp.task('js-each', () => gulp.src('src/js/**/*.js')
 	.pipe($.plumber())
+	.pipe($.sourcemaps.init())
 	.pipe($.babel())
 	.pipe($.terser())
 	.pipe($.rename({ extname: '.min.js' }))
+	.pipe($.sourcemaps.write('.'))
 	.pipe(gulp.dest('./dist/js'))
 );
 
@@ -51,7 +57,12 @@ gulp.task('default', gulp.series('build', 'watch'));
 
 
 gulp.task('docs-sass', gulp.series('sass', () => gulp.src(['docs/style.scss', 'docs/reset.scss'])
-	.pipe($.plumber())
+	.pipe($.plumber({
+		errorHandler: function (err) {
+			console.log(err.messageFormatted);
+			this.emit('end');
+		}
+	}))
 	.pipe($.sourcemaps.init())
 	.pipe($.sass({ outputStyle: 'compressed' }))
 	.pipe($.autoprefixer({ remove: false }))
@@ -60,7 +71,7 @@ gulp.task('docs-sass', gulp.series('sass', () => gulp.src(['docs/style.scss', 'd
 	.pipe(gulp.dest('./docs/css')))
 );
 
-gulp.task('docs-js', gulp.series('js-with-option', () => gulp.src(['dist/js/stile-full.min.js'])
+gulp.task('docs-js', gulp.series('js-with-option', () => gulp.src(['dist/js/stile-full.min.js', 'dist/js/stile-full.min.js.map'])
 	.pipe($.plumber())
 	.pipe(gulp.dest('./docs')))
 );
