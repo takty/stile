@@ -3,7 +3,7 @@
  * Layout Mixins
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-04
+ * @version 2019-08-23
  *
  * @import 'query';
  *
@@ -274,7 +274,7 @@
 	justify-content: normal;
 
 	> *:nth-child(n) {
-		max-width: 100%; 
+		max-width: 100%;
 	}
 	// for overriding other layout-card
 	> *:not(:first-child) {
@@ -292,8 +292,13 @@
 	$gap_y: if(length($gap) == 2, nth($gap, 2), $gap);
 
 	display        : flex;
-	flex-flow      : row wrap;
 	justify-content: space-between;
+
+	@if $n == 1 {
+		flex-flow: column nowrap;
+	} @else {
+		flex-flow: row wrap;
+	}
 
 	$mw: 100% / $n;
 	@if $gap != false and 1 < $n {
