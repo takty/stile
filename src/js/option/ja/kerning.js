@@ -1,10 +1,11 @@
+/* eslint-disable complexity */
 /* eslint-disable no-irregular-whitespace */
 /**
  *
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-16
+ * @version 2019-08-22
  *
  */
 
@@ -84,7 +85,7 @@ window.ST = window['ST'] || {};
 				if (isParentBlock) {
 					const next = c.nextSibling;
 					if (!prev || isBlockSibling(prev)) {
-						const zs = text.match(/^(\u3000*)/g);
+						const zs = text.match(/^[\n\r\t ]*(\u3000*)/g);
 						text = zs + text.replace(/^\s+/g, '');  // trim left
 					}
 					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
