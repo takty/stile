@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-28
+ * @version 2019-08-27
  *
  */
 
@@ -60,7 +60,10 @@ window.ST = window['ST'] || {};
 					break;
 				}
 			}
-			if (isOnlyChildElement) NS.addStile(a, 'only-child-element');
+			if (isOnlyChildElement) {
+				NS.addStile(a, 'only-child-element');
+				NS.addStile(a.parentElement, 'has-only-child-element');
+			}
 		}
 	}
 
