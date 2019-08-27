@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-08-27
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -36,7 +36,9 @@ $stile-alignment-size-width         : 72rem !default;
 		.aligncenter,
 		.alignleft [data-stile ~= 'aligncenter'],
 		.alignright[data-stile ~= 'aligncenter'] {
-			&[data-stile ~= 'only-child-element'] {
+			&[data-stile ~= 'has-only-child-element'],
+			&[data-stile ~= 'only-child-element'],
+			> *[data-stile ~= 'only-child-element'] {
 				margin-top: 0;
 			}
 		}
