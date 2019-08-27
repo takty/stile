@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-31
+ * @version 2019-08-27
  *
  */
 
@@ -151,6 +151,9 @@ window.ST = window['ST'] || {};
 
 
 		_initialize() {
+			const bg = getComputedStyle(this._table).backgroundColor;
+			if (bg && bg !== 'transparent') this._table.dataset['background'] = bg;
+
 			this._initTableScroll();
 			if (this._ebtn) {
 				this._ebtn.addEventListener('click', () => {
@@ -446,7 +449,10 @@ window.ST = window['ST'] || {};
 			const ch = this._capt ? (this._capt.offsetHeight + 'px') : '0';
 			const sl = `linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,${rl}) 1.25rem) 0 ${ch} / 1.25rem 100% no-repeat scroll`;
 			const sr = `linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,${rr}) 1.25rem) right ${ch} / 1.25rem 100% no-repeat scroll`;
-			return sl + ',' + sr;
+
+			const bg = this._table.dataset['background'];
+			const sb = (!bg || bg === 'transparent') ? '' : `, linear-gradient(to bottom, ${bg}, ${bg}) 0px 0px / 100% 100% no-repeat`;
+			return sl + ',' + sr + sb;
 		}
 
 	}
