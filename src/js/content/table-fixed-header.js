@@ -451,7 +451,7 @@ window.ST = window['ST'] || {};
 			const sr = `linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,${rr}) 1.25rem) right ${ch} / 1.25rem 100% no-repeat scroll`;
 
 			const bg = this._table.dataset['background'];
-			const sb = (!bg || bg === 'transparent') ? '' : `, linear-gradient(to bottom, ${bg}, ${bg}) 0px 0px / 100% 100% no-repeat`;
+			const sb = (this._isEnlarged || !bg || bg === 'transparent') ? '' : `, linear-gradient(to bottom, ${bg}, ${bg}) 0px 0px / 100% 100% no-repeat`;
 			return sl + ',' + sr + sb;
 		}
 
