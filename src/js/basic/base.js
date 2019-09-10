@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-31
+ * @version 2019-09-10
  *
  */
 
@@ -29,7 +29,7 @@ window.ST = window['ST'] || {};
 	// 2: lazy-image-loading, image-box, kerning
 	// 3: block, list, table-neat-wrap
 	// 4: alignment, container, pseudo-tab-page, tab-page, table-fixed-header
-	// 5: anchor-scroll, anchor-offset (scroll to hash)
+	// 5: anchor-scroll, anchor-offset (scroll to hash), scroll-effect
 
 
 	// -------------------------------------------------------------------------
@@ -119,6 +119,8 @@ window.ST = window['ST'] || {};
 	NS.onIntersect = (fn, doFirst = false, opts = {}) => {
 		if (opts.targets      === undefined) opts.targets      = [];
 		if (opts.marginTop    === undefined) opts.marginTop    = 0;
+		if (opts.marginLeft   === undefined) opts.marginLeft   = 0;
+		if (opts.marginRight  === undefined) opts.marginRight  = 0;
 		if (opts.marginBottom === undefined) opts.marginBottom = 0;
 		if (opts.threshold    === undefined) opts.threshold    = 1;
 		const ts = [].slice.call(opts.targets);
@@ -134,7 +136,7 @@ window.ST = window['ST'] || {};
 		function init() {
 			// for workaround of rootMargin bug on Android Chrome
 			const r = (document.body.classList.contains('android') && NS.BROWSER === 'chrome') ? window.devicePixelRatio : 1;
-			const rootMargin = (mt * r) + 'px 0px ' + (os.marginBottom * r) + 'px 0px';
+			const rootMargin = (mt * r) + 'px ' + (os.marginRight * r) + 'px ' + (os.marginBottom * r) + 'px ' + (os.marginLeft * r) + 'px';
 			const io = new IntersectionObserver((es) => {
 				const vs = Array.from(prevVs);
 				for (let i = 0; i < es.length; i += 1) vs[ts.indexOf(es[i].target)] = es[i].isIntersecting;
