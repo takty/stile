@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-04
+ * @version 2019-09-10
  *
  */
 
@@ -64,6 +64,14 @@ body {
 		@include stile-margin-inside;
 		padding: base-vr(1);
 		background-color: $stile-content-color-background;
+		
+		&[data-stile ~= 'scroll-effect'] {
+			transform: translateX(100vw);
+			transition: 0.2s transform ease 0.2s;
+			&[data-stile ~= 'visible'] {
+				transform: translateX(0);
+			}
+		}
 	}
 
 	.kerning > span {
