@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-09-10
+ * @version 2019-09-13
  *
  */
 
@@ -16,8 +16,9 @@ window.ST = window['ST'] || {};
 	const initLevels = [[], [], [], [], [], []];
 
 	document.addEventListener('DOMContentLoaded', () => {
-		for (let inits of initLevels) {
-			for (let i = 0; i < inits.length; i += 1) inits[i]();  // Do not use 'for-of' here for IE
+		for (let j = 0; j < initLevels.length; j += 1) {
+			const inits = initLevels[j];
+			for (let i = 0; i < inits.length; i += 1) inits[i]();
 		}
 	});
 
@@ -75,8 +76,8 @@ window.ST = window['ST'] || {};
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const opt = (NS.BROWSER === 'ie11') ? false : { passive: true };
-		window.addEventListener('resize', () => { for (let l of resizeListeners) l(); }, opt);
-		window.addEventListener('scroll', () => { for (let l of scrollListeners) l(); }, opt);
+		window.addEventListener('resize', () => { for (let i = 0; i < resizeListeners.length; i += 1) resizeListeners[i](); }, opt);
+		window.addEventListener('scroll', () => { for (let i = 0; i < scrollListeners.length; i += 1) scrollListeners[i](); }, opt);
 	});
 
 	NS.onResize = (fn, doFirst = false) => {

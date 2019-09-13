@@ -4,7 +4,7 @@
  * Table Style - Fixed Header (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-27
+ * @version 2019-09-13
  *
  */
 
@@ -45,8 +45,8 @@ window.ST = window['ST'] || {};
 		scrollBarWidth = parseInt(_getScrollBarWidth());
 		const conts = [];
 		for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
-		NS.onScroll(() => { for (let c of conts) c.onWindowScroll(); });
-		NS.onResize(() => { for (let c of conts) c.onWindowResize(); });
+		NS.onScroll(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowScroll(); });
+		NS.onResize(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowResize(); });
 	}
 
 	class FixedHeaderTable {
