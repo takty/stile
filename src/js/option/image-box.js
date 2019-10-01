@@ -41,6 +41,13 @@ window.ST = window['ST'] || {};
 		const as2 = document.querySelectorAll(SEL_TARGET_IMAGE_BOX + ' a');
 		modifyImageAnchorStyle(as2, objs);
 
+		for (let i = 0; i < objs.length; i += 1) {
+			objs[i].setAdjacentImageBox(
+				(0 < i)               ? objs[i - 1] : null,
+				(i < objs.length - 1) ? objs[i + 1] : null
+			);
+		}
+
 		NS.onResize(() => {
 			for (let obj of objs) obj.setInitialSize();
 			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
@@ -72,12 +79,6 @@ window.ST = window['ST'] || {};
 	function modifyImageAnchorStyle(as, objs) {
 		const fas = filterImageLink(as);
 		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i], objs.length)); }
-		for (let i = 0; i < objs.length; i += 1) {
-			objs[i].setAdjacentImageBox(
-				(0 < i)               ? objs[i - 1] : null,
-				(i < objs.length - 1) ? objs[i + 1] : null
-			);
-		}
 	}
 
 	function filterImageLink(as) {
