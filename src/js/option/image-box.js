@@ -233,8 +233,9 @@ window.ST = window['ST'] || {};
 				img.src = this._src;
 				img.addEventListener('load', () => {
 					this.setInitialSize();
-					img.style.opacity = '1';
-					setTimeout(() => { NS.addStile(this._frm, ST_STATE_LOADED); }, 20);
+					NS.addStile(this._frm, ST_STATE_LOADED);
+					img.style.opacity = '0.01';  // for smooth fading on iOS
+					setTimeout(() => { img.style.opacity = '1'; }, 100);  // Delay for smooth fading on iOS
 				});
 			}
 			if (immediately) {
