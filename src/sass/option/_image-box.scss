@@ -37,6 +37,7 @@ $stile-image-box-time-fade              : 0.5s !default;
 	cursor          : pointer;
 	opacity         : 0;
 	transition      : opacity 0.2s;
+	&[data-stile ~= 'immediately'] { transition: none; }
 
 	&[data-stile ~= 'open'] {
 		display : block;
@@ -50,6 +51,7 @@ $stile-image-box-time-fade              : 0.5s !default;
 	&[data-stile ~= 'visible'] {
 		opacity   : 1;
 		transition: opacity $stile-image-box-time-fade;
+		&[data-stile ~= 'immediately'] { transition: none; }
 	}
 
 	&::after {  // Loader
@@ -68,8 +70,9 @@ $stile-image-box-time-fade              : 0.5s !default;
 		border-color : $stile-image-box-color-loader transparent $stile-image-box-color-loader transparent;
 		animation    : loader-kf 1.2s linear infinite;
 	}
+	&[data-stile ~= 'loaded']::after { display: none; }
 	@keyframes loader-kf {
-		0%   { transform: rotate(0deg);   }
+		  0% { transform: rotate(  0deg); }
 		100% { transform: rotate(360deg); }
 	}
 
@@ -80,6 +83,11 @@ $stile-image-box-time-fade              : 0.5s !default;
 		cursor          : auto;
 		background-color: $stile-image-box-color-img-background;
 		transition      : opacity $stile-image-box-time-fade;
+	}
+	&[data-stile ~= 'loaded'] {
+		&:not([data-stile ~= 'visible']) > img {
+			opacity: 0 !important;
+		}
 	}
 
 	> span[data-stile = 'image-box-close'] {
@@ -115,7 +123,7 @@ $stile-image-box-time-fade              : 0.5s !default;
 	> span[data-stile = 'image-box-next'] {
 		position        : fixed;
 		top             : calc(50% - 25vh);
-		width           : 2rem;
+		width           : 3rem;
 		height          : 50vh;
 
 		display        : flex;

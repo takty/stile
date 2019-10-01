@@ -23,7 +23,9 @@ window.ST = window['ST'] || {};
 	const ST_IMAGE_BOX_CAPTION = 'image-box-caption';
 	const ST_STATE_OPEN        = 'open';
 	const ST_STATE_VISIBLE     = 'visible';
-	const SIZE_BOX_PADDING     = '4rem';
+	const ST_STATE_IMMEDIATELY = 'immediately';
+	const ST_STATE_LOADED      = 'loaded';
+	const SIZE_BOX_PADDING     = '6rem';
 	const ZOOM_RATE_MAX        = 5;
 	const HASH_PREFIX          = 'image:';
 
@@ -199,7 +201,7 @@ window.ST = window['ST'] || {};
 				this._btnPrev.addEventListener('click', (e) => {
 					e.stopPropagation();
 					this.doClose(true);
-					prev.doOpen();
+					prev.doOpen(true);
 				});
 			} else {
 				this._btnPrev.style.display = 'none';
@@ -208,7 +210,7 @@ window.ST = window['ST'] || {};
 				this._btnNext.addEventListener('click', (e) => {
 					e.stopPropagation();
 					this.doClose(true);
-					next.doOpen();
+					next.doOpen(true);
 				});
 			} else {
 				this._btnNext.style.display = 'none';
@@ -223,7 +225,7 @@ window.ST = window['ST'] || {};
 			history.pushState({ name: 'stile-image-box', id: this._id }, null, hash);
 		}
 
-		doOpen() {
+		doOpen(immediately = false) {
 			NS.addStile(this._frm, ST_STATE_OPEN);
 			const img = this._img;
 			if (!img.src) {
@@ -232,13 +234,21 @@ window.ST = window['ST'] || {};
 				img.addEventListener('load', () => {
 					this.setInitialSize();
 					img.style.opacity = '1';
+					setTimeout(() => { NS.addStile(this._frm, ST_STATE_LOADED); }, 20);
 				});
 			}
-			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-			setTimeout(() => {
+			if (immediately) {
 				this.setInitialSize();
+				NS.addStile(this._frm, ST_STATE_IMMEDIATELY);
 				NS.addStile(this._frm, ST_STATE_VISIBLE);
-			}, delay);
+				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_IMMEDIATELY); }, 20);
+			} else {
+				const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+				setTimeout(() => {
+					this.setInitialSize();
+					NS.addStile(this._frm, ST_STATE_VISIBLE);
+				}, delay);
+			}
 			currentId = this._id;
 		}
 
@@ -249,12 +259,14 @@ window.ST = window['ST'] || {};
 		}
 
 		doClose(immediately = false) {
-			NS.removeStile(this._frm, ST_STATE_VISIBLE);
 			if (immediately) {
-				NS.removeStile(this._frm, ST_STATE_OPEN);
+				NS.addStile(this._frm, ST_STATE_IMMEDIATELY);
+				NS.removeStile(this._frm, ST_STATE_VISIBLE);
+				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_IMMEDIATELY); }, 20);
 			} else {
-				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
+				NS.removeStile(this._frm, ST_STATE_VISIBLE);
 			}
+			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
 			currentId = null;
 		}
 
