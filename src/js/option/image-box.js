@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-05
+ * @version 2019-10-01
  *
  */
 
@@ -18,6 +18,8 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
 	const ST_IMAGE_BOX         = 'image-box';
 	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
+	const ST_IMAGE_BOX_PREV    = 'image-box-prev';
+	const ST_IMAGE_BOX_NEXT    = 'image-box-next';
 	const ST_IMAGE_BOX_CAPTION = 'image-box-caption';
 	const ST_STATE_OPEN        = 'open';
 	const ST_STATE_VISIBLE     = 'visible';
@@ -68,6 +70,12 @@ window.ST = window['ST'] || {};
 	function modifyImageAnchorStyle(as, objs) {
 		const fas = filterImageLink(as);
 		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i], objs.length)); }
+		for (let i = 0; i < objs.length; i += 1) {
+			objs[i].setAdjacentImageBox(
+				(0 < i)               ? objs[i - 1] : null,
+				(i < objs.length - 1) ? objs[i + 1] : null
+			);
+		}
 	}
 
 	function filterImageLink(as) {
@@ -164,6 +172,13 @@ window.ST = window['ST'] || {};
 			NS.addStile(btn, ST_IMAGE_BOX_CLOSE);
 			this._frm.appendChild(btn);
 
+			this._btnPrev = document.createElement('span');
+			this._btnNext = document.createElement('span');
+			NS.addStile(this._btnPrev, ST_IMAGE_BOX_PREV);
+			NS.addStile(this._btnNext, ST_IMAGE_BOX_NEXT);
+			this._frm.appendChild(this._btnPrev);
+			this._frm.appendChild(this._btnNext);
+
 			if (a.parentNode.tagName === 'FIGURE') {
 				const fcs = a.parentNode.getElementsByTagName('figcaption');
 				if (0 < fcs.length) {
@@ -177,6 +192,27 @@ window.ST = window['ST'] || {};
 
 			this.enableMouseGesture();
 			this.enableTouchGesture();
+		}
+
+		setAdjacentImageBox(prev, next) {
+			if (prev) {
+				this._btnPrev.addEventListener('click', (e) => {
+					e.stopPropagation();
+					this.doClose(true);
+					prev.doOpen();
+				});
+			} else {
+				this._btnPrev.style.display = 'none';
+			}
+			if (next) {
+				this._btnNext.addEventListener('click', (e) => {
+					e.stopPropagation();
+					this.doClose(true);
+					next.doOpen();
+				});
+			} else {
+				this._btnNext.style.display = 'none';
+			}
 		}
 
 		onOpen(e) {
@@ -212,9 +248,13 @@ window.ST = window['ST'] || {};
 			history.back();
 		}
 
-		doClose() {
+		doClose(immediately = false) {
 			NS.removeStile(this._frm, ST_STATE_VISIBLE);
-			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
+			if (immediately) {
+				NS.removeStile(this._frm, ST_STATE_OPEN);
+			} else {
+				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
+			}
 			currentId = null;
 		}
 

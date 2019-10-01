@@ -3,7 +3,7 @@
  * Image Box (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-07
+ * @version 2019-10-01
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -109,6 +109,39 @@ $stile-image-box-time-fade              : 0.5s !default;
 		}
 		&::before { transform: translate(-50%, -50%) rotate( 45deg); }
 		&::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+	}
+
+	> span[data-stile = 'image-box-prev'],
+	> span[data-stile = 'image-box-next'] {
+		position        : fixed;
+		top             : calc(50% - 25vh);
+		width           : 2rem;
+		height          : 50vh;
+
+		display        : flex;
+		justify-content: center;
+		align-items    : center;
+
+		&::before {
+			content         : '';
+			display         : block;
+			position        : absolute;
+			top             : 50%;
+			left            : 50%;
+			width           : 1rem;
+			height          : 1rem;
+			border-top      : 4px solid $stile-image-box-color-closer-mark;
+			border-left     : 4px solid $stile-image-box-color-closer-mark;
+			transform-origin: 50% 50%;
+		}
+	}
+	> span[data-stile = 'image-box-prev'] {
+		left: 0;
+		&::before { transform: translate(-40%, -50%) rotate(-45deg); }
+	}
+	> span[data-stile = 'image-box-next'] {
+		right: 0;
+		&::before { transform: translate(-60%, -50%) rotate(135deg); }
 	}
 
 	> div[data-stile = 'image-box-caption'] {
