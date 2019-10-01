@@ -3,7 +3,7 @@
  * Stile Sample (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-09-10
+ * @version 2019-10-01
  *
  */
 
@@ -21,7 +21,7 @@ $stile-link-icon-file            : '\e226';
 $stile-tab-page-visible-tab-below: true;
 
 // $stile-pseudo-tab-page-alt: true;
-
+$stile-list-img-marks: (default: url('../img/custom-list-mark.svg'));
 
 @import '../dist/sass/all';
 
@@ -64,7 +64,7 @@ body {
 		@include stile-margin-inside;
 		padding: base-vr(1);
 		background-color: $stile-content-color-background;
-		
+
 		&[data-stile ~= 'scroll-effect'] {
 			transform: translateX(100vw);
 			transition: 0.2s transform ease 0.2s;

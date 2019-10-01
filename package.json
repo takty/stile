@@ -1,6 +1,6 @@
 {
   "name": "stile",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A Framework of Content Style",
   "author": "Takuto Yanagida",
   "main": "gulpfile.js",
@@ -22,12 +22,12 @@
     "ie >= 11"
   ],
   "devDependencies": {
-    "eslint-config-google": "^0.13.0"
+    "eslint-config-google": "^0.14.0"
   },
   "dependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "eslint": "^6.2.2",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "eslint": "^6.3.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.0",
     "gulp-babel": "^8.0.0",
