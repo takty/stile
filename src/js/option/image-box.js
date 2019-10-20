@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-05
+ * @version 2019-10-01
  *
  */
 
@@ -18,10 +18,14 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
 	const ST_IMAGE_BOX         = 'image-box';
 	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
+	const ST_IMAGE_BOX_PREV    = 'image-box-prev';
+	const ST_IMAGE_BOX_NEXT    = 'image-box-next';
 	const ST_IMAGE_BOX_CAPTION = 'image-box-caption';
 	const ST_STATE_OPEN        = 'open';
 	const ST_STATE_VISIBLE     = 'visible';
-	const SIZE_BOX_PADDING     = '4rem';
+	const ST_STATE_IMMEDIATELY = 'immediately';
+	const ST_STATE_LOADED      = 'loaded';
+	const SIZE_BOX_PADDING     = '6rem';
 	const ZOOM_RATE_MAX        = 5;
 	const HASH_PREFIX          = 'image:';
 
@@ -36,6 +40,13 @@ window.ST = window['ST'] || {};
 		modifyImageAnchorStyle(as1, objs);
 		const as2 = document.querySelectorAll(SEL_TARGET_IMAGE_BOX + ' a');
 		modifyImageAnchorStyle(as2, objs);
+
+		for (let i = 0; i < objs.length; i += 1) {
+			objs[i].setAdjacentImageBox(
+				(0 < i)               ? objs[i - 1] : null,
+				(i < objs.length - 1) ? objs[i + 1] : null
+			);
+		}
 
 		NS.onResize(() => {
 			for (let obj of objs) obj.setInitialSize();
@@ -164,6 +175,13 @@ window.ST = window['ST'] || {};
 			NS.addStile(btn, ST_IMAGE_BOX_CLOSE);
 			this._frm.appendChild(btn);
 
+			this._btnPrev = document.createElement('span');
+			this._btnNext = document.createElement('span');
+			NS.addStile(this._btnPrev, ST_IMAGE_BOX_PREV);
+			NS.addStile(this._btnNext, ST_IMAGE_BOX_NEXT);
+			this._frm.appendChild(this._btnPrev);
+			this._frm.appendChild(this._btnNext);
+
 			if (a.parentNode.tagName === 'FIGURE') {
 				const fcs = a.parentNode.getElementsByTagName('figcaption');
 				if (0 < fcs.length) {
@@ -179,6 +197,27 @@ window.ST = window['ST'] || {};
 			this.enableTouchGesture();
 		}
 
+		setAdjacentImageBox(prev, next) {
+			if (prev) {
+				this._btnPrev.addEventListener('click', (e) => {
+					e.stopPropagation();
+					this.doClose(true);
+					prev.doOpen(true);
+				});
+			} else {
+				this._btnPrev.style.display = 'none';
+			}
+			if (next) {
+				this._btnNext.addEventListener('click', (e) => {
+					e.stopPropagation();
+					this.doClose(true);
+					next.doOpen(true);
+				});
+			} else {
+				this._btnNext.style.display = 'none';
+			}
+		}
+
 		onOpen(e) {
 			if (e) e.preventDefault();
 			this.doOpen();
@@ -187,7 +226,7 @@ window.ST = window['ST'] || {};
 			history.pushState({ name: 'stile-image-box', id: this._id }, null, hash);
 		}
 
-		doOpen() {
+		doOpen(immediately = false) {
 			NS.addStile(this._frm, ST_STATE_OPEN);
 			const img = this._img;
 			if (!img.src) {
@@ -195,14 +234,23 @@ window.ST = window['ST'] || {};
 				img.src = this._src;
 				img.addEventListener('load', () => {
 					this.setInitialSize();
-					img.style.opacity = '1';
+					NS.addStile(this._frm, ST_STATE_LOADED);
+					img.style.opacity = '0.01';  // for smooth fading on iOS
+					setTimeout(() => { img.style.opacity = '1'; }, 100);  // Delay for smooth fading on iOS
 				});
 			}
-			const delay = NS.BROWSER === 'ie11' ? 30 : 0;
-			setTimeout(() => {
+			if (immediately) {
 				this.setInitialSize();
+				NS.addStile(this._frm, ST_STATE_IMMEDIATELY);
 				NS.addStile(this._frm, ST_STATE_VISIBLE);
-			}, delay);
+				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_IMMEDIATELY); }, 20);
+			} else {
+				const delay = NS.BROWSER === 'ie11' ? 30 : 0;
+				setTimeout(() => {
+					this.setInitialSize();
+					NS.addStile(this._frm, ST_STATE_VISIBLE);
+				}, delay);
+			}
 			currentId = this._id;
 		}
 
@@ -212,8 +260,14 @@ window.ST = window['ST'] || {};
 			history.back();
 		}
 
-		doClose() {
-			NS.removeStile(this._frm, ST_STATE_VISIBLE);
+		doClose(immediately = false) {
+			if (immediately) {
+				NS.addStile(this._frm, ST_STATE_IMMEDIATELY);
+				NS.removeStile(this._frm, ST_STATE_VISIBLE);
+				setTimeout(() => { NS.removeStile(this._frm, ST_STATE_IMMEDIATELY); }, 20);
+			} else {
+				NS.removeStile(this._frm, ST_STATE_VISIBLE);
+			}
 			setTimeout(() => { NS.removeStile(this._frm, ST_STATE_OPEN); }, 200);
 			currentId = null;
 		}
