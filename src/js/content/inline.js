@@ -3,7 +3,7 @@
  * Inline Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-19
+ * @version 2019-10-20
  *
  */
 
@@ -50,6 +50,8 @@ window.ST = window['ST'] || {};
 	// Iframe Styles -----------------------------------------------------------
 
 
+	const ifws = [];
+
 	function modifyIframeStyle(fs) {
 		for (let i = 0; i < fs.length; i += 1) {
 			const f = fs[i];
@@ -67,6 +69,24 @@ window.ST = window['ST'] || {};
 			wrap.style.maxWidth = w + 'px';
 			f.parentElement.insertBefore(wrap, f);
 			wrap.appendChild(f);
+
+			const a = f.getAttribute('allow');
+			const as = a ? a.split(';').map((e) => e.trim()) : [];
+			if (as.indexOf('fullscreen') !== -1 || f.hasAttribute('allowfullscreen')) {
+				ifws.push([wrap, w / h]);
+			}
+		}
+		if (ifws.length) NS.onResize(resizeIframeWrapper, true);
+	}
+
+	function resizeIframeWrapper() {
+		const w = window.innerWidth;
+		const h = window.innerHeight;
+
+		for (let i = 0; i < ifws.length; i += 1) {
+			const [wrap, as] = ifws[i];
+			const fw = (h * as);
+			wrap.style.width = (w < fw) ? '' : (fw + 'px');
 		}
 	}
 
