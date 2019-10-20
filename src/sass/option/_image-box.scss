@@ -3,7 +3,7 @@
  * Image Box (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-01
+ * @version 2019-10-20
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -47,6 +47,7 @@ $stile-image-box-time-fade              : 0.5s !default;
 		right   : 0;
 		bottom  : 0;
 		z-index : 100000;  // Fixed Header is 99999
+		margin  : 0;  // for image boxes within stile
 	}
 	&[data-stile ~= 'visible'] {
 		opacity   : 1;
