@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-02
+ * @version 2019-10-20
  *
  */
 
@@ -13,13 +13,22 @@ window.ST = window['ST'] || {};
 
 (function (NS) {
 
-	const CLS_TARGET = 'stile';
+	const CLS_TARGET    = 'stile';
+	const ST_NO_INDENT  = 'no-indent';
+	const SEL_NO_INDENT = [
+		'td', 'th', 'blockquote', 'figcaption',
+		'.column-2', '.column-3', '.column-4',
+		'.card-2', '.card-3', '.card-4'
+	];
 
 
 	NS.addInit(3, () => {
 		setStyleForInsideOf(document.getElementsByClassName(CLS_TARGET));
 		setStyleDirectlyFor(document.getElementsByTagName('ul'), CLS_TARGET);
 		setStyleDirectlyFor(document.getElementsByTagName('ol'), CLS_TARGET);
+
+		const selAll = SEL_NO_INDENT.map((e) => `${e} ul, ${e} ol, ${e} dl`).join(', ');
+		setStyleNoIndent(document.querySelectorAll(selAll));
 	});
 
 
@@ -70,6 +79,21 @@ window.ST = window['ST'] || {};
 			NS.addStile(t, 'list-' + type);
 		}
 	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	function setStyleNoIndent(ts) {
+		for (let i = 0; i < ts.length; i += 1) {
+			const t = ts[i];
+			if (!NS.containStile(t, ST_NO_INDENT)) NS.addStile(t, ST_NO_INDENT);
+		}
+	}
+
+
+	// -------------------------------------------------------------------------
+
 
 	function setCounterReset(t) {
 		const cs = t.children;
