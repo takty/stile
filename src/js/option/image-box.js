@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-01
+ * @version 2019-10-21
  *
  */
 
@@ -49,8 +49,8 @@ window.ST = window['ST'] || {};
 		}
 
 		NS.onResize(() => {
-			for (let obj of objs) obj.setInitialSize();
-			setTimeout(() => { for (let obj of objs) obj.setInitialSize(); }, 200);
+			for (let i = 0; i < objs.length; i += 1) objs[i].setInitialSize();
+			setTimeout(() => { for (let i = 0; i < objs.length; i += 1) objs[i].setInitialSize(); }, 200);
 		});
 
 		window.addEventListener('popstate', (e) => {
