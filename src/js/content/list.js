@@ -3,7 +3,7 @@
  * List Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-20
+ * @version 2019-10-21
  *
  */
 
@@ -15,8 +15,8 @@ window.ST = window['ST'] || {};
 
 	const CLS_TARGET    = 'stile';
 	const ST_NO_INDENT  = 'no-indent';
-	const SEL_NO_INDENT = [
-		'td', 'th', 'blockquote', 'figcaption',
+	const SEL_NO_INDENT = ['td', 'th', 'blockquote', 'figcaption'];
+	const SEL_NO_INDENT_CONTAINER = [
 		'.column-2', '.column-3', '.column-4',
 		'.card-2', '.card-3', '.card-4'
 	];
@@ -29,6 +29,9 @@ window.ST = window['ST'] || {};
 
 		const selAll = SEL_NO_INDENT.map((e) => `${e} ul, ${e} ol, ${e} dl`).join(', ');
 		setStyleNoIndent(document.querySelectorAll(selAll));
+
+		const selCon = SEL_NO_INDENT_CONTAINER.map((e) => `${e}[data-stile~='no-indent'] ul, ${e}[data-stile~='no-indent'] ol, ${e}[data-stile~='no-indent'] dl`).join(', ');
+		setStyleNoIndent(document.querySelectorAll(selCon));
 	});
 
 
