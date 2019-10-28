@@ -3,7 +3,7 @@
  * Inline Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-20
+ * @version 2019-10-28
  *
  */
 
@@ -86,7 +86,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < ifws.length; i += 1) {
 			const [wrap, as] = ifws[i];
 			const fw = (h * as);
-			wrap.style.width = (w < fw) ? '' : (fw + 'px');
+			wrap.dataset['width'] = (w < fw) ? '' : (fw + 'px');
 		}
 	}
 
