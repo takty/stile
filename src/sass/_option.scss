@@ -13,6 +13,7 @@
 @import 'option/design';
 @import 'option/image-box';
 @import 'option/tab-page';
+@import 'option/modal-box';
 @import 'option/pseudo-tab-page';
 
 
@@ -21,6 +22,7 @@
 	@include stile-container;
 	@include stile-image-box;
 	@include stile-tab-page;
+	@include stile-modal-box;
 	@include stile-pseudo-tab-page;
 	@if $use-design {
 		@include stile-design;

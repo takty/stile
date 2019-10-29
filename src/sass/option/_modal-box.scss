@@ -1,0 +1,89 @@
+/**
+ *
+ * Image Box (SCSS)
+ *
+ * @author Takuto Yanagida @ Space-Time Inc.
+ * @version 2019-10-29
+ *
+ * @import '../basic/base';
+ * @import '../basic/query';
+ * @import '../basic/font';
+ *
+ */
+
+
+$stile-modal-box-color-background       : rgba(#000, 0.75) !default;
+$stile-modal-box-color-closer-background: rgba(#000, 0.50) !default;
+$stile-modal-box-color-closer-mark      : rgba(#fff, 0.75) !default;
+$stile-modal-box-time-fade              : 0.5s               !default;
+
+
+@mixin stile-modal-box {
+	@at-root div[data-stile ~= 'modal-box'] {
+		@include stile-modal-box-inside;
+	}
+}
+
+@mixin stile-modal-box-inside {
+	display                   : none;
+	-webkit-overflow-scrolling: touch;
+	overflow                  : hidden;
+
+	background-color: $stile-modal-box-color-background;
+	cursor          : pointer;
+	opacity         : 0;
+
+	&[data-stile ~= 'visible'],
+	&.visible {
+		display : block;
+		position: fixed;
+		top     : 0;
+		left    : 0;
+		right   : 0;
+		bottom  : 0;
+		z-index : 100000;  // Fixed Header is 99999
+		margin  : 0;  // for image boxes within stile
+
+		transition: opacity $stile-modal-box-time-fade ease;
+	}
+	> img,
+	> iframe,
+	> *[data-stile~='iframe-wrapper'] {
+		position        : absolute;
+		top             : 50%;
+		left            : 50%;
+		cursor          : auto;
+		transform       : translate(-50%, -50%);
+		@include for-tablet-up {
+			max-width: calc(100% - 6rem) !important;  // for overwrite iframe-wrapper style
+		}
+	}
+	> span[data-stile = 'modal-box-close'] {
+		position        : fixed;
+		top             : 0.5rem;
+		right           : 0.5rem;
+		background-color: $stile-modal-box-color-closer-background;
+		border-radius   : 50%;
+		width           : 3rem;
+		height          : 3rem;
+
+		display        : flex;
+		justify-content: center;
+		align-items    : center;
+
+		&::before,
+		&::after {
+			content         : '';
+			display         : block;
+			position        : absolute;
+			top             : 50%;
+			left            : 50%;
+			width           : 2rem;
+			border          : 2px solid $stile-modal-box-color-closer-mark;
+			background-color: $stile-modal-box-color-closer-mark;
+			transform-origin: 50% 50%;
+		}
+		&::before { transform: translate(-50%, -50%) rotate( 45deg); }
+		&::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+	}
+}
