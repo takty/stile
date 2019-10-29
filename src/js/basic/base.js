@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-28
+ * @version 2019-10-29
  *
  */
 
@@ -197,8 +197,9 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	const CLS_STICKY_ELM     = 'st-sticky-header';
-	const CLS_STICKY_ELM_TOP = 'st-sticky-header-top';
+	const CLS_STICKY_ELM          = 'st-sticky-header';
+	const CLS_STICKY_ELM_DISABLED = 'st-sticky-header-disabled';
+	const CLS_STICKY_ELM_TOP      = 'st-sticky-header-top';
 
 	NS.makeOffsetFunction = (ignoreFixedState = false, addWpAdminBarHeight = false) => {
 		const f = makeOffsetFunction(ignoreFixedState);
@@ -213,9 +214,16 @@ window.ST = window['ST'] || {};
 
 		const esTop = document.getElementsByClassName(CLS_STICKY_ELM_TOP);
 		if (!esTop || esTop.length === 0) {
-			return () => ((ignoreFixedState || getComputedStyle(eFix).position === 'fixed') ? eFix.offsetHeight : 0);
+			return () => {
+				if (eFix.classList.contains(CLS_STICKY_ELM_DISABLED)) return 0;
+				if (ignoreFixedState || getComputedStyle(eFix).position === 'fixed') {
+					return eFix.offsetHeight;
+				}
+				return 0;
+			};
 		}
 		return () => {
+			if (eFix.classList.contains(CLS_STICKY_ELM_DISABLED)) return 0;
 			if (ignoreFixedState || getComputedStyle(eFix).position === 'fixed') {
 				let h = 0;
 				for (let i = 0; i < esTop.length; i += 1) h += esTop[i].offsetHeight;
