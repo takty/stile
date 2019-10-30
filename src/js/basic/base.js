@@ -3,7 +3,7 @@
  * Base Functions (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-29
+ * @version 2019-10-30
  *
  */
 
@@ -155,7 +155,7 @@ window.ST = window['ST'] || {};
 		}
 		let io = null;
 		let st = null;
-		const off = NS.makeOffsetFunction(true);  // Initialize here
+		const off = NS.makeOffsetFunction(true, true);  // Initialize here
 		NS.onResize(() => {
 			mt = -off();
 			if (st) clearTimeout(st);
@@ -170,7 +170,7 @@ window.ST = window['ST'] || {};
 		let prevVs = [];
 		let mt = os.marginTop;
 		if (mt === 'OFFSET') {
-			const off = NS.makeOffsetFunction(true);  // Initialize here
+			const off = NS.makeOffsetFunction(true, true);  // Initialize here
 			NS.onResize(() => { mt = -off(); }, true);
 		}
 		NS.onScroll(() => {
