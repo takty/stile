@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-21
+ * @version 2019-11-05
  *
  */
 
@@ -16,6 +16,7 @@ window.ST = window['ST'] || {};
 
 	const SEL_TARGET           = '.stile';
 	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
+
 	const ST_IMAGE_BOX         = 'image-box';
 	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
 	const ST_IMAGE_BOX_PREV    = 'image-box-prev';
@@ -28,6 +29,9 @@ window.ST = window['ST'] || {};
 	const SIZE_BOX_PADDING     = '6rem';
 	const ZOOM_RATE_MAX        = 5;
 	const HASH_PREFIX          = 'image:';
+
+	const ST_IMAGE_BOX_OPENER         = 'image-box-opener';
+	const ST_IMAGE_BOX_OPENER_WRAPPER = 'image-box-opener-wrapper';
 
 
 	let currentId = null;
@@ -162,6 +166,7 @@ window.ST = window['ST'] || {};
 			this._hash = calcHash(this._src);
 
 			a.addEventListener('click', (e) => { this.onOpen(e); });
+			NS.addStile(a, ST_IMAGE_BOX_OPENER);
 
 			this._frm = document.createElement('div');
 			NS.addStile(this._frm, ST_IMAGE_BOX);
@@ -190,6 +195,7 @@ window.ST = window['ST'] || {};
 					NS.addStile(cap, ST_IMAGE_BOX_CAPTION);
 					this._frm.appendChild(cap);
 				}
+				NS.addStile(a.parentNode, ST_IMAGE_BOX_OPENER_WRAPPER);
 			}
 			document.body.appendChild(this._frm);
 
