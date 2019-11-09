@@ -8,6 +8,8 @@
  * Based on:
  *  a11y-css-reset v1.1.1
  *  https://github.com/mike-engel/a11y-css-reset
+ *  A modern CSS reset
+ *  https://github.com/hankchizljaw/modern-css-reset
  *
  */
 
@@ -35,9 +37,10 @@ $stile-accessibility-include: true !default;
 		*,
 		*::before,
 		*::after {
-			transition     : none !important;
-			animation      : none !important;
-			scroll-behavior: auto !important;
+			animation-duration       : 0.01ms !important;
+			animation-iteration-count: 1      !important;
+			transition-duration      : 0.01ms !important;
+			scroll-behavior          : auto   !important;
 		}
 	}
 }
