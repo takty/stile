@@ -3,7 +3,7 @@
  * Query Functions for Responsive and Browsers (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-11-09
  *
  */
 
@@ -65,6 +65,9 @@ window.ST = window['ST'] || {};
 		const cl = document.body.classList;
 
 		cl.add(NS.BROWSER);
+		if (ua.indexOf('android') !== -1) {
+			cl.add('android');
+		}
 		if (ua.indexOf('iphone') !== -1) {
 			cl.add('iphone');
 			cl.add('ios');
@@ -72,9 +75,10 @@ window.ST = window['ST'] || {};
 		if (ua.indexOf('ipad') !== -1) {
 			cl.add('ipad');
 			cl.add('ios');
-		}
-		if (ua.indexOf('android') !== -1) {
-			cl.add('android');
+		} else if (NS.BROWSER === 'safari' && 'ontouchend' in document) {
+			cl.add('ipad');
+			cl.add('ios');
+			cl.add('ipados');
 		}
 	});
 
