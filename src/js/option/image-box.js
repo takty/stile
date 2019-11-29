@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-11-05
+ * @version 2019-11-29
  *
  */
 
@@ -16,6 +16,7 @@ window.ST = window['ST'] || {};
 
 	const SEL_TARGET           = '.stile';
 	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
+	const ST_BACKGROUND_IMAGE  = 'background-image';
 
 	const ST_IMAGE_BOX         = 'image-box';
 	const ST_IMAGE_BOX_CLOSE   = 'image-box-close';
@@ -93,11 +94,15 @@ window.ST = window['ST'] || {};
 			const href = a.href;
 			if (!href || !isImageUrl(href)) continue;
 			const imgs = a.getElementsByTagName('img');
-			if (imgs.length === 0) continue;
-			const img = imgs[0];
-			const src = img.dataset.src ? img.dataset.src : img.src;
-			if (!src || !isImageUrl(src)) continue;
-			ret.push(a);
+			if (0 < imgs.length) {
+				const img = imgs[0];
+				const src = img.dataset.src ? img.dataset.src : img.src;
+				if (!src || !isImageUrl(src)) continue;
+				ret.push(a);
+			} else {
+				const div = a.querySelector('*[data-stile~="' + ST_BACKGROUND_IMAGE + '"]');
+				if (div) ret.push(a);
+			}
 		}
 		return ret;
 	}
