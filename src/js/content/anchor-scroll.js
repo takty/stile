@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-11-30
  *
  */
 
@@ -46,7 +46,7 @@ window.ST = window['ST'] || {};
 				const pos = href.lastIndexOf('#');
 				if (pos === -1) continue;
 				const url = href.substr(0, pos);
-				if (pn.lastIndexOf(url) !== pn.length - url.length) continue;
+				if (url.lastIndexOf(pn) !== url.length - pn.length) continue;
 			}
 			a.addEventListener('click', onClickAnchorLink);
 		}
