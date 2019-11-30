@@ -70,7 +70,7 @@ window.ST = window['ST'] || {};
 		} else {
 			tar = document.getElementById(hash.substr(1));
 		}
-		if (!tar) return false;
+		if (!tar) return;
 		e.stopPropagation();
 		e.preventDefault();
 		const dur = NS.containStile(e.currentTarget, ST_ANCHOR_SCROLL_FAST) ? DURATION_FAST : DURATION;
