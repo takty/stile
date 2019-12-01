@@ -3,7 +3,7 @@
  * Anchor Scroll (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-19
+ * @version 2019-11-30
  *
  */
 
@@ -46,7 +46,7 @@ window.ST = window['ST'] || {};
 				const pos = href.lastIndexOf('#');
 				if (pos === -1) continue;
 				const url = href.substr(0, pos);
-				if (pn.lastIndexOf(url) !== pn.length - url.length) continue;
+				if (url.lastIndexOf(pn) !== url.length - pn.length) continue;
 			}
 			a.addEventListener('click', onClickAnchorLink);
 		}
@@ -55,6 +55,7 @@ window.ST = window['ST'] || {};
 
 	// Exported function
 	function onClickAnchorLink(e) {
+		if (e.button !== 0 || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
 		let href = e.currentTarget.getAttribute('href');
 		if (href) {
 			const pos = href.lastIndexOf('#');
@@ -70,7 +71,7 @@ window.ST = window['ST'] || {};
 		} else {
 			tar = document.getElementById(hash.substr(1));
 		}
-		if (!tar) return false;
+		if (!tar) return;
 		e.stopPropagation();
 		e.preventDefault();
 		const dur = NS.containStile(e.currentTarget, ST_ANCHOR_SCROLL_FAST) ? DURATION_FAST : DURATION;
