@@ -55,6 +55,7 @@ window.ST = window['ST'] || {};
 
 	// Exported function
 	function onClickAnchorLink(e) {
+		if (e.button !== 0 || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
 		let href = e.currentTarget.getAttribute('href');
 		if (href) {
 			const pos = href.lastIndexOf('#');
