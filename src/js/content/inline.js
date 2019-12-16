@@ -3,7 +3,7 @@
  * Inline Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-29
+ * @version 2019-12-16
  *
  */
 
@@ -55,8 +55,12 @@ window.ST = window['ST'] || {};
 			const f = fs[i];
 			let w = f.width, h = f.height;
 			if (!w || !h) {
-				w = parseInt(f.style.width);
-				h = parseInt(f.style.height);
+				const sW = f.style.width;
+				const sH = f.style.height;
+				if (sW.indexOf('px') !== sW.length - 2) continue;
+				if (sH.indexOf('px') !== sH.length - 2) continue;
+				w = parseInt(sW);
+				h = parseInt(sH);
 				if (!w || !h) continue;
 			}
 			const wrap = document.createElement('SPAN');
