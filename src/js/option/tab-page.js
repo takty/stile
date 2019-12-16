@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-06-17
+ * @version 2019-12-16
  *
  */
 
@@ -18,20 +18,26 @@ window.ST = window['ST'] || {};
 	const CLS_TAB_LIST_BELOW = 'stile-tab-page-tab-list-below';
 	const ST_STATE_CURRENT   = 'current';
 
-	const PAGE_HEIGHT_WINDOW_HEIGHT_RATIO = 0.8;
+	const PAGE_WINDOW_HEIGHT_RATIO = 0.8;
+
+	const HASH_PREFIX = 'tab:';
 
 	NS.addInit(4, () => {
 		const tabPages = [];
 		const tps = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < tps.length; i += 1) {
-			const tabPage = createTabPage(tps[i]);
-			if (tabPage) tabPages.push(tabPage);
+			const tabPage = createTabPage(tps[i], i);
+			tabPages.push(tabPage);
 		}
-		NS.onResize(() => { onResize(tabPages); });
-		setTimeout(function () { onResize(tabPages) }, 200);  // Delay
+		NS.onResize(() => { onResizeAll(tabPages); }, true);
+		setTimeout(() => {  // Delay
+			onResizeAll(tabPages);
+			onHash(tabPages);
+		}, 200);
+		window.addEventListener('popstate', () => { onHash(tabPages); });
 	});
 
-	function createTabPage(container) {
+	function createTabPage(container, contIdx) {
 		const fh = getFirstHeading(container);
 		if (!fh) return false;
 		const tabH = fh.tagName;
@@ -53,7 +59,7 @@ window.ST = window['ST'] || {};
 		}
 		if (curPage) pages.push(curPage);
 
-		const tp = { pages, container, currentIdx: 0, isAccordion: false };
+		const tp = { pages, container, currentIdx: 0, isAccordion: false, contIdx };
 		createTab(htmls, tp);
 
 		container.insertBefore(tp.tabUl, container.firstChild);
@@ -80,9 +86,53 @@ window.ST = window['ST'] || {};
 
 		setTimeout(() => {
 			tp.isAccordion = getComputedStyle(tp.tabUl2).flexDirection === 'column';
-			onTabClick(tp, tp.isAccordion ? -1 : 0);
+			update(tp, tp.isAccordion ? -1 : 0);
 		}, 10);
 	}
+
+	function addTabEvent(tp) {
+		const ts = tp.tabs, ts2 = tp.tabs2;
+
+		for (let i = 0; i < ts.length; i += 1) {
+			const f = (function (idx) { return (e) => { onClick(e, tp, idx); }; })(i);
+			ts[i].addEventListener('click', f);
+			ts2[i].addEventListener('click', f);
+		}
+	}
+
+	function onHash(tps) {
+		const [hCont, hPage] = extractIndexFromHash(window.location.hash);
+		if (hCont === null) {
+			for (let i = 0; i < tps.length; i += 1) {
+				if (!tps[i]) continue;
+				update(tps[i], tps[i].isAccordion ? -1 : 0);
+			}
+		} else {
+			update(tps[hCont], hPage);
+			scrollToTab(tps[hCont]);
+		}
+	}
+
+	function onClick(e, tp, idx) {
+		e.preventDefault();
+		if (!tp.isAccordion && tp.currentIdx === idx) return;
+		update(tp, idx);
+		scrollToTab(tp);
+		pushTabState(tp);
+		if (!tp.isAccordion) resizeTab(tp, true);
+	}
+
+	function scrollToTab(tp) {
+		if (tp.currentIdx === -1) return;
+		setTimeout(() => {
+			const bcr = tp.tabUl2.getBoundingClientRect();
+			if (bcr.top < 0 || window.innerHeight < bcr.bottom) NS.jumpToElement(tp.tabUl, 200, false);
+		}, 10);
+	}
+
+
+	// -------------------------------------------------------------------------
+
 
 	function getFirstHeading(container) {
 		const cs = container.children;
@@ -92,59 +142,43 @@ window.ST = window['ST'] || {};
 		return null;
 	}
 
-	function addTabEvent(tp) {
-		const ts = tp.tabs, ts2 = tp.tabs2;
 
-		for (let i = 0; i < ts.length; i += 1) {
-			const f = (function (idx) {
-				return function (e) {
-					e.preventDefault();
-					onTabClick(tp, idx);
-					if (!tp.isAccordion) onResizeOne(tp, true);
-				};
-			})(i);
-			ts[i].addEventListener('click', f);
-			ts2[i].addEventListener('click', f);
+	// -------------------------------------------------------------------------
+
+
+	function extractIndexFromHash(hash) {
+		if (hash.indexOf('#tab:') !== 0) return [null, null];
+		const cp = hash.replace('#tab:', '').split('-');
+		if (cp.length !== 2) return [null, null];
+		return [parseInt(cp[0]) - 1, parseInt(cp[1]) - 1];
+	}
+
+	function pushTabState(tp) {
+		const idx = tp.currentIdx;
+		if (0 <= idx) {
+			const hash = HASH_PREFIX + (tp.contIdx + 1) + '-' + (idx + 1);
+			history.pushState(null, null, '#' + hash);
+			window.location.hash = hash;
+		} else if (!tp.isAccordion) {
+			history.pushState(null, null, '');
+			window.location.hash = '';
 		}
 	}
 
-	function onTabClick(tp, idx) {
+
+	// -------------------------------------------------------------------------
+
+
+	function update(tp, idx) {
 		if (tp.isAccordion) {
 			idx = tp.currentIdx === idx ? -1 : idx;
-			updateAccordionTabState(tp, idx);
+			updateAccordion(tp, idx);
 		}
-		changeCurrentTab(tp, idx);
+		updateTab(tp, idx);
 	}
 
-	function changeCurrentTab(tp, idx) {
+	function updateAccordion(tp, idx) {
 		const ts = tp.tabs, ts2 = tp.tabs2;
-		const ps = tp.pages;
-
-		for (let i = 0; i < ts.length; i += 1) {
-			if (i === idx) {
-				NS.addStile(ts[i], ST_STATE_CURRENT);
-				NS.addStile(ts2[i], ST_STATE_CURRENT);
-				NS.addStile(ps[i], ST_STATE_CURRENT);
-			} else {
-				NS.removeStile(ts[i], ST_STATE_CURRENT);
-				NS.removeStile(ts2[i], ST_STATE_CURRENT);
-				NS.removeStile(ps[i], ST_STATE_CURRENT);
-			}
-			ts[i].className = '';
-			ts2[i].className = '';
-			ps[i].className = '';
-		}
-		tp.currentIdx = idx;
-		if (idx === -1) return;
-
-		setTimeout(() => {
-			const bcr = tp.tabUl2.getBoundingClientRect();
-			if (bcr.top < 0) NS.jumpToElement(tp.tabUl, 200, false);
-		}, 10);
-	}
-
-	function updateAccordionTabState(tp, idx) {
-		const ts  = tp.tabs, ts2 = tp.tabs2;
 
 		if (idx === -1) {
 			for (let i = 0; i < ts.length; i += 1) {
@@ -159,40 +193,73 @@ window.ST = window['ST'] || {};
 		}
 	}
 
-	function onResize(tps) {
+	function updateTab(tp, idx) {
+		const ts = tp.tabs, ts2 = tp.tabs2;
+		const ps = tp.pages;
+
+		for (let i = 0; i < ts.length; i += 1) {
+			if (i === idx) {
+				NS.addStile(ts[i],  ST_STATE_CURRENT);
+				NS.addStile(ts2[i], ST_STATE_CURRENT);
+				NS.addStile(ps[i],  ST_STATE_CURRENT);
+			} else {
+				NS.removeStile(ts[i],  ST_STATE_CURRENT);
+				NS.removeStile(ts2[i], ST_STATE_CURRENT);
+				NS.removeStile(ps[i],  ST_STATE_CURRENT);
+			}
+			ts[i].className  = '';
+			ts2[i].className = '';
+			ps[i].className  = '';
+		}
+		tp.currentIdx = idx;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	function onResizeAll(tps) {
 		for (let i = 0; i < tps.length; i += 1) {
-			onResizeOne(tps[i]);
+			if (!tps[i]) continue;
+			resizeOne(tps[i]);
 		}
 	}
 
-	function onResizeOne(tp, suppressTabClick = false) {
-		const cont = tp.container;
+	function resizeOne(tp) {
 		const prevIsAccordion = tp.isAccordion;
 		tp.isAccordion = getComputedStyle(tp.tabUl2).flexDirection === 'column';
 
 		if (tp.isAccordion) {
-			cont.style.minHeight = '';
-			cont.style.height    = '';
-			if (prevIsAccordion !== tp.isAccordion) changeCurrentTab(tp, -1);
-			updateAccordionTabState(tp, tp.currentIdx);
+			resizeAccordion(tp, prevIsAccordion);
 		} else {
-			const minH = getMinHeight(tp);
-			if (minH < window.innerHeight * PAGE_HEIGHT_WINDOW_HEIGHT_RATIO) {
-				cont.style.minHeight = minH + 'px';
-				cont.style.height    = minH + 'px';
-			} else {
-				cont.style.minHeight = '';
-				cont.style.height    = '';
-			}
-			const ts = tp.tabs, ts2 = tp.tabs2;
-
-			for (let i = 0; i < ts.length; i += 1) {
-				ts[i].style.display = '';
-				ts2[i].style.display = '';
-			}
-			if (tp.currentIdx === -1) tp.currentIdx = 0;
-			if (!suppressTabClick) onTabClick(tp, tp.currentIdx);
+			resizeTab(tp);
 		}
+	}
+
+	function resizeAccordion(tp, prevIsAccordion) {
+		const cont = tp.container;
+		cont.style.minHeight = '';
+		cont.style.height    = '';
+		if (prevIsAccordion !== tp.isAccordion) updateTab(tp, -1);
+		updateAccordion(tp, tp.currentIdx);
+	}
+
+	function resizeTab(tp, suppressTabClick = false) {
+		const cont = tp.container;
+		const minH = getMinHeight(tp);
+
+		const h = (minH < window.innerHeight * PAGE_WINDOW_HEIGHT_RATIO) ? (minH + 'px') : '';
+		cont.style.minHeight = h;
+		cont.style.height    = h;
+
+		const ts = tp.tabs, ts2 = tp.tabs2;
+
+		for (let i = 0; i < ts.length; i += 1) {
+			ts[i].style.display  = '';
+			ts2[i].style.display = '';
+		}
+		if (tp.currentIdx === -1) tp.currentIdx = 0;
+		if (!suppressTabClick) update(tp, tp.currentIdx);
 	}
 
 	function getMinHeight(tp) {
@@ -205,14 +272,15 @@ window.ST = window['ST'] || {};
 		let height = 0;
 
 		for (let i = 0; i < pages.length; i += 1) {
-			const p = pages[i];
+			const p  = pages[i];
 			const ps = getComputedStyle(p);
 			const mt = parseInt(ps.marginTop);
 			const mb = parseInt(ps.marginBottom);
-			const h = p.getBoundingClientRect().height;
+			const h  = p.getBoundingClientRect().height;
+
 			marginBtm = Math.max(marginBtm, mt);
 			marginTop = Math.max(marginTop, mb);
-			height = Math.max(height, h);
+			height    = Math.max(height, h);
 		}
 		return tabUl.offsetHeight + tabUl2.offsetHeight + marginBtm + marginTop + height;
 	}
