@@ -126,7 +126,7 @@ window.ST = window['ST'] || {};
 		if (tp.currentIdx === -1) return;
 		setTimeout(() => {
 			const bcr = tp.tabUl2.getBoundingClientRect();
-			if (bcr.top < 0) NS.jumpToElement(tp.tabUl, 200, false);
+			if (bcr.top < 0 || window.innerHeight < bcr.bottom) NS.jumpToElement(tp.tabUl, 200, false);
 		}, 10);
 	}
 
