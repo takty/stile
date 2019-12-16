@@ -34,7 +34,7 @@ window.ST = window['ST'] || {};
 			onResizeAll(tabPages);
 			onHash(tabPages);
 		}, 200);
-		window.addEventListener('hashchange', () => { onHash(tabPages); });
+		window.addEventListener('popstate', () => { onHash(tabPages); });
 	});
 
 	function createTabPage(container, contIdx) {
@@ -102,7 +102,12 @@ window.ST = window['ST'] || {};
 
 	function onHash(tps) {
 		const [hCont, hPage] = extractIndexFromHash(window.location.hash);
-		if (hCont !== null) {
+		if (hCont === null) {
+			for (let i = 0; i < tps.length; i += 1) {
+				if (!tps[i]) continue;
+				update(tps[i], tps[i].isAccordion ? -1 : 0);
+			}
+		} else {
 			update(tps[hCont], hPage);
 			scrollToTab(tps[hCont]);
 		}
@@ -110,9 +115,10 @@ window.ST = window['ST'] || {};
 
 	function onClick(e, tp, idx) {
 		e.preventDefault();
+		if (!tp.isAccordion && tp.currentIdx === idx) return;
 		update(tp, idx);
 		scrollToTab(tp);
-		pushTabState(tp, idx);
+		pushTabState(tp);
 		if (!tp.isAccordion) resizeTab(tp, true);
 	}
 
@@ -147,11 +153,16 @@ window.ST = window['ST'] || {};
 		return [parseInt(cp[0]) - 1, parseInt(cp[1]) - 1];
 	}
 
-	function pushTabState(tp, idx) {
-		let hash = '';
-		if (0 <= idx) hash = '#' + HASH_PREFIX + (tp.contIdx + 1) + '-' + (idx + 1);
-		history.pushState(null, null, hash);
-		window.location.hash = hash;
+	function pushTabState(tp) {
+		const idx = tp.currentIdx;
+		if (0 <= idx) {
+			const hash = HASH_PREFIX + (tp.contIdx + 1) + '-' + (idx + 1);
+			history.pushState(null, null, '#' + hash);
+			window.location.hash = hash;
+		} else if (!tp.isAccordion) {
+			history.pushState(null, null, '');
+			window.location.hash = '';
+		}
 	}
 
 
