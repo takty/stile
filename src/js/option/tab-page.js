@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-12-16
+ * @version 2019-12-17
  *
  */
 
@@ -125,8 +125,10 @@ window.ST = window['ST'] || {};
 	function scrollToTab(tp) {
 		if (tp.currentIdx === -1) return;
 		setTimeout(() => {
-			const bcr = tp.tabUl2.getBoundingClientRect();
-			if (bcr.top < 0 || window.innerHeight < bcr.bottom) NS.jumpToElement(tp.tabUl, 200, false);
+			const bcr  = tp.tabUl.getBoundingClientRect();
+			if (0 <= bcr.top && bcr.bottom <= window.innerHeight) return;
+			const bcr2 = tp.tabUl2.getBoundingClientRect();
+			if (bcr2.top < 0 || window.innerHeight < bcr2.bottom) NS.jumpToElement(tp.tabUl, 200, false);
 		}, 10);
 	}
 
