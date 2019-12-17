@@ -24,18 +24,39 @@ window.ST = window['ST'] || {};
 
 	NS.addInit(4, () => {
 		const tabPages = [];
-		const tps = document.querySelectorAll(SELECTOR_TARGET);
-		for (let i = 0; i < tps.length; i += 1) {
-			const tabPage = createTabPage(tps[i], i);
-			tabPages.push(tabPage);
+		const ts = document.querySelectorAll(SELECTOR_TARGET);
+		for (let i = 0; i < ts.length; i += 1) {
+			tabPages.push(createTabPage(ts[i], i));
 		}
 		NS.onResize(() => { onResizeAll(tabPages); }, true);
 		setTimeout(() => {  // Delay
 			onResizeAll(tabPages);
 			onHash(tabPages);
 		}, 200);
-		window.addEventListener('popstate', () => { onHash(tabPages); });
+		window.addEventListener('hashchange', () => { onHash(tabPages); });
+
+		const pn = window.location.pathname;
+		for (let i = 0; i < tabPages.length; i += 1) {
+			const cs = tabPages[i].tabUl.children;
+			NS.assignAnchorOffset(cs);
+			for (let j = 0; j < cs.length; j += 1) {
+				const c = cs[j];
+				addAnchorJumpEvent(tabPages, c.dataset['id'] ? c.dataset['id'] : c.id, pn);
+			}
+		}
 	});
+
+	function addAnchorJumpEvent(tps, id, pn) {
+		const as = document.querySelectorAll('a[href $= "#' + id + '"]');
+		for (let i = 0; i < as.length; i += 1) {
+			const href = as[i].getAttribute('href');
+			if (href[0] !== '#') {
+				const url = href.substr(0, href.lastIndexOf('#'));
+				if (url.lastIndexOf(pn) !== url.length - pn.length) continue;
+			}
+			as[i].addEventListener('click', () => { setTimeout(() => { onHash(tps); }, 0); });
+		}
+	}
 
 	function createTabPage(container, contIdx) {
 		const fh = getFirstHeading(container);
@@ -74,6 +95,7 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
 			li.innerHTML = htmls[i];
+			li.id = HASH_PREFIX + (tp.contIdx + 1) + '-' + (i + 1);
 			tp.tabUl.appendChild(li);
 		}
 		tp.tabUl.className = CLS_TAB_LIST;
@@ -109,7 +131,6 @@ window.ST = window['ST'] || {};
 			}
 		} else {
 			update(tps[hCont], hPage);
-			scrollToTab(tps[hCont]);
 		}
 	}
 
@@ -149,8 +170,8 @@ window.ST = window['ST'] || {};
 
 
 	function extractIndexFromHash(hash) {
-		if (hash.indexOf('#tab:') !== 0) return [null, null];
-		const cp = hash.replace('#tab:', '').split('-');
+		if (hash.indexOf('#' + HASH_PREFIX) !== 0) return [null, null];
+		const cp = hash.replace('#' + HASH_PREFIX, '').split('-');
 		if (cp.length !== 2) return [null, null];
 		return [parseInt(cp[0]) - 1, parseInt(cp[1]) - 1];
 	}
