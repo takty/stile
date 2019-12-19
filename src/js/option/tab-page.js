@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-12-17
+ * @version 2019-12-19
  *
  */
 
@@ -19,10 +19,13 @@ window.ST = window['ST'] || {};
 	const ST_STATE_CURRENT   = 'current';
 
 	const PAGE_WINDOW_HEIGHT_RATIO = 0.8;
+	const HASH_PREFIX              = 'tab:';
 
-	const HASH_PREFIX = 'tab:';
+	let noFocus;
 
 	NS.addInit(4, () => {
+		noFocus = (NS.BROWSER === 'safari') && ('ontouchstart' in window);
+
 		const tabPages = [];
 		const ts = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < ts.length; i += 1) {
@@ -37,7 +40,7 @@ window.ST = window['ST'] || {};
 
 		const pn = window.location.pathname;
 		for (let i = 0; i < tabPages.length; i += 1) {
-			const cs = tabPages[i].tabUl.children;
+			const cs = tabPages[i].tabs;
 			NS.assignAnchorOffset(cs);
 			for (let j = 0; j < cs.length; j += 1) {
 				const c = cs[j];
@@ -95,7 +98,8 @@ window.ST = window['ST'] || {};
 		for (let i = 0; i < htmls.length; i += 1) {
 			const li = document.createElement('li');
 			li.innerHTML = htmls[i];
-			li.id = HASH_PREFIX + (tp.contIdx + 1) + '-' + (i + 1);
+			li.id        = HASH_PREFIX + (tp.contIdx + 1) + '-' + (i + 1);
+			if (!noFocus) li.tabIndex = 0;
 			tp.tabUl.appendChild(li);
 		}
 		tp.tabUl.className = CLS_TAB_LIST;
@@ -116,9 +120,34 @@ window.ST = window['ST'] || {};
 		const ts = tp.tabs, ts2 = tp.tabs2;
 
 		for (let i = 0; i < ts.length; i += 1) {
-			const f = (function (idx) { return (e) => { onClick(e, tp, idx); }; })(i);
+			const f = (function (idx) {
+				return (e) => {
+					if (noFocus) removeTabIndex(ts);
+					onClick(e, tp, idx);
+				};
+			})(i);
 			ts[i].addEventListener('click', f);
 			ts2[i].addEventListener('click', f);
+			if (NS.BROWSER !== 'ie11' && NS.BROWSER !== 'edge') {
+				ts[i].addEventListener('mousedown', clearFocusRing);
+				ts2[i].addEventListener('mousedown', clearFocusRing);
+			}
+			ts[i].addEventListener('keypress',  (e) => { if (e.keyCode === 13) f(e); });
+			ts2[i].addEventListener('keypress', (e) => { if (e.keyCode === 13) f(e); });
+		}
+	}
+
+	function clearFocusRing(e) {
+		e.preventDefault();
+		e.currentTarget.focus();
+		e.currentTarget.removeAttribute('tabindex');
+		if (!noFocus) e.currentTarget.tabIndex = 0;
+	}
+
+	function removeTabIndex(ts) {
+		for (let i = 0; i < ts.length; i += 1) {
+			ts[i].blur();
+			ts[i].removeAttribute('tabindex');
 		}
 	}
 
@@ -147,9 +176,12 @@ window.ST = window['ST'] || {};
 		if (tp.currentIdx === -1) return;
 		setTimeout(() => {
 			const bcr  = tp.tabUl.getBoundingClientRect();
-			if (0 <= bcr.top && bcr.bottom <= window.innerHeight) return;
+			if (0 <= bcr.top && bcr.top <= window.innerHeight && 0 <= bcr.bottom && bcr.bottom <= window.innerHeight) return;
 			const bcr2 = tp.tabUl2.getBoundingClientRect();
-			if (bcr2.top < 0 || window.innerHeight < bcr2.bottom) NS.jumpToElement(tp.tabUl, 200, false);
+			if (tp.isAccordion || (bcr2.top < 0 || window.innerHeight < bcr2.bottom)) {
+				const tar = tp.tabUl.firstChild.querySelector('[data-stile~="anchor-offset"]');
+				NS.jumpToElement(tar ? tar : tp.tabUl, 200, false);
+			}
 		}, 10);
 	}
 
