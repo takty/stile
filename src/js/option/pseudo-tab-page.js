@@ -4,7 +4,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-29
+ * @version 2020-01-22
  *
  */
 
@@ -20,26 +20,19 @@ window.ST = window['ST'] || {};
 	const ST_STATE_CURRENT    = 'current';
 	const SINGLE_TAB          = true;
 
-	const tabLineUls = [];
-	let focused = null;
-	let tlVs = null;
-
 	NS.addInit(4, () => {
 		const tps = document.querySelectorAll(SELECTOR_TARGET);
 		for (let i = 0; i < tps.length; i += 1) {
-			createTabPage(tps[i], i);
-		}
-		if (NS.assignAnchorOffset) NS.assignAnchorOffset(tabLineUls);
-		if (SINGLE_TAB) {
-			updateVisibilityImmediately();
-			NS.onIntersect((vs) => {
-				tlVs = vs;
-				updateVisibility();
-			}, true, { targets: tabLineUls, marginTop: 'OFFSET', threshold: 0 });
+			create(tps[i], i);
 		}
 	});
 
-	function createTabPage(container, idx) {
+	function create(container, idx) {
+		const cont = {
+			tabLineUls: [],
+			focused   : null,
+			tlVs      : null
+		}
 		const [hs, htmls] = extractHeaders(container);
 		if (hs.length === 0) return false;
 
@@ -48,16 +41,24 @@ window.ST = window['ST'] || {};
 			const tl = createTabLine(htmls, i, idx);
 			container.insertBefore(tl.ul, hs[i]);
 			tls.push(tl);
-			tabLineUls.push(tl.ul);
+			cont.tabLineUls.push(tl.ul);
 		}
 		if (SINGLE_TAB) {
 			for (let i = 0; i < tls.length; i += 1) {
 				const tl = tls[i];
 				NS.addStile(tl.ul, 'hidden');
 				for (let j = 0; j < tl.as.length; j += 1) {
-					tl.as[j].addEventListener('click', () => { onTabClick(tls[j].ul); });
+					tl.as[j].addEventListener('click', () => { onTabClick(cont, tls[j].ul); });
 				}
 			}
+		}
+		if (NS.assignAnchorOffset) NS.assignAnchorOffset(cont.tabLineUls);
+		if (SINGLE_TAB) {
+			updateVisibilityImmediately(cont);
+			NS.onIntersect((vs) => {
+				cont.tlVs = vs;
+				updateVisibility(cont);
+			}, true, { targets: cont.tabLineUls, marginTop: 'OFFSET', threshold: 0 });
 		}
 	}
 
@@ -121,33 +122,33 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function onTabClick(clicked) {
-		focused = clicked;
-		updateVisibilityImmediately();
+	function onTabClick(cont, clicked) {
+		cont.focused = clicked;
+		updateVisibilityImmediately(cont);
 	}
 
-	function updateVisibilityImmediately() {
-		for (let i = 0; i < tabLineUls.length; i += 1) {
-			NS.addStile(tabLineUls[i], 'immediately');
+	function updateVisibilityImmediately(cont) {
+		for (let i = 0; i < cont.tabLineUls.length; i += 1) {
+			NS.addStile(cont.tabLineUls[i], 'immediately');
 		}
-		setTimeout(() => { updateVisibility() }, 10);
+		setTimeout(() => { updateVisibility(cont) }, 10);
 		setTimeout(() => {
-			for (let i = 0; i < tabLineUls.length; i += 1) {
-				NS.removeStile(tabLineUls[i], 'immediately');
+			for (let i = 0; i < cont.tabLineUls.length; i += 1) {
+				NS.removeStile(cont.tabLineUls[i], 'immediately');
 			}
-			if (focused) {
-				const y = focused.getBoundingClientRect().top;
-				focused = null;
-				if (window.innerHeight < y) updateVisibility();
+			if (cont.focused) {
+				const y = cont.focused.getBoundingClientRect().top;
+				cont.focused = null;
+				if (window.innerHeight < y) updateVisibility(cont);
 			}
 		}, 1000);
 	}
 
-	function updateVisibility() {
-		if (focused && tabLineUls.indexOf(focused) !== -1) {
-			for (let i = 0; i < tabLineUls.length; i += 1) {
-				const t = tabLineUls[i];
-				if (t === focused) {
+	function updateVisibility(cont) {
+		if (cont.focused && cont.tabLineUls.indexOf(cont.focused) !== -1) {
+			for (let i = 0; i < cont.tabLineUls.length; i += 1) {
+				const t = cont.tabLineUls[i];
+				if (t === cont.focused) {
 					NS.removeStile(t, 'hidden');
 				} else {
 					NS.addStile(t, 'hidden');
@@ -156,9 +157,9 @@ window.ST = window['ST'] || {};
 			return;
 		}
 		let shown = false;
-		for (let i = 0; i < tabLineUls.length; i += 1) {
-			const t = tabLineUls[i];
-			const v = tlVs ? tlVs[i] : false;
+		for (let i = 0; i < cont.tabLineUls.length; i += 1) {
+			const t = cont.tabLineUls[i];
+			const v = cont.tlVs ? cont.tlVs[i] : false;
 			if (v && !shown) {
 				shown = true;
 				NS.removeStile(t, 'hidden');
