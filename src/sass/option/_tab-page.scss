@@ -3,7 +3,7 @@
  * Tab Page Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-12-19
+ * @version 2020-02-13
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -81,7 +81,12 @@ $stile-tab-page-visible-tab-below             : false !default;
 	.stile-tab-page-tab-list li,
 	.stile-tab-page-tab-list-below li {
 		position: relative;
-		@include layout-centering();
+
+		display        : flex;
+		align-items    : center;
+		justify-content: flex-start;
+		flex-wrap      : wrap;
+
 		padding: base-vr(0.5) base-vr(1);
 		@include for-tablet-landscape-up { padding: base-vr(0.5) base-vr(2); }
 
