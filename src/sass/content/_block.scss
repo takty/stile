@@ -3,7 +3,7 @@
  * Block Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-10-20
+ * @version 2020-02-27
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -100,14 +100,17 @@ $stile-block-level-blockquote-cite: 0 !default;
 		// for broken images (does not work on IE11 and Edge)
 		&[alt]::after { width: 100%; }
 	}
-	figure {
-		text-align: center;  // for centering short caption
-	}
 	figcaption {
-		display  : inline-block;
+		margin   : { left: auto; right: auto; }
 		max-width: $stile-block-size-max-width;
+
 		@include font-size-level($stile-block-level-figcaption);
-		text-align: left;  // for left align of long caption
+		text-align: center;
+
+		span {
+			display   : inline-block;
+			text-align: left;
+		}
 	}
 
 	@include for-tablet-portrait-up {
@@ -119,12 +122,6 @@ $stile-block-level-blockquote-cite: 0 !default;
 					min-width   : $stile-block-size-min-width;
 					display     : table-caption;
 					caption-side: bottom;
-					text-align  : center;
-
-					span {
-						display   : inline-block;
-						text-align: left;
-					}
 				}
 			}
 		}
