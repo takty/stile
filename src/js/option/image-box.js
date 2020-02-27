@@ -196,7 +196,7 @@ window.ST = window['ST'] || {};
 				const fcs = a.parentNode.getElementsByTagName('figcaption');
 				if (0 < fcs.length) {
 					const cap = document.createElement('div');
-					cap.innerHTML = fcs[0].innerHTML;
+					cap.innerHTML = '<span>' + fcs[0].innerHTML + '</span>';
 					NS.addStile(cap, ST_IMAGE_BOX_CAPTION);
 					this._frm.appendChild(cap);
 				}
