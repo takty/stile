@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-11-29
+ * @version 2020-02-28
  *
  */
 
@@ -16,6 +16,7 @@ window.ST = window['ST'] || {};
 
 	const SEL_TARGET           = '.stile';
 	const SEL_TARGET_IMAGE_BOX = '.stile-image-box';
+	const SEL_TARGET_LINK      = '[data-stile~="image-box-link"]';
 	const ST_BACKGROUND_IMAGE  = 'background-image';
 
 	const ST_IMAGE_BOX         = 'image-box';
@@ -45,6 +46,8 @@ window.ST = window['ST'] || {};
 		modifyImageAnchorStyle(as1, objs);
 		const as2 = document.querySelectorAll(SEL_TARGET_IMAGE_BOX + ' a');
 		modifyImageAnchorStyle(as2, objs);
+		const as3 = document.querySelectorAll('a' + SEL_TARGET_LINK);
+		modifyImageAnchorStyle(as3, objs, true);
 
 		for (let i = 0; i < objs.length; i += 1) {
 			objs[i].setAdjacentImageBox(
@@ -81,8 +84,8 @@ window.ST = window['ST'] || {};
 		}
 	}
 
-	function modifyImageAnchorStyle(as, objs) {
-		const fas = filterImageLink(as);
+	function modifyImageAnchorStyle(as, objs, force = false) {
+		const fas = force ? as : filterImageLink(as);
 		for (let i = 0; i < fas.length; i += 1) { objs.push(new ImageBox(fas[i], objs.length)); }
 	}
 
