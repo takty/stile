@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-27
+ * @version 2020-03-02
  *
  */
 
@@ -28,6 +28,9 @@ window.ST = window['ST'] || {};
 		addOnlyChildElementClass(als);
 		addOnlyChildElementClass(ars);
 		addOnlyChildElementClass(acs);
+
+		addNextTo(als);
+		addNextTo(ars);
 
 		als = replaceAlignClass(als);
 		ars = replaceAlignClass(ars);
@@ -63,6 +66,16 @@ window.ST = window['ST'] || {};
 			if (isOnlyChildElement) {
 				NS.addStile(a, 'only-child-element');
 				NS.addStile(a.parentElement, 'has-only-child-element');
+			}
+		}
+	}
+
+	function addNextTo(as) {
+		for (let i = 0; i < as.length; i += 1) {
+			const a = as[i];
+			const prev = a.previousElementSibling;
+			if (prev && prev.className === '') {
+				NS.addStile(a, 'next-to-' + prev.tagName.toLowerCase());
 			}
 		}
 	}

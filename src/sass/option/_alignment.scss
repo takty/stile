@@ -3,7 +3,7 @@
  * Alignment Classes (SCSS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-03-02
+ * @version 2020-03-04
  *
  * @import '../basic/base';
  * @import '../basic/query';
@@ -18,9 +18,80 @@ $stile-alignment-size-width         : 72rem !default;
 
 @mixin stile-alignment {
 	@include stile-alignment-main;
+	// @include stile-alignment-margin;
 	@include stile-alignment-size;
 	@include stile-alignment-option($stile-alignment-size-text-width, $stile-alignment-size-width);
 }
+
+
+// -----------------------------------------------------------------------------
+
+
+// @mixin stile-alignment-margin {
+// 	.alignleft,
+// 	.alignright,
+// 	.aligncenter {
+// 		margin: { top: base-vr(2); bottom: base-vr(2); }
+// 	}
+
+// 	@include for-tablet-up {
+// 		.alignleft,
+// 		.alignright {
+// 			margin: { top: 0; bottom: base-vr(1); }
+// 		}
+// 	}
+
+// 	.size-thumbnail {
+// 		&.alignleft,
+// 		&.alignright {
+// 			margin: { top: 0; bottom: base-vr(1); }
+// 		}
+// 	}
+// 	.size-small,
+// 	.size-medium-small,
+// 	.size-medium,
+// 	.size-medium_large,  // For compatibility with WordPress-embed image size name
+// 	.size-medium-large,
+// 	.size-large,
+// 	.size-full {
+// 		&.alignleft,
+// 		&.alignright {
+// 			margin: { top: base-vr(2); bottom: base-vr(2); }
+// 		}
+// 	}
+// 	@include for-tablet-portrait-up {
+// 		.size-small,
+// 		.size-medium-small,
+// 		.size-medium {
+// 			&.alignleft,
+// 			&.alignright {
+// 				margin: { top: 0; bottom: base-vr(1); }
+// 			}
+// 		}
+// 	}
+// 	@include for-tablet-landscape-up {
+// 		.size-medium_large,  // For compatibility with WordPress-embed image size name
+// 		.size-medium-large,
+// 		.size-large,
+// 		.size-full {
+// 			&.alignleft,
+// 			&.alignright {
+// 				margin: { top: 0; bottom: base-vr(1); }
+// 			}
+// 		}
+// 	}
+
+// 	*[data-stile ~= 'alignleft'],
+// 	*[data-stile ~= 'alignright'] {
+// 		margin: { top: 0; bottom: base-vr(1); }
+// 	}
+// 	*[data-stile ~= 'aligncenter'] {
+// 		&.alignleft,
+// 		&.alignright {
+// 			margin: { top: base-vr(2); bottom: base-vr(2); }
+// 		}
+// 	}
+// }
 
 
 // -----------------------------------------------------------------------------
@@ -31,13 +102,8 @@ $stile-alignment-size-width         : 72rem !default;
 	.alignright,
 	.aligncenter {
 		@include stile-alignment-center;
+		// margin: { top: base-vr(2); bottom: base-vr(2); }
 	}
-	.column-2 > div,
-	.column-3 > div,
-	.column-4 > div,
-	.card-2 > div,
-	.card-3 > div,
-	.card-4 > div,
 	*:first-child {
 		.aligncenter,
 		.alignleft [data-stile ~= 'aligncenter'],
@@ -53,12 +119,24 @@ $stile-alignment-size-width         : 72rem !default;
 	// Without Size Classes ----------------------------------------------------
 
 	@include for-tablet-up {
-		* { @include stile-alignment-float }
+		* {
+			@include stile-alignment-float;
+		}
+		// .alignleft,
+		// .alignright {
+		// 	margin: { top: 0; bottom: base-vr(1); }
+		// }
 	}
 
 	// With Size Classes -------------------------------------------------------
 
-	.size-thumbnail { @include stile-alignment-float(10rem); }
+	.size-thumbnail {
+		@include stile-alignment-float(10rem);
+		// &.alignleft,
+		// &.alignright {
+		// 	margin: { top: 0; bottom: base-vr(1); }
+		// }
+	}
 
 	.size-small,
 	.size-medium-small,
@@ -70,31 +148,50 @@ $stile-alignment-size-width         : 72rem !default;
 		&.alignleft,
 		&.alignright {
 			@include stile-alignment-center;
+			// margin: { top: base-vr(2); bottom: base-vr(2); }
 		}
 	}
-	.size-small {
-		@include for-tablet-portrait-up { @include stile-alignment-float(10rem); }
+	@include for-tablet-portrait-up {
+		.size-small        { @include stile-alignment-float(10rem); }
+		.size-medium-small { @include stile-alignment-float(15rem); }
+		.size-medium       { @include stile-alignment-float(20rem); }
+
+		// .size-small,
+		// .size-medium-small,
+		// .size-medium {
+		// 	&.alignleft,
+		// 	&.alignright {
+		// 		margin: { top: 0; bottom: base-vr(1); }
+		// 	}
+		// }
 	}
-	.size-medium-small {
-		@include for-tablet-portrait-up { @include stile-alignment-float(15rem); }
-	}
-	.size-medium {
-		@include for-tablet-portrait-up { @include stile-alignment-float(20rem); }
-	}
-	.size-medium_large,  // For compatibility with WordPress-embed image size name
-	.size-medium-large {
-		@include for-tablet-landscape-up { @include stile-alignment-float(30rem); }
-	}
-	.size-large,
-	.size-full {
-		@include for-tablet-landscape-up { @include stile-alignment-float; }
+
+	@include for-tablet-landscape-up {
+		.size-medium_large,  // For compatibility with WordPress-embed image size name
+		.size-medium-large {
+			@include stile-alignment-float(30rem);
+		}
+		.size-large,
+		.size-full {
+			@include stile-alignment-float;
+		}
+
+		// .size-medium_large,  // For compatibility with WordPress-embed image size name
+		// .size-medium-large,
+		// .size-large,
+		// .size-full {
+		// 	&.alignleft,
+		// 	&.alignright {
+		// 		margin: { top: 0; bottom: base-vr(1); }
+		// 	}
+		// }
 	}
 
 	// By Content Query --------------------------------------------------------
 
 	*[data-stile ~= 'alignleft'],
 	*[data-stile ~= 'alignright'] {
-		margin   : { top: 0; bottom: base-vr(1); }
+		// margin   : { top: 0; bottom: base-vr(1); }
 		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		max-width: calc(100% - #{$stile-alignment-size-min-text-width});
 	}
@@ -110,6 +207,7 @@ $stile-alignment-size-width         : 72rem !default;
 		&.alignleft,
 		&.alignright {
 			@include stile-alignment-center;
+			// margin: { top: base-vr(2); bottom: base-vr(2); }
 			&:not([class ^= 'size-']):not([class *= ' size-']) {
 				max-width: initial;
 			}
@@ -120,7 +218,7 @@ $stile-alignment-size-width         : 72rem !default;
 @mixin stile-alignment-center {
 	display   : block;
 	float     : none;
-	margin    : base-vr(2) auto;
+	margin    : { left: auto; right: auto; }
 	transform : initial;
 	text-align: center;
 	clear     : both;
@@ -129,13 +227,13 @@ $stile-alignment-size-width         : 72rem !default;
 @mixin stile-alignment-float($max-width: false) {
 	&.alignleft,
 	&.alignright {
-		margin   : { top: 0; bottom: base-vr(1); }
 		transform: translateY(#{(base-vr(2) - 1rem) / 2});
 		clear    : none;
 		@if $max-width == false {
 			$max-width: calc(100% - #{$stile-alignment-size-min-text-width});
+		} @else {
+			max-width: $max-width;
 		}
-		max-width: $max-width;
 	}
 	&.alignleft {
 		float       : left;
