@@ -109,45 +109,6 @@ $stile-margin-heading:
 
 
 @mixin stile-margin-alignment {
-	// * + .alignleft,
-	// * + .alignright,
-	//     .alignleft  + *,
-	// 	.alignright + *
-	// {
-	// 	margin-top: base-vr(1);
-	// }
-
-	// * + figure,
-	//     figure + *,
-	// * + figure.aligncenter,
-	//     figure.aligncenter + *
-	// {
-	// 	margin-top: base-vr(4);
-	// }
-	// @include for-phone-only {
-	// 	* + figure.alignleft,
-	// 	* + figure.alignright,
-	// 	    figure.alignleft  + *,
-	// 		figure.alignright + *
-	// 	{
-	// 		margin-top: base-vr(4);  // for Centering View
-	// 	}
-	// }
-	// @include for-tablet-up {
-	// 	* + figure.alignleft,
-	// 	* + figure.alignright,
-	// 	    figure.alignleft  + *,
-	// 		figure.alignright + *
-	// 	{
-	// 		margin-top: base-vr(1);  // for Actual Floating View
-	// 	}
-	// 	figure.alignleft,
-	// 	figure.alignright {
-	// 		&:not([data-stile ~= 'aligncenter']) > figcaption {
-	// 			padding-bottom: base-vr(1);
-	// 		}
-	// 	}
-	// }
 	.alignleft,
 	.alignright,
 	.aligncenter {
@@ -171,17 +132,9 @@ $stile-margin-heading:
 			&.alignleft,
 			&.alignright {
 				margin: { top: base-vr(2); bottom: base-vr(2); }  // for Actual Floating View
-				// &:not([data-stile ~= 'aligncenter']) > figcaption {
-				// 	padding-bottom: base-vr(1);
-				// }
 			}
 		}
 	}
-
-
-
-// }
-// @mixin stile-alignment-margin {
 
 	.size-thumbnail {
 		&.alignleft,
