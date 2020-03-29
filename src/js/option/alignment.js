@@ -3,7 +3,7 @@
  * Alignment Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-03-02
+ * @version 2020-03-29
  *
  */
 
@@ -119,6 +119,14 @@ window.ST = window['ST'] || {};
 	}
 
 	function switchFloat(asw, stile) {
+		if (NS.MEDIA_WIDTH.indexOf('phone-portrait') === 0) {
+			for (let i = 0; i < asw.length; i += 1) {
+				const a = asw[i][0];
+				NS.removeStile(a, stile);
+				NS.addStile(a, CLS_AC);
+			}
+			return;
+		}
 		for (let i = 0; i < asw.length; i += 1) {
 			const a = asw[i][0], w = asw[i][1];
 			const pw = contentWidth(a.parentElement, true);
