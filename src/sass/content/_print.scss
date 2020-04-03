@@ -3,7 +3,7 @@
  * Print Style
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-11-09
+ * @version 2020-04-03
  *
  * @import '../basic/font';
  *
@@ -11,10 +11,11 @@
 
 
 $stile-print-enabled-link-url: true !default;
+$stile-print-font-size       : 9pt  !default;
 
 
 @mixin stile-print {
-	font-size: 10.5pt !important;
+	font-size: $stile-print-font-size !important;
 	@include font-visible-chrome-cancel;
 
 	@if $stile-print-enabled-link-url == true {
