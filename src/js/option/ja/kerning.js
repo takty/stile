@@ -80,18 +80,20 @@ window.ST = window['ST'] || {};
 				if (!NS.containStile(c, ST_NO_KERNING)) applyKerningToElement(c, ki);
 			} else if (c.nodeType === 3 /*TEXT_NODE*/) {
 				let text = c.textContent;
-				let prev = c.previousSibling;
+				const prev = c.previousSibling;
+				const next = c.nextSibling;
 				const isParentBlock = isBlockParent(c.parentNode);
-				if (isParentBlock) {
-					const next = c.nextSibling;
-					if (!prev || isBlockSibling(prev)) {
-						const mzs = text.match(/^[\n\r\t ]*(\u3000*)/);
-						const zs = (mzs && 1 < mzs.length) ? mzs[1] : '';
-						text = zs + text.replace(/^\s+/g, '');  // trim left
-					}
-					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
+				const isHead = isParentBlock && (!prev || isBlockSibling(prev));
+				const isTail = isParentBlock && (!next || isBlockSibling(next));
+				if (isHead) {
+					const mzs = text.match(/^[\n\r\t ]*(\u3000*)/);
+					const zs = (mzs && 1 < mzs.length) ? mzs[1] : '';
+					text = zs + text.replace(/^\s+/g, '');  // trim left
 				}
-				const es = applyKerning(text, ki, isParentBlock && (prev === null || isBlockSibling(prev)));
+				if (isTail) {
+					text = text.replace(/\s+$/g, '');  // trim right
+				}
+				const es = applyKerning(text, ki, isHead);
 				if (es.length <= 0) continue;
 				c.parentNode.replaceChild(es[0], c);
 				const ns = es[0].nextSibling;
