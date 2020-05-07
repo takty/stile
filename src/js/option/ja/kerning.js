@@ -5,7 +5,7 @@
  * Kerning
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-22
+ * @version 2020-05-08
  *
  */
 
@@ -85,7 +85,8 @@ window.ST = window['ST'] || {};
 				if (isParentBlock) {
 					const next = c.nextSibling;
 					if (!prev || isBlockSibling(prev)) {
-						const zs = text.match(/^[\n\r\t ]*(\u3000*)/g);
+						const mzs = text.match(/^[\n\r\t ]*(\u3000*)/);
+						const zs = (mzs && 1 < mzs.length) ? mzs[1] : '';
 						text = zs + text.replace(/^\s+/g, '');  // trim left
 					}
 					if (!next || isBlockSibling(next)) text = text.replace(/\s+$/g,'');  // trim right
