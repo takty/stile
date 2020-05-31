@@ -3,7 +3,7 @@
  * Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-12-19
+ * @version 2020-05-31
  *
  */
 
@@ -213,10 +213,8 @@ window.ST = window['ST'] || {};
 		if (0 <= idx) {
 			const hash = HASH_PREFIX + (tp.contIdx + 1) + '-' + (idx + 1);
 			history.pushState(null, null, '#' + hash);
-			window.location.hash = hash;
-		} else if (!tp.isAccordion) {
-			history.pushState(null, null, '');
-			window.location.hash = '';
+		} else if (tp.isAccordion) {
+			history.pushState(null, null, '#');
 		}
 	}
 
