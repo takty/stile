@@ -3,7 +3,7 @@
  * Link Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-03-01
+ * @version 2020-06-08
  *
  * The function 'isExternalUrl' can be overwritten as follows:
  * <script>ST.isExternalUrl = function (url) { return true; }</script>
@@ -131,6 +131,7 @@ window.ST = window['ST'] || {};
 	}
 
 	function isUrlLink(a, url) {
+		if (url === null || url === '') return false;
 		const cs = a.childNodes;
 		if (cs.length === 0) return false;
 		return a.innerHTML.trim() === url;
@@ -141,6 +142,7 @@ window.ST = window['ST'] || {};
 
 
 	function isAnchor(url) {
+		if (url === null || url === '') return false;
 		const pos = url.indexOf('#');
 		if (pos === -1) return false;
 		const id = url.substr(pos + 1);
@@ -175,7 +177,8 @@ window.ST = window['ST'] || {};
 
 
 	function addFileType(a, url) {
-		if (url.length > 0 && url[url.length - 1] === '/') return;
+		if (url === null || url === '') return;
+		if (url[url.length - 1] === '/') return;
 		const dom = url.indexOf('//');
 		if (dom !== -1) {
 			const fs = url.indexOf('/', dom + 2);
