@@ -1,43 +1,43 @@
 {
-  "name": "stile",
-  "version": "3.20.5",
-  "description": "A Framework of Content Style",
-  "author": "Takuto Yanagida",
-  "main": "gulpfile.js",
-  "scripts": {
-    "postinstall": "gulp build",
-    "start": "gulp",
-    "docs": "gulp docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/takty/stile.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/takty/stile/issues"
-  },
-  "homepage": "https://github.com/takty/stile#readme",
-  "browserslist": [
-    "ie >= 11"
-  ],
-  "devDependencies": {
-    "eslint-config-google": "^0.14.0"
-  },
-  "dependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "eslint": "^7.3.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-changed": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-load-plugins": "^2.0.3",
-    "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-terser": "^1.2.0"
-  }
+	"name": "stile",
+	"version": "3.20.5",
+	"description": "A Framework of Content Style",
+	"author": "Takuto Yanagida",
+	"main": "gulpfile.js",
+	"scripts": {
+		"postinstall": "gulp build",
+		"start": "gulp",
+		"docs": "gulp docs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/takty/stile.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/takty/stile/issues"
+	},
+	"homepage": "https://github.com/takty/stile#readme",
+	"browserslist": [
+		"ie >= 11"
+	],
+	"devDependencies": {
+		"eslint-config-google": "^0.14.0"
+	},
+	"dependencies": {
+		"@babel/core": "^7.10.5",
+		"@babel/preset-env": "^7.10.4",
+		"eslint": "^7.4.0",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^7.0.1",
+		"gulp-babel": "^8.0.0",
+		"gulp-changed": "^4.0.2",
+		"gulp-concat": "^2.6.1",
+		"gulp-load-plugins": "^2.0.3",
+		"gulp-plumber": "^1.2.1",
+		"gulp-rename": "^2.0.0",
+		"gulp-sass": "^4.1.0",
+		"gulp-sourcemaps": "^2.6.5",
+		"gulp-terser": "^1.2.0"
+	}
 }
