@@ -3,7 +3,7 @@
  * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-05-08
+ * @version 2020-07-22
  *
  */
 
@@ -18,8 +18,8 @@ window.ST = window['ST'] || {};
 
 	const CTYPES = ['S', 'E', 'I', 'K', 'H', 'N'];
 	const CPATS = {
-		S: /[「『（［｛〈《【〔〖〘〚＜]/u,
-		E: /[」』）］｝〉》】〕〗〙〛＞、，。．？！を：・]/u,
+		S: /[「『（［｛〈《【〔〖〘〚＜“]/u,
+		E: /[」』）］｝〉》】〕〗〙〛＞”、，。．？！を：・]/u,
 		I: /[ぁ-んゝ]/u,
 		K: /[ァ-ヴーｱ-ﾝﾞｰ]/u,
 		H: /[一-龠々〆ヵヶ]/u,
