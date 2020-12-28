@@ -3,7 +3,7 @@
  * Table Style - Neat Wrap (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-08-02
+ * @version 2020-12-28
  *
  */
 
@@ -60,11 +60,11 @@ window.ST = window['ST'] || {};
 		table.style.maxWidth = '';
 
 		const tbody = table.tBodies[0];
-		if (tbody.offsetWidth <= table.clientWidth) return;
-		if (MAX_ROW_COUNT < countRows(table)) return;
+		if (tbody.offsetWidth <= table.clientWidth) return addNoNeatWrap(table);
+		if (MAX_ROW_COUNT < countRows(table)) return addNoNeatWrap(table);
 
 		const grid = makeCellGrid(table);
-		if (grid.length === 0) return;
+		if (grid.length === 0) return addNoNeatWrap(table);
 
 		const newWs = [];
 		for (let x = 0; x < grid[0].length; x += 1) newWs.push(false);
@@ -76,6 +76,10 @@ window.ST = window['ST'] || {};
 			calcNewWidthes(grid, data, newWs, dummyCell);
 		}
 		setCellWidth(grid, newWs);
+	}
+
+	function addNoNeatWrap(table) {
+		NS.addStile(table, 'no-neat-wrap');
 	}
 
 	function countRows(table) {
