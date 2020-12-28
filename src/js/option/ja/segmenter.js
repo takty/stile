@@ -3,7 +3,7 @@
  * Japanese Text Segmenter
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-07-22
+ * @version 2020-12-28
  *
  */
 
@@ -25,7 +25,7 @@ window.ST = window['ST'] || {};
 		H: /[一-龠々〆ヵヶ]/u,
 		N: /[0-9０-９]/u
 	};
-	const PAIRS = { 'S*': 1, 'II': 1, 'KK': 1, 'HH': 1, 'HI': 1, 'NN': 1, 'OO': 1 };
+	const PAIRS = { 'S*': 1, 'II': 1, 'KK': 1, 'HH': 1, 'HI': 1, 'NN': 1, 'OO': 1, 'ON': 1, 'NO': 1 };
 	const JOSHI_A = 'でなければ|について|により|かしら|くらい|けれど|なのか|ばかり|ながら|ことよ|こそ|こと|さえ|しか|した|たり|だけ|だに|だの|つつ|ても|てよ|でも|とも|から|など|なり|ので|のに|ほど|まで|もの|やら|より|って|で|と|な|に|ね|の|も|は|ば|へ|や|わ|を|か|が|さ|し|ぞ|て'.split('|');
 	const JOSHI_H = {};
 	for (let i = 0; i < JOSHI_A.length; i += 1) JOSHI_H[JOSHI_A[i]] = true;
@@ -88,7 +88,7 @@ window.ST = window['ST'] || {};
 		parts = concatMeasureWord(parts);
 		parts = splitKanjiPrefix(parts, PREKANJI);
 		parts = splitTailRentai(parts, RENTAI);
-		if (parts.length === 1 && tn === 'SPAN') return text;
+		if (parts.length === 1 && (!tn || tn === 'SPAN')) return text;
 		return wrapWithSpan(parts);
 	}
 
@@ -184,7 +184,6 @@ window.ST = window['ST'] || {};
 		let ret = '';
 		for (let i = 0, I = ws.length; i < I; i += 1) {
 			const w = ws[i];
-			// ret += (w[1] !== 'O' || w[2] !== 'O') ? ('<span>' + w[0] + '(' + w[1] + w[2] + ')</span>') : w[0] + '(' + w[1] + w[2] + ')';
 			ret += (w[1] !== 'O' || w[2] !== 'O') ? ('<span>' + w[0] + '</span>') : w[0];
 		}
 		return ret;
