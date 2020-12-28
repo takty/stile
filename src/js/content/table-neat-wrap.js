@@ -69,11 +69,11 @@ window.ST = window['ST'] || {};
 		const newWs = [];
 		for (let x = 0; x < grid[0].length; x += 1) newWs.push(false);
 
-		const data = collectMetrix(table, grid);
+		const data = collectMetrics(table, grid);
 		if (IS_COMPAT_MODE) {
-			calcNewWidthes_simply(grid, data, newWs);
+			calcNewWidths_simply(grid, data, newWs);
 		} else {
-			calcNewWidthes(grid, data, newWs, dummyCell);
+			calcNewWidths(grid, data, newWs, dummyCell);
 		}
 		setCellWidth(grid, newWs);
 	}
@@ -94,7 +94,7 @@ window.ST = window['ST'] || {};
 		return count;
 	}
 
-	function collectMetrix(table, grid) {
+	function collectMetrics(table, grid) {
 		const td = table.getElementsByTagName('td')[0];
 		const s = getComputedStyle(td);
 
@@ -195,7 +195,7 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function calcNewWidthes_simply(grid, data, newWs) {
+	function calcNewWidths_simply(grid, data, newWs) {
 		const origWs = [].concat(newWs);
 		for (let y = 0; y < grid.length; y += 1) {
 			const gridRow = grid[y];
@@ -253,7 +253,7 @@ window.ST = window['ST'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function calcNewWidthes(grid, data, newWs, dummy) {
+	function calcNewWidths(grid, data, newWs, dummy) {
 		const wrapped = [];
 
 		for (let y = 0; y < grid.length; y += 1) {
