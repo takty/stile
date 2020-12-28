@@ -16,6 +16,8 @@ window.ST = window['ST'] || {};
 	const SEL_TARGET          = '.stile';
 	const ST_OPT_NO_NEAT_WRAP = 'no-neat-wrap';
 
+	const NNW_MIN_WIDTH_RATE  = 0.1;
+
 	const CELL_MIN_WIDTH      = 120;
 	const CELL_MIN_WIDTH_RATE = 0.15;
 	const CELL_MIN_RATIO      = 2 / 3;  // width : height
@@ -80,6 +82,10 @@ window.ST = window['ST'] || {};
 
 	function addNoNeatWrap(table) {
 		NS.addStile(table, 'no-neat-wrap');
+		table.style.display = 'table';
+		const pw = table.parentElement.clientWidth;
+		const w = table.clientWidth;
+		if (pw - w < w * NNW_MIN_WIDTH_RATE) table.style.width = '100%';
 	}
 
 	function countRows(table) {
