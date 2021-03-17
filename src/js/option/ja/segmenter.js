@@ -181,17 +181,18 @@ window.ST = window['ST'] || {};
 	}
 
 	function wrapWithSpan(ws) {
-		const re = /\s$/;
+		const reB = /^\s/;
+		const reA = /\s$/;
 		let ret = '';
 		for (let i = 0, I = ws.length; i < I; i += 1) {
 			const w = ws[i];
 			if (w[1] !== 'O' || w[2] !== 'O') {
-				const temp = re.exec(w[0]);
-				if (temp !== null) {
-					ret += '<span>' + w[0].trim() + '</span>' + temp[0];
-				} else {
-					ret += '<span>' + w[0] + '</span>';
-				}
+				const sb = reB.exec(w[0]);
+				const sa = reA.exec(w[0]);
+				const before = (sb !== null) ? sb[0] : '';
+				const after  = (sa !== null) ? sa[0] : '';
+
+				ret += before + '<span>' + w[0] + '</span>' + after;
 			} else {
 				ret += w[0];
 			}
