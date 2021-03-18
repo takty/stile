@@ -4,7 +4,7 @@
  * Pseudo Tab Page Classes (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-01-22
+ * @version 2021-03-18
  *
  */
 
@@ -76,6 +76,8 @@ window.ST = window['ST'] || {};
 			const a = document.createElement('a');
 			a.href = '#' + ID_TAB_LIST_ID_BASE + (contIdx + 1) + '-' + (i + 1);
 			a.innerHTML = htmls[i];
+			for (const ss of a.querySelectorAll('small')) ss.remove();
+			for (const ss of a.querySelectorAll('a')) ss.remove();
 			a.dataset['stile'] = stile;
 
 			const li = document.createElement('li');
