@@ -3,7 +3,7 @@
  * Link Style (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-06-08
+ * @version 2021-03-18
  *
  * The function 'isExternalUrl' can be overwritten as follows:
  * <script>ST.isExternalUrl = function (url) { return true; }</script>
@@ -147,7 +147,9 @@ window.ST = window['ST'] || {};
 		if (pos === -1) return false;
 		const id = url.substr(pos + 1);
 		const tar = document.getElementById(id);
-		if (tar === null) return false;
+		if (tar === null) {
+			if (id.indexOf('tab:') === -1) return false;
+		}
 		if (pos === 0) return true;
 		return url.substr(0, pos) === getUrlWithoutHash(location.href);
 	}
