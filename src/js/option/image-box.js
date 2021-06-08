@@ -4,7 +4,7 @@
  * Image Box (JS)
  *
  * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-02-28
+ * @version 2021-06-08
  *
  */
 
@@ -236,6 +236,10 @@ window.ST = window['ST'] || {};
 			if (e) e.preventDefault();
 			this.doOpen();
 
+			if (location.hash) {
+				const newUrl = location.href.substr(0, location.href.indexOf('#'));
+				history.replaceState(null, '', newUrl);
+			}
 			const hash = '#' + HASH_PREFIX + this._hash;
 			history.pushState({ name: 'stile-image-box', id: this._id }, null, hash);
 		}
