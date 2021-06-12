@@ -25,8 +25,8 @@
 		"eslint-config-google": "^0.14.0"
 	},
 	"dependencies": {
-		"@babel/core": "^7.14.3",
-		"@babel/preset-env": "^7.14.4",
+		"@babel/core": "^7.14.5",
+		"@babel/preset-env": "^7.14.5",
 		"eslint": "^7.28.0",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^8.0.0",
