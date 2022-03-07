@@ -1,0 +1,29 @@
+/**
+ *
+ * Table
+ *
+ * @author Takuto Yanagida
+ * @version 2022-01-07
+ *
+ */
+
+
+@forward 'main';
+@forward 'common';
+@forward 'neat-width';
+@forward 'usable-view';
+
+@use 'main';
+@use 'common';
+@use 'neat-width';
+@use 'usable-view';
+
+
+@mixin property {
+	@include main.property-appearance;
+
+	@include neat-width.property-neat-width;
+	@include usable-view.property-usable-view;
+
+	@include common.property-side-shadow;
+}

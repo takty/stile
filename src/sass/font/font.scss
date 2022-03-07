@@ -1,0 +1,22 @@
+/**
+ *
+ * Font
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@use '_font';
+
+
+:root {
+	@include font.property();
+}
+
+@for $i from 1 through 16 {
+	[data-nc-font='#{$i}'] {
+		@include font.font-size-line-height($i);
+	}
+}

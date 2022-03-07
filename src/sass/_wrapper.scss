@@ -1,0 +1,496 @@
+/**
+ * Wrapper
+ *
+ * @author Takuto Yanagida
+ * @version 2022-03-07
+ */
+
+
+@use 'align/_align';
+@use 'container/_container';
+@use 'content/_content';
+@use 'font/_font';
+@use 'form/_form';
+@use 'link/_link';
+@use 'list/_list';
+@use 'tab/_tab';
+@use 'table/_table';
+@use 'viewer/_viewer';
+
+@forward 'utility/_utility';
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin property($tab-style: 'bar') {
+	@include align.property;
+	@include container.property;
+	@include content.property;
+	@include font.property;
+	@include form.property;
+	@include link.property;
+	@include list.property;
+	@include viewer.property;
+
+	@include table.property;
+	@include table.property-appearance-stripe;
+
+	@include tab.property-scroll;
+	@if ('bar' == $tab-style) {
+		@include tab.property-scroll-bar;
+	} @else if ('tab' == $tab-style) {
+		@include tab.property-scroll-tab;
+	}
+	@include tab.property-stack;
+	@if ('bar' == $tab-style) {
+		@include tab.property-stack-bar;
+	} @else if ('tab' == $tab-style) {
+		@include tab.property-stack-tab;
+	}
+
+	@media print {
+		@include content.property-print;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin align {
+	.alignleft,
+	.alignright {
+		@include align.float;
+	}
+
+	.alignleft {
+		@include align.left;
+	}
+
+	.alignright {
+		@include align.right;
+	}
+
+	.aligncenter {
+		@include align.center;
+	}
+
+	.alignfull,
+	.alignwide {
+		@include align.overflow;
+	}
+
+	.alignfull {
+		@include align.full;
+	}
+
+	.alignwide {
+		@include align.wide;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin column {
+	.column-2 {
+		--nc-container-min-width: var(--nc-container-min-width-2);
+		@include container.card-n;
+	}
+
+	.column-3 {
+		@include container.card-3-1;
+	}
+
+	.column-4 {
+		@include container.card-4-2-1;
+	}
+
+	.column-5 {
+		@include container.card-5-3-2-1;
+	}
+
+	.column-6 {
+		@include container.card-6-3-2-1;
+	}
+
+	.column-2-1 {
+		--nc-container-min-width: var(--nc-container-min-width-2);
+		@include container.card-n;
+	}
+
+	.column-3-1 {
+		@include container.card-3-1;
+	}
+
+	.column-4-1 {
+		@include container.card-4-1;
+	}
+
+	.column-5-1 {
+		@include container.card-5-1;
+	}
+
+	.column-6-1 {
+		@include container.card-6-1;
+	}
+
+	.card-2 {
+		--nc-container-min-width: var(--nc-container-min-width-2);
+		@include container.card-n;
+	}
+
+	.card-3 {
+		--nc-container-min-width: var(--nc-container-min-width-3);
+		@include container.card-n;
+	}
+
+	.card-4 {
+		--nc-container-min-width: var(--nc-container-min-width-4);
+		@include container.card-n;
+	}
+
+	.card-5 {
+		--nc-container-min-width: var(--nc-container-min-width-5);
+		@include container.card-n;
+	}
+
+	.card-6 {
+		--nc-container-min-width: var(--nc-container-min-width-6);
+		@include container.card-n;
+	}
+
+	.masonry-2 {
+		--nc-container-min-width: var(--nc-container-min-width-2);
+		@include container.masonry-n;
+	}
+
+	.masonry-3 {
+		--nc-container-min-width: var(--nc-container-min-width-3);
+		@include container.masonry-n;
+	}
+
+	.masonry-4 {
+		--nc-container-min-width: var(--nc-container-min-width-4);
+		@include container.masonry-n;
+	}
+
+	.masonry-5 {
+		--nc-container-min-width: var(--nc-container-min-width-5);
+		@include container.masonry-n;
+	}
+
+	.masonry-6 {
+		--nc-container-min-width: var(--nc-container-min-width-6);
+		@include container.masonry-n;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin content($do-set-heading: true) {
+	@include content.all(false /* $do-reset */);
+
+	sub,
+	sup {
+		font-size: font.font-size(2);
+	}
+	caption,
+	figcaption {
+		@include font.font-size-line-height(3);
+	}
+	code {
+		font-family: var(--nc-font-mono);
+	}
+	@if $do-set-heading {
+		:where(h1) {
+			@include font.font-size-line-height(9);
+		}
+		:where(h2) {
+			@include font.font-size-line-height(8);
+		}
+		:where(h3) {
+			@include font.font-size-line-height(7);
+		}
+		:where(h4) {
+			@include font.font-size-line-height(6);
+		}
+		:where(h5) {
+			@include font.font-size-line-height(5);
+		}
+		:where(h6) {
+			@include font.font-size-line-height(4);
+		}
+	}
+
+	@media print {
+		@include content.print;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin font {
+	@for $i from 1 through 16 {
+		[data-nc-font='#{$i}'] {
+			@include font.font-size-line-height($i);
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin form {
+	:where(
+		input,
+		button,
+		select,
+		textarea,
+		.form-ctrl-radio,
+		.form-ctrl-checkbox,
+		.form-ctrl-number,
+		.form-ctrl-select,
+		.button
+	):where(:disabled, [disabled]) {
+		@include form.disabled;
+	}
+
+	:where(
+		button,
+		input[type='submit' i],
+		input[type='button' i],
+		input[type='reset' i],
+		.button
+	),
+	:where(input[type='file' i])::file-selector-button {
+		@include form.button;
+	}
+
+	:where(
+		input[type='text' i],
+		input[type='password' i],
+		input[type='url' i],
+		input[type='email' i],
+		input[type='tel' i],
+		input[type='search' i],
+		input[type='number' i],
+		input[type='date' i],
+		input[type='month' i],
+		input[type='week' i],
+		input[type='datetime' i],
+		input[type='datetime-local' i],
+		select,
+		textarea
+	) {
+		@include form.input;
+	}
+
+	:where(input[type='color' i]) {
+		@include form.type-color;
+	}
+
+	:where(input[type='file' i]) {
+		@include form.type-file;
+	}
+
+	:where(input[type='range' i]) {
+		@include form.type-range;
+	}
+
+	:where(input[type='radio' i]) {
+		@include form.radio;
+	}
+
+	:where(input[type='checkbox' i]) {
+		@include form.checkbox;
+	}
+
+	:where(fieldset) {
+		@include form.fieldset;
+	}
+
+	.form-ctrl-radio,
+	.form-ctrl-checkbox {
+		@include form.wrapper-rad-chk;
+	}
+
+	.form-ctrl-number {
+		@include form.wrapper-type-number;
+	}
+
+	.form-ctrl-select {
+		@include form.wrapper-select;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin ja {
+	span[data-nc-kern *= 's'] {
+		letter-spacing: -0.4em;
+	}
+
+	span[data-nc-kern *= 'h'] {
+		margin-inline-start: -0.4rem;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin link {
+	a:where(:not([class])),
+	[data-nc-links] a {
+		@include link.main;
+		@include link.direction;
+		@include link.file;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin list {
+	:is(ul, ol):where(:not([class])) {
+		@include list.un-ordered;
+	}
+
+	dl:where(:not([class])) {
+		@include list.definition;
+	}
+
+	ul[data-nc-list] {
+		@include list.custom;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin tab($tab-style: 'bar') {
+	div:is(.tab-scroll, .pseudo-tab-page) {
+		@include tab.scroll(false /* $do-reset */);
+
+		@if ('bar' == $tab-style) {
+			@include tab.scroll-bar;
+		} @else if ('tab' == $tab-style) {
+			@include tab.scroll-tab;
+		}
+	}
+
+	div:is(.tab-stack, .tab-page) {
+		@include tab.stack(false /* $do-reset */);
+
+		@if ('bar' == $tab-style) {
+			@include tab.stack-bar;
+		} @else if ('tab' == $tab-style) {
+			@include tab.stack-tab;
+		}
+	}
+
+	@media print {
+		div:is(.tab-scroll, .pseudo-tab-page) {
+			@include tab.scroll-print
+		}
+
+		div:is(.tab-stack, .tab-page) {
+			@include tab.stack-print;
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin table {
+	table:where(:not([class]), .is-style-stripes) {
+		@include table.appearance;
+	}
+
+	table.is-style-stripes {
+		@include table.appearance-stripe;
+	}
+
+	table[data-nc-table-neat] {
+		@include table.neat(false /* $do-reset */);
+	}
+
+	table[data-nc-table-full] {
+		@include table.full;
+	}
+
+	table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+		@include table.scroll;
+	}
+
+	table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
+		@include table.scroll-right;
+	}
+
+	table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
+		@include table.scroll-left;
+	}
+
+	div[data-nc-table-sticky-header-container] {
+		@include table.sticky-header-container;
+	}
+
+	div[data-nc-table-sticky-header-table] {
+		@include table.appearance-header;
+		@include table.sticky-header-table;
+	}
+
+	div[data-nc-table-sticky-scroll-bar] {
+		@include table.sticky-scroll-bar;
+	}
+
+	@media print {
+		table[data-nc-table-neat] {
+			@include table.neat-print;
+		}
+
+		table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+			@include table.scroll-print;
+		}
+
+		div[data-nc-table-sticky-header-container] {
+			@include table.sticky-header-container-print;
+		}
+
+		div[data-nc-table-sticky-scroll-bar] {
+			@include table.sticky-scroll-bar-print;
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin viewer {
+	div[data-nc-viewer] {
+		@include viewer.main(false /* $do-reset */);
+	}
+
+	div[data-nc-frame-image] {
+		@include viewer.image;
+	}
+
+	div[data-nc-frame-iframe] {
+		@include viewer.iframe;
+	}
+}

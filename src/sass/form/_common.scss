@@ -1,0 +1,85 @@
+/**
+ *
+ * Common Style
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-27
+ *
+ */
+
+
+@mixin property {
+	--nc-form-focus-shadow: 0 0 2px 3px #{rgba(#7bf, 0.75)};
+
+	--nc-form-font-size    : 1rem;
+	--nc-form-line-height  : 1.15;
+	--nc-form-border-radius: 0.25em;
+
+	// ----
+
+	--nc-input-padding    : 0.5em;
+	--nc-input-border-base: 1px solid;
+
+	--nc-input-color           : inherit;
+	--nc-input-mark-color      : LinkText;
+	--nc-input-background-color: Canvas;
+	--nc-input-border-color    : #aaa;
+
+	--nc-input-color-disabled           : #ddd;
+	--nc-input-mark-color-disabled      : #ddd;
+	--nc-input-background-color-disabled: Canvas;
+	--nc-input-border-color-disabled    : #ccc;
+
+	// ----
+
+	--nc-button-padding    : 0.5em 1em;
+	--nc-button-border-base: 1px solid;
+
+	--nc-button-color           : Canvas;
+	--nc-button-mark-color      : Canvas;
+	--nc-button-background-color: LinkText;
+	--nc-button-border-color    : transparent;
+
+	--nc-button-color-disabled           : Canvas;
+	--nc-button-mark-color-disabled      : Canvas;
+	--nc-button-background-color-disabled: #ddd;
+	--nc-button-border-color-disabled    : transparent;
+
+	// ----
+
+	--nc-fieldset-padding: 0.5em 1em 1em;
+	--nc-fieldset-border : 1px solid #aaa;
+}
+
+@mixin disabled {
+	--nc-input-color           : var(--nc-input-color-disabled);
+	--nc-input-mark-color      : var(--nc-input-mark-color-disabled);
+	--nc-input-background-color: var(--nc-input-background-color-disabled);
+	--nc-input-border-color    : var(--nc-input-border-color-disabled);
+
+	--nc-button-color           : var(--nc-button-color-disabled);
+	--nc-button-mark-color      : var(--nc-button-mark-color-disabled);
+	--nc-button-background-color: var(--nc-button-background-color-disabled);
+	--nc-button-border-color    : var(--nc-button-border-color-disabled);
+
+	cursor : not-allowed;
+	opacity: 1;
+}
+
+%focus {
+	&:focus-visible {
+		outline   : none;
+		box-shadow: var(--nc-form-focus-shadow);
+	}
+}
+
+%base {
+	font       : inherit;
+	font-size  : var(--nc-form-font-size);
+	line-height: var(--nc-form-line-height);
+
+	border-radius: var(--nc-form-border-radius);
+
+	appearance     : none;
+	text-decoration: none;
+}

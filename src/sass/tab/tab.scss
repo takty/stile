@@ -1,0 +1,48 @@
+/**
+ *
+ * Tab
+ *
+ * @author Takuto Yanagida
+ * @version 2022-01-07
+ *
+ */
+
+
+@use '_tab';
+
+
+:root {
+	@include tab.property-scroll;
+	@include tab.property-scroll-bar;
+	// @include scroll.property-scroll-tab;
+
+	@include tab.property-stack;
+	@include tab.property-stack-bar;
+	// @include stack.property-stack-tab;
+}
+
+div.tab-scroll {
+	@include tab.scroll(true /* $do-reset */);
+	@include tab.scroll-bar;
+	// @include scroll.scroll-tab;
+}
+
+div.tab-stack {
+	@include tab.stack(true /* $do-reset */);
+	@include tab.stack-bar;
+	// @include stack.stack-tab;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@media print {
+	div.tab-scroll {
+		@include tab.scroll-print
+	}
+
+	div.tab-stack {
+		@include tab.stack-print;
+	}
+}

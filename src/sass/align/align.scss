@@ -1,0 +1,54 @@
+/**
+ *
+ * Align
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@use '_align';
+
+
+:root {
+	@include align.property;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+.alignleft,
+.alignright {
+	@include align.float;
+}
+
+.alignleft {
+	@include align.left;
+}
+
+.alignright {
+	@include align.right;
+}
+
+.aligncenter {
+	@include align.center;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+.alignfull,
+.alignwide {
+	@include align.overflow;
+}
+
+.alignfull {
+	@include align.full;
+}
+
+.alignwide {
+	@include align.wide;
+}

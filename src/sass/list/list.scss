@@ -1,0 +1,28 @@
+/**
+ *
+ * List
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@use '_list';
+
+
+:root {
+	@include list.property;
+}
+
+:is(ul, ol):where(:not([class])) {
+	@include list.un-ordered;
+}
+
+dl:where(:not([class])) {
+	@include list.definition;
+}
+
+ul[data-nc-list] {
+	@include list.custom;
+}

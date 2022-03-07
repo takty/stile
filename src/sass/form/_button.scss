@@ -1,0 +1,34 @@
+/**
+ *
+ * Buttons
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-27
+ *
+ */
+
+
+@use 'common';
+
+
+%base-button-rect {
+	@extend %base;
+	@extend %focus;
+
+	color           : var(--nc-button-color);
+	background-color: var(--nc-button-background-color);
+	border          : var(--nc-button-border-base);
+	border-color    : var(--nc-button-border-color);
+
+	padding: var(--nc-button-padding);
+
+	display        : inline-flex;
+	justify-content: center;
+	align-items    : center;
+
+	cursor: pointer;
+}
+
+@mixin button {
+	@extend %base-button-rect;
+}

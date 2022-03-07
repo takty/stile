@@ -1,0 +1,82 @@
+/**
+ *
+ * Neat Width
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property-neat-width {
+	--nc-table-caption-background: Canvas;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin neat($do-reset: true) {
+	display  : block;
+	width    : fit-content;
+	max-width: 100%;
+	overflow : auto;
+
+	@if $do-reset {
+		border-collapse: collapse;  // For reset
+	}
+}
+
+@mixin full {
+	width: 100%;
+
+	border-collapse: collapse;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin scroll {
+	caption {
+		display     : block;
+		position    : sticky;
+		inset-inline: 0;
+
+		background: var(--nc-table-caption-background);
+	}
+	td, th {
+		position: relative;
+		z-index : -1;
+	}
+	box-shadow: var(--nc-table-shadow-right), var(--nc-table-shadow-left);
+}
+
+@mixin scroll-right {
+	box-shadow: var(--nc-table-shadow-right);
+}
+
+@mixin scroll-left {
+	box-shadow: var(--nc-table-shadow-left);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin neat-print {
+	display: table;
+
+	td, th {
+		min-width  : initial !important;
+		white-space: normal  !important;
+	}
+}
+
+@mixin scroll-print {
+	box-shadow: none !important;
+
+	caption {
+		display: table-caption;
+	}
+}

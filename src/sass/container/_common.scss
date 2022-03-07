@@ -1,0 +1,20 @@
+/**
+ *
+ * Common
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property {
+	--nc-container-row-gap   : 1rem;
+	--nc-container-column-gap: 1rem;
+
+	--nc-container-min-width-2: 16rem;
+	--nc-container-min-width-3: 12rem;
+	--nc-container-min-width-4: 10rem;
+	--nc-container-min-width-5: 8rem;
+	--nc-container-min-width-6: 7rem;
+}

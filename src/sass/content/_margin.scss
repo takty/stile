@@ -1,305 +1,73 @@
 /**
  *
- * Margin Style
+ * Margin
  *
- * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2020-03-04
- *
- * @import '../basic/base';
- * @import '../basic/query';
+ * @author Takuto Yanagida
+ * @version 2022-01-06
  *
  */
 
 
-$stile-margin-align-table: center !default;
-$stile-margin-heading:
-	/* H1 */ (6, 6),
-	/* H2 */ (6, 5),
-	/* H3 */ (6, 4),
-	/* H4 */ (5, 3),
-	/* H5 */ (4, 2),
-	/* H6 */ (3, 1) !default;
-
-
-@mixin stile-margin {
-	@extend %stile-margin;
-}
-
-@mixin stile-margin-inside {
-	@extend %stile-margin-inside;
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin stile-margin-block-inside {
-	* + figcaption { margin-top: base-vr(1); }
-	table > caption { padding-bottom: base-vr(1); }  // Must use 'padding-bottom' instead of 'margin-top' of the adjacent element
-	blockquote {
-		@include stile-margin-inside;
+%child-margin {
+	*:first-child:not(:where(.aligncenter, .alignwide, .alignfull)) {  // 0, 1, 0
+		margin-block-start: 0;
 	}
 
-	ul:not([class]),
-	ul.stile {
-		> li + li { margin-top: base-vr(1); }
+	*:first-child:where(.alignright, .alignleft) + * {  // 0, 1, 0
+		margin-block-start: 0;
 	}
-	ul[data-stile~='compact'] > li + li { margin-top: 0; }
 
-	ol:not([class]),
-	ol.stile {
-		// Must use 'padding-top' instead of 'margin-top' because ol's 'display' is 'table'.
-		> li + li::before { padding-top: base-vr(1); }
-	}
-	ol[data-stile~='compact'] > li + li::before { padding-top: 0; }
-
-	dl:not([class]),
-	dl.stile {
-		> * + dt { margin-top: base-vr(1); }
-	}
-	dl[data-stile~='compact'] > * + dt { margin-top: 0; }
-
-	li, dd {  // For nesting Lists
-		> ul, > ol, > dl {
-			margin-top: base-vr(1);
-		}
+	*:last-child:not(:where(.alignright, .alignleft, .aligncenter, .alignwide, .alignfull))  {  // 0, 1, 0
+		margin-block-end: 0;
 	}
 }
 
-@mixin stile-margin-block {
-	* + blockquote,
-		blockquote + *,
-	* + nav,
-		nav + *,
-	* + pre,
-		pre + *,
-	* + ul,
-		ul + *,
-	* + ol,
-		ol + *,
-	* + dl,
-		dl + *,
-	* + p,
-		p + *     { margin-top: base-vr(2); }
-	* + table,
-	    table + *,
-	* + hr,
-	    hr + *    { margin-top: base-vr(4); }
-	p + p         { margin-top: base-vr(1); }
+@mixin property-margin {
+	--nc-margin-small         : 1rem;
+	--nc-margin-large         : 2rem;
+	--nc-margin-heading-offset: -1rem;
 
-	@include for-tablet-up {
-		@include stile-margin-block-next-to('table', '*') { margin-top: base-vr(4); }
-		@include stile-margin-block-next-to(   'hr', '*') { margin-top: base-vr(4); }
-		@include stile-margin-block-next-to(    'p', 'p') { margin-top: base-vr(1); }
-	}
+	--nc-margin-h1: 3.5rem 3.0rem;
+	--nc-margin-h2: 3.0rem 2.5rem;
+	--nc-margin-h3: 2.5rem 2.0rem;
+	--nc-margin-h4: 2.0rem 1.5rem;
+	--nc-margin-h5: 2.0rem 1.5rem;
+	--nc-margin-h6: 2.0rem 1.5rem;
 }
 
-@mixin stile-margin-block-next-to($tag, $a) {
-	#{$a} + .alignleft:not( [data-stile ~= 'aligncenter'])[data-stile ~= 'next-to-#{$tag}'],
-			.alignleft:not( [data-stile ~= 'aligncenter'])[data-stile ~= 'next-to-#{$tag}'] + #{$a},
-	#{$a} + .alignright:not([data-stile ~= 'aligncenter'])[data-stile ~= 'next-to-#{$tag}'],
-			.alignright:not([data-stile ~= 'aligncenter'])[data-stile ~= 'next-to-#{$tag}'] + #{$a}
-	{
-		@content;
-	}
-}
+@mixin margin {
+	@extend %child-margin;
 
-
-// -----------------------------------------------------------------------------
-
-
-@mixin stile-margin-alignment {
-	.alignleft,
-	.alignright,
-	.aligncenter {
-		margin: { top: base-vr(2); bottom: base-vr(2); }  // for Centering View
-	}
-	@include for-tablet-up {
-		.alignleft,
-		.alignright {
-			margin: { top: 0; bottom: base-vr(1); }  // for Actual Floating View
-		}
+	:where(
+		blockquote, pre,
+		ul, ol, dl,
+		figure,
+		table, hr
+	) {
+		margin-block: var(--nc-margin-large);
 	}
 
-	figure {
-		&,
-		&.alignleft,
-		&.alignright,
-		&.aligncenter {
-			margin: { top: base-vr(4); bottom: base-vr(4); }  // for Centering View
-		}
-		@include for-tablet-up {
-			&.alignleft,
-			&.alignright {
-				margin: { top: base-vr(2); bottom: base-vr(2); }  // for Actual Floating View
-			}
-		}
+	:where(p, div) {
+		margin-block: var(--nc-margin-small);
 	}
 
-	.size-thumbnail {
-		&.alignleft,
-		&.alignright {
-			margin: { top: 0; bottom: base-vr(1); }
-		}
-	}
-	.size-small,
-	.size-medium-small,
-	.size-medium,
-	.size-medium_large,  // For compatibility with WordPress-embed image size name
-	.size-medium-large,
-	.size-large,
-	.size-full {
-		&.alignleft,
-		&.alignright {
-			margin: { top: base-vr(2); bottom: base-vr(2); }
-		}
-	}
-	@include for-tablet-portrait-up {
-		.size-small,
-		.size-medium-small,
-		.size-medium {
-			&.alignleft,
-			&.alignright {
-				margin: { top: 0; bottom: base-vr(1); }
-			}
-		}
-	}
-	@include for-tablet-landscape-up {
-		.size-medium_large,  // For compatibility with WordPress-embed image size name
-		.size-medium-large,
-		.size-large,
-		.size-full {
-			&.alignleft,
-			&.alignright {
-				margin: { top: 0; bottom: base-vr(1); }
-			}
-		}
+	h1 { margin-block: var(--nc-margin-h1); }
+	h2 { margin-block: var(--nc-margin-h2); }
+	h3 { margin-block: var(--nc-margin-h3); }
+	h4 { margin-block: var(--nc-margin-h4); }
+	h5 { margin-block: var(--nc-margin-h5); }
+	h6 { margin-block: var(--nc-margin-h6); }
+
+	:where(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+		margin-block-start: var(--nc-margin-heading-offset);
 	}
 
-	*[data-stile ~= 'alignleft'],
-	*[data-stile ~= 'alignright'] {
-		margin: { top: 0; bottom: base-vr(1); }
-	}
-	*:not(figure)[data-stile ~= 'aligncenter'] {
-		&.alignleft,
-		&.alignright {
-			margin: { top: base-vr(2); bottom: base-vr(2); }
-		}
-	}
-	figure[data-stile ~= 'aligncenter'] {
-		&.alignleft,
-		&.alignright {
-			margin: { top: base-vr(4); bottom: base-vr(4); }
-		}
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin stile-margin-container {
-	* + .column-2,
-		.column-2 + *,
-	* + .column-3,
-		.column-3 + *,
-	* + .column-4,
-		.column-4 + *,
-	* + .card-2,
-		.card-2 + *,
-	* + .card-3,
-		.card-3 + *,
-	* + .card-4,
-		.card-4 + *
-	{ margin-top: base-vr(4); }
-
-	.column-2,
-	.column-3,
-	.column-4,
-	.card-2,
-	.card-3,
-	.card-4 {
-		> * {
-			@include stile-margin-inside;
-		}
-	}
-}
-
-@mixin stile-margin-option {
-	* + .tab-page,
-		.tab-page + *,
-	* + .pseudo-tab-page,
-		.pseudo-tab-page + *
-	{ margin-top: base-vr(4); }
-
-	.tab-page > div,
-	.pseudo-tab-page
-	{
-		@include stile-margin-inside;
-		* + .tab-page,
-			.tab-page + *,
-		* + .pseudo-tab-page,
-			.pseudo-tab-page + *
-		{ margin-top: base-vr(4); }
-	}
-
-	.stile-tab-page-tab-list + *,
-	* + .stile-tab-page-tab-list-below
-	{ margin-top: 0; }
-
-	.pseudo-tab-page .stile-pseudo-tab-page-tab-list + *
-	{ margin-top: base-vr(2); }
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-@mixin stile-margin-heading($tag, $top-bottom) {
-	$top: nth($top-bottom, 1);
-	$btm: nth($top-bottom, 2);
-
-	* + #{$tag}     { margin-top: base-vr($top); }
-		#{$tag} + * { margin-top: base-vr($btm); }
-	*[class] + #{$tag}            { margin-top: base-vr($top); }
-	           #{$tag} + *[class] { margin-top: base-vr($btm); }
-
-	#{$tag} {
-		& + figure.alignright,
-		& + figure.alignleft {
-			margin-top: base-vr($btm);
-			& + * { margin-top: base-vr($btm); }
-		}
-	}
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-%stile-margin-inside {
-	> div + div { margin-top: base-vr(2); }
-	> *:first-child.alignleft,
-	> *:first-child.alignright {
-		& + *:not([class]) { margin-top: 0; }
-	}
-}
-
-%stile-margin {
-	@if $stile-margin-align-table == center {
-		text-align: center;        // for table on IE11
-		> * { text-align: left; }  // for table on IE11
-	}
-	@extend %stile-margin-inside;
-
-	@include stile-margin-block-inside;
-	@include stile-margin-block;
-
-	@include stile-margin-alignment;
-	@include stile-margin-container;
-	@include stile-margin-option;
-
-	@for $i from 6 through 1 {  // The order below has meaning!
-		@include stile-margin-heading(h#{$i}, nth($stile-margin-heading, $i));
+	:where(
+		.column-2, .column-3, .column-4,
+		.card-2, .card-3, .card-4,
+		.tab-scroll, .tab-stack,
+		.pseudo-tab-page, .tab-page
+	) {  // For compatibility
+		margin-block: var(--nc-margin-large);
 	}
 }

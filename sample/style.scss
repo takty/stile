@@ -1,0 +1,27 @@
+/**
+ * Style
+ *
+ * @author Takuto Yanagida
+ * @version 2022-03-07
+ */
+
+@use '_wrapper' as *;
+
+:root {
+	@include property($tab-style: 'bar');
+}
+
+.user-content {
+	@include align;
+	@include column;
+	@include content($do-set-heading: true);
+	@include list;
+	@include tab($tab-style: 'bar');
+	@include table;
+}
+
+@include font;
+@include form;
+@include ja;
+@include link;
+@include viewer;

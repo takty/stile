@@ -1,0 +1,28 @@
+/**
+ *
+ * Viewer
+ *
+ * @author Takuto Yanagida
+ * @version 2022-01-07
+ *
+ */
+
+
+@use '_viewer';
+
+
+:root {
+	@include viewer.property;
+}
+
+div[data-nc-viewer] {
+	@include viewer.main(true /* $do-reset */);
+}
+
+div[data-nc-frame-image] {
+	@include viewer.image;
+}
+
+div[data-nc-frame-iframe] {
+	@include viewer.iframe;
+}

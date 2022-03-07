@@ -1,0 +1,23 @@
+/**
+ *
+ * Wrapper of Radio Button and Checkbox
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin wrapper-rad-chk {
+	font       : inherit;
+	font-size  : var(--nc-form-font-size);
+	line-height: var(--nc-form-line-height);
+
+	color: var(--nc-input-color);
+
+	display              : grid;
+	grid-template-columns: 1em auto;
+	gap                  : 0.5em;
+
+	align-items: baseline;
+}

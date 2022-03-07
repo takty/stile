@@ -1,0 +1,102 @@
+/**
+ *
+ * Type
+ *
+ * @author Takuto Yanagida
+ * @version 2022-01-06
+ *
+ */
+
+
+@mixin main {
+	&[data-nc-link-image] {
+		display: contents;
+		img {
+			vertical-align: middle;
+		}
+	}
+	&[href ^= 'http']:empty::before {  // Show URL instead of empty text
+		content   : attr(href);
+		word-break: break-all;
+		display   : inline;
+	}
+	&[data-nc-link-simple='url'] {
+		word-wrap: break-word;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin property-direction {
+	--nc-link-direction-color: currentColor;
+
+	--nc-link-direction-path-anchor  : polygon(43% 10%, 43% 64%, 25% 61%, 50% 89%, 75% 61%, 57% 64%, 57% 10%);
+	--nc-link-direction-path-external: polygon(6% 50%, 50% 94%, 66% 78%, 58% 70%, 50% 78%, 22% 50%,
+		43% 50%, 43% 57%, 72% 57%, 70% 72%, 96% 50%, 70% 28%, 72% 43%, 43% 43%, 43% 50%,
+		22% 50%, 50% 22%, 58% 30%, 66% 22%, 50% 6%);
+}
+
+@mixin direction {
+	&[data-nc-link-anchor]::after,
+	&[data-nc-link-external]::after {
+		@include direction-inner;
+	}
+	&[data-nc-link-anchor]::after        { clip-path: var(--nc-link-direction-path-anchor); }
+	&[data-nc-link-anchor = 'up']::after { transform: scaleY(-1); }
+	&[data-nc-link-external]::after      { clip-path: var(--nc-link-direction-path-external); }
+}
+
+@mixin direction-inner {
+	content: '';
+	display: inline-block;
+	width  : 1em;
+	height : 1em;
+
+	line-height   : 1;
+	vertical-align: -15%;
+
+	background-color: var(--nc-link-direction-color);
+	color-adjust    : exact;  // For print
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin property-file {
+	--nc-link-file-color     : Canvas;
+	--nc-link-file-background: currentColor;
+}
+
+@mixin file {
+	&[data-nc-link-file]::after {
+		@include file-inner;
+	}
+}
+
+@mixin file-inner {
+	content       : attr(data-nc-link-file);
+	text-transform: uppercase;
+
+	display            : inline-block;
+	margin-inline-start: 0.5em;
+
+	padding      : 0.2em 0.5em 0.125em;
+	border-radius: 0.35em;
+	font-size    : 75%;
+
+	line-height   : 1;
+	vertical-align: 5%;
+
+	-webkit-text-fill-color: var(--nc-link-file-color);
+	background-color       : var(--nc-link-file-background);
+	color-adjust           : exact;  // For print
+
+	// For canceling 'direction'
+	width    : unset;
+	height   : unset;
+	clip-path: none;
+	transform: none;
+}

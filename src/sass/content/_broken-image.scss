@@ -1,0 +1,39 @@
+/**
+ *
+ * Broken Image
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property-broken-image {
+	--nc-broken-image-color: #f004;
+}
+
+// Broken images (does not work on Safari)
+@mixin broken-image {
+	img {
+		position: relative;
+		&::after {
+			content : '';
+			position: absolute;
+			inset   : 0;
+
+			animation: show 0s both 5s;
+			@keyframes show {
+				0% {}
+				100% {
+					background-image: repeating-linear-gradient(
+						-45deg,
+						transparent,
+						transparent 6px,
+						var(--nc-broken-image-color) 6px,
+						var(--nc-broken-image-color) 12px
+					);
+				}
+			}
+		}
+	}
+}

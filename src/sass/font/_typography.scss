@@ -1,0 +1,55 @@
+/**
+ *
+ * Typography
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-29
+ *
+ */
+
+
+@function font-size(
+	$level,
+	$factor: #{var(--nc-font-factor, 1)}
+) {
+	@if ($level < 4) {
+		$r: $level * 0.125 + 0.5;
+		@return #{$r * 1rem};
+	}
+	@if ($level > 4) {
+		$r: $level * 0.25;
+		@return calc(1rem + #{$r * 1rem - 1rem} * #{$factor});
+	}
+	@return 1rem;
+}
+
+@function line-height(
+	$level,
+	$font-factor: #{var(--nc-font-factor,   1)},
+	$interval   : #{var(--nc-line-interval, 0.85)},
+	$line-factor: #{var(--nc-line-factor,   0.025)}
+) {
+	$s: font-size($level, $font-factor);
+	@if ($level < 4) {
+		$r: $level * 0.125 + 0.5;
+		@return calc(#{$s} + #{$interval} * 1rem * #{$r});
+	}
+	@if ($level > 4) {
+		$r: $level * 0.25;
+		@return calc(#{$s} + #{$interval} * 1rem - #{$r}rem * #{$line-factor});
+	}
+	@return calc(#{$s} + #{$interval} * 1rem);
+}
+
+@mixin font-size-line-height($level) {
+	font-size  : font-size($level);
+	line-height: line-height($level);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin proportional {
+	font-feature-settings: 'palt';
+}

@@ -1,0 +1,32 @@
+/**
+ *
+ * Custom
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property-custom {
+	--nc-list-marker-size: 1em;
+}
+
+@mixin custom {
+	list-style: none;
+
+	> li {
+		position: relative;
+
+		&::before {
+			content: '';
+
+			position          : absolute;
+			inset-inline-start: -1.5rem;
+			width             : var(--nc-list-marker-size);
+			height            : var(--nc-list-marker-size);
+
+			background-size: contain;
+		}
+	}
+}

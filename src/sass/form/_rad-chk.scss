@@ -1,0 +1,91 @@
+/**
+ *
+ * Radio Button and Checkbox
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-04
+ *
+ */
+
+
+@use 'common';
+@use 'input';
+
+
+%rad-chk-base {
+	@extend %base-input;
+
+	margin: 0;
+	cursor: pointer;
+
+	width : 1em;
+	height: 1em;
+
+	transform: translateY(0.1em);
+
+	position: relative;
+	&::before,
+	&::after {
+		content: '';
+
+		position : absolute;
+		top      : 50%;
+		left     : 50%;
+		transform: translate(-50%, -50%);
+	}
+	&::before {
+		border          : var(--nc-input-border-base);
+		border-color    : var(--nc-input-border-color);
+		background-color: var(--nc-input-background-color);
+	}
+}
+
+@mixin radio {
+	@extend %rad-chk-base;
+
+	border-radius: 50%;
+
+	&::before,
+	&::after {
+		width        : 1em;
+		height       : 1em;
+		border-radius: 50%;
+	}
+	&::after {
+		border : 0.33em solid var(--nc-input-mark-color);
+		opacity: 0;
+	}
+	&:checked::after {
+		opacity: 1;
+	}
+}
+
+@mixin checkbox {
+	@extend %rad-chk-base;
+
+	border-radius: 2px;
+
+	&::before {
+		width        : 1em;
+		height       : 1em;
+		border-radius: 2px;
+	}
+	&::after {
+		width : 0.75em;
+		height: 0.75em;
+
+		box-shadow: inset 0 0 0 2em var(--nc-input-background-color);  // For print
+		clip-path : polygon(14% 44%, 0 65%, 55% 100%, 100% 12%, 78% 0%, 45% 64%);
+		opacity   : 0;
+	}
+	&:checked {
+		&::before {
+			background-color: var(--nc-input-mark-color);
+			border-color    : var(--nc-input-mark-color);
+			box-shadow      : inset 0 0 0 2em var(--nc-input-mark-color);  // For print
+		}
+		&::after {
+			opacity: 1;
+		}
+	}
+}

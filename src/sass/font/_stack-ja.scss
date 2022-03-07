@@ -1,0 +1,49 @@
+/**
+ *
+ * Font Stack [Ja]
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-12
+ *
+ */
+
+
+@use 'sass:string';
+
+
+$font-ja-yu-sans : "YuGothicM, 'Yu Gothic', YuGothic" !default;
+$font-ja-yu-serif: "YuMinchoM, 'Yu Mincho', YuMincho" !default;
+
+$font-ja-sans : "'Hiragino Kaku Gothic ProN'", $font-ja-yu-sans !default;
+$font-ja-serif: "'Hiragino Mincho ProN'", $font-ja-yu-serif !default;
+$font-ja-mono : "'BIZ UDGothic'", Osaka-Mono !default;
+
+
+// -----------------------------------------------------------------------------
+
+
+@font-face  {
+	font-family: 'YuGothicM';
+	src        : local('Yu Gothic Medium'), local('YuGothic-Medium');
+}
+
+@font-face  {
+	font-family: 'YuGothicM';
+	font-weight: bold;
+	src        : local('Yu Gothic Bold'), local('YuGothic-Bold');
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@font-face {
+	font-family: 'YuMinchoM';
+	src        : local('Yu Mincho Regular'), local('YuMincho-Regular');
+}
+
+@font-face {
+	font-family: 'YuMinchoM';
+	font-weight: bold;
+	src        : local('Yu Mincho Demibold'), local('YuMincho-Demibold');
+}

@@ -1,0 +1,14 @@
+/**
+ *
+ * Utility
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-16
+ *
+ */
+
+
+@function bp($min, $max, $bp, $positive: true) {
+	$m: if($positive == true, 9999, -9999);
+	@return clamp(#{$min}, calc((100% - #{$bp}) * #{$m}), #{$max});
+}

@@ -1,0 +1,20 @@
+/**
+ *
+ * Link Style
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@use '_link';
+
+
+:root {
+	@include link.property;
+}
+
+a:where(:not([class])) {
+	@include link.all;
+}

@@ -1,169 +1,115 @@
 /**
  *
- * Inline Style
+ * Inline
  *
- * @author Takuto Yanagida @ Space-Time Inc.
- * @version 2019-07-18
- *
- * @import '../basic/base';
- * @import '../basic/font';
- * @import '../basic/layout';
+ * @author Takuto Yanagida
+ * @version 2021-12-27
  *
  */
 
 
-$stile-inline-color-strong       : rgba(#000, 0.95) !default;
-$stile-inline-color-underline    : rgba(#fd0, 0.90) !default;
-$stile-inline-color-mark         : rgba(#fe0, 0.90) !default;
-$stile-inline-color-del          : rgba(#f40, 0.90) !default;
-$stile-inline-color-abbr         : rgba(#12f, 0.90) !default;
-$stile-inline-color-broken-image : $stile-inline-color-del !default;
-$stile-inline-width-underline    : 0.4em !default;
-$stile-inline-width-mark         : 1.0em !default;
-$stile-inline-width-del          : 0.15em !default;
-$stile-inline-size-font-small    : 0.85em !default;
-$stile-inline-size-font-subscript: 0.75em !default;
-$stile-inline-size-font-monospace: 0.95em !default;
+@mixin property-inline {
+	--nc-content-u-line-color : #ee0a;
+	--nc-content-u-line-color2: #ee07;
+	--nc-content-u-line-width : 0.375em;
+	--nc-content-u-line-offset: calc(var(--nc-content-u-line-width) / 2);
 
+	--nc-content-del-line-color: #f40a;
+	--nc-content-del-line-width: 2px;
 
-@mixin stile-inline {
-	@include stile-inline-ruby;
+	--nc-content-small-font-size: 87.5%;
+	--nc-content-big-font-size  : 125%;
 
-	img {
-		max-width : 100%;
-		height    : auto;
-		transition: opacity 0.2s;  // for lazy loading
+	--nc-content-mark-line-color : #ef0a;
+	--nc-content-mark-line-color2: #ef07;
+	--nc-content-mark-line-mark  : 0.9em;
 
-		@include stile-inline-broke-image;
-	}
+	--nc-content-abbr-line-color: #12fa;
+	--nc-content-abbr-line-width: 2px;
+}
+
+@mixin inline($do-reset: true) {
 	strong, b {
-		@include font-bold;
+		font-weight: bold;  // For Firefox.
 	}
-	em, cite {
-		font-style: italic;
+
+	cite, dfn {  // Fix italic.
+		font-style     : normal;
+		text-decoration: dotted underline 2px;
 	}
-	p, li, dd, td, th, del, code, span:not([class]) {
-		> {
-			strong, b, em, mark { color: $stile-inline-color-strong; }
+
+	u, ins, span[data-nc-underline] {  // Fix underline.
+		text-decoration: none;
+		background     : {
+			image   : linear-gradient(to right, var(--nc-content-u-line-color) 0%, var(--nc-content-u-line-color2) 100%);
+			size    : 100% var(--nc-content-u-line-width, 0.375em);
+			position: left bottom var(--nc-content-u-line-offset);
+		}
+		@if $do-reset {
+			background-repeat: no-repeat;  // For reset
 		}
 	}
-	u, span[data-stile ~= 'inline-underline'] {
-		text-decoration    : none;
-		background-image   : linear-gradient(to right, $stile-inline-color-underline 0%, transparentize($stile-inline-color-underline, 0.25) 100%);
-		background-size    : 100% $stile-inline-width-underline;
-		background-position: left bottom;
+
+	s, strike, del {
+		text-decoration: line-through solid var(--nc-content-del-line-color) var(--nc-content-del-line-width);
 	}
-	span:not([data-stile]) {  // Before the script loaded
-		&[style = 'text-decoration:underline;'],
-		&[style = 'text-decoration: underline;'] {
-			text-decoration: underline darken($stile-inline-color-underline, 10%) !important;
-		}
+
+	code, kbd, samp, var {
+		margin-inline: 0.0625em;
 	}
-	mark {
-		text-decoration    : none;
-		background-image   : linear-gradient(to right, $stile-inline-color-mark 0%, transparentize($stile-inline-color-mark, 0.45) 100%);
-		background-size    : 100% $stile-inline-width-mark;
-		background-position: left center;
-	}
-	del {
-		text-decoration    : none;
-		background-image   : linear-gradient(to right, $stile-inline-color-del 0%, transparentize($stile-inline-color-del, 0.25) 100%);
-		background-size    : 100% $stile-inline-width-del;
-		background-position: left 55%;
-	}
+
 	small {
-		font-size: $stile-inline-size-font-small;
+		font-size: var(--nc-content-small-font-size);
 	}
+
+	big {
+		font-size: var(--nc-content-big-font-size);
+	}
+
 	sub, sup {
 		position      : relative;
-		display       : inline-block;  // for neat line height
+		display       : inline-block;  // For neat line height in Safari.
 		vertical-align: baseline;
 		line-height   : 1;
-		margin-right  : 0.1em;
-		font-size     : $stile-inline-size-font-subscript;
+		margin-inline : 0.0625em;
 	}
+
 	sub {
-		bottom       : -0.25em;
-		margin-bottom: -0.25em;
+		inset-block-end : -0.25em;
+		margin-block-end: -0.25em;
 	}
+
 	sup {
-		top       : -0.75em;
-		margin-top: -0.75em;
+		inset-block-start : -0.75em;
+		margin-block-start: -0.75em;
 	}
+
+	mark {
+		background: {
+			color   : transparent;
+			image   : linear-gradient(to right, var(--nc-content-mark-line-color) 0%, var(--nc-content-mark-line-color2) 100%);
+			size    : 100% var(--nc-content-mark-line-mark);
+			position: left center;
+		}
+		@if $do-reset {
+			background-repeat: no-repeat;  // For reset
+		}
+	}
+
 	abbr[title] {
-		text-decoration: none;
-		border-bottom  : 2px dotted $stile-inline-color-abbr;
+		text-decoration: underline dotted var(--nc-content-abbr-line-color) var(--nc-content-abbr-line-width);
 	}
-	code, var, samp, kbd {
-		@include font-family-monospace;
-		margin     : { left: 0.075rem; right: 0.075rem; }
-		white-space: pre-wrap;
-		font-size  : $stile-inline-size-font-monospace;
-	}
-	*[data-stile ~= 'iframe-wrapper'] {
-		display : inline-block;
-		width   : 100%;
-		position: relative;
 
-		> iframe {
-			@include layout-fill-self;
-			position: absolute !important;
-			width   : 100%     !important;
-			height  : 100%     !important;
-		}
-	}
-}
-
-@mixin stile-inline-ruby {
 	rt {
-		font-size: 0.75em;
-		line-height: 1;
+		transform: translateY(0.125em);
+	}
 
-		transform: translateY(0.35em);
-		@include for-ie {
-			transform: translateY(-0.35em);
+	img,
+	iframe {
+		@if $do-reset {
+			max-width: 100%;  // For reset
+			height   : auto;  // For reset
 		}
-
-		bottom: -0.35em;
-		position: relative;
-	}
-}
-
-// Broken images (does not work on Safari, IE11 and Edge)
-@mixin stile-inline-broke-image {
-	animation: show-alt 0s both 5s;  // for avoiding unexpected shown on Firefox
-	@keyframes show-alt {
-		  0% { font-size: inherit; }
-		100% { font-size: 0; }
-	}
-	&::after {
-		content: attr(src);
-		@include layout-centering(true);
-
-		color          : $stile-inline-color-broken-image;
-		line-height    : 1.35rem;
-		word-break     : break-all;
-		text-decoration: line-through;
-		vertical-align : text-bottom;
-
-		animation: show-src 0s both 5s;  // for avoiding unexpected shown on Firefox
-		@keyframes show-src {
-			0% {
-				max-width: 0;
-				font-size: 0;
-			}
-			100% {
-				padding         : base-vr(0.5) base-vr(1);
-				border          : 1px dashed $stile-inline-color-broken-image;
-				min-height      : base-vr(2);
-				background-color: #fff;
-
-				max-width: initial;
-				font-size: 0.85rem;
-			}
-		}
-	}
-	&:not([alt = ''])::after {
-		@include for-chrome { margin-left: -16px; }
+		break-inside: avoid;
 	}
 }
