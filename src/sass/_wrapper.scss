@@ -2,7 +2,7 @@
  * Wrapper
  *
  * @author Takuto Yanagida
- * @version 2022-03-07
+ * @version 2022-03-21
  */
 
 
@@ -363,8 +363,17 @@
 
 
 @mixin list {
-	:is(ul, ol):where(:not([class])) {
+	:is(ul, ol):where(:not([class]), [class^='is-style-'], [class*=' is-style-']) {
 		@include list.un-ordered;
+
+		&.is-style-circle { list-style: circle; }
+		&.is-style-square { list-style: square; }
+
+		&.is-style-lower-alpha { list-style: lower-alpha; }
+		&.is-style-lower-greek { list-style: lower-greek; }
+		&.is-style-lower-roman { list-style: lower-roman; }
+		&.is-style-upper-alpha { list-style: upper-alpha; }
+		&.is-style-upper-roman { list-style: upper-roman; }
 	}
 
 	dl:where(:not([class])) {

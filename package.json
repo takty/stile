@@ -5,9 +5,8 @@
 	"author": "Takuto Yanagida",
 	"main": "gulpfile.js",
 	"scripts": {
-		"postinstall": "gulp build",
-		"start": "gulp",
-		"docs": "gulp docs"
+		"postinstall": "gulp",
+		"start": "gulp"
 	},
 	"repository": {
 		"type": "git",
@@ -19,27 +18,20 @@
 	},
 	"homepage": "https://github.com/takty/stile#readme",
 	"browserslist": [
-		"ie >= 11"
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 11",
+		"not dead"
 	],
-	"devDependencies": {
-		"eslint-config-google": "^0.14.0"
-	},
 	"dependencies": {
-		"@babel/core": "^7.16.12",
-		"@babel/preset-env": "^7.16.11",
-		"eslint": "^8.7.0",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^8.0.0",
-		"gulp-babel": "^8.0.0",
 		"gulp-changed": "^4.0.3",
-		"gulp-concat": "^2.6.1",
-		"gulp-dart-sass": "^1.0.2",
 		"gulp-ignore": "^3.0.0",
-		"gulp-include": "^2.4.1",
 		"gulp-load-plugins": "^2.0.7",
 		"gulp-plumber": "^1.2.1",
 		"gulp-rename": "^2.0.0",
-		"gulp-terser": "^2.1.0",
+		"gulp-sass": "^5.1.0",
 		"nacss-align": "git+https://github.com/takty/nacss-align.git",
 		"nacss-container": "git+https://github.com/takty/nacss-container.git",
 		"nacss-content": "git+https://github.com/takty/nacss-content.git",
@@ -54,6 +46,7 @@
 		"nacss-tab": "git+https://github.com/takty/nacss-tab.git",
 		"nacss-table": "git+https://github.com/takty/nacss-table.git",
 		"nacss-utility": "git+https://github.com/takty/nacss-utility.git",
-		"nacss-viewer": "git+https://github.com/takty/nacss-viewer.git"
+		"nacss-viewer": "git+https://github.com/takty/nacss-viewer.git",
+		"sass": "^1.49.9"
 	}
 }
