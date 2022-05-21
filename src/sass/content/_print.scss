@@ -3,7 +3,7 @@
  * Print
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-05-21
  *
  */
 
@@ -16,6 +16,6 @@
 	font-size: var(--nc-print-font-size);
 	* {
 		-webkit-print-color-adjust: exact;
-		color-adjust              : exact;
+		print-color-adjust        : exact;
 	}
 }

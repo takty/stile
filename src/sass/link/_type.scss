@@ -3,7 +3,7 @@
  * Type
  *
  * @author Takuto Yanagida
- * @version 2022-01-06
+ * @version 2022-05-21
  *
  */
 
@@ -58,7 +58,9 @@
 	vertical-align: -15%;
 
 	background-color: var(--nc-link-direction-color);
-	color-adjust    : exact;  // For print
+
+	-webkit-print-color-adjust: exact;
+	print-color-adjust        : exact;  // For print
 }
 
 
@@ -92,7 +94,9 @@
 
 	-webkit-text-fill-color: var(--nc-link-file-color);
 	background-color       : var(--nc-link-file-background);
-	color-adjust           : exact;  // For print
+
+	-webkit-print-color-adjust: exact;
+	print-color-adjust        : exact;  // For print
 
 	// For canceling 'direction'
 	width    : unset;
