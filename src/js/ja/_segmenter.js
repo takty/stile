@@ -3,7 +3,7 @@
  * Segmenter
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2022-05-27
  *
  */
 
@@ -277,7 +277,7 @@ function indexOfArray(array, searchElement, fromIndex = 0) {
 		return -1;
 	}
 	if (array.length === 0) {
-		return 0;
+		return -1;
 	}
 	for (let i = fromIndex; i < array.length - searchElement.length + 1; i += 1) {
 		let match = true;
