@@ -3,7 +3,7 @@
  * Inline
  *
  * @author Takuto Yanagida
- * @version 2021-12-27
+ * @version 2022-05-31
  *
  */
 
@@ -108,8 +108,17 @@
 	iframe {
 		@if $do-reset {
 			max-width: 100%;  // For reset
-			height   : auto;  // For reset
 		}
 		break-inside: avoid;
+	}
+
+	img {
+		@if $do-reset {
+			height: auto;  // For reset
+		}
+	}
+
+	iframe {
+		height: auto;
 	}
 }
