@@ -3,7 +3,7 @@
  * Content
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2022-06-28
  *
  */
 
@@ -31,11 +31,14 @@
 	@include broken-image.property-broken-image;
 }
 
-@mixin all($do-reset: true) {
+@mixin all($do-reset: true, $do-set-margin: true) {
 	@include inline.inline($do-reset);
 	@include block.block($do-reset);
 	@include block.heading;
 	@include figure.figure;
-	@include margin.margin;
 	@include broken-image.broken-image;
+
+	@if ($do-set-margin == true) {
+		@include margin.margin;
+	}
 }

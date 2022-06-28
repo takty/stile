@@ -193,7 +193,7 @@
 
 
 @mixin content($do-set-heading: true) {
-	@include content.all(false /* $do-reset */);
+	@include content.all(false /* $do-reset */, true /* $do-set-margin */);
 
 	sub,
 	sup {

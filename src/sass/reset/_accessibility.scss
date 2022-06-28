@@ -3,7 +3,7 @@
  * Accessibility
  *
  * @author Takuto Yanagida
- * @version 2021-11-25
+ * @version 2022-05-21
  *
  * Based on:
  *  a11y-css-reset v1.2.0
@@ -43,10 +43,4 @@
 	clip       : rect(0 0 0 0) !important;
 	border     : 0             !important;
 	white-space: nowrap        !important;
-}
-
-@mixin visually-hidden-focusable {
-	&:not(:focus):not(:focus-within) {
-		@include visually-hidden;
-	}
 }

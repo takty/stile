@@ -3,7 +3,7 @@
  * Reset
  *
  * @author Takuto Yanagida
- * @version 2021-11-25
+ * @version 2022-05-21
  *
  * References:
  *  A Modern CSS Reset
@@ -40,11 +40,9 @@
 @include form;
 
 @include reduced-motion;
-[visually-hidden] {
+[visually-hidden],
+[visually-hidden-focusable]:not(:focus):not(:focus-within) {
 	@include visually-hidden;
-}
-[visually-hidden-focusable] {
-	@include visually-hidden-focusable;
 }
 
 
