@@ -2,7 +2,7 @@
  * Wrapper
  *
  * @author Takuto Yanagida
- * @version 2022-03-21
+ * @version 2022-08-05
  */
 
 
@@ -492,7 +492,7 @@
 
 @mixin viewer {
 	div[data-nc-viewer] {
-		@include viewer.main(false /* $do-reset */);
+		@include viewer.main;
 	}
 
 	div[data-nc-frame-image] {
