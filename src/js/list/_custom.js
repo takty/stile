@@ -3,16 +3,16 @@
  * Custom
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-08-04
  *
  */
 
 
 function apply(uls, opts = {}) {
 	opts = Object.assign({
-		styleList     : ':ncList',
-		customType: [],
-		doClearStyle  : true,
+		styleList   : ':ncList',
+		customType  : [],
+		doClearStyle: true,
 	}, opts);
 
 	for (const ul of uls) {
