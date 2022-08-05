@@ -3,7 +3,7 @@
  * Image
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-07-11
  *
  */
 
@@ -26,7 +26,7 @@ function apply(ts, opts = {}) {
 		}
 	}
 
-	if (isPolyfillNeeded(HTMLImageElement.prototype)) {  // For Safari
+	if (isPolyfillNeeded(HTMLImageElement.prototype)) {  // For old browsers.
 		setPolyfill(ts, opts);
 	} else if (opts['doForce']) {
 		const np = ts.filter(e => !e.getAttribute('loading'));
