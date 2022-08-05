@@ -3,7 +3,7 @@
  * Script
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2022-08-05
  *
  */
 
@@ -76,10 +76,10 @@ function initialize(ns, target) {
 
 	const if_os  = [...target.getElementsByClassName('iframe-opener')];
 	const os_ifs = [...target.querySelectorAll('.iframe-opener + iframe')];
-	const fig_a  = [...target.querySelectorAll('figure a')];
+	const a_img  = [...target.querySelectorAll('a[data-nc-link-image][data-nc-link-to-image]')];
 
 	ns.viewer.applyIframe(if_os, os_ifs);
-	ns.viewer.applyImage(fig_a);
+	ns.viewer.applyImage(a_img);
 
 	// Scroll Effect
 	const ts = target.querySelectorAll('[data-nc-scroll-effect]');
