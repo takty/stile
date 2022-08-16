@@ -3,7 +3,7 @@
  * Buttons
  *
  * @author Takuto Yanagida
- * @version 2021-12-27
+ * @version 2022-08-16
  *
  */
 
@@ -22,11 +22,11 @@
 
 	padding: var(--nc-button-padding);
 
-	display        : inline-flex;
-	justify-content: center;
-	align-items    : center;
+	display    : inline-grid;
+	place-items: center;
 
-	cursor: pointer;
+	cursor     : pointer;
+	user-select: none;
 }
 
 @mixin button {
