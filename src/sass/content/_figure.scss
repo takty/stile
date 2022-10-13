@@ -3,7 +3,7 @@
  * Figure
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-10-13
  *
  */
 
@@ -57,7 +57,7 @@
 		figcaption {
 			width: initial;
 
-			span {
+			> div {
 				display: table;
 				margin : auto;
 			}

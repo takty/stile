@@ -3,7 +3,7 @@
  * Figure Caption
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-10-13
  *
  */
 
@@ -18,7 +18,7 @@ function apply(figs) {
 			const fcs = fig.getElementsByTagName('figcaption');
 			const fc  = fcs.length ? fcs[0] : null;
 			if (fc) {
-				fc.innerHTML = `<span>${fc.innerHTML}</span>`;
+				fc.innerHTML = `<div>${fc.innerHTML}</div>`;
 			}
 		}
 	}
