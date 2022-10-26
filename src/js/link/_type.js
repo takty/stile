@@ -3,7 +3,7 @@
  * Type
  *
  * @author Takuto Yanagida
- * @version 2022-08-05
+ * @version 2022-10-05
  *
  */
 
@@ -53,11 +53,14 @@ const ALLOWED_CLASSES = [
 	'alignright',
 	'size-thumbnail',
 	'size-small',
-	'size-medium-small',
+	'size-medium-small',  // For backward compatibility
 	'size-medium',
 	'size-medium-large',
 	'size-medium_large',
 	'size-large',
+	'size-x-large',
+	'size-xx-large',
+	'size-xxx-large',
 	'size-full'
 ];
 

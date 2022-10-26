@@ -390,7 +390,7 @@
 
 
 @mixin tab($tab-style: 'bar') {
-	div:is(.tab-scroll, .pseudo-tab-page) {
+	:is(.tab-scroll, .pseudo-tab-page) {
 		@include tab.scroll(false /* $do-reset */);
 
 		@if ('bar' == $tab-style) {
@@ -400,7 +400,7 @@
 		}
 	}
 
-	div:is(.tab-stack, .tab-page) {
+	:is(.tab-stack, .tab-page) {
 		@include tab.stack(false /* $do-reset */);
 
 		@if ('bar' == $tab-style) {
@@ -411,11 +411,11 @@
 	}
 
 	@media print {
-		div:is(.tab-scroll, .pseudo-tab-page) {
+		:is(.tab-scroll, .pseudo-tab-page) {
 			@include tab.scroll-print
 		}
 
-		div:is(.tab-stack, .tab-page) {
+		:is(.tab-stack, .tab-page) {
 			@include tab.stack-print;
 		}
 	}

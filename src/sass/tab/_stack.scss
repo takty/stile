@@ -3,12 +3,9 @@
  * Stack
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-10-26
  *
  */
-
-
-$phone-max-width: 599.5px;
 
 
 @mixin property-stack {
@@ -61,12 +58,8 @@ $phone-max-width: 599.5px;
 		}
 
 		li {
-			display: flex;
+			display  : flex;
 			max-width: 100%;
-
-			&[data-nc-current] {
-				pointer-events: none;
-			}
 
 			a {
 				display  : inline-block;
@@ -76,41 +69,48 @@ $phone-max-width: 599.5px;
 				text-overflow: ellipsis;
 				white-space  : nowrap;
 				overflow     : hidden;
+
+				&[data-nc-current] {
+					pointer-events: none;
+				}
 			}
 		}
 	}
 
-	@media screen and (max-width: $phone-max-width) {  // for Phone
+	&[data-nc-vertical] {
 		[data-nc-tab-bar] {
 			flex-direction: column;
-			li {
-				&[data-nc-current] { pointer-events: auto; }
-				a {
-					width    : 100%;
-					max-width: 100%;
+			li a {
+				width    : 100%;
+				max-width: 100%;
+
+				&[data-nc-current] {
+					pointer-events: auto;
 				}
 			}
-		}
-		[data-nc-tab-bar]:first-child {
-			li[data-nc-current] ~ li { display: none; }
-		}
-		[data-nc-tab-bar]:last-child {
-			li { display: none; }
-			li[data-nc-current] ~ li { display: flex; }
+
+			&:first-child {
+				li[data-nc-current] ~ li { display: none; }
+			}
+			&:last-child {
+				li { display: none; }
+				li[data-nc-current] ~ li { display: flex; }
+			}
 		}
 	}
 }
 
 @mixin stack-print {
 	[data-nc-tab-bar] {
-		transform: scale(var(--nc-tab-stack-bar-print-scale));
 		width    : calc(1 / var(--nc-tab-stack-bar-print-scale) * 100%);
-	}
-	[data-nc-tab-bar]:first-child {
-		transform-origin: bottom left;
-	}
-	[data-nc-tab-bar]:last-child {
-		transform-origin: top left;
+		transform: scale(var(--nc-tab-stack-bar-print-scale));
+
+		&:first-child {
+			transform-origin: bottom left;
+		}
+		&:last-child {
+			transform-origin: top left;
+		}
 	}
 }
 
@@ -119,35 +119,41 @@ $phone-max-width: 599.5px;
 
 
 @mixin property-stack-bar {
-	--nc-tab-stack-bar-background        : #eee;
+	--nc-tab-stack-bar-background: #eee;
 
 	--nc-tab-stack-tab-padding           : 0.35rem 0.5rem;
+
+	--nc-tab-stack-tab-color             : inherit;
+	--nc-tab-stack-tab-background        : transparent;
+	--nc-tab-stack-tab-hover-color       : inherit;
 	--nc-tab-stack-tab-hover-background  : #ddd;
+	--nc-tab-stack-tab-current-color     : inherit;
 	--nc-tab-stack-tab-current-background: #ccc;
 
-	--nc-tab-stack-page-border           : 1px solid #ddd;
-	--nc-tab-stack-page-background       : #fefefe;
-	--nc-tab-stack-page-padding          : 2rem;
+	--nc-tab-stack-page-background: #fefefe;
+	--nc-tab-stack-page-padding   : 2rem;
+	--nc-tab-stack-page-border    : 1px solid #ddd;
 }
 
 @mixin stack-bar {
 	[data-nc-tab-bar] {
 		background: var(--nc-tab-stack-bar-background);
 
-		&:first-child { margin-block-end: 0; }
-		&:last-child { margin-block-start: 0; }
-
 		li {
-			a { padding: var(--nc-tab-stack-tab-padding); }
-			&[data-nc-current] > a {
-				background: var(--nc-tab-stack-tab-current-background);
+			a {
+				padding   : var(--nc-tab-stack-tab-padding);
+				color     : var(--nc-tab-stack-tab-color);
+				background: var(--nc-tab-stack-tab-background);
 			}
-		}
-	}
-	@media (hover: hover) {
-		[data-nc-tab-bar] {
-			li:not([data-nc-current]) > a:hover {
-				background: var(--nc-tab-stack-tab-hover-background);
+			@media (hover: hover) {
+				a:hover {
+					color     : var(--nc-tab-stack-tab-hover-color);
+					background: var(--nc-tab-stack-tab-hover-background);
+				}
+			}
+			a[data-nc-current] {
+				color     : var(--nc-tab-stack-tab-current-color);
+				background: var(--nc-tab-stack-tab-current-background);
 			}
 		}
 	}
@@ -165,67 +171,64 @@ $phone-max-width: 599.5px;
 @mixin property-stack-tab {
 	--nc-tab-stack-bar-background: #eee;
 
-	--nc-tab-stack-tab-padding: 0.35rem 0.5rem;
-	--nc-tab-stack-tab-border : 1px solid transparent;
+	--nc-tab-stack-tab-border                    : 1px solid transparent;
+	--nc-tab-stack-tab-padding                   : 0.35rem 0.5rem;
 
+	--nc-tab-stack-tab-color                     : inherit;
+	--nc-tab-stack-tab-background                : transparent;
+	--nc-tab-stack-tab-hover-color               : inherit;
 	--nc-tab-stack-tab-hover-background          : #ddd;
+	--nc-tab-stack-tab-current-color             : inherit;
 	--nc-tab-stack-tab-current-background        : #fff;
 	--nc-tab-stack-tab-current-border-inline     : 1px solid #ddd;
 	--nc-tab-stack-tab-current-border-block-start: 1px solid #ddd;
 	--nc-tab-stack-tab-current-border-block-end  : 1px dashed #ddd;
 
-	--nc-tab-stack-page-border           : 1px solid #ddd;
-	--nc-tab-stack-page-background       : #fefefe;
-	--nc-tab-stack-page-padding          : 2rem;
+	--nc-tab-stack-page-background: #fefefe;
+	--nc-tab-stack-page-padding   : 2rem;
+	--nc-tab-stack-page-border    : 1px solid #ddd;
 }
 
 @mixin stack-tab {
 	[data-nc-tab-bar] {
 		background: var(--nc-tab-stack-bar-background);
 
-		&:first-child { margin-block-end: 0; }
-		&:last-child { margin-block-start: 0; }
-
 		li {
 			a {
-				padding: var(--nc-tab-stack-tab-padding);
-				border : var(--nc-tab-stack-tab-border);
+				padding   : var(--nc-tab-stack-tab-padding);
+				color     : var(--nc-tab-stack-tab-color);
+				background: var(--nc-tab-stack-tab-background);
+				border    : var(--nc-tab-stack-tab-border);
 			}
-
-			&[data-nc-current] > a {
+			@media (hover: hover) {
+				a:hover {
+					color     : var(--nc-tab-stack-tab-hover-color);
+					background: var(--nc-tab-stack-tab-hover-background);
+				}
+			}
+			a[data-nc-current] {
 				position: relative;
 
+				color        : var(--nc-tab-stack-tab-current-color);
 				background   : var(--nc-tab-stack-tab-current-background);
 				border-inline: var(--nc-tab-stack-tab-current-border-inline);
 			}
 		}
-	}
-	[data-nc-tab-bar]:first-child {
-		li {
-			&[data-nc-current] > a {
+
+		&:first-child {
+			li a[data-nc-current] {
 				inset-block-end: -1px;
-			}
-			&[data-nc-current] > a {
+
 				border-block-start: var(--nc-tab-stack-tab-current-border-block-start);
 				border-block-end  : var(--nc-tab-stack-tab-current-border-block-end);
 			}
 		}
-	}
-	[data-nc-tab-bar]:last-child {
-		li {
-			&[data-nc-current] > a {
+		&:last-child {
+			li a[data-nc-current] {
 				inset-block-start: -1px;
-			}
-			&[data-nc-current] > a {
-				border-block-end  : var(--nc-tab-stack-tab-current-border-block-start);
+
 				border-block-start: var(--nc-tab-stack-tab-current-border-block-end);
-			}
-		}
-	}
-	@media (hover: hover) {
-		[data-nc-tab-bar] {
-			li:not([data-nc-current]) > a:hover {
-				background: var(--nc-tab-stack-tab-hover-background);
+				border-block-end  : var(--nc-tab-stack-tab-current-border-block-start);
 			}
 		}
 	}

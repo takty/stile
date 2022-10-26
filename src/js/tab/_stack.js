@@ -3,7 +3,7 @@
  * Stack
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2022-10-26
  *
  */
 
@@ -12,13 +12,20 @@ function apply(cs, opts = {}) {
 	if (cs.length === 0) return;
 
 	opts = Object.assign({
-		styleBar      : ':ncTabBar',
-		styleCurrent  : ':ncCurrent',
-		styleActive   : ':ncActive',
-		hashPrefix    : 'tst:',
-		maxHeightRate : 0.8,
-		doRemoveHeader: false,
+		styleBar        : ':ncTabBar',
+		styleCurrent    : ':ncCurrent',
+		styleActive     : ':ncActive',
+		styleVertical   : ':ncVertical',
+		hashPrefix      : 'tst:',
+		maxHeightRate   : 0.8,
+		maxVerticalWidth: 599.5,
+		doRemoveHeading : false,
+		doUseHeadingId  : false,
 	}, opts);
+	if (!opts.doRemoveHeading && opts.doUseHeadingId) {
+		opts.doUseHeadingId = false;
+		console.log('nacss.tab.stack: \'opts.doRemoveHeading\' must be true when \'opts.doUseHeadingId\' is true');
+	}
 	const is = [];
 	for (let i = 0; i < cs.length; i += 1) {
 		const inst = create(cs[i], i + 1, opts);
@@ -54,7 +61,7 @@ function create(cont, cid, opts) {
 		bars  : [],
 		curIdx: 0,
 	};
-	const [hs, ps] = extractHeadersAndPages(cont, cid, opts);
+	const [hs, ps] = extractHeadingsAndPages(cont, cid, opts);
 	if (hs.length === 0) return false;
 	inst.ps = ps;
 
@@ -71,7 +78,7 @@ function create(cont, cid, opts) {
 	const h = location.hash;
 	let idx = getCurrentByHash(inst, h);
 	if (idx === null) idx = getAnchorPage(inst, h);
-	if (idx === null) idx = isAccordion(inst) ? -1 : 0;
+	if (idx === null) idx = isVertical(inst) ? -1 : 0;
 	setTimeout(() => update(inst, idx), 10);
 	return inst;
 }
@@ -102,7 +109,7 @@ function getAnchorPage(inst, hash) {
 // -------------------------------------------------------------------------
 
 
-function extractHeadersAndPages(cont, cid, opts) {
+function extractHeadingsAndPages(cont, cid, opts) {
 	const fh = getFirstHeading(cont);
 	if (!fh) return [];
 	const tn = fh.tagName;
@@ -112,12 +119,12 @@ function extractHeadersAndPages(cont, cid, opts) {
 
 	for (const elm of [...cont.children]) {
 		if (elm.tagName === tn) {
-			const id = `${opts.hashPrefix}${cid}-${hs.length + 1}`;
+			const id = (opts.doUseHeadingId && elm.id) ? elm.id : `${opts.hashPrefix}${cid}-${hs.length + 1}`;
 			hs.push({ elm, id });
 
 			if (curP) ps.push(curP);
 			curP = document.createElement('div');
-			if (opts.doRemoveHeader) {
+			if (opts.doRemoveHeading) {
 				cont.removeChild(elm);
 			} else {
 				curP.appendChild(elm);
@@ -171,8 +178,8 @@ function onClick(e, inst, idx) {
 	scrollToTab(inst);
 }
 
-function isAccordion(inst) {
-	return getComputedStyle(inst.bars[0].ul).flexDirection === 'column';
+function isVertical(inst) {
+	return hasClass(inst.cont, inst.opts.styleVertical);
 }
 
 function scrollToTab(inst) {
@@ -184,7 +191,7 @@ function scrollToTab(inst) {
 			return;
 		}
 		const r1 = ul1.getBoundingClientRect();
-		if (isAccordion(inst) || (r1.top < 0 || window.innerHeight < r1.bottom)) {
+		if (isVertical(inst) || (r1.top < 0 || window.innerHeight < r1.bottom)) {
 			inst.cont.scrollIntoView({ behavior: 'smooth' });
 		}
 	}, 10);
@@ -195,6 +202,8 @@ function update(inst, idx) {
 	const [{ as: a0 }, { as: a1 }] = inst.bars;
 
 	for (let i = 0; i < ps.length; i += 1) {
+		setClass(a0[i], inst.opts.styleCurrent, i === idx);
+		setClass(a1[i], inst.opts.styleCurrent, i === idx);
 		setClass(a0[i].parentElement, inst.opts.styleCurrent, i === idx);
 		setClass(a1[i].parentElement, inst.opts.styleCurrent, i === idx);
 		setClass(ps[i], inst.opts.styleCurrent, i === idx);
@@ -208,7 +217,9 @@ function update(inst, idx) {
 
 function resize(inst) {
 	const cont = inst.cont;
-	if (isAccordion(inst)) {
+	setClass(cont, inst.opts.styleVertical, window.innerWidth <= inst.opts.maxVerticalWidth);
+
+	if (isVertical(inst)) {
 		cont.style.minHeight = '';
 	} else {
 		const minH = getMinHeight(inst);
