@@ -47,6 +47,6 @@
 		"nacss-table": "git+https://github.com/takty/nacss-table.git",
 		"nacss-utility": "git+https://github.com/takty/nacss-utility.git",
 		"nacss-viewer": "git+https://github.com/takty/nacss-viewer.git",
-		"sass": "^1.55.0"
+		"sass": "^1.56.1"
 	}
 }
