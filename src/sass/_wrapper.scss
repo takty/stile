@@ -2,7 +2,7 @@
  * Wrapper
  *
  * @author Takuto Yanagida
- * @version 2022-08-05
+ * @version 2022-11-27
  */
 
 
@@ -426,7 +426,7 @@
 
 
 @mixin table {
-	table:where(:not([class]), .is-style-stripes) {
+	table:where(:not([class]), .is-style-stripes, .has-fixed-layout) {
 		@include table.appearance;
 	}
 
