@@ -1,0 +1,117 @@
+/**
+ *
+ * Form
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-27
+ *
+ */
+
+
+@use '_form';
+
+
+:root {
+	@include form.property;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+:where(
+	input,
+	button,
+	select,
+	textarea,
+	.form-ctrl-radio,
+	.form-ctrl-checkbox,
+	.form-ctrl-number,
+	.form-ctrl-select,
+	.button
+):where(:disabled, [disabled]) {
+	@include form.disabled;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+:where(
+	button,
+	input[type='submit' i],
+	input[type='button' i],
+	input[type='reset' i],
+	.button
+),
+:where(input[type='file' i])::file-selector-button {
+	@include form.button;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+:where(
+	input[type='text' i],
+	input[type='password' i],
+	input[type='url' i],
+	input[type='email' i],
+	input[type='tel' i],
+	input[type='search' i],
+	input[type='number' i],
+	input[type='date' i],
+	input[type='month' i],
+	input[type='week' i],
+	input[type='datetime' i],
+	input[type='datetime-local' i],
+	select,
+	textarea
+) {
+	@include form.input;
+}
+
+:where(input[type='color' i]) {
+	@include form.type-color;
+}
+
+:where(input[type='file' i]) {
+	@include form.type-file;
+}
+
+:where(input[type='range' i]) {
+	@include form.type-range;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+:where(input[type='radio' i]) {
+	@include form.radio;
+}
+
+:where(input[type='checkbox' i]) {
+	@include form.checkbox;
+}
+
+:where(fieldset) {
+	@include form.fieldset;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+.form-ctrl-radio,
+.form-ctrl-checkbox {
+	@include form.wrapper-rad-chk;
+}
+
+.form-ctrl-number {
+	@include form.wrapper-type-number;
+}
+
+.form-ctrl-select {
+	@include form.wrapper-select;
+}

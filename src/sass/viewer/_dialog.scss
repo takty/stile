@@ -1,0 +1,146 @@
+/**
+ *
+ * Dialog
+ *
+ * @author Takuto Yanagida
+ * @version 2022-08-17
+ *
+ */
+
+
+@mixin property-dialog {
+	--nc-viewer-background     : #000c;
+	--nc-viewer-caption-color  : #fff;
+	--nc-viewer-caption-shadow : 0 0 0.25rem #000, 0 0 0.25rem #000;
+	--nc-viewer-caption-padding: 1.5rem 1.75rem;
+	--nc-viewer-icon-color     : #fff;
+	--nc-viewer-fading-time    : 0.5s;
+}
+
+@mixin main {
+	display            : none;
+	overflow           : hidden;
+	overscroll-behavior: contain;
+
+	-webkit-tap-highlight-color: transparent;
+
+	background: var(--nc-viewer-background);
+	cursor    : pointer;
+	opacity   : 0;
+	transition: opacity 0.2s;
+
+	&[data-nc-instantly] { transition: none; }
+
+	> * {
+		opacity   : 0;
+		transition: opacity var(--nc-viewer-fading-time);
+	}
+
+	> button {
+		appearance: none;
+		background: none;
+		border    : none;
+	}
+
+	&[data-nc-open] {
+		display : block;
+		position: fixed;
+		inset   : 0;
+		z-index : 9999;
+		margin  : 0;
+	}
+	&[data-nc-visible] {
+		opacity   : 1;
+		transition: opacity var(--nc-viewer-fading-time);
+		&[data-nc-instantly] { transition: none; }
+		> * {
+			opacity: 1;
+		}
+	}
+	@include style-caption;
+	@include style-closer;
+	@include style-pager;
+}
+
+%button {
+	position   : absolute;
+	display    : grid;
+	place-items: center;
+
+	&::before,
+	&::after {
+		content : '';
+		position: absolute;
+		top     : 50%;
+		left    : 50%;
+	}
+}
+
+@mixin style-closer {
+	> [data-nc-viewer-closer] {
+		@extend %button;
+
+		top   : 0.5rem;
+		right : 0.5rem;
+		width : 3rem;
+		height: 3rem;
+
+		border-radius: 50%;
+
+		&::before,
+		&::after {
+			width           : 2rem;
+			height          : 3px;
+			background-color: var(--nc-viewer-icon-color);
+		}
+		&::before { transform: translate(-50%, -50%) rotate( 45deg); }
+		&::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+	}
+}
+
+@mixin style-pager {
+	> [data-nc-viewer-prev],
+	> [data-nc-viewer-next] {
+		@extend %button;
+
+		top   : calc(50% - 15vh);
+		width : 3rem;
+		height: 30vh;
+
+		&::before {
+			width      : 1rem;
+			height     : 1rem;
+			border-top : 3px solid var(--nc-viewer-icon-color);
+			border-left: 3px solid var(--nc-viewer-icon-color);
+		}
+	}
+	> [data-nc-viewer-prev] {
+		left: 0;
+		&::before { transform: translate(-40%, -50%) rotate(-45deg); }
+	}
+	> [data-nc-viewer-next] {
+		right: 0;
+		&::before { transform: translate(-60%, -50%) rotate(135deg); }
+	}
+}
+
+@mixin style-caption {
+	> [data-nc-viewer-caption] {
+		position       : fixed;
+		inset-inline   : 0;
+		inset-block-end: 0;
+
+		padding: var(--nc-viewer-caption-padding);
+
+		color      : var(--nc-viewer-caption-color);
+		text-align : center;
+		text-shadow: var(--nc-viewer-caption-shadow);
+
+		pointer-events: none;
+
+		span {
+			display   : inline-block;
+			text-align: start;
+		}
+	}
+}

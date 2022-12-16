@@ -1,0 +1,76 @@
+/**
+ *
+ * Input
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-27
+ *
+ */
+
+
+@use 'common';
+
+
+%base-input {
+	@extend %base;
+	@extend %focus;
+
+	color: var(--nc-input-color);
+}
+
+%base-input-rect {
+	@extend %base;
+	@extend %focus;
+
+	color           : var(--nc-input-color);
+	background-color: var(--nc-input-background-color);
+	border          : var(--nc-input-border-base);
+	border-color    : var(--nc-input-border-color);
+
+	padding: var(--nc-input-padding);
+
+	&::placeholder {
+		color: inherit;
+	}
+}
+
+@mixin input {
+	@extend %base-input-rect;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin type-color {
+	@extend %base-input-rect;
+
+	height        : 2rem;
+	min-width     : 3rem;
+	padding       : 0.25rem;
+	vertical-align: middle;
+}
+
+@mixin type-file {
+	@extend %base-input;
+
+	border-radius : 0.25rem;  // For focus on Chrome
+
+	&:focus-visible::file-selector-button {
+		box-shadow: none;
+	}
+}
+
+@mixin type-range {
+	@extend %focus;
+
+	vertical-align: middle;
+	padding       : 0.25rem;
+	border-radius : 0.25rem;  // For focus on Chrome
+
+	@supports (font: -apple-system-body) {
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+}

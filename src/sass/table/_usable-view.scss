@@ -1,0 +1,75 @@
+/**
+ *
+ * Usable View
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property-usable-view {
+	--nc-table-shadow    : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
+	--nc-table-background: #fff;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin sticky-header-container {
+	display   : none;
+	position  : fixed;
+	top       : 0;
+	margin    : 0 !important;  // For canceling base margins
+	overflow-x: hidden;
+
+	background: var(--nc-table-background);
+
+	box-shadow: var(--nc-table-shadow);
+	&[data-nc-scroll-right], &[data-nc-scroll-left]  {
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right), var(--nc-table-shadow-left);
+	}
+	&[data-nc-scroll-right]:not([data-nc-scroll-left]) {
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right);
+	}
+	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-left);
+	}
+}
+
+@mixin sticky-header-table {
+	display: table;
+	margin : 0;
+
+	overflow-x     : hidden;
+	pointer-events : none;
+	border-collapse: collapse;
+}
+
+@mixin sticky-scroll-bar {
+	position       : fixed;
+	inset-block-end: 0;
+	z-index        : 99;
+	margin         : 0;
+	overflow-x     : auto;
+
+	height: calc(1rem + 2px);  // for Safari
+	border: 1px solid transparent;
+
+	display: none;
+
+	> div { height: 1px; }  // Spacer
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin sticky-header-container-print {
+	display: none !important;
+}
+
+@mixin sticky-scroll-bar-print {
+	display: none !important;
+}

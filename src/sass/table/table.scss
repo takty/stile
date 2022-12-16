@@ -1,0 +1,92 @@
+/**
+ *
+ * Table
+ *
+ * @author Takuto Yanagida
+ * @version 2022-11-27
+ *
+ */
+
+
+@use '_table';
+
+
+:root {
+	@include table.property;
+	@include table.property-appearance-stripe;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+table:where(:not([class]), .is-style-stripes, .has-fixed-layout) {
+	@include table.appearance;
+}
+
+table.is-style-stripes {
+	@include table.appearance-stripe;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+table[data-nc-table-neat] {
+	@include table.neat(true /* $do-reset */);
+}
+
+table[data-nc-table-full] {
+	@include table.full;
+}
+
+table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+	@include table.scroll;
+}
+
+table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
+	@include table.scroll-right;
+}
+
+table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
+	@include table.scroll-left;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+div[data-nc-table-sticky-header-container] {
+	@include table.sticky-header-container;
+}
+
+div[data-nc-table-sticky-header-table] {
+	@include table.appearance-header;
+	@include table.sticky-header-table;
+}
+
+div[data-nc-table-sticky-scroll-bar] {
+	@include table.sticky-scroll-bar;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@media print {
+	table[data-nc-table-neat] {
+		@include table.neat-print;
+	}
+
+	table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+		@include table.scroll-print;
+	}
+
+	div[data-nc-table-sticky-header-container] {
+		@include table.sticky-header-container-print;
+	}
+
+	div[data-nc-table-sticky-scroll-bar] {
+		@include table.sticky-scroll-bar-print;
+	}
+}

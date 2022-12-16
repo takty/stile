@@ -1,0 +1,30 @@
+/**
+ *
+ * Content
+ *
+ * @author Takuto Yanagida
+ * @version 2022-06-28
+ *
+ */
+
+
+@use '_content';
+
+
+:root {
+	@include content.property;
+}
+
+main {
+	@include content.all(true /* $do-reset */, true /* $do-set-margin */);
+}
+
+@media print {
+	:root {
+		@include content.property-print;
+	}
+
+	main {
+		@include content.print;
+	}
+}

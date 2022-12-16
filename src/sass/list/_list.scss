@@ -1,0 +1,21 @@
+/**
+ *
+ * List
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@forward 'main';
+@forward 'custom';
+
+@use 'main';
+@use 'custom';
+
+
+@mixin property {
+	@include main.property-main;
+	@include custom.property-custom;
+}

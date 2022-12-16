@@ -1,0 +1,66 @@
+/**
+ *
+ * Figure
+ *
+ * @author Takuto Yanagida
+ * @version 2022-10-13
+ *
+ */
+
+
+@mixin property-figure {
+	--nc-content-figure-caption-max-width: 90%;
+	--nc-content-figure-caption-min-width: 8rem;
+}
+
+@mixin figure {
+	figure {
+		margin-inline: 0;
+		max-width    : 100%;
+
+		:is(img, iframe) {
+			display: grid;
+			margin : auto;
+		}
+
+		> a {
+			display: contents;
+		}
+	}
+
+	figcaption {
+		margin-inline: auto;
+		width        : fit-content;
+		max-width    : var(--nc-content-figure-caption-max-width);
+
+		font-size: 87.25%;
+	}
+
+	* + figcaption {
+		// Margin
+		margin-block-start: 0.75rem;
+	}
+
+	figure:is(.alignleft, .alignright) {
+		display  : table;
+		min-width: var(--nc-content-figure-caption-min-width);
+
+		figcaption {
+			display     : table-caption;
+			caption-side: bottom;
+
+			max-width: unset;
+		}
+	}
+
+	@supports (-moz-appearance: none) {
+		figcaption {
+			width: initial;
+
+			> div {
+				display: table;
+				margin : auto;
+			}
+		}
+	}
+}

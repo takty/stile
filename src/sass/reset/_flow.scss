@@ -1,0 +1,79 @@
+/**
+ *
+ * Flow
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-29
+ *
+ */
+
+
+@mixin flow {
+	:where(p, figure) {
+		margin: 0;
+	}
+
+	:where(blockquote) {
+		margin : 0;
+		padding: 0;
+	}
+
+	:where(hr) {
+		margin: 0;
+		border: 0;
+	}
+
+	:where(pre) {
+		margin     : 0;
+		white-space: pre-wrap;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	:where(h1, h2, h3, h4, h5, h6) {
+		margin: 0;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	:where(ul, ol, dd, dl) {
+		margin: 0;
+	}
+
+	:where(ul[class], ol[class]) {
+		padding   : 0;
+		list-style: none;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	:where(table) {
+		border-collapse: collapse;
+		border-spacing : 0;
+	}
+
+	:where(td, th) {
+		padding   : 0;
+		text-align: start;
+	}
+
+	:where(table, thead, tbody, tfoot, tr) {
+		border: 0;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	:where(dialog) {
+		margin : 0;
+		padding: 0;
+		border : 0;
+	}
+}

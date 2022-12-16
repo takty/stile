@@ -1,0 +1,50 @@
+/**
+ *
+ * Height
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-25
+ *
+ */
+
+
+@mixin for-height-down($high-px) {
+	@media screen and (max-height: #{$high-px - 0.5}) {
+		@content;
+	}
+}
+
+@mixin for-height-only($low-px, $high-px) {
+	@media screen and (min-height: $low-px) and (max-height: #{$high-px - 0.5}) {
+		@content;
+	}
+}
+
+@mixin for-height-up($low-px) {
+	@media screen and (min-height: $low-px) {
+		@content;
+	}
+}
+
+@mixin for-tiny-height-up     { @content; }
+@mixin for-small-height-up    { @include for-height-up(700px) { @content; } }
+@mixin for-medium-height-up   { @include for-height-up(800px) { @content; } }
+@mixin for-large-height-up    { @include for-height-up(900px) { @content; } }
+
+@mixin for-tiny-height-only   { @include for-height-down(       700px) { @content; } }
+@mixin for-small-height-only  { @include for-height-only(700px, 800px) { @content; } }
+@mixin for-medium-height-only { @include for-height-only(800px, 900px) { @content; } }
+@mixin for-large-height-only  { @include for-height-up  (900px)        { @content; } }
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin for-tnh   { @include for-tiny-height-up     { @content; } }
+@mixin for-tnh-o { @include for-tiny-height-only   { @content; } }
+@mixin for-smh   { @include for-small-height-up    { @content; } }
+@mixin for-smh-o { @include for-small-height-only  { @content; } }
+@mixin for-mdh   { @include for-medium-height-up   { @content; } }
+@mixin for-mdh-o { @include for-medium-height-only { @content; } }
+@mixin for-lgh   { @include for-large-height-up    { @content; } }
+@mixin for-lgh-o { @include for-large-height-only  { @content; } }

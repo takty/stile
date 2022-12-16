@@ -1,0 +1,91 @@
+/**
+ *
+ * Image Frame
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@mixin property-frame {
+	--nc-viewer-frame-background  : #fff;
+	--nc-viewer-frame-margin      : clamp(0px, calc((100vmin - 36rem) * 9999), 4rem);
+	--nc-viewer-frame-fading-time : 0.5s;
+	--nc-viewer-frame-loader-color: #fff;
+}
+
+@mixin image {
+	position           : absolute;
+	inset              : 0;
+	overflow           : hidden;
+	overscroll-behavior: contain;
+
+	img {
+		position: absolute;
+		top     : 0;
+		left    : 0;
+
+		cursor : auto;
+		outline: solid transparent var(--nc-viewer-frame-margin);
+
+		background     : var(--nc-viewer-frame-background);
+		background-clip: padding-box;
+		border         : 1px solid #000;
+
+		opacity: 0;
+		transition: opacity var(--nc-viewer-frame-fading-time);
+	}
+	&[data-nc-loaded] img { opacity: 1; }
+
+	@extend %loader;
+}
+
+@mixin iframe {
+	position           : absolute;
+	inset              : 0;
+	overflow           : hidden;
+	overscroll-behavior: contain;
+
+	padding: var(--nc-viewer-frame-margin);
+
+	display    : grid;
+	place-items: center;
+
+	iframe {
+		width : 100%;
+		height: auto;
+
+		background: var(--nc-viewer-frame-background);
+		border    : 1px solid #000;
+
+		opacity: 0;
+		transition: opacity var(--nc-viewer-frame-fading-time);
+	}
+	&[data-nc-loaded] img { opacity: 1; }
+
+	@extend %loader;
+}
+
+%loader {
+	&::after {
+		content : '';
+		position: fixed;
+		top     : calc(50% - 1.5rem);
+		left    : calc(50% - 1.5rem);
+		z-index : -1;
+
+		width        : 3rem;
+		height       : 3rem;
+		margin       : 1px;
+		border-radius: 50%;
+		border       : 3px solid var(--nc-viewer-frame-loader-color);
+		border-color : var(--nc-viewer-frame-loader-color) transparent var(--nc-viewer-frame-loader-color) transparent;
+		animation    : nc-rotate 1s infinite;
+	}
+	&[data-nc-loaded]::after { display: none; }
+	@keyframes nc-rotate {
+		0%   { transform: rotate(  0deg); }
+		100% { transform: rotate(360deg); }
+	}
+}

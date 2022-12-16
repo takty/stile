@@ -1,0 +1,25 @@
+/**
+ *
+ * Link
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@forward 'type';
+
+@use 'type';
+
+
+@mixin property {
+	@include type.property-direction;
+	@include type.property-file;
+}
+
+@mixin all {
+	@include type.main;
+	@include type.direction;
+	@include type.file;
+}

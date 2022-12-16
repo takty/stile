@@ -1,0 +1,81 @@
+/**
+ *
+ * Un-Ordered and Definition
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@use '__utility' as utility;
+
+
+@mixin property-main {
+	// un-ordered, definition
+	--nc-list-marker-color : #777;
+	--nc-list-indent-bp    : 36rem;
+	--nc-list-indent-width : 3rem;
+	--nc-list-indent-shrink: 1.5rem;
+
+	// definition
+	--nc-list-indent-definition-offset: 1.5rem;
+
+	// margin
+	--nc-list-item-margin: 0.75rem;
+}
+
+@mixin un-ordered {
+	padding-inline-start: utility.bp(
+		calc(var(--nc-list-indent-width) - var(--nc-list-indent-shrink)),
+		var(--nc-list-indent-width),
+		var(--nc-list-indent-bp),
+	);
+	> li {
+		&::marker {
+			color: var(--nc-list-marker-color);
+			font-weight: bold;
+		}
+
+		// Margin
+		> :is(ul, ol, dl) {  // For nesting lists
+			margin-block-start: var(--nc-list-item-margin);
+		}
+	}
+
+	// Margin
+	> li + li {
+		margin-block-start: var(--nc-list-item-margin);
+	}
+	&[data-nc-compact] > li + li {
+		margin-block-start: 0;
+	}
+}
+
+@mixin definition {
+	padding-inline-start: utility.bp(
+		calc(var(--nc-list-indent-width) - var(--nc-list-indent-definition-offset) - var(--nc-list-indent-shrink)),
+		calc(var(--nc-list-indent-width) - var(--nc-list-indent-definition-offset)),
+		var(--nc-list-indent-bp),
+	);
+	> dt {
+		color: var(--nc-list-marker-color);
+		font-weight: bold;
+	}
+	> dd {
+		margin-inline-start: var(--nc-list-indent-definition-offset);
+
+		// Margin
+		> :is(ul, ol, dl) {  // For nesting Lists
+			margin-block-start: var(--nc-list-item-margin);
+		}
+	}
+
+	// Margin
+	> * + dt {
+		margin-block-start: var(--nc-list-item-margin);
+	}
+	&[data-nc-compact] > * + dt {
+		margin-block-start: 0;
+	}
+}

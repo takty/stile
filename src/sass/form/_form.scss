@@ -1,0 +1,32 @@
+/**
+ *
+ * Form
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@forward 'common';
+@forward 'button';
+@forward 'input';
+@forward 'rad-chk';
+@forward 'fieldset';
+@forward 'wrapper-rad-chk';
+@forward 'wrapper-select';
+@forward 'wrapper-type-number';
+
+@use 'common';
+@use 'button';
+@use 'input';
+@use 'rad-chk';
+@use 'fieldset';
+@use 'wrapper-rad-chk';
+@use 'wrapper-select';
+@use 'wrapper-type-number';
+
+
+@mixin property {
+	@include common.property;
+}

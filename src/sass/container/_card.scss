@@ -1,0 +1,150 @@
+/**
+ *
+ * Card
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-20
+ *
+ */
+
+
+%card {
+	display: grid;
+	gap    : var(--nc-container-row-gap) var(--nc-container-column-gap);
+
+	> * { margin: 0; }
+}
+
+%card-n {
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			var(--nc-container-min-width),
+			1fr
+		)
+	);
+}
+
+@mixin card-n {
+	@extend %card-n;
+}
+
+@mixin card-3-1 {
+	--nc-container-min-width: var(--nc-container-min-width-3, 12rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 3 + var(--nc-container-column-gap) * 2 - 100%) * 9999,
+				51%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-4-1 {
+	--nc-container-min-width: var(--nc-container-min-width-4, 10rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 4 + var(--nc-container-column-gap) * 3 - 100%) * 9999,
+				100%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-4-2-1 {
+	--nc-container-min-width: var(--nc-container-min-width-4, 10rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 4 + var(--nc-container-column-gap) * 3 - 100%) * 9999,
+				34%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-5-1 {
+	--nc-container-min-width: var(--nc-container-min-width-5, 8rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 5 + var(--nc-container-column-gap) * 4 - 100%) * 9999,
+				100%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-5-3-2-1 {
+	--nc-container-min-width: var(--nc-container-min-width-5, 8rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 5 + var(--nc-container-column-gap) * 4 - 100%) * 9999,
+				26%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-6-1 {
+	--nc-container-min-width: var(--nc-container-min-width-6, 7rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 6 + var(--nc-container-column-gap) * 5 - 100%) * 9999,
+				100%
+			),
+			1fr
+		)
+	);
+}
+
+@mixin card-6-3-2-1 {
+	--nc-container-min-width: var(--nc-container-min-width-6, 7rem);
+
+	@extend %card;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(
+			clamp(
+				var(--nc-container-min-width),
+				(var(--nc-container-min-width) * 6 + var(--nc-container-column-gap) * 5 - 100%) * 9999,
+				26%
+			),
+			1fr
+		)
+	);
+}

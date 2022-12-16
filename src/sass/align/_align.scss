@@ -1,0 +1,22 @@
+/**
+ *
+ * Align
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@forward 'float';
+@forward 'overflow';
+
+@use 'float';
+@use 'overflow';
+
+
+@mixin property {
+	@include float.property-float;
+	@include overflow.property-overflow;
+}
+

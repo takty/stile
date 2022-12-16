@@ -1,0 +1,124 @@
+
+/**
+ *
+ * Layout
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-24
+ *
+ */
+
+
+@function bp($min, $max, $bp, $positive: true) {
+	$m: if($positive == true, 9999, -9999);
+	@return clamp(#{$min}, calc((100% - #{$bp}) * #{$m}), #{$max});
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin side-margin($width, $margin: false) {
+	$w: if($margin == false, 100%, calc(100% - #{$margin * 2}));
+	width        : min(#{$w}, #{$width});
+	margin-inline: auto;
+}
+
+@mixin responsive-width($min, $max, $bp, $positive: true) {
+	width: bp($min, $max, $bp, positive);
+}
+
+@mixin full-width($side-margin: false) {
+	$m: if($side-margin == false, calc(50% - 50vw), calc(50% - 50vw + #{$side-margin}));
+	margin-inline: $m;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin centering($inline: false) {
+	display    : if($inline == false, grid, inline-grid);
+	place-items: center;
+}
+
+@mixin centering-self($horizontal: true, $vertical: true, $position: absolute) {
+	position: $position;
+	@if $horizontal == true { left: 50%; }
+	@if $vertical   == true { top : 50%; }
+
+	@if $horizontal == true and $vertical == true {
+		transform: translate(-50%, -50%);
+	} @else if $horizontal == true {
+		transform: translateX(-50%);
+	} @else if $vertical == true {
+		transform: translateY(-50%);
+	}
+}
+
+@mixin fill-self($position: absolute) {
+	position: $position;
+	inset   : 0;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin aspect($width, $height, $expansible: true) {
+	display     : if($expansible, grid, flex);
+	aspect-ratio: #{$width} / #{$height};
+}
+
+@mixin frame-fit($width, $height, $fit) {
+	@include aspect($width, $height, false);
+	> * {
+		object-fit: $fit;
+		width     : 100%;
+		height    : 100%;
+	}
+}
+
+@mixin frame-contain($width, $height) {
+	@include frame-fit($width, $height, contain);
+}
+
+@mixin frame-cover($width, $height) {
+	@include frame-fit($width, $height, cover);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin wrap($gap: false, $align-left: true) {
+	display        : flex;
+	flex-wrap      : wrap;
+	justify-content: if($align-left, left, center);
+
+	@if $gap != false {
+		gap: $gap;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin column($n, $gap: false) {
+	display: grid;
+	@if $gap != false {
+		gap: $gap;
+	}
+	@if 1 < length($n) {
+		$gtc: #{nth($n, 1)}fr;
+		@for $i from 2 through length($n) {
+			$gtc: $gtc #{nth($n, $i)}fr;
+		}
+		grid-template-columns: $gtc;
+	} @else if 1 < $n {
+		grid-template-columns: repeat(#{$n}, 1fr);
+	} @else {
+		grid-template-columns: none;
+	}
+}

@@ -1,0 +1,19 @@
+/**
+ *
+ * Font
+ *
+ * @author Takuto Yanagida
+ * @version 2022-01-07
+ *
+ */
+
+
+@forward 'stack';
+@forward 'typography';
+
+@use 'stack';
+
+
+@mixin property {
+	@include stack.property;
+}

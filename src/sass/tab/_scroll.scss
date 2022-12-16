@@ -1,0 +1,176 @@
+/**
+ *
+ * Scroll
+ *
+ * @author Takuto Yanagida
+ * @version 2022-10-26
+ *
+ */
+
+
+@use 'sass:math';
+
+
+@mixin property-scroll {
+	// main
+	--nc-tab-scroll-bar-margin-block-start: 2rem;
+	--nc-tab-scroll-bar-margin-block-end  : -0.5rem;
+	--nc-tab-scroll-bar-inactive-opacity  : 0.5;
+
+	--nc-tab-scroll-tab-min-width: 2rem;
+	--nc-tab-scroll-tab-max-width: 30vw;
+	--nc-tab-scroll-tab-gap      : 0.25rem 1rem;
+
+	// print
+	--nc-tab-scroll-bar-print-scale: 0.75;
+}
+
+@mixin scroll($do-reset: true) {
+	[data-nc-tab-bar] {  // ul
+		&:where(:not(:first-child)) { margin-block-start: var(--nc-tab-scroll-bar-margin-block-start); }
+
+		display  : flex;
+		flex-wrap: wrap;
+		gap      : var(--nc-tab-scroll-tab-gap);
+
+		clear: both;
+
+		@if $do-reset {
+			padding: 0;  // For reset
+		}
+
+		opacity   : var(--nc-tab-scroll-bar-inactive-opacity);
+		transition: opacity 0.2s;
+
+		&[data-nc-active],
+		&:hover {
+			opacity: 1;
+		}
+
+		li {
+			display  : flex;
+			max-width: 100%;
+
+			a {
+				display  : inline-block;
+				min-width: var(--nc-tab-scroll-tab-min-width);
+
+				max-width    : var(--nc-tab-scroll-tab-max-width);
+				text-overflow: ellipsis;
+				white-space  : nowrap;
+				overflow     : hidden;
+			}
+		}
+
+		& + * {
+			margin-block-start: var(--nc-tab-scroll-bar-margin-block-end);
+		}
+	}
+}
+
+@mixin scroll-print {
+	[data-nc-tab-bar] {
+		width           : calc(1 / var(--nc-tab-scroll-bar-print-scale) * 100%);
+		transform       : scale(var(--nc-tab-scroll-bar-print-scale));
+		transform-origin: center left;
+
+		break-after: avoid-page;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin property-scroll-bar {
+	--nc-tab-scroll-bar-background      : #eee;
+	--nc-tab-scroll-bar-border-block-end: 1px solid #ddd;
+
+	--nc-tab-scroll-tab-padding           : 0.35rem 0.5rem;
+
+	--nc-tab-scroll-tab-color             : inherit;
+	--nc-tab-scroll-tab-background        : transparent;
+	--nc-tab-scroll-tab-hover-color       : inherit;
+	--nc-tab-scroll-tab-hover-background  : #ddd;
+	--nc-tab-scroll-tab-current-color     : inherit;
+	--nc-tab-scroll-tab-current-background: #ccc;
+}
+
+@mixin scroll-bar {
+	[data-nc-tab-bar] {
+		background      : var(--nc-tab-scroll-bar-background);
+		border-block-end: var(--nc-tab-scroll-bar-border-block-end);
+
+		li {
+			a {
+				padding   : var(--nc-tab-scroll-tab-padding);
+				color     : var(--nc-tab-scroll-tab-color);
+				background: var(--nc-tab-scroll-tab-background);
+			}
+			@media (hover: hover) {
+				a:hover {
+					color     : var(--nc-tab-scroll-tab-hover-color);
+					background: var(--nc-tab-scroll-tab-hover-background);
+				}
+			}
+			a[data-nc-current] {
+				color     : var(--nc-tab-scroll-tab-current-color);
+				background: var(--nc-tab-scroll-tab-current-background);
+			}
+		}
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin property-scroll-tab {
+	--nc-tab-scroll-bar-background      : #eee;
+	--nc-tab-scroll-bar-border-block-end: 1px solid #ddd;
+
+	--nc-tab-scroll-tab-border                    : 1px solid transparent;
+	--nc-tab-scroll-tab-padding                   : 0.35rem 0.5rem;
+
+	--nc-tab-scroll-tab-color                     : inherit;
+	--nc-tab-scroll-tab-background                : transparent;
+	--nc-tab-scroll-tab-hover-color               : inherit;
+	--nc-tab-scroll-tab-hover-background          : #ddd;
+	--nc-tab-scroll-tab-current-color             : inherit;
+	--nc-tab-scroll-tab-current-background        : #fff;
+	--nc-tab-scroll-tab-current-border-inline     : 1px solid #ddd;
+	--nc-tab-scroll-tab-current-border-block-start: 1px solid #ddd;
+	--nc-tab-scroll-tab-current-border-block-end  : 1px dashed #ddd;
+}
+
+@mixin scroll-tab {
+	[data-nc-tab-bar] {
+		background   : var(--nc-tab-scroll-bar-background);
+		border-block-end: var(--nc-tab-scroll-bar-border-block-end);
+
+		li {
+			a {
+				padding   : var(--nc-tab-scroll-tab-padding);
+				color     : var(--nc-tab-scroll-tab-color);
+				background: var(--nc-tab-scroll-tab-background);
+				border    : var(--nc-tab-scroll-tab-border);
+			}
+			@media (hover: hover) {
+				a:hover {
+					color     : var(--nc-tab-scroll-tab-hover-color);
+					background: var(--nc-tab-scroll-tab-hover-background);
+				}
+			}
+			a[data-nc-current] {
+				position       : relative;
+				inset-block-end: -1px;
+
+				color             : var(--nc-tab-scroll-tab-current-color);
+				background        : var(--nc-tab-scroll-tab-current-background);
+				border-inline     : var(--nc-tab-scroll-tab-current-border-inline);
+				border-block-start: var(--nc-tab-scroll-tab-current-border-block-start);
+				border-block-end  : var(--nc-tab-scroll-tab-current-border-block-end);
+			}
+		}
+	}
+}

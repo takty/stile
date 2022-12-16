@@ -1,0 +1,44 @@
+/**
+ *
+ * Content
+ *
+ * @author Takuto Yanagida
+ * @version 2022-06-28
+ *
+ */
+
+
+@forward 'inline';
+@forward 'block';
+@forward 'figure';
+@forward 'margin';
+@forward 'print';
+@forward 'broken-image';
+
+@use 'inline';
+@use 'block';
+@use 'figure';
+@use 'margin';
+@use 'print';
+@use 'broken-image';
+
+
+@mixin property {
+	@include inline.property-inline;
+	@include block.property-block;
+	@include figure.property-figure;
+	@include margin.property-margin;
+	@include broken-image.property-broken-image;
+}
+
+@mixin all($do-reset: true, $do-set-margin: true) {
+	@include inline.inline($do-reset);
+	@include block.block($do-reset);
+	@include block.heading;
+	@include figure.figure;
+	@include broken-image.broken-image;
+
+	@if ($do-set-margin == true) {
+		@include margin.margin;
+	}
+}
