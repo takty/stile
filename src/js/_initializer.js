@@ -1,12 +1,9 @@
 /**
- *
  * Script
  *
  * @author Takuto Yanagida
- * @version 2022-08-05
- *
+ * @version 2023-01-06
  */
-
 
 function initialize(ns, target) {
 	// Delay
@@ -17,6 +14,11 @@ function initialize(ns, target) {
 
 	ns.delay.applyImage(is.filter(e => !tis.includes(e)));
 	ns.delay.applyIframe(ifs);
+
+	// Container
+
+	const ms = target.querySelectorAll('*[class^="masonry-"]');
+	ns.container.applyMasonry(ms);
 
 	// Content
 

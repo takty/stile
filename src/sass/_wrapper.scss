@@ -2,9 +2,8 @@
  * Wrapper
  *
  * @author Takuto Yanagida
- * @version 2022-11-27
+ * @version 2023-01-06
  */
-
 
 @use 'align/_align';
 @use 'container/_container';
@@ -137,55 +136,36 @@
 		@include container.card-6-1;
 	}
 
-	.card-2 {
-		--nc-container-min-width: var(--nc-container-min-width-2);
+	:is(.card-2, .card-3, .card-4, .card-5, .card-6) {
 		@include container.card-n;
 	}
 
-	.card-3 {
-		--nc-container-min-width: var(--nc-container-min-width-3);
+	.card-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+	.card-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+	.card-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+	.card-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+	.card-6 { --nc-container-min-width: var(--nc-container-min-width-6); }
+
+	:is(.masonry-2, .masonry-3, .masonry-4, .masonry-5, .masonry-6) {
 		@include container.card-n;
-	}
-
-	.card-4 {
-		--nc-container-min-width: var(--nc-container-min-width-4);
-		@include container.card-n;
-	}
-
-	.card-5 {
-		--nc-container-min-width: var(--nc-container-min-width-5);
-		@include container.card-n;
-	}
-
-	.card-6 {
-		--nc-container-min-width: var(--nc-container-min-width-6);
-		@include container.card-n;
-	}
-
-	.masonry-2 {
-		--nc-container-min-width: var(--nc-container-min-width-2);
 		@include container.masonry-n;
 	}
 
-	.masonry-3 {
-		--nc-container-min-width: var(--nc-container-min-width-3);
-		@include container.masonry-n;
+	.masonry-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+	.masonry-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+	.masonry-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+	.masonry-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+	.masonry-6 { --nc-container-min-width: var(--nc-container-min-width-6); }
+
+	:is(.fence-2, .fence-3, .fence-4, .fence-5, .fence-6) {
+		@include container.fence-n;
 	}
 
-	.masonry-4 {
-		--nc-container-min-width: var(--nc-container-min-width-4);
-		@include container.masonry-n;
-	}
-
-	.masonry-5 {
-		--nc-container-min-width: var(--nc-container-min-width-5);
-		@include container.masonry-n;
-	}
-
-	.masonry-6 {
-		--nc-container-min-width: var(--nc-container-min-width-6);
-		@include container.masonry-n;
-	}
+	.fence-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+	.fence-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+	.fence-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+	.fence-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+	.fence-6 { --nc-container-min-width: var(--nc-container-min-width-6); }
 }
 
 

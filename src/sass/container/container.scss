@@ -1,15 +1,11 @@
 /**
- *
  * Container
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-01-05
  */
 
-
 @use '_container';
-
 
 :root {
 	@include container.property;
@@ -69,56 +65,41 @@
 // -----------------------------------------------------------------------------
 
 
-.card-2 {
-	--nc-container-min-width: var(--nc-container-min-width-2);
+:is(.card-2, .card-3, .card-4, .card-5, .card-6) {
 	@include container.card-n;
 }
 
-.card-3 {
-	--nc-container-min-width: var(--nc-container-min-width-3);
-	@include container.card-n;
-}
-
-.card-4 {
-	--nc-container-min-width: var(--nc-container-min-width-4);
-	@include container.card-n;
-}
-
-.card-5 {
-	--nc-container-min-width: var(--nc-container-min-width-5);
-	@include container.card-n;
-}
-
-.card-6 {
-	--nc-container-min-width: var(--nc-container-min-width-6);
-	@include container.card-n;
-}
+.card-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+.card-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+.card-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+.card-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+.card-6 { --nc-container-min-width: var(--nc-container-min-width-6); }
 
 
 // -----------------------------------------------------------------------------
 
 
-.masonry-2 {
-	--nc-container-min-width: var(--nc-container-min-width-2);
+:is(.masonry-2, .masonry-3, .masonry-4, .masonry-5, .masonry-6) {
+	@include container.card-n;
 	@include container.masonry-n;
 }
 
-.masonry-3 {
-	--nc-container-min-width: var(--nc-container-min-width-3);
-	@include container.masonry-n;
+.masonry-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+.masonry-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+.masonry-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+.masonry-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+.masonry-6 { --nc-container-min-width: var(--nc-container-min-width-6); }
+
+
+// -----------------------------------------------------------------------------
+
+
+:is(.fence-2, .fence-3, .fence-4, .fence-5, .fence-6) {
+	@include container.fence-n;
 }
 
-.masonry-4 {
-	--nc-container-min-width: var(--nc-container-min-width-4);
-	@include container.masonry-n;
-}
-
-.masonry-5 {
-	--nc-container-min-width: var(--nc-container-min-width-5);
-	@include container.masonry-n;
-}
-
-.masonry-6 {
-	--nc-container-min-width: var(--nc-container-min-width-6);
-	@include container.masonry-n;
-}
+.fence-2 { --nc-container-min-width: var(--nc-container-min-width-2); }
+.fence-3 { --nc-container-min-width: var(--nc-container-min-width-3); }
+.fence-4 { --nc-container-min-width: var(--nc-container-min-width-4); }
+.fence-5 { --nc-container-min-width: var(--nc-container-min-width-5); }
+.fence-6 { --nc-container-min-width: var(--nc-container-min-width-6); }

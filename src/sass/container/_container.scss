@@ -1,19 +1,16 @@
 /**
- *
  * Container
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-01-05
  */
-
 
 @forward 'common';
 @forward 'card';
 @forward 'masonry';
+@forward 'fence';
 
 @use 'common';
-
 
 @mixin property {
 	@include common.property;
