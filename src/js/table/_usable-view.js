@@ -1,12 +1,9 @@
 /**
- *
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
- *
+ * @version 2022-01-17
  */
-
 
 function apply(tabs, opts = {}) {
 	if (tabs.length === 0) return;
@@ -27,13 +24,13 @@ function apply(tabs, opts = {}) {
 		const bar  = _createBarClone(tab, cm);
 		cs.push({ tab, head, bar });
 
-		let forced = false;
-		const el = (tar, op) => throttle(() => {
-			if (forced) {
-				forced = false;
+		let forced = null;
+		const el = (self, op) => throttle(() => {
+			if (forced && forced !== self) {
+				forced = null;
 			} else {
-				forced = true;
-				op.scrollLeft = tar.scrollLeft;
+				forced = self;
+				op.scrollLeft = self.scrollLeft;
 				if (head) onTableScroll(tab, head, cm);
 			}
 		});
@@ -129,15 +126,20 @@ function doResize(r, tab, head, bar, cm) {
 }
 
 function _updateHeaderSize(r, tab, head, cm) {
-	const tw = r ? r.width : tab.getBoundingClientRect().width;
+	// const tw = r ? r.width : tab.getBoundingClientRect().width;
+	const tw = r ? r.width : tab.offsetWidth;
 	head.style.maxWidth = tw + 'px';
 	head.style.display  = 'none';
 	head.style.top      = cm.offset + 'px';
 
 	const thead = tab.tHead;
-	const hw = thead.getBoundingClientRect().width;
-	const ht = head.firstChild;
-	ht.style.width = hw + 'px';
+	const ht    = head.firstChild;
+
+	// const hr = thead.getBoundingClientRect();
+	// head.style.setProperty('--nc-width', `${hr.width}px`);
+	// head.style.setProperty('--nc-height', `${hr.height}px`);
+	head.style.setProperty('--nc-width', `${thead.offsetWidth}px`);
+	head.style.setProperty('--nc-height', `${thead.offsetHeight}px`);
 
 	const oTrs = thead.rows;
 	const cTrs = ht.firstChild.rows;
@@ -149,7 +151,8 @@ function _updateHeaderSize(r, tab, head, cm) {
 		const os = o.getElementsByTagName(tag);
 		const cs = c.getElementsByTagName(tag);
 		for (let i = 0; i < os.length; i += 1) {
-			cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
+			// cs[i].style.width = os[i].getBoundingClientRect().width + 'px';
+			cs[i].style.width = os[i].offsetWidth + 'px';
 		}
 	}
 }
@@ -195,7 +198,8 @@ function _updateHeaderVisibility(head, visible, tabLeft, tabScrollLeft) {
 	head.style.left    = tabLeft + 'px';
 	head.scrollLeft    = tabScrollLeft;
 
-	const h = head.getBoundingClientRect().height;
+	// const h = head.getBoundingClientRect().height;
+	const h = head.offsetHeight;
 	setScrollPaddingTop('nacss-table', h);
 }
 

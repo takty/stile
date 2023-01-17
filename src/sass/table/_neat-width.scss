@@ -1,26 +1,22 @@
 /**
- *
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-01-17
  */
 
-
-@mixin property-neat-width {
-	--nc-table-caption-background: Canvas;
-}
-
-
-// -----------------------------------------------------------------------------
-
+/*
+--nc-table-shadow-right: inset -2rem 0 1rem -1rem #0000001a;
+--nc-table-shadow-left : inset  2rem 0 1rem -1rem #0000001a;
+*/
 
 @mixin neat($do-reset: true) {
 	display  : block;
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
+
+	overscroll-behavior-x: contain;
 
 	@if $do-reset {
 		border-collapse: collapse;  // For reset
@@ -42,22 +38,36 @@
 		display     : block;
 		position    : sticky;
 		inset-inline: 0;
-
-		background: var(--nc-table-caption-background);
 	}
+
 	td, th {
 		position: relative;
 		z-index : -1;
 	}
-	box-shadow: var(--nc-table-shadow-right), var(--nc-table-shadow-left);
+
+	&::after {
+		content : '';
+		display : flex;
+		position: sticky;
+		inset   : auto 0 0 0;
+
+		pointer-events: none;
+
+		height    : var(--nc-height);
+		margin-top: calc(-1 * var(--nc-height));
+
+		box-shadow:
+			var(--nc-table-shadow-right, inset -2rem 0 1rem -1rem #0000001a),
+			var(--nc-table-shadow-left,  inset  2rem 0 1rem -1rem #0000001a);
+	}
 }
 
 @mixin scroll-right {
-	box-shadow: var(--nc-table-shadow-right);
+	--nc-table-shadow-left: 0 0;
 }
 
 @mixin scroll-left {
-	box-shadow: var(--nc-table-shadow-left);
+	--nc-table-shadow-right: 0 0;
 }
 
 
