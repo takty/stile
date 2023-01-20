@@ -1,12 +1,9 @@
 /**
- *
  * Scroll
  *
  * @author Takuto Yanagida
- * @version 2022-10-26
- *
+ * @version 2023-01-16
  */
-
 
 function apply(cs, opts = {}) {
 	if (cs.length === 0) return;
@@ -119,7 +116,7 @@ function createBar(hs, curH, opts, activate) {
 function assignEvent(inst, bars) {
 	for (const bar of bars) {
 		bar.as.forEach((a, i) => {
-			a.addEventListener('click', () => onClick(inst, bars[i].ul));
+			a.addEventListener('click', () => onClick(inst, bar.ul, bars[i].ul));
 		});
 	}
 	onIntersect((vs) => {
@@ -128,8 +125,16 @@ function assignEvent(inst, bars) {
 	}, inst.uls, 0);
 }
 
-function onClick(inst, clicked) {
-	inst.active = clicked;
+function onClick(inst, from, to) {
+	if (to !== from) {
+		const fromY = from.getBoundingClientRect().top;
+		const toR   = to.getBoundingClientRect();
+		if (toR.y < fromY && 0 <= toR.y && toR.y + toR.height < window.innerHeight) {
+			setTimeout(() => window.scrollBy({ top: toR.y - fromY, }), 200);
+		}
+	}
+
+	inst.active = to;
 	setTimeout(() => {
 		if (inst.active) {
 			const y = inst.active.getBoundingClientRect().top;

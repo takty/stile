@@ -1,12 +1,9 @@
 /**
- *
  * Common Functions
  *
  * @author Takuto Yanagida
  * @version 2022-01-07
- *
  */
-
 
 function getFirstHeading(container) {
 	const cs = container.children;

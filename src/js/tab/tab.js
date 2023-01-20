@@ -1,18 +1,14 @@
 /**
- *
  * Tab
  *
  * @author Takuto Yanagida
  * @version 2021-12-26
- *
  */
-
 
 'use strict';
 
 window['NACSS']        = window['NACSS']        || {};
 window['NACSS']['tab'] = window['NACSS']['tab'] || {};
-
 
 ((NS) => {
 

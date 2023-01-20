@@ -1,15 +1,11 @@
 /**
- *
  * Tab
  *
  * @author Takuto Yanagida
  * @version 2022-10-26
- *
  */
 
-
 @use '_tab';
-
 
 :root {
 	@include tab.property-scroll;

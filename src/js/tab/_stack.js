@@ -1,12 +1,9 @@
 /**
- *
  * Stack
  *
  * @author Takuto Yanagida
- * @version 2022-10-26
- *
+ * @version 2023-01-14
  */
-
 
 function apply(cs, opts = {}) {
 	if (cs.length === 0) return;
@@ -21,6 +18,7 @@ function apply(cs, opts = {}) {
 		maxVerticalWidth: 599.5,
 		doRemoveHeading : false,
 		doUseHeadingId  : false,
+		doUseBarBelow   : true,
 	}, opts);
 	if (!opts.doRemoveHeading && opts.doUseHeadingId) {
 		opts.doUseHeadingId = false;
@@ -168,7 +166,7 @@ function assignEvent(inst) {
 function onClick(e, inst, idx) {
 	e.preventDefault();
 	if (getComputedStyle(e.target.parentElement).pointerEvents === 'none') return;
-	let url = e.target.href;
+	let url = e.currentTarget.href;
 	if (inst.curIdx === idx) {
 		idx = -1;
 		url = url.replace(/#.*$/, '');
@@ -221,11 +219,16 @@ function resize(inst) {
 
 	if (isVertical(inst)) {
 		cont.style.minHeight = '';
+		if (!inst.opts.doUseBarBelow) {
+			inst.bars[1].ul.style.display = '';
+		}
 	} else {
 		const minH = getMinHeight(inst);
 		const h = (minH < window.innerHeight * inst.opts.maxHeightRate) ? `${minH}px` : '';
 		cont.style.minHeight = h;
-
+		if (!inst.opts.doUseBarBelow) {
+			inst.bars[1].ul.style.display = 'none';
+		}
 		if (inst.curIdx === -1) {
 			update(inst, 0);
 		}
