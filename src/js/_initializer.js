@@ -2,7 +2,7 @@
  * Script
  *
  * @author Takuto Yanagida
- * @version 2023-01-06
+ * @version 2023-02-01
  */
 
 function initialize(ns, target) {
@@ -83,7 +83,13 @@ function initialize(ns, target) {
 	ns.viewer.applyIframe(if_os, os_ifs);
 	ns.viewer.applyImage(a_img);
 
+	// Utility
+
+	ns.utility.applyBlank();
+	ns.utility.applyDimension();
+
 	// Scroll Effect
+
 	const ts = target.querySelectorAll('[data-nc-scroll-effect]');
 	ns.scroll.apply(ts);
 }
