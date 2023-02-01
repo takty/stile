@@ -1,12 +1,9 @@
 /**
- *
  * Inner
  *
  * @author Takuto Yanagida
  * @version 2021-11-25
- *
  */
-
 
 function getBreakPointSize() {
 	let bpW, bpH;

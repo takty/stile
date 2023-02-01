@@ -1,19 +1,16 @@
 /**
- *
  * Utility
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-02-01
  */
-
 
 'use strict';
 
-window['NACSS'] = window['NACSS'] || {};
+window['NACSS']            = window['NACSS'] || {};
+window['NACSS']['utility'] = window['NACSS']['utility'] || {};
 
-
-((NS) => {
+(NS => {
 
 	// @include __utility.js
 	{
@@ -25,5 +22,19 @@ window['NACSS'] = window['NACSS'] || {};
 			[NS['BP_WIDTH'], NS['BP_HEIGHT']] = getBreakPointSize();
 		}, true);
 	}
+
+	(NS => {
+
+		// @include __style-class.js
+		{
+			// @include _blank.js
+			NS.applyBlank = apply;
+		}
+		{
+			// @include _dimension.js
+			NS.applyDimension = apply;
+		}
+
+	})(NS['utility']);
 
 })(window['NACSS']);

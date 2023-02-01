@@ -1,12 +1,9 @@
 /**
- *
  * Height
  *
  * @author Takuto Yanagida
  * @version 2021-11-25
- *
  */
-
 
 @mixin for-height-down($high-px) {
 	@media screen and (max-height: #{$high-px - 0.5}) {

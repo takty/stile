@@ -1,12 +1,9 @@
 /**
- *
  * Width
  *
  * @author Takuto Yanagida
  * @version 2021-11-25
- *
  */
-
 
 @mixin for-width-down($high-px, $high-mm) {
 	@media screen and (max-width: #{$high-px - 0.5}), print and (max-width: #{base-to-px($high-mm) - 0.5}) {

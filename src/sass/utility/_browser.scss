@@ -1,12 +1,9 @@
 /**
- *
  * Browser
  *
  * @author Takuto Yanagida
  * @version 2021-11-25
- *
  */
-
 
 @mixin for-chrome {
 	@supports (-webkit-appearance: none) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {

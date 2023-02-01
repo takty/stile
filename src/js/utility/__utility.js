@@ -1,17 +1,22 @@
 /**
- *
  * Utilities
  *
  * @author Takuto Yanagida
- * @version 2021-12-06
- *
+ * @version 2023-02-01
  */
-
 
 function getScrollOffset() {
 	const s   = getComputedStyle(document.documentElement);
 	const val = parseInt(s.scrollPaddingTop);
 	return Number.isNaN(val) ? 0 : val;
+}
+
+function onLoad(fn) {
+	if ('loading' === document.readyState) {
+		document.addEventListener('DOMContentLoaded', fn);
+	} else {
+		setTimeout(fn, 0);
+	}
 }
 
 
