@@ -2,7 +2,7 @@
  * Custom property of element dimensions
  *
  * @author Takuto Yanagida
- * @version 2023-02-01
+ * @version 2023-02-06
  */
 
 function apply(opts = {}) {
@@ -44,7 +44,7 @@ function apply(opts = {}) {
 		const q = elm.dataset[opts.key];
 		if (!q) return;
 
-		const qs  = q.split(';').map(e => e.trim());
+		const qs  = q.split(';').map(e => e.trim()).filter(e => e.length);
 		const qss = qs.map(e => e.split(':').map(e => e.trim()));
 
 		for (let [cp, ep] of qss) {
