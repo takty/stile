@@ -2,12 +2,12 @@
  * Polyfill of pseudo class 'blank'
  *
  * @author Takuto Yanagida
- * @version 2023-02-01
+ * @version 2023-02-10
  */
 
 function apply(opts = {}) {
 	opts = Object.assign({
-		root    : document.body,
+		root    : document.documentElement,
 		styleKey: ':ncBlank',
 	}, opts);
 

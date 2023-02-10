@@ -2,12 +2,12 @@
  * Custom property of element dimensions
  *
  * @author Takuto Yanagida
- * @version 2023-02-06
+ * @version 2023-02-10
  */
 
 function apply(opts = {}) {
 	opts = Object.assign({
-		root: document.body,
+		root: document.documentElement,
 		key : 'ncDim',
 	}, opts);
 
