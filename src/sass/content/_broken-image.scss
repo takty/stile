@@ -1,12 +1,9 @@
 /**
- *
  * Broken Image
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-03-01
  */
-
 
 @mixin property-broken-image {
 	--nc-broken-image-color: #f004;
@@ -17,7 +14,6 @@
 	img {
 		position: relative;
 		&::after {
-			content : '';
 			position: absolute;
 			inset   : 0;
 
@@ -34,6 +30,11 @@
 					);
 				}
 			}
+		}
+	}
+	@supports not (font: -apple-system-body) {
+		img::after {
+			content: '';
 		}
 	}
 }
