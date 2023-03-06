@@ -25,15 +25,14 @@ const SUB_REPS = [
 
 import gulp from 'gulp';
 
-import { pkgDir } from './gulp/common.mjs';
-import { makeSassTask } from './gulp/task-sass.mjs';
 import { makeCopyTask } from './gulp/task-copy.mjs';
 
-const sass_s = SUB_REPS.map(e => makeCopyTask(`${pkgDir(`nacss-${e}`)}/src/sass/*`, `./src/sass/${e}/`));
-const js_s   = SUB_REPS.map(e => makeCopyTask(`${pkgDir(`nacss-${e}`)}/src/js/*`, `./src/js/${e}/`));
-
-const copy = makeCopyTask('src/**/*', './dist/');
-const sass = makeSassTask('src/sass/reset/*.scss', './src/css', './src/sass/reset');
-
-export const update = gulp.parallel(...sass_s, ...js_s, sass);
-export default gulp.parallel(copy);
+export const update = async done => {
+	const { pkgDir }       = await import('./gulp/common.mjs');
+	const { makeSassTask } = await import('./gulp/task-sass.mjs');
+	SUB_REPS.map(e => makeCopyTask(`${pkgDir(`nacss-${e}`)}/src/sass/*`, `./src/sass/${e}/`)());
+	SUB_REPS.map(e => makeCopyTask(`${pkgDir(`nacss-${e}`)}/src/js/*`, `./src/js/${e}/`)());
+	makeSassTask('src/sass/reset/*.scss', './src/css', './src/sass/reset')();
+	done();
+};
+export default gulp.parallel(makeCopyTask('src/**/*', './dist/'));
